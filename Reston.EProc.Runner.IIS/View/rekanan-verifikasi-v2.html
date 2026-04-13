@@ -1538,6 +1538,15 @@
     <script src='plugins/fullcalendar/lang/id.js'></script>
     <script src="plugins/accounting/accounting.js"></script>
     <script>
+
+        $(document).ready(function () {
+            initCsrf();
+        });
+
+        function getCsrfToken() {
+            return csrfToken;
+        }
+
         var id = '0';
         //angular
 

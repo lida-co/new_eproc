@@ -488,6 +488,14 @@
 
           $(function () {
 
+              $(document).ready(function () {
+                  initCsrf();
+              });
+
+              function getCsrfToken() {
+                  return csrfToken;
+              }
+
               getVendorBaru(nbaru, '');
               getVendorPass1(nbaru, '');
               getVendorPass2(nbaru, '');

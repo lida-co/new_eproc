@@ -266,6 +266,15 @@
 
 
       <script>
+
+          $(document).ready(function () {
+              initCsrf();
+          });
+
+          function getCsrfToken() {
+              return csrfToken;
+          }
+
           var personArray = [];
           var no = getParameterByName("no");
           //var VendorId = gup("id");
@@ -384,28 +393,51 @@
           }
 
           var frm = $('#formVendor');
+
           frm.submit(function (ev) {
+              ev.preventDefault(); // pindahin ke atas
+
               var v = validateForm();
-              if (v) {
-                  console.log("sending");
-                  $.ajax({
-                      type: frm.attr('method'),
-                      url: frm.attr('action'),
-                      data: frm.serialize(),
-                      beforeSend: function () {
-                          $("#submit-form-add-vendor").prop('disabled', true);
-                          $("#submit-form-edit-vendor").prop('disabled', true);
-                      },
-                      success: function (data) {
-					  //data = DOMPurify.sanitize(data);
-                          //alert('data' + data);
-                          $("#submit-form-add-vendor").prop('disabled', false);
-                          $("#submit-form-edit-vendor").prop('disabled', false);
-                          window.location.href = "rekanan.html";
-                      }
-                  });
+              if (!v) return;
+
+              if (!csrfToken) {
+                  alert("CSRF token belum siap, refresh halaman");
+                  return;
               }
-              ev.preventDefault();
+
+              var headers = {};
+              if (csrfToken) {
+                  headers['X-CSRF-Token'] = csrfToken;
+                  headers['X-XSRF-TOKEN'] = csrfToken;
+              }
+
+              console.log("sending");
+
+              $.ajax({
+                  type: frm.attr('method'),
+                  url: frm.attr('action'),
+                  data: frm.serialize(),
+                  headers: headers,
+                  beforeSend: function () {
+                      $("#submit-form-add-vendor").prop('disabled', true);
+                      $("#submit-form-edit-vendor").prop('disabled', true);
+                  },
+                  success: function (data) {
+                      console.log("response:", data);
+
+                      $("#submit-form-add-vendor").prop('disabled', false);
+                      $("#submit-form-edit-vendor").prop('disabled', false);
+
+                      window.location.href = "rekanan.html";
+                  },
+                  error: function (xhr) {
+                      $("#submit-form-add-vendor").prop('disabled', false);
+                      $("#submit-form-edit-vendor").prop('disabled', false);
+
+                      alert("Gagal menyimpan vendor");
+                      console.error(xhr.responseText);
+                  }
+              });
           });
 
           function validateForm() {
