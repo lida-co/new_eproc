@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .box-typehead {
+            background: #fff none repeat scroll 0 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 15px;
+            height: 50px;
+            width: 100%;
+        }
+
+        .box-typehead-icon {
+            background: rgba(0, 0, 0, 0.2) none repeat scroll 0 0;
+            display: block;
+            float: left;
+        }
+
+        .box-typehead-content {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-typehead-title {
+            display: block;
+            font-weight: bold;
+        }
+
+        .box-typehead-desk {
+            display: block;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Sistem Monitoring Pelaksanaan Pekerjaan</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li id="tambah" style="display:none"><a title="Tambah" href="pengadaan-add.html"><i class=" " style="font-size:20px;color:green"></i></a></li>
+                            <li id="loader" style="display:none"> <img src="Images/ajax-loader.gif" /></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+
+        <div id="menu">
+            <aside class="main-sidebar" ng-app="app">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.FullName"></p>
+                           <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                        </div>
+                       <div class="pull-right image image-profile">
+                          <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        </div>
+                    </div>
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <!-- Default box -->
+                <div class="box box-primary box-white">
+                    <div class="box-body form-horizontal">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Sistem Monitoring</h3>
+                                <div class="box-tools pull-right"></div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-5">
+                                            <form class="form-horizontal label-kanan">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Judul</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="judul-proyek" type="text" class="form-control " placeholder="Judul">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Klasifikasi</label>
+                                                    <div class="col-sm-8">
+                                                        <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                                            <option selected="selected" value="">All</option>
+                                                            <option value="0">SIPIL</option>
+                                                            <option value="1">NONSIPIL</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label" style="font-weight:500; text-align:left;">Total Proyek Dalam Pelaksanaan</label>
+                                                <label class="col-sm-2 control-label" name="dalam-pelaksanaan" style="color:blue;"></label><div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label" style="font-weight:500; text-align:left;">Total Proyek Lewat Waktu Pelaksanaan</label>
+                                                <label class="col-sm-2 control-label" name="lewat-waktu" style="color:red;"></label><div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-6 control-label" style="font-weight:500; text-align:left;">Total Proyek Mendekati Waktu Pelaksanaan</label>
+                                                <label class="col-sm-2 control-label" name="mendekati-waktu" style="color:orange;"></label><div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <div class="submitgray button-row">
+                                            <button id="cari" class="btn btn-primary " type="submit" onclick="cari()">Cari</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12" style="overflow-x:auto;">
+                                        <table id="example1" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td class="tengah text-bold">No. Pengadaan</td>
+                                                    <td class="tengah text-bold">No. SPK</td>
+                                                    <td class="rata_kiri text-bold">Nama Proyek</td>
+                                                    <td class="tengah text-bold">Pelaksana</td>
+                                                    <td class="tengah text-bold">Klasifikasi</td>
+                                                    <td class="tengah text-bold">% Waktu</td>
+                                                    <td class="tengah text-bold">% Pekerjaan</td>
+                                                    <td class="tengah text-bold">% Pembayaran</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->    
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+
+    <div id="ModalHapus" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Hapus Vendor</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Yakin Vendor ini dihapus?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="eveHapus" type="button" class="btn btn-default">Remove</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="dist/js/pengadaan-list.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+    <script>
+        // fungsi table
+        var table;
+        $(function () {
+            table = $('#example1').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListProyek',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#judul-proyek").val();
+                        d.klasifikasi = $("#klasifikasi").val();
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
+                    { "data": "NamaProyek" },
+                    { "data": "NamaPelaksana" },
+                    { "data": "Klasifikasi" },
+                    { "data": "null" },
+                    { "data": "null" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            
+                            var tanggalMulai = new Date(row.TanggalMulai);
+                            var tanggalSelesai = new Date(row.TanggalSelesai);
+                            
+                            var timeDiff = Math.ceil(tanggalSelesai.getTime() - tanggalMulai.getTime());
+                            var TotalWaktuDisediakan = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                            var today = new Date();
+
+                            var timeDiff2 = Math.ceil(tanggalSelesai.getTime() - today.getTime());
+                            var TotalWaktuTersedia = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+                            var PersentaseWaktu = (TotalWaktuTersedia / TotalWaktuDisediakan) * 100;
+                            var x=0;
+                            if(100 - PersentaseWaktu >0)
+                             x = parseFloat(100 - PersentaseWaktu).toFixed(2);
+                           
+
+                            return '<label class="persentase-waktu" style="text-align: center; float: right;">' + x + '</label>';
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<label class="persentase-waktu" style="text-align: center; float: right;">' + row.PersenPekerjaan + '</label>';
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<label class="persentase-waktu" style="text-align: center; float: right;">' + row.PersenPembayaran + '</label>';
+                        },
+                        "targets": 7,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var html = "<a href='sistem-monitoring-detail.html?Id=" + row.id + "'>" + row.NamaProyek + "</a>";
+                            html = html + '<input class="tanggal-mulai" type="hidden" value="' + row.TanggalMulai + '">';
+                            html = html + '<input class="tanggal-selesai" type="hidden" value="' + row.TanggalSelesai + '">';
+                            return html;
+                        },
+                        "targets": 2,
+                        "orderable": false
+                    },
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy" : true
+            });
+        });
+
+        function cari()
+        {
+            table.draw();
+        }
+
+        // fungsi tampil result
+        $(function () {
+            $.ajax({
+                method: "post",
+                url: "api/MonitoringSelection/TampilJudul",
+                success: function (d) {
+                    console.log(d);
+                    $("[name=dalam-pelaksanaan]").text(d.ProyekDalamPelaksanaan);
+                    $("[name=lewat-waktu]").text(d.ProyekLewatWaktuPelaksanaan);
+                    $("[name=mendekati-waktu]").text(d.ProyekMendekatiWaktuPelaksanaan);
+
+                    //alert(d.ProyekDalamPelaksanaan + "|" + d.ProyekLewatWaktuPelaksanaan);
+                }
+            })
+        })
+
+    </script>
+    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
+</body>
+</html>

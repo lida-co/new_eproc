@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html ng-app="app" ng-controller="LayoutCtrl">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>{siteName}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="apple-touch-icon" href="pages/ico/60.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{siteUrl}/content/pages/ico/76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="pages/ico/120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="pages/ico/152.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <!-- Custom-Styleheet-Links -->
+    <link rel="stylesheet" href="{siteUrl}/content/app/css/style.css" type="text/css" media="all">
+    <link rel="stylesheet" href="{siteUrl}/content/app/css/animate-custom.css" type="text/css" media="all">
+    <!-- //Custom-Styleheet-Links -->
+    <!--[if lte IE 9]>
+        <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+</head>
+<body>
+    <!--<img class="w3layouts agileits" src="{siteUrl}/content/app/images/logo-mtf.png" style="margin-left:70px;" width="250px;" height="100px;"/>-->
+    <!--<h1 class="w3layouts agileits"></h1>-->
+    <br /><br />
+    <div class="container w3layouts agileits">
+        <div class="content-left w3layouts agileits">
+            <img src="{siteUrl}/content/app/images/Left-bg.jpg" width="100%" height="593px"><!--{siteUrl}/content/app/images/background.jpg-->
+            <!--<p>Belum punya akun? <a href="http://localhost:49559/registrasi.html" style="color:#013066">Daftar sebagai Rekanan Baru MTF.</a></p>-->
+            <!--<a class="more w3layouts agileits" href="#">LEARN MORE</a>-->
+            <br /><br />
+            <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
+        </div>
+
+        <div class="content-right w3layouts agileits">
+            <section>
+                <div id="container_demo">
+                    <a class="hiddenanchor w3layouts agileits" id="tologin"></a>
+                    <a class="hiddenanchor w3layouts agileits" id="toregister"></a>
+                    <div id="wrapper">
+                        <div id="login" class="animate w3layouts agileits form">
+                            <!--
+                            <div class="gambar">
+                                <img src="{siteUrl}/content/app/images/solusi-kredit.jpg" width="180px" height="100px;" />
+                            </div>
+                            <br />
+                            -->
+                            <!--<h2 class="w3layouts agileits">Sign In</h2>-->
+
+                            <form id="form-login" method="post" ng-submit="login.submit()" class="p-t-15" role="form" action="{{model.loginUrl}}" autocomplete="off">
+                                <anti-forgery-token token="model.antiForgery"></anti-forgery-token>
+                                <div ng-show="model.errorMessage">
+                                    <div class="alert alert-danger" role="alert">
+                                        <!--<button class="close" data-dismiss="alert"></button>-->
+                                        <strong>{{model.errorMessage}} </strong>
+                                    </div>
+                                </div>
+                                <label style="font-weight:600; font-size:20px;">Login</label><br />
+                                <input type="text" name="usernamex" placeholder="Login" ng-model="model.usernamex" required="">
+                                <input type="hidden" name="username" class="form-control" value="{{model.usernamex}}#{{model.captca}}#{{model.username}}">
+                                <br />
+                                <label style="font-weight:600; font-size:20px;">Password</label><br />
+                                <input type="password" name="password" ng-model="model.password" placeholder="Password" required="">
+                                <br />
+                                <label style="font-weight:600; font-size:20px;">Tuliskan kode pada gambar dibawah ini</label><br />
+                                <input autocomplete="off" type="text" class="captcha" placeholder="Code" ng-model="model.captca" required>
+                                <br />
+                                <img src="{siteUrl}/Home/GetCaptchaImage?k={{model.username}}" width="250px;" height="100px;" />
+                                <br />
+                                <br />
+                                <div class="send-button w3layouts agileits">
+                                    <input type="submit" value="Login" />
+                                </div>
+                                <div class="clear"></div>
+                                <br />
+                                <div>
+                                    <h4>Untuk Rekanan dan Calon Rekanan:</h4>
+                                    <ul>
+                                        <li>Klik <a href="{procUrl}registrasiv2.html">disini</a> untuk Pendaftaran Rekanan Baru</li>
+                                        <li>Klik <a href="{procUrl}lacak.html">disini</a> untuk melacak Status Pendaftaran</li>
+                                    </ul>
+                                </div>
+                                <!--
+    <p>
+        <strong><a href="{procUrl}registrasiv2.html">Belum punya akun?</a></strong> Daftar sebagai rekanan baru disni.
+    </p>
+    <p>Sudah mendaftar tetapi belum mendapat akses ke sistem?</p>
+    <p><strong><a href="{procUrl}lacak.html">lacak status pengajuan</a><strong> anda disini</p>
+    -->
+                                <!--
+    <div class="" ng-show="model.allowRememberMe">
+      <div class="checkbox ">
+          <input type="checkbox" value="1" id="checkbox1" ng-model="model.rememberMe">
+          <label for="checkbox1">Biarkan saya tetap masuk.</label>
+      </div>
+    </div>
+     -->
+                                <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
+                                <!--<div class="clear"></div>-->
+                            </form>
+                                <!--
+                                <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40" ng-show="model.externalProviders">
+                                    <div class="clear"></div>
+                                </div>
+                                -->
+                        </div>
+                    </div>
+            </section>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <!--<div class="footer w3layouts agileits">
+        <p> &copy; 2016 Travel Agency Sign In Form. All Rights Reserved | Template by <a href="http://w3layouts.com" target="_blank">W3layouts</a></p>
+    </div>-->
+    <!-- END PAGE CONTAINER -->
+    <!-- BEGIN VENDOR JS -->
+    <script id='modelJson' type='application/json'>
+        {model}
+    </script>
+    <script src="{siteUrl}/content/libs/angular/angular.1.2.13.min.js"></script>
+    <script src="{siteUrl}/content/libs/encoder/encoder.min.js"></script>
+    <script src="{siteUrl}/content/app/app.js"></script>
+</body>
+</html>

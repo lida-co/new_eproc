@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!--wysiwyg-->
+    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.css">
+    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+
+
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel='stylesheet' href="quill/1.3.6/quill.snow.css" />
+    <!--<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />-->
+    <style type="text/css">
+
+        .ememo-maindoc-editor {
+            min-height: 200px;
+            height: 200px;
+        }
+
+        .eMemo-editor {
+            min-height: 200px;
+            height: 200px;
+        }
+
+        .hand-cursor {
+            cursor: pointer;
+        }
+
+        .box-c:hover {
+            cursor: pointer;
+            background: #B3EEFB;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Kebijakan Pendaftaran</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li>
+                                <div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
+                                    <form action="" class="search-form">
+                                        <div class="form-group has-feedback">
+                                            <label for="search" class="sr-only">Search</label>
+                                            <input type="text" class="form-control" name="search" id="search">
+                                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li><a title="Tambah" href="registrasibystaff.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar" ng-app="app">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.FullName"></p>
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        </div>
+                    </div>
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" id="section-1">
+
+
+            <section class="content">
+
+                <div class="kebijakan-pendaftaran">
+                    <div class="box box-primary box-white">
+                        <div class="box-body form-horizontal">
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue-mtf">Kebijakan Pendaftaran</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+
+                                    <!--<div class="row ">
+                                        <div class="col-md-12">
+                                            <textarea id="editor"></textarea>
+                                        </div>
+                                    </div>-->
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="eMemo-editor-toolbar"></div>
+                                            <div id="eMemo-editor">
+                                                <!--<p>Hello World!</p>
+                                                <p>Some initial <strong>bold</strong> text</p>
+                                                <p><br /></p>-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:2em;">
+                                        <div class="col-md-4">
+                                            <button type="button" onclick="submitEdit()" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+
+        </div><!-- /.content-wrapper -->
+
+        <div class="control-sidebar-bg"></div>
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <!--<b>Version</b> 1.0.0-->
+            </div>
+            <!--<strong>Supplier Relation Management</strong> -->
+        </footer>
+    </div><!-- ./wrapper -->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+
+    <!-- Bootstrap 3.3.5 -->
+    <script src="dist/js/purify.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+    <!-- FastClick -->
+    <!--<script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>-->
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="quill/1.3.6/quill.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>-->
+    <!--<script src="dist/js/report.js"></script>-->
+
+
+    <script>
+
+        $(document).ready(function () {
+            initCsrf();
+        });
+
+        var eMemoContentEditor = null
+
+        $.ajax({
+            url: "/kebijakan-pendaftaran.html",
+            method: 'GET',
+            success: function (data) {
+                $('#eMemo-editor').html(DOMPurify.sanitize(data))
+                eMemoContentEditor = new Quill('#eMemo-editor', {
+                    theme: 'snow'
+                });
+            }
+        });
+
+        function submitEdit() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var editor = eMemoContentEditor.getSemanticHTML()
+            console.log(editor)
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+
+            $.ajax({
+                url: 'api/ReferenceData/UpdatePolicyPendaftaran',
+                method: 'POST',
+                data: JSON.stringify(editor),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: headers,
+                success: function (data) {
+                    alert('Berhasil Di Edit');
+                }
+            });
+        }
+
+    </script>
+    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
+</body>
+</html>

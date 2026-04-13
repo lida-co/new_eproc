@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <!--<link rel="stylesheet" href="plugins/select2/select2.min.css">-->
+    <!--<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="plugins/datatables/jquery.dataTablesNew.css">-->
+    <!--<link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css" />-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+
+    <link rel="stylesheet" href="dist/site.css" />
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel='stylesheet' href="quill/1.3.6/quill.snow.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">e-Memo / View</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li>
+                                <a id="btn-page-action-edit" class="btn-page-action-edit" title="Simpan" href="#">
+                                    <i class="fa fa-fw fa-edit" style="font-size:20px;"></i>
+                                    Edit
+                                </a>
+                            </li>
+                            <li>
+                                <a id="btn-page-action-submit" class="page-action-save-submit" title="Simpan & Ajukan Validasi" href="#" style="display:none">
+                                    <i class="fa fa-fw fa-save " style="font-size:20px;"></i>
+                                    Simpan & Ajukan
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.nama"></p>
+                            <p class="deskripsi" ng-bind="user.divisi"></p>
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                        </div>
+                    </div>-->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content" id="section-1">
+                <div class="box box-primary box-white">
+                    <div class="box-header">
+                        <ul class="messages list-unstyled">
+                        </ul>
+                    </div>
+                    <div class="box-body">
+                        <form id="enota-create-form" role="form">
+                            <input name="ENotaId" id="ENotaId" type="hidden">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Nomor</label>
+                                    <div id="DocumentNo" class="form-control"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Unit Kerja</label>
+                                    <div id="WorkUnitCode" class="form-control"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Nomor Ref. Internal</label>
+                                    <div id="InternalRefNo" class="form-control"></div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Perihal</label>
+                                    <div id="Subject" class="form-control"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Kepada</label>
+                                    <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
+                                        <div class="input-list chip-list" id="input-list-kepada" style="display: flex; flex-wrap: wrap;" data-max-item="5">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">Tembusan</label>
+                                    <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
+                                        <div class="input-list chip-list" id="input-list-tembusan" style="display: flex; flex-wrap: wrap;" data-max-item="10">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">HPSAmount</label>
+                                    <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
+                                        <div class="input-list chip-list" id="input-list-HPSAmount" style="display: flex; flex-wrap: wrap;" data-max-item="10">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <div id="eNota-editor-toolbar"></div>
+                                    <div id="eNota-editor"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label title">Penawaran</label>
+                                    <div class="file-chooser file-chooser-penawaran" data-max-items="5" data-max-size="2000000" data-readonly="true">
+                                        <div class="file-chooser-file-list"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label title">Analisa Cost Benefit</label>
+                                    <div class="file-chooser file-chooser-costbenef" data-max-items="5" data-max-size="2000000" data-readonly="true">
+                                        <div class="file-chooser-file-list"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label title">Lampiran Lain-lain</label>
+                                    <div class="file-chooser file-chooser-other" data-max-items="5" data-max-size="2000000" data-readonly="true">
+                                        <div class="file-chooser-file-list"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label title">Validasi</label>
+                                    <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
+                                        <div class="input-list chip-list" id="input-list-validator" style="display: flex; flex-wrap: wrap;" data-max-item="5" data-readonly="true">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label title">Approval</label>
+                                    <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
+                                        <div class="input-list chip-list" id="input-list-approver" style="display: flex; flex-wrap: wrap;" data-max-item="5" data-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div>
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+  
+    <!-- .interaction-blocker-modal -->
+    <div class="modal interaction-blocker-modal" id="interactionBlockerModal" role="dialog" aria-hidden="true" data-list-target-id="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sedang memuat...</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /.interaction-blocker-modal -->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+	<script src="dist/js/purify.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="quill/1.3.6/quill.min.js"></script>
+    <script>
+
+
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .box-typehead {
+            background: #fff none repeat scroll 0 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 15px;
+            height: 50px;
+            width: 100%;
+        }
+
+        .box-typehead-icon {
+            background: rgba(0, 0, 0, 0.2) none repeat scroll 0 0;
+            display: block;
+            float: left;
+        }
+
+        .box-typehead-content {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-typehead-title {
+            display: block;
+            font-weight: bold;
+        }
+
+        .box-typehead-desk {
+            display: block;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>    <a id="judul-page" href="#">LISTS TO DO</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+
+        <aside class="main-sidebar" ng-app="app">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!--<div class="user-panel" ng-controller="user">
+                    <div class="pull-left info">
+                        <p class="title" ng-bind="user.nama"></p>
+                        <p class="deskripsi" ng-bind="user.divisi"></p>
+                    </div>
+                    <div class="pull-right image image-profile">
+                        <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                    </div>
+                </div>-->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" ng-controller="side-menu">
+                    <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                    <li class="treeview" ng-repeat="menu in menus">
+                        <a href="{{menu.url}}">
+                            <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="perlu_perhatian">
+                            <div class="box box-white">
+                                <div class="box-body">
+                                    <br />
+                                    <div class="form-group col-md-3">
+                                        <div class="input-group date">
+                                            <h3 class="box-title text-blue-mtf cursor-pointer repository" style="margin-left: 60px; font-weight: bold;">Lists To Do !</h3>
+                                        </div>
+                                    </div>
+                                    <br /><br /><br /><br />
+                                    <div class="head">
+                                        <table class="table" style="border-style:none; width:600px; min-height:100px; margin-left:110px;">
+                                            <tr>
+                                                <td class="rata_kiri text-bold">Dokumen Pengadaan yang Butuh Persetujuan</td>
+                                                <td class="tengah text-bold"><a href="approval-perencanaan-belum-disetujui.html" id="persetujuan-pengadaan"></a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="rata_kiri text-bold">Dokumen Pengadaan yang Sudah di Setujui</td>
+                                                <td class="tengah text-bold"><a href="approval-perencanaan-sudah-disetujui.html" id="pengadaan-disetujui"></a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="rata_kiri text-bold">Dokumen Persetujuan Pemenang yang Butuh Persetujuan</td>
+                                                <td class="tengah text-bold"><a href="approval-persetujuan-pemenang-belum-disetujui.html" id="persetujuan-pemenang"></a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="rata_kiri text-bold">Dokumen Persetujuan Pemenang yang Sudah di Setujui</td>
+                                                <td class="tengah text-bold"><a href="approval-persetujuan-pemenang-sudah-disetujui.html" id="pemenang-disetujui"></a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="rata_kiri text-bold">Proyek Monitoring</td>
+                                                <td class="tengah text-bold"><a href="monitoring-selection.html" id="monitor-selection">5</a></td>
+
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- nav-tabs-custom -->
+                                </div>
+                            </div><!-- /.box-body -->
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div>
+    </div>
+    <div class="control-sidebar-bg"></div>
+
+    <div id="ModalHapus" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Hapus Vendor</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Yakin Vendor ini dihapus?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="eveHapus" type="button" class="btn btn-default">Remove</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+    <script>
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        });
+    </script>
+    <script>
+        var persetujuan_pengadaan = 0;
+        var pengadaan_disetujui = 0;
+        var monitor_selection = 0;
+        $(function () {
+            $.ajax({
+                url: 'api/PengadaanE/isDireksi',
+                method: "GET",
+                success: function (data) {
+                    if (data == 1) {
+                        $("#persetujuan-pengadaan").closest('tr').remove();
+                        $("#persetujuan-pemenang").closest('tr').remove();
+                        $("#monitor-selection").closest('tr').remove();
+                    }
+                }
+            });
+            $("#persetujuan-pengadaan").text(0);
+            $("#pengadaan-disetujui").text(0);
+            $("#persetujuan-pemenang").text(0);
+            $("#pemenang-disetujui").text(0);
+            $("#monitor-selection").text(0);
+            $.ajax({
+                url: 'api/PengadaanE/ListCount',
+                method: "GET",
+                success: function (data) {
+                    if (data != null) {
+                        $("#persetujuan-pengadaan").text(data.PengadaanButuhPerSetujuan);
+                        $("#pengadaan-disetujui").text(data.PengadaanDiSetujui);
+                        $("#persetujuan-pemenang").text(data.PemenangButuhPerSetujuan);
+                        $("#pemenang-disetujui").text(data.PemenangDiSetujui);
+                        $("#monitor-selection").text(data.MonitorSelection);
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+</body>
+</html>

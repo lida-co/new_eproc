@@ -1,0 +1,3446 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />-->
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Master Data EPROC</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li>
+                                <div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
+                                    <form action="" class="search-form">
+                                        <div class="form-group has-feedback">
+                                            <label for="search" class="sr-only">Search</label>
+                                            <input type="text" class="form-control" name="search" id="search">
+                                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!--<div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.nama"></p>
+                            <p class="deskripsi" ng-bind="user.divisi"></p>
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                        </div>
+                    </div>-->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="box box-primary box-white">
+
+                    <div class="box-body form-horizontal">
+                        <div class="box">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#master-data" id="change-tab-masdat" data-toggle="tab">Master Data</a></li>
+                                <li><a href="#master-branch" id="change-tab-branch" data-toggle="tab">Master Branch</a></li>
+                                <li><a href="#master-department" id="change-tab-department" data-toggle="tab">Master Department</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="master-data">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Cari Master Data</h3>
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form class="form-horizontal label-kanan">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Nama</label>
+                                                        <div class="col-sm-4">
+                                                            <input id="nama_item" type="text" class="form-control " placeholder="kode/nama/deskripsi">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div id="btn_1" class="row ">
+                                            <div class="col-md-12">
+                                                <div class="submitgray button-row">
+                                                    <button id="cari" class="btn btn-primary " type="submit">Cari</button>
+                                                    <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Data Baru</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="btn_2" class="row " style="display: none;">
+                                            <div class="btn_asuransi">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="cari" class="btn btn-primary " type="submit">Cari</button>
+                                                        <button id="tambah" class="btn btn-success" onclick="NewItem2()" type="submit">Tambah Data Baru</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="btn_3" class="row " style="display: none;">
+                                            <div class="col-md-12">
+                                                <div class="submitgray button-row">
+                                                    <button id="cari" class="btn btn-primary " type="submit">Cari</button>
+                                                    <!--<button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Data Baru</button>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="btn_4" class="row " style="display: none;">
+                                            <div class="btn_segmentasi">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="cari" class="btn btn-primary " type="submit">Cari</button>
+                                                        <button id="tambah-segmentasi" class="btn btn-success" onclick="NewItem4()" type="submit">Tambah Data Baru</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="nav-tabs-custom">
+                                                <ul class="nav nav-tabs" id="myTab">
+                                                    <li class="active" data-ctr="0"><a href="javascript:changeTab(0)" id="tab-periode">Periode Anggaran</a></li>
+                                                    <li data-ctr="1"><a href="javascript:changeTab(1)" id="tab-unitkerja">Unit Kerja Pemohon</a></li>
+                                                    <li data-ctr="2"><a href="javascript:changeTab(2)" id="tab-jenisbelanja">Jenis Belanja</a></li>
+                                                    <li data-ctr="3"><a href="javascript:changeTab(3)" id="tab-jenispekerjaan">Jenis Pekerjaan</a></li>
+                                                    <li data-ctr="4"><a href="javascript:changeTab(4)" id="tab-matauang">Mata Uang</a></li>
+                                                    <li data-ctr="5"><a href="javascript:changeTab(5)" id="tab-region">Region</a></li>
+                                                    <li data-ctr="6"><a href="javascript:changeTab(6)" id="tab-satuan">Satuan</a></li>
+                                                    <li data-ctr="7"><a href="javascript:changeTab(7)" id="tab-bank">Bank</a></li>
+                                                    <li data-ctr="8"><a href="javascript:changeTab(8)" id="tab-penilaian">Penilaian</a></li>
+                                                    <li data-ctr="9"><a href="javascript:changeTab(9)" id="tab_QUALIFIER_INS_BENEF_TYPE">Asuransi Type</a></li>
+                                                    <li data-ctr="10"><a href="javascript:changeTab(10)" id="tab_QUALIFIER_INS_BENEF_COVERAGE">Asuransi Coverage</a></li>
+                                                    <li data-ctr="11"><a href="javascript:changeTab(11)" id="tab_QUALIFIER_INS_REGION">Asuransi Region</a></li>
+                                                    <li data-ctr="12"><a href="javascript:changeTab(12)" id="tab_QUALIFIER_INS_BENEFIT">Benefit Asuransi</a></li>
+                                                    <li data-ctr="13"><a href="javascript:changeTab(13)" id="tab-pertanyaan">Pertanyaan</a></li>
+                                                    <li data-ctr="14"><a href="javascript:changeTabCatalogue(14)" id="tab-eCatalogue">Kategori eCatalogue</a></li>
+                                                    <li data-ctr="15"><a href="javascript:changeTab(15)" id="tab-infoperusahaan">Info Perusahaan</a></li>
+                                                    <li data-ctr="16"><a href="javascript:changeTab(16)" id="tab-provinsi">Provinsi</a></li>
+                                                    <li data-ctr="17"><a href="javascript:changeTab(17)" id="tab-Pertanyaan-Penilaian-Rekanan">Pertanyaan Penilaian Rekanan</a></li>
+                                                    <li data-ctr="18"><a href="javascript:changeTab(18)" id="tab-bidang-usaha">Bidang Usaha</a></li>
+                                                    <li data-ctr="19"><a href="javascript:changeTabMulti(19)" id="tab-kelompok-usaha">Kelompok Usaha</a></li>
+                                                    <li data-ctr="20" style="display:none"><a href="javascript:changeTabMulti(20)" id="tab-sub-bidang-usaha">Sub Bidang Usaha</a></li>
+                                                    <li data-ctr="21"><a href="javascript:changeTab(21)" id="tab-dukcapil-negara">Dukcapil Negara</a></li>
+                                                    <li data-ctr="22"><a href="javascript:changeTab(22)" id="tab-dukcapil-provinsi">Dukcapil Provinsi</a></li>
+                                                    <li data-ctr="23"><a href="javascript:changeTabMulti(23)" id="tab-dukcapil-kota">Dukcapil Kota</a></li>
+                                                    <li data-ctr="24"><a href="javascript:changeTabMulti(24)" id="tab-dukcapil-kecamatan">Dukcapil Kecamatan</a></li>
+                                                    <li data-ctr="25"><a href="javascript:changeTabMulti(25)" id="tab-dukcapil-kelurahan">Dukcapil Kelurahan</a></li>
+                                                    <li data-ctr="26"><a href="javascript:changeTabMulti(26)" id="tab-dukcapil-pos">Dukcapil Kode Pos</a></li>
+
+
+                                                    
+                                                </ul>
+                                                <div class="tab-content" style="overflow:visible">
+                                                    <div id="periode" class="tab-pane active" style="overflow:visible">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <table id="example1" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Code</th>
+                                                                            <th>Name</th>
+                                                                            <th>Desc</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                <table id="tabel-kelompok-usaha" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Code</th>
+                                                                            <th>Kelompok Usaha</th>
+                                                                            <th>Bidang Usaha</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                <table id="tabel-sub-bidang-usaha" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Code</th>
+                                                                            <th>Sub Bidang Usaha</th>
+                                                                            <th>Kelompok Usaha</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                <table id="table-dukcapil-kota" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Code</th>
+                                                                            <th>Kota</th>
+                                                                            <th>Provinsi</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                <table id="table-dukcapil-kecamatan" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Code</th>
+                                                                            <th>Kecamatan</th>
+                                                                            <th>Kota</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                <table id="table-dukcapil-kelurahan" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Code</th>
+                                                                            <th>Kelurahan</th>
+                                                                            <th>Kecamatan</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                                <table id="table-dukcapil-pos" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Code</th>
+                                                                            <th>Kode POS</th>
+                                                                            <th>Kelurahan</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="unitkerja" class="tab-pane">
+
+                                                    </div>
+                                                    <div id="jenisbelanja" class="tab-pane">
+
+                                                    </div>
+                                                    <div id="jenispekerjaan" class="tab-pane">
+
+                                                    </div>
+                                                    <div id="matauang" class="tab-pane">
+
+                                                    </div>
+                                                    <div id="region" class="tab-pane">
+
+                                                    </div>
+                                                    <div id="satuan" class="tab-pane">
+
+                                                    </div>
+                                                    <div id="bank" class="tab-pane">
+
+                                                    </div>
+                                                    <div id="penilaian" class="tab-pane">
+
+                                                    </div>
+                                                    <div id="pertanyaan" class="tab-pane">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-content">
+                                <div class="tab-pane" id="master-branch">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Cari Master Branch</h3>
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form class="form-horizontal label-kanan">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Cari</label>
+                                                        <div class="col-sm-4">
+                                                            <input id="txtcari" type="text" class="form-control " placeholder="Kode / Nama Branch">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div id="btn_1" class="row ">
+                                            <div class="col-md-12">
+                                                <div class="submitgray button-row">
+                                                    <button id="tambah" class="btn btn-success" onclick="NewItemBranch()" type="submit">Tambah Data Baru</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="tab-pane" id="tab-branch">
+                                            <table class="table table-bordered" id="table-master-branch">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <td class="tengah text-bold">Kode Branch</td>
+                                                        <td class="tengah text-bold">Nama Branch</td>
+                                                        <td class="tengah text-bold">Provinsi</td>
+                                                        <td class="tengah text-bold">Action</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-content">
+                                <div class="tab-pane" id="master-department">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Cari Master Department</h3>
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form class="form-horizontal label-kanan">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Cari</label>
+                                                        <div class="col-sm-4">
+                                                            <input id="txtcari" type="text" class="form-control " placeholder="Kode / Nama Department">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div id="btn_1" class="row ">
+                                            <div class="col-md-12">
+                                                <div class="submitgray button-row">
+                                                    <button id="tambah" class="btn btn-success" onclick="NewItemDepartment()" type="submit">Tambah Data Baru</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="tab-pane" id="tab-department">
+                                            <table class="table table-bordered" id="table-master-department">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="tengah text-bold">Kode Department</td>
+                                                        <td class="tengah text-bold">Nama Department</td>
+                                                        <td class="tengah text-bold">Action</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+
+        </div><!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <!--<div class="pull-right hidden-xs">
+              <b>Version</b> 1.0.0
+            </div>
+            <strong>Supplier Relation Management</strong> -->
+        </footer>
+    </div><!-- ./wrapper -->
+    <div class="modal fade" id="modal-create" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Insert Master Data : <strong id="qualifier"></strong></h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text" id="kode" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" id="nama" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <input type="text" id="deskripsi" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitCreate()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="modal-edit" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <input type="hidden" id="idToEdit" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Master Data : <strong id="qualifier"></strong></h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div>
+                                    <input type="hidden" name="id" id="id" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <!--<input type="text" name="id" id="id" class="form-control" />-->
+                                    <input type="text" name="kode" id="kode" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" name="nama" id="nama" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <input type="text" name="deskripsi" id="deskripsi" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitEdit()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="modal-create-Asuransi" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Insert Master Data : <strong id="qualifier"></strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text" id="Code" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" id="LocalizedName" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <input type="text" id="LocalizedDesc" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Kode Tipe Asuransi</label>
+                                    <input type="text" id="StringAttr1" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitCreate2()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="modal-edit-Asuransi" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Master Data : <strong id="qualifier"></strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div>
+                                    <input type="hidden" name="id" id="id" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text" name="Code" id="Code" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" name="LocalizedName" id="LocalizedName" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <input type="text" name="LocalizedDesc" id="LocalizedDesc" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Kode Tipe Asuransi</label>
+                                    <input type="text" name="StringAttr1" id="StringAttr1" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitEdit2()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div class="modal" id="modal-create-multi" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Insert Master Data : <strong id="qualifier"></strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Code</label>
+                                    <input type="text" id="Code-Segmentasi" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label id="namenya"></label>
+                                    <input type="text" id="LocalizedName-Segmentasi" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <input type="text" id="LocalizedDesc-Segmentasi" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Parent Data : <strong id="parentstrAtt1"></strong></label>
+
+                                    <select id="listParentSegmentasi" name="ParentSegmentasi" class="form-control select2 required ParentSegmentasi" style="width: 100%;">
+                                        <option selected disabled>--Parent Data--</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitCreate4()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div class="modal fade" id="modal-edit-segmentasi" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <input type="hidden" id="idToEdit" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Master Data : <strong id="qualifier"></strong></h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div>
+                                    <input type="hidden" name="id" id="id" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Code</label>
+                                    <!--<input type="text" name="id" id="id" class="form-control" />-->
+                                    <input type="text" name="Edit-Code-Segmentasi" id="Edit-Code-Segmentasi" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label id="namenya"></label>
+                                    <input type="text" name="Edit-LocalizedName-Segmentasi" id="Edit-LocalizedName-Segmentasi" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Parent Data : <strong id="parentstrAtt1"></strong></label>
+
+                                    <select id="Edit-listParentSegmentasi" name="Edit-ParentSegmentasi" class="form-control select2 required ParentSegmentasi" style="width: 100%;">
+                                        <!--<option selected disabled>--Parent Data--</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitEdit4()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div class="modal" id="modal-delete" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation : <strong id="qualifier"></strong></h4>
+                </div>
+                <div class="modal-content">
+                    <input type="hidden" id="idToDelete" />
+                    <div class="col-md-12">
+                        <p>
+                            Anda akan menghapus data ini, Anda yakin?
+                            <br /><br /><br />
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitDelete()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="modal-delete-kategori" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation : </h4>
+                </div>
+                <div class="modal-content">
+                    <input type="hidden" id="idToDelete2" />
+                    <div class="col-md-12">
+                        <p>
+                            Anda akan menghapus data ini, Anda yakin?
+                            <br /><br /><br />
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitDeleteKategori()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="edit-PIC" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Data PIC Pengadaan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div>
+                                    <input type="hidden" name="id" id="Id" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Nomor Pengadaan</label>
+                                    <input type="text" name="noPengadaan" id="noPengadaan" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Judul Pengadaan</label>
+                                    <input type="text" name="namaPengadaan" id="namaPengadaan" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>PIC Pengadaan Sebelumnya</label>
+                                    <input type="text" name="PIC" id="PIC" class="form-control" Disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>PIC Pengadaan Baru</label>
+
+                                    <div class="PIC-view">
+                                        <div class="col-md-12">
+                                            <label>
+                                                <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
+                                                <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <i class="fa fa-plus"></i>
+                                                    Tambah PIC GA & Procurement
+                                                </a>
+                                            </label>
+
+                                            <div class="listperson-pic">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<input type="text" name="StringAttr1" id="StringAttr1" class="form-control" />-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitEdit2()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="personilModal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Daftar Personil</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="tipe-person-list" />
+                    <div class="box box-primary" ng-controller="PersonCtrl">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="cari personil" ng-model="search" id="search" />
+                                    <div class="input-group-addon">
+                                        <a href="#search"><i class="glyphicon glyphicon-search" ng-click="searchPerson()"></i></a>
+                                    </div>
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="box-body">
+                            <ul class="products-list pop-personil-list product-list-in-box">
+                                <li class="item" ng-repeat="person in persons" ng-click="getPerson($event,person)">
+                                    <!--  <div class="product-img">
+                                        <img  src="{{person.logo}}">
+                                    </div>-->
+                                    <div class="product-info-collaps">
+                                        <input class="id-personil" type="hidden" value="{{person.Jabatan}}" />
+                                        <a class="product-title nama" ng-bind="person.Nama"></a>
+                                        <span class="pegadaan-description devisi" ng-bind="person.Jabatan"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer text-center">
+                            <a class="uppercase" id="pop-personil-next" ng-click="nextPerson($event,person)">Berikutnya</a>
+                        </div><!-- /.box-footer -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="KonfirmasiPic" role="dialog" FileId="" attr1="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">PIC Sudah Ada</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="modal-edit-kategori" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <input type="hidden" id="idToEdit" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Master Data : <strong id="qualifier"></strong></h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div>
+                                    <input type="hidden" name="id" id="id" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <!--<input type="text" name="id" id="id" class="form-control" />-->
+                                    <input type="text" name="kode" id="kode" disabled class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" name="nama" id="nama" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <input type="text" name="deskripsi" id="deskripsi" disabled class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitEditKategori()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="modal-create-branch" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Insert Master Data : Branch</h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text" id="kodebranch" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" id="namabranch" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Provinsi:</label>
+                                    <select id="listProvinsiBranch" name="ProvinsiBranch" class="form-control select2 required" style="width: 100%;">
+                                        <option selected disabled>--Provinsi--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitCreateBranch()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="modal-edit-branch" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <input type="hidden" id="idToEdit" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Master Data : Branch</h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div>
+                                    <input type="hidden" name="id" id="id" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <!--<input type="text" name="id" id="id" class="form-control" />-->
+                                    <input type="text" name="kodebranch" id="kodebranch" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" name="namabranch" id="namabranch" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Provinsi</label>
+                                    <select id="listProvinsiEditBranch" name="ProvinsiBranch" class="form-control select2 required" style="width: 100%;">
+                                        <option selected disabled>--Provinsi--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitEditBranch()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="modal-delete-branch" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation : Branch</h4>
+                </div>
+                <div class="modal-content">
+                    <input type="hidden" id="idToDelete" />
+                    <div class="col-md-12">
+                        <p>
+                            Anda akan menghapus data ini, Anda yakin?
+                            <br /><br /><br />
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitDeleteBranch()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="modal-create-branchdept" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <input type="hidden" id="idToCreate" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add Department To Branch</h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Department:</label>
+                                    <select id="listDepartmentBranch" name="DepartmentBranch" class="form-control select2 required" style="width: 100%;">
+                                        <option selected disabled>--Department--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitDeptBranch()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="modal-edit-branchdept" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <input type="hidden" id="idToEdit" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Department Branch</h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div>
+                            <input type="hidden" name="id" id="id" />
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Department:</label>
+                                    <select id="listEditDepartmentBranch" name="EditDepartmentBranch" class="form-control select2 required" style="width: 100%;">
+                                        <option selected disabled>--Department--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitEditDeptBranch()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="modal-delete-branchdept" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation : Department Branch</h4>
+                </div>
+                <div class="modal-content">
+                    <input type="hidden" id="idToDelete" />
+                    <div class="col-md-12">
+                        <p>
+                            Anda akan menghapus data ini, Anda yakin?
+                            <br /><br /><br />
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitDeleteDeptBranch()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="modal-create-department" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Insert Master Data : Department</h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text" id="kodedepartment" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" id="namadepartment" class="form-control" />
+                                </div>
+                            </div>
+                            <!--<div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Provinsi:</label>
+                                    <select id="listProvinsiDepartment" name="ProvinsiDepartment" class="form-control select2 required" style="width: 100%;">
+                                        <option selected disabled>--Provinsi--</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitCreateDepartment()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="modal-edit-department" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <input type="hidden" id="idToEdit" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Master Data : Department</h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div>
+                                    <input type="hidden" name="id" id="id" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <!--<input type="text" name="id" id="id" class="form-control" />-->
+                                    <input type="text" name="kodedepartment" id="kodedepartment" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" name="namadepartment" id="namadepartment" class="form-control" />
+                                </div>
+                            </div>
+                            <!--<div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Provinsi</label>
+                                    <select id="listProvinsiEditDepartment" name="ProvinsiDepartment" class="form-control select2 required" style="width: 100%;">
+                                        <option selected disabled>--Provinsi--</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitEditDepartment()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="modal-delete-department" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation : Department</h4>
+                </div>
+                <div class="modal-content">
+                    <input type="hidden" id="idToDelete" />
+                    <div class="col-md-12">
+                        <p>
+                            Anda akan menghapus data ini, Anda yakin?
+                            <br /><br /><br />
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="submitDeleteDepartment()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script type="text/javascript" src="site.js"></script>
+    <script src="dist/js/menu.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            initCsrf();
+        });
+
+        // Optional: Provide a way to get current token
+        function getCsrfToken() {
+            return csrfToken;
+        }
+
+        var table;
+        var urls = ["AddPeriodeAnggaran", "AddUnitKerja", "AddJenisBelanja", "AddJenisPekerjaan",
+            "AddCurrency", "AddRegion", "AddSatuan", "AddBank", "AddPenilaian", "AddQUALIFIER_INS_BENEF_TYPE", "AddQUALIFIER_INS_BENEF_COVERAGE", "AddQUALIFIER_INS_REGION", "AddQUALIFIER_INS_BENEFIT", "AddPertanyaan", "", "AddInfoPerusahaan", "AddProvinsi", "AddPertanyaanPenilaianRekanan",
+            "AddBidangUsaha", "AddKelompokUsaha", "AddSubBidangUsaha", "AddDukcapilNegara", "AddDukcapilProvinsi", "AddDukcapilKota", "AddDukcapilKecamatan", "AddDukcapilKelurahan", "AddDukcapilPos"];
+        var urls_tbl = ["GetTblPeriodeAnggaran", "GetTblUnitKerja", "GetTblJenisPembelanjaan", "GetTblJenisPekerjaan",
+            "GetTblCurrency", "GetTblRegion", "GetTblSatuan", "GetTblBank", "GetTblPenilaian", "GetTblQUALIFIER_INS_BENEF_TYPE", "GetTblQUALIFIER_INS_BENEF_COVERAGE", "GetTblQUALIFIER_INS_REGION", "GetTblQUALIFIER_INS_BENEFIT", "GetTblPertanyaan", "GetTblKategoriMaster", "GetTblInfoPerusahaan", "GetTblProvinsi", "GetTblPertanyaanPenilaianRekanan",
+            "GetTblBidangUsaha", "GetTblKelompokUsaha", "GetTblSubBidangUsaha", "GetTblDukcapilNegara", "GetTblDukcapilProvinsi", "GetTblDukcapilKota", "GetTblDukcapilKecamatan", "GetTblDukcapilKelurahan", "GetTblDukcapilPos"];
+
+        var table_list;
+
+        function showSuccessToast(message) {
+            alert(message);
+        }
+
+        $(document).ready(function () {
+            $("#tab-periode").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-unitkerja").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-jenisbelanja").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-matauang").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-region").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-satuan").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-bank").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-penilaian").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-periode").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab_QUALIFIER_INS_BENEF_TYPE").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab_QUALIFIER_INS_BENEF_COVERAGE").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").show();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab_QUALIFIER_INS_REGION").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").show();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab_QUALIFIER_INS_BENEFIT").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").show();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-pertanyaan").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-eCatalogue").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-infoperusahaan").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").hide();
+                $("#btn_3").show();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-provinsi").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-Pertanyaan-Penilaian-Rekanan").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-bidang-usaha").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-kelompok-usaha").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").show();
+
+                $("#example1").hide();
+                $("#tabel-kelompok-usaha").show();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-sub-bidang-usaha").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").show();
+
+                $("#example1").hide();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").show();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+
+
+            $("#tab-sub-bidang-usaha").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").show();
+
+                $("#example1").hide();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").show();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+
+
+            $("#tab-dukcapil-negara").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+
+            $("#tab-dukcapil-provinsi").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+
+            $("#tab-dukcapil-kota").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").show();
+
+                $("#example1").hide();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").show();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+
+            $("#tab-dukcapil-kecamatan").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").show();
+
+                $("#example1").hide();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").show();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+
+            $("#tab-dukcapil-kelurahan").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").show();
+
+                $("#example1").hide();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").show();
+                $("#table-dukcapil-pos").hide();
+            });
+
+            $("#tab-dukcapil-pos").click(function () {
+                $("#btn_1").hide();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").show();
+
+                $("#example1").hide();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").show();
+            });
+
+
+
+            $("#master-branch").hide();
+            $("#change-tab-masdat").click(function () {
+                //alert("HEY HOO");
+                $("#master-data").show();
+                $("#master-branch").hide();
+                $("#master-department").hide();
+            });
+            $("#change-tab-branch").click(function () {
+                //alert("HEY lulu");
+                $("#master-data").hide();
+                $("#master-branch").show();
+                $("#master-department").hide();
+            });
+            $("#change-tab-department").click(function () {
+                //alert("HEY lulu");
+                $("#master-data").hide();
+                $("#master-branch").hide();
+                $("#master-department").show();
+            });
+        });
+
+        function NewItem() {
+            var text = $("#myTab li.active a").html();
+            $("#modal-create #qualifier").html(text);
+            $("#modal-create").modal('show');
+        }
+
+        function NewItem2() {
+            var text = $("#myTab li.active a").html();
+            $("#modal-create-Asuransi #qualifier").html(text);
+            $("#modal-create-Asuransi").modal('show');
+        }
+
+        function NewItem4() {
+            document.getElementById('Code-Segmentasi').value = '';
+            document.getElementById('LocalizedName-Segmentasi').value = '';
+            document.getElementById('LocalizedDesc-Segmentasi').value = '';
+            $("#listParentSegmentasi").html('');
+            $("#listParentSegmentasi").append("<option selected disabled>--Parent Data--</option>");
+            var text = $("#myTab li.active a").html();
+            $("#modal-create-multi #qualifier").html(text);
+
+            if (text == "Kelompok Usaha") {
+                $("#modal-create-multi #parentstrAtt1").html("Bidang Usaha");
+                $("#modal-create-multi #namenya").html("Nama Kelompok Usaha");
+                SetParentSegmentasi("GetAllBidangUsaha");
+            };
+            if (text == "Sub Bidang Usaha") {
+                $("#modal-create-multi #parentstrAtt1").html("Kelompok Usaha");
+                $("#modal-create-multi #namenya").html("Nama Sub Bidang Usaha");
+                SetParentSegmentasi("GetAllKelompokUsaha");
+            };
+            if (text == "Dukcapil Kota") {
+                $("#modal-create-multi #parentstrAtt1").html("Provinsi");
+                $("#modal-create-multi #namenya").html("Nama Kota");
+                SetParentSegmentasi("GetAllDukcapilProvinsi");
+            };
+            if (text == "Dukcapil Kecamatan") {
+                $("#modal-create-multi #parentstrAtt1").html("Kota");
+                $("#modal-create-multi #namenya").html("Nama Kecamatan");
+                SetParentSegmentasi("GetAllDukcapilKota");
+            };
+            if (text == "Dukcapil Kelurahan") {
+                $("#modal-create-multi #parentstrAtt1").html("Kecamatan");
+                $("#modal-create-multi #namenya").html("Nama Kelurahan");
+                SetParentSegmentasi("GetAllDukcapilKecamatan");
+            };
+            if (text == "Dukcapil Kode Pos") {
+                $("#modal-create-multi #parentstrAtt1").html("Kelurahan");
+                $("#modal-create-multi #namenya").html("Kode POS");
+                SetParentSegmentasi("GetAllDukcapilKelurahan");
+            };
+
+            $("#modal-create-multi").modal('show');
+
+        }
+
+        function SetParentSegmentasi(url) {
+            $.ajax({
+                url: 'api/ReferenceData/' + url,
+                success: function (data) {
+                    //aaData = DOMPurify.sanitize(aaData);
+                    console.log(typeof data)
+                    if (typeof data !== "object") return alert("Invalid response format");
+
+                    for (var i in data) {
+                        $(".ParentSegmentasi").append("<option value='" + DOMPurify.sanitize(data[i].Code) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                    }
+				
+                }
+            });
+        }
+
+        function submitCreate() {
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var kode = $("#kode").val();
+            var nama = $("#nama").val();
+            var deskripsi = $("#deskripsi").val();
+            var index = $("#myTab li.active").data("ctr");
+            var url = "api/ReferenceData/" + urls[index];
+
+            // Add CSRF token to headers if needed
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            // Add input validation
+            if (!kode || !nama) {
+                alert("Kode dan Nama wajib diisi!");
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                contentType: "application/json",
+                headers: headers, // Add headers
+                data: JSON.stringify({
+                    code: kode,
+                    nama: nama,
+                    deskripsi: deskripsi
+                }),
+                success: function (data) {
+                    $("#modal-create").modal('hide');
+                    table.ajax.reload();
+
+                    // Better notification system
+                    if (data.message) {
+                        showSuccessToast(data.message);
+                    } else {
+                        showSuccessToast("Data berhasil ditambahkan!");
+                    }
+
+                    // Clear form fields
+                    $("#kode, #nama, #deskripsi").val("");
+                },
+                error: function (xhr, status, error) {
+                    // Better error handling
+                    var errorMsg = xhr.responseJSON?.message ||
+                        xhr.responseText ||
+                        "Terjadi kesalahan saat menyimpan data";
+                    showErrorToast(errorMsg);
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        function submitCreate2() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var Code = $("#Code").val();
+            var LocalizedName = $("#LocalizedName").val();
+            var LocalizedDesc = $("#LocalizedDesc").val();
+            var StringAttr1 = $("#StringAttr1").val();
+            var index = $("#myTab li.active").data("ctr");
+            var url = "api/ReferenceData/" + urls[index];
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                // or for Laravel/other frameworks:
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                contentType: "application/json",
+                headers: headers,
+                data: JSON.stringify({
+                    Code: Code,
+                    LocalizedName: LocalizedName,
+                    LocalizedDesc: LocalizedDesc,
+                    StringAttr1: StringAttr1
+                }),
+                success: function (data) {
+                    $("#modal-create-Asuransi").modal('hide');
+                    table.ajax.reload();
+
+                    // tampilkan response dengan aman
+                    alert(data.message || data);
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        function submitCreate4() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var Code = $("#Code-Segmentasi").val();
+            var LocalizedName = $("#LocalizedName-Segmentasi").val();
+            var LocalizedDesc = $("#LocalizedDesc-Segmentasi").val();
+            var StringAttr1 = $("[name=ParentSegmentasi]").val();
+            var index = $("#myTab li.active").data("ctr");
+            var url = "api/ReferenceData/" + urls[index];
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                // or for Laravel/other frameworks:
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                contentType: "application/json",
+                headers: headers,
+                data: JSON.stringify({
+                    Code: Code,
+                    LocalizedName: LocalizedName,
+                    LocalizedDesc: LocalizedDesc,
+                    StringAttr1: StringAttr1
+                }),
+                success: function (data) {
+                    $("#modal-create-multi").modal('hide');
+                    table.ajax.reload();
+
+                    // tampilkan response dengan aman
+                    alert(data.message || data);
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        function editItem4(id) {
+            $("#Edit-listParentSegmentasi").html('');
+            $(".ParentSegmentasi").append("<option selected disabled>--Parent Data--</option>");
+            var text = $("#myTab li.active a").html();
+            $("#modal-edit-segmentasi #qualifier").html(text);
+            
+            //document.getElementById('Code-Segmentasi').value = '';
+            //document.getElementById('LocalizedName-Segmentasi').value = '';
+            //document.getElementById('LocalizedDesc-Segmentasi').value = '';
+            //var text = $("#myTab li.active a").html();
+            //$("#modal-create-segmentasi #qualifier").html(text);
+            if (text == "Kelompok Usaha") {
+                $("#modal-edit-segmentasi #parentstrAtt1").html("Bidang Usaha");
+                $("#modal-edit-segmentasi #namenya").html("Nama Kelompok Usaha");
+                SetParentSegmentasi("GetAllBidangUsaha");
+                GetEdit4(id);
+            };
+            if (text == "Sub Bidang Usaha") {
+                $("#modal-edit-segmentasi #parentstrAtt1").html("Kelompok Usaha");
+                $("#modal-edit-segmentasi #namenya").html("Nama Sub Bidang Usaha");
+                SetParentSegmentasi("GetAllKelompokUsaha");
+                GetEdit4(id);
+            };
+
+
+            if (text == "Dukcapil Kota") {
+                $("#modal-edit-segmentasi #parentstrAtt1").html("Provinsi");
+                $("#modal-edit-segmentasi #namenya").html("Nama Kota");
+                SetParentSegmentasi("GetAllDukcapilProvinsi");
+                GetEdit4(id);
+            };
+            if (text == "Dukcapil Kecamatan") {
+                $("#modal-edit-segmentasi #parentstrAtt1").html("Kota");
+                $("#modal-edit-segmentasi #namenya").html("Nama Kecamatan");
+                SetParentSegmentasi("GetAllDukcapilKota");
+                GetEdit4(id);
+            };
+            if (text == "Dukcapil Kelurahan") {
+                $("#modal-edit-segmentasi #parentstrAtt1").html("Kecamatan");
+                $("#modal-edit-segmentasi #namenya").html("Nama Kelurahan");
+                SetParentSegmentasi("GetAllDukcapilKecamatan");
+                GetEdit4(id);
+            };
+            if (text == "Dukcapil Kode Pos") {
+                $("#modal-edit-segmentasi #parentstrAtt1").html("Kelurahan");
+                $("#modal-edit-segmentasi #namenya").html("Kode POS");
+                SetParentSegmentasi("GetAllDukcapilKelurahan");
+                GetEdit4(id);
+            };
+
+            $("#modal-edit-segmentasi").modal('show');
+
+        }
+
+        function GetEdit4(id) {
+
+            $.getJSON("/api/ReferenceData/EditReferenceData?id=" + id, null, function (data) {
+
+                if (typeof data !== "object") {
+                    alert("Invalid response format");
+                    return;
+                }
+
+                $("input[name=id]").val(DOMPurify.sanitize(data.Id));
+                $("input[name=Edit-Code-Segmentasi]").val(DOMPurify.sanitize(data.Code));
+                $("input[name=Edit-LocalizedName-Segmentasi]").val(DOMPurify.sanitize(data.LocalizedName));
+                $("input[name=Edit-ParentSegmentasi]").val(DOMPurify.sanitize(data.StringAttr1));
+                
+
+            });
+        }
+
+        function submitEdit4() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var arrData = {
+                Id: $("#modal-edit-segmentasi #id").val(),
+                Code: $("#modal-edit-segmentasi #Edit-Code-Segmentasi").val(),
+                LocalizedName: $("#modal-edit-segmentasi #Edit-LocalizedName-Segmentasi").val(),
+                StringAttr1: $("#modal-edit-segmentasi [name=Edit-ParentSegmentasi]").val(),
+            };
+
+            //console.log(arrData);
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "Api/ReferenceData/SaveEditReferenceData",
+                //data: { code: kode, nama: nama, deskripsi: deskripsi },
+                data: JSON.stringify(arrData),
+                //data: arrData,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: headers,
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+                    alert('Berhasil Di Edit');
+                    $('#modal-edit-segmentasi').modal('hide');
+                    // $("#exampleModal").hide();
+                    table.ajax.reload();
+                }
+            });
+
+        }
+
+
+        function generateTable(url) {
+
+                table = $('#example1').DataTable({
+                    "ajax": 'api/ReferenceData/' + url,
+                    "columns": [
+                        { "data": "Code" },
+                        { "data": "Name" },
+                        { "data": "Desc" },
+                        { "data": "null", "width": "3%" }
+                    ],
+                    "columnDefs": [
+                        {
+                            "render": function (data, type, row) {
+                                return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
+                            },
+                            "targets": 0,
+                            "orderable": true
+                        },
+                        //{
+                        //    "render": function (data, type, row) {
+                        //        return '<a class="btn btn-xs btn-danger remove-item" href="javascript:deleteItem(' + row.id + ')" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                        //    },
+                        //    "targets": 3,
+                        //    "orderable": false
+                        //}
+                        {
+                            "render": function (data, type, row) {
+                                //return '<a href="javascript:editItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit-item" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                //    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                                //if (url == 'GetTblPenilaian') {
+                                //    return '<a href="javascript:editItem3(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                //        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                                //}
+                                if (url == 'GetTblQUALIFIER_INS_BENEF_COVERAGE') {
+                                    return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                                }
+                                else if (url == 'GetTblQUALIFIER_INS_REGION') {
+                                    return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                                }
+                                else if (url == 'GetTblQUALIFIER_INS_BENEFIT') {
+                                    return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                                }
+                                else {
+                                    return '<a href="javascript:editItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                                }
+                            },
+                            "targets": 3,
+                            "orderable": false
+                        }
+                    ],
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false
+                });
+                //alert('qwerty = ' + url);
+            }
+
+
+        function generateTableMulti(url) {
+                var tabelnya = "";
+
+                if (url == "GetTblKelompokUsaha") { tabelnya = "tabel-kelompok-usaha" };
+                //if (url == "GetTblSubBidangUsaha") { tabelnya = "tabel-sub-bidang-usaha" };
+                if (url == "GetTblDukcapilKota") { tabelnya = "table-dukcapil-kota" };
+                if (url == "GetTblDukcapilKecamatan") { tabelnya = "table-dukcapil-kecamatan" };
+                if (url == "GetTblDukcapilKelurahan") { tabelnya = "table-dukcapil-kelurahan" };
+                if (url == "GetTblDukcapilPos") { tabelnya = "table-dukcapil-pos" };
+        
+                table = $('#' + tabelnya + '').DataTable({
+                    "ajax": 'api/ReferenceData/' + url,
+                    "columns": [
+                        { "data": "Code" },
+                        { "data": "Name" },
+                        { "data": "Str1" },
+                        { "data": "null", "width": "3%" }
+                    ],
+                    "columnDefs": [
+                        {
+                            "render": function (data, type, row) {
+                                return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
+                            },
+                            "targets": 0,
+                            "orderable": true
+                        },
+                        {
+                            "render": function (data, type, row) {
+                                return '<a href="javascript:editItem4(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            },
+                            "targets": 3,
+                            "orderable": false
+                        }
+                    ],
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false
+                });
+                //alert('qwerty = ' + url);
+            }
+
+        function generateTableCatalogue() {
+                //alert('hahahaha');
+                table = $('#example1').DataTable({
+                    "ajax": 'api/Produk/GetTblKategoriMaster',
+                    "columns": [
+                        { "data": "id" },
+                        { "data": "NamaKategori" },
+                        { "data": "DeskripsiKategori" },
+                        { "data": "null", "width": "3%" }
+                    ],
+                    "columnDefs": [
+                        {
+                            "render": function (data, type, row) {
+                                return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
+                            },
+                            "targets": 0,
+                            "orderable": true
+                        },
+                        {
+                            "render": function (data, type, row) {
+                                return '<a href="javascript:editItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                    '<a href="javascript:deleteItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            },
+                            "targets": 3,
+                            "orderable": false
+                        }
+                    ],
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false
+                });
+                //alert('qwerty = ' + url);
+            }
+
+        $(function () {
+            $().UItoTop({ easingType: 'easeOutQuart' });
+            generateTable("GetTblPeriodeAnggaran");
+            $("#example1_filter").hide();
+            $("#cari").on("click", function () {
+                var nama_item = $("#nama_item").val();
+                table.columns(0).search(nama_item).draw();
+            });
+
+            $("#example1").show();
+            $("#tabel-kelompok-usaha").hide();
+            $("#tabel-sub-bidang-usaha").hide();
+            $("#table-dukcapil-kota").hide();
+            $("#table-dukcapil-kecamatan").hide();
+            $("#table-dukcapil-kelurahan").hide();
+            $("#table-dukcapil-pos").hide();
+        });
+
+        function viewDetail() {
+
+        }
+
+        function editItem(id) {
+            var text = $("#myTab li.active a").html();
+            $("#modal-edit #qualifier").html(text);            
+            $("#modal-edit").modal('show');
+
+            GetEdit(id);
+        }
+
+        function editItem2(id) {
+            var text = $("#myTab li.active a").html();
+            $("#modal-edit-Asuransi #qualifier").html(text);
+            $("#modal-edit-Asuransi").modal('show');
+
+            GetEdit2(id);
+        }
+
+        function editItemKategori(id) {
+            var text = $("#myTab li.active a").html();
+            $("#modal-edit-kategori #qualifier").html(text);
+            $("#modal-edit-kategori").modal('show');
+
+            GetEditKategori(id);
+        }
+
+        function GetEdit(id) {
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+
+            $.ajax({
+                url: "/api/ReferenceData/EditReferenceData",
+                method: "GET",
+                headers: headers,
+                data: { id: id },
+                success: function (data) {
+
+                    if (typeof data !== "object") {
+                        alert("Invalid response format");
+                        return;
+                    }
+
+                    $("input[name=id]").val(DOMPurify.sanitize(data.Id));
+                    $("input[name=kode]").val(DOMPurify.sanitize(data.Code));
+                    $("input[name=nama]").val(DOMPurify.sanitize(data.LocalizedName));
+                    $("input[name=deskripsi]").val(DOMPurify.sanitize(data.LocalizedDesc));
+                },
+                error: function () {
+                    alert("Gagal mengambil data");
+                }
+            });
+
+        }
+
+        function GetEdit2(id) {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: "/api/ReferenceData/EditReferenceData",
+                method: "GET",
+                headers:headers,
+                data: { id: id },
+                success: function (data) {
+
+                    if (typeof data !== "object" || data === null) {
+                        console.error("Invalid response format");
+                        return;
+                    }
+
+                    let sanitizedId = data.Id;
+                    let sanitizedCode = DOMPurify.sanitize(data.Code || "");
+                    let sanitizedName = DOMPurify.sanitize(data.LocalizedName || "");
+                    let sanitizedDesc = DOMPurify.sanitize(data.LocalizedDesc || "");
+                    let sanitizedAttr1 = DOMPurify.sanitize(data.StringAttr1 || "");
+
+                    $("input[name=id]").val(sanitizedId);
+                    $("input[name=Code]").val(sanitizedCode);
+                    $("input[name=LocalizedName]").val(sanitizedName);
+                    $("input[name=LocalizedDesc]").val(sanitizedDesc);
+                    $("input[name=StringAttr1]").val(sanitizedAttr1);
+
+                },
+                error: function (xhr) {
+                    console.error("Error:", xhr);
+                    alert("Gagal mengambil data");
+                }
+            });
+        }
+
+        function GetEditKategori(id) {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: "/api/Produk/EditKategori",
+                method: "GET",
+                headers: headers,
+                data: { id: id }, // ⬅️ lebih aman
+                success: function (data) {
+
+                    if (typeof data !== "object" || data === null) {
+                        alert("Invalid response format");
+                        return;
+                    }
+
+                    let sanitizedId = data.Id;
+                    let sanitizedCode = data.Id; 
+                    let sanitizedName = DOMPurify.sanitize(data.Nama || "");
+                    let sanitizedDesc = DOMPurify.sanitize(data.Deskripsi || "");
+
+                    $("input[name=id]").val(sanitizedId);
+                    $("input[name=kode]").val(sanitizedCode);
+                    $("input[name=nama]").val(sanitizedName);
+                    $("input[name=deskripsi]").val(sanitizedDesc);
+                },
+                error: function (xhr) {
+                    if (xhr.status === 404) {
+                        alert("Data tidak ditemukan");
+                    } else {
+                        alert("Gagal mengambil data");
+                    }
+                }
+            });
+        }
+
+        function submitEdit() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var arrData = {
+                Id: $("#modal-edit #id").val(),
+                Code: DOMPurify.sanitize($("#modal-edit #kode").val()),
+                LocalizedName: DOMPurify.sanitize($("#modal-edit #nama").val()),
+                LocalizedDesc: DOMPurify.sanitize($("#modal-edit #deskripsi").val())
+            };
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "Api/ReferenceData/SaveEditReferenceData",
+                //data: { code: kode, nama: nama, deskripsi: deskripsi },
+                data: JSON.stringify(arrData),
+                //data: arrData,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: headers,
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+                    alert('Berhasil Di Edit');
+                    $('#modal-edit').modal('hide');
+                    // $("#exampleModal").hide();
+                    table.ajax.reload();
+                }
+            });
+
+        }
+
+        function submitEdit2() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var arrData = {
+                Id: $("#modal-edit-Asuransi #id").val(),
+                Code: $("#modal-edit-Asuransi #Code").val(),
+                LocalizedName: $("#modal-edit-Asuransi #LocalizedName").val(),
+                LocalizedDesc: $("#modal-edit-Asuransi #LocalizedDesc").val(),
+                StringAttr1: $("#modal-edit-Asuransi #StringAttr1").val()
+            };
+
+            //console.log(arrData);
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "Api/ReferenceData/SaveEditReferenceData",
+                //data: { code: kode, nama: nama, deskripsi: deskripsi },
+                data: JSON.stringify(arrData),
+                //data: arrData,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: headers,
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+                    alert('Berhasil Di Edit');
+                    $('#modal-edit').modal('hide');
+                    // $("#exampleModal").hide();
+                    table.ajax.reload();
+                }
+            });
+
+        }
+
+        function submitEditKategori() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var arrData = {
+                Id: $("#modal-edit-kategori #id").val(),
+                Id: $("#modal-edit-kategori #kode").val(),
+                Nama: $("#modal-edit-kategori #nama").val(),
+                Deskripsi: $("#modal-edit-kategori #deskripsi").val()
+            };
+
+            //console.log(arrData);
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "Api/Produk/SaveEditKategori",
+                //data: { code: kode, nama: nama, deskripsi: deskripsi },
+                data: JSON.stringify(arrData),
+                //data: arrData,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: headers,
+                success: function (data) {
+				    data = DOMPurify.sanitize(data);
+                    alert('Berhasil Di Edit');
+                    $('#modal-edit-kategori').modal('hide');
+                    // $("#exampleModal").hide();
+                    table.ajax.reload();
+                }
+            });
+
+        }
+
+        function deleteItem(id) {
+            $("#modal-delete").modal('show');
+            $("#modal-delete #idToDelete").val(id);
+            var id = $("#modal-delete #idToDelete").val();
+            //alert('id nya' + id);
+        }
+
+        function deleteItemKategori(id) {
+            $("#modal-delete-kategori").modal('show');
+            $("#modal-delete-kategori #idToDelete2").val(id);
+            var id = $("#modal-delete-kategori #idToDelete2").val();
+            //alert('id nya' + id);
+        }
+
+        function submitDelete() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var id = parseInt($("#modal-delete #idToDelete").val());
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            if (!id || id <= 0) {
+                alert("Id tidak valid");
+                return;
+            }
+
+            $.ajax({
+                url: "api/ReferenceData/DeleteReferenceData",
+                method: "POST",
+                contentType: "application/json",
+                headers: headers,
+                data: JSON.stringify({ Id: id }),
+                success: function (data) {
+                    $("#modal-delete").modal('hide');
+                    table.ajax.reload();
+
+                    // tampilkan aman
+                    alert(data.message || data);
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        function submitDeleteKategori() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var id = parseInt($("#modal-delete-kategori #idToDelete2").val());
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: "api/Produk/DeleteKategori",
+                method: "POST", // ⬅️ penting
+                headers: headers,
+                contentType: "application/json",
+                data: JSON.stringify({ id: id }),
+                success: function (data) {
+
+                    // kalau response object
+                    if (typeof data === "object") {
+                        alert(data.message);
+                    } else {
+                        alert(DOMPurify.sanitize(data));
+                    }
+
+                    $("#modal-delete-kategori").modal('hide');
+                    table.ajax.reload();
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        function changeTab(idx) {
+            $("#myTab li").removeClass('active');
+            $("[data-ctr=" + idx + "]").addClass('active');
+            table.destroy();
+            $("#periode").show();
+            generateTable(urls_tbl[idx]);
+            //alert('idx = ' + idx);
+        }
+
+        function changeTabMulti(idx) {
+            $("#myTab li").removeClass('active');
+            $("[data-ctr=" + idx + "]").addClass('active');
+            table.destroy();
+            $("#periode").show();
+            generateTableMulti(urls_tbl[idx]);
+            //alert('idx = ' + idx);
+        }
+
+        function changeTabCatalogue(idx) {
+            //alert('awdhjajhdshjabdbjha');
+            $("#myTab li").removeClass('active');
+            $("[data-ctr=" + idx + "]").addClass('active');
+            table.destroy();
+            $("#periode").show();
+            generateTableCatalogue(urls_tbl[idx]);
+            //alert('idx = ' + idx);
+        }
+
+        $(function () {
+            table_list = $('#table-rubah-pic').DataTable({
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListPengadaan',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "Judul" },
+                    { "data": "Klasifikasi" },
+                    { "data": "PIC" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            //return '<a href="javascript:editItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil">  Edit</span></a> '
+                            return '<input class="btn btn-xs btn-primary" title="Edit" type="button" onclick="editPIC(\'' + row.Id + '\')" value="Edit" /> ';
+                        },
+                        "targets": 4,
+                        "orderable": false
+                    },
+                ],
+                "serverSide": true,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+        });
+
+        function fungsicari() {
+            table_list.draw();
+        }
+
+        function editPIC(id) {
+            $("#edit-PIC").modal('show');
+            $("#Id").val(id);
+            GetEditPIC(id);
+        }
+
+        function GetEditPIC(id) {
+            $.getJSON("/api/MonitoringSelection/GetEditPIC?id=" + id, null, function (data) {
+			data = DOMPurify.sanitize(data);
+                //clear();
+                //console.log("doc data:", data);
+                $("input[name=id]").val(data.Id);
+                $("input[name=noPengadaan]").val(data.NoPengadaan);
+                $("input[name=namaPengadaan]").val(data.Judul);
+                $("input[name=PIC]").val(data.PIC);
+                //alert('data code nya ini ' + data.Id);
+                //alert('data code nya ini ' + data.NoPengadaan);
+                //alert('data code nya ini ' + data.Judul);
+            });
+        }
+
+        $(".addPerson").on("click", function () {
+            $("#title-modal").html("Daftar Personil")
+            $("#tipe-person-list").val($(this).attr("attr1"));
+            $("#personilModal").modal("show");
+            $(".item-bg-blue-light").each(function () {
+                $(this).removeClass("item-bg-blue-light");
+            });
+        });
+
+        app.controller('PersonCtrl', ['$scope', '$http', function ($scope, $http) {
+            $scope.persons = [];
+            //$http.get(LOGIN_PAGE + "admin/ListUser?start=0&limit=5&name=")
+            $http.get("api/pengadaane/getUsers?start=0&limit=5&name=")
+                .then(function (response) {
+                    $scope.persons = response.data.Users;
+                });
+            $scope.getPerson = function ($event, person) {
+                if ($($event.currentTarget).hasClass("item-bg-blue-light")) {
+                    $($event.currentTarget).removeClass("item-bg-blue-light");
+                }
+                else {
+                    $($event.currentTarget).addClass("item-bg-blue-light");
+                    addPersonil(person, $("#tipe-person-list").val());
+                }
+            }
+            $scope.searchPerson = function () {
+                var jum = $(".pop-personil-list").find("li").length;
+                $http.get("api/pengadaane/getUsers?start=0&limit=5&name=" + $("#search").val())
+                    .then(function (response) {
+                        $scope.persons = response.data.Users;
+                        if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
+                        else $("#pop-personil-next").html("Berikutnya");
+                    });
+            }
+            $scope.nextPerson = function () {
+                var jum = $(".pop-personil-list").find("li").length;
+                $http.get("api/pengadaane/getUsers?start=" + jum + "&limit=5&name=" + $("#search").val())
+                    .then(function (response) {
+
+                        $.each(response.data.Users, function (index, value) {
+                            $scope.persons.push(value);
+                            jum = jum + 1;
+                        });
+                        if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
+                    });
+            }
+        }]);
+
+        function getListPersonil() {
+            arrPersonilPengadaan = [];
+            $(".list-personil").each(function () {
+                objPersonilPengadaan = {};
+                objPersonilPengadaan.PersonilId = $(this).val();
+                objPersonilPengadaan.tipe = $(this).attr("attr1");
+                objPersonilPengadaan.Nama = $(this).attr("attr2");
+                objPersonilPengadaan.Jabatan = $(this).attr("attr3");
+                arrPersonilPengadaan.push(objPersonilPengadaan);
+            });
+            return arrPersonilPengadaan;
+        }
+
+        function LoadListPersonil(Personil, Status, xisTeam) {
+            $(".listperson-pic").html("");
+            for (var item in Personil) {
+                if (Personil[item].tipe == "pic")
+                    addLoadPersonil(Personil[item], ".listperson-pic", Status, xisTeam);
+            }
+        }
+
+        function submitEditPIC() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            
+            var arrData = {
+                Id: $("#modal-edit #id").val(),
+                Code: $("#modal-edit #kode").val(),
+                LocalizedName: $("#modal-edit #nama").val(),
+                LocalizedDesc: $("#modal-edit #deskripsi").val()
+            };
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "Api/ReferenceData/SaveEditReferenceData",
+                //data: { code: kode, nama: nama, deskripsi: deskripsi },
+                data: JSON.stringify(arrData),
+                //data: arrData,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: headers,
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+                    alert('Berhasil Di Edit');
+                    $('#modal-edit').modal('hide');
+                    // $("#exampleModal").hide();
+                    table.ajax.reload();
+                }
+            });
+
+        }
+
+        /*=================================================================================================================================================================================================================================*/
+        var table_list_branch;
+
+        $(function () {
+            table_list_branch = $('#table-master-branch').DataTable({
+                "ajax": 'api/ReferenceData/GetTblBranch',
+                "columns": [
+                    {
+                        "className": 'details-control',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": '',
+                        "width": "1%"
+                    },
+                    { "data": "Branch_Code" },
+                    { "data": "Branch_Name" },
+                    { "data": "Prov_Name" },
+                    { "data": "null", "width": "7%" }
+                ],
+                "columnDefs": [
+                    {
+                        "targets": 0,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
+                        },
+                        "targets": 1,
+                        "orderable": true
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:editItemBranch(' + row.Branch_Id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                '<a href="javascript:deleteItemBranch(' + row.Branch_Id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                        },
+                        "targets": 4,
+                        "orderable": false
+                    }
+                ],
+                //pageLength: 100,
+                "order": [[2, "asc"]],
+                "dom": '<"toolbar">frtip',
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+
+            $('#table-master-branch tbody').on('click', 'td.details-control', function () {
+
+                var tr = $(this).closest('tr');
+                var row = table_list_branch.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    //alert("close");
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    //alert("open");
+                    table_list_branch.rows().every(function () {
+                        // If row has details expanded
+                        if (this.child.isShown()) {
+                            // Collapse row details
+                            this.child.hide();
+                            $(this.node()).removeClass('shown');
+                        }
+                    });
+                    row.child(tablebranch(row.data())).show();
+                    row.child(formatbranch(row.data())).show();
+                    tr.addClass('shown');
+                }
+
+            });
+
+        });
+
+        function tablebranch(d) {
+            //var coba = d.Branch_Id;
+            //alert("ok" + coba);
+
+            var html = '<table class="table table-bordered" id="table-master-coba">' +
+                '<thead>' +
+                '<tr>' +
+                '<td>Nama Department</td>' +
+                '<td>Action</td>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody></tbody>' +
+                '</table>';
+            var html2 = '<div class="row ">' +
+                '<div class="col-md-12">' +
+
+                '<button id="tambah" class="btn btn-xs btn-warning" onclick="addDeptBranch(' + d.Branch_Id + ')" type="submit">Tambah Department</button>' +
+
+                '</div>' +
+                '</div>';
+            html3 = html2 + html;
+            return html3;
+            //return html;
+        }
+
+        function NewItemBranch() {
+            $("#modal-create-branch").modal('show');
+        }
+
+        function submitCreateBranch() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var kodebranch = $("#kodebranch").val();
+            var namabranch = $("#namabranch").val();
+            var provbranch = $("[name=ProvinsiBranch]").val();
+            var url = "api/ReferenceData/AddBranch"
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                contentType: "application/json",
+                headers: headers,
+                data: JSON.stringify({
+                    Branch_Code: kodebranch,
+                    Branch_Name: namabranch,
+                    Prov_Id: provbranch
+                }),
+                success: function (data) {
+                    $("#modal-create-branch").modal('hide');
+                    table_list_branch.ajax.reload();
+
+                    // tampilkan response dengan aman
+                    alert(data.message || data);
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+
+        }
+
+        function editItemBranch(id) {
+            $("#modal-edit-branch").modal('show');
+            GetEditBranch(id);
+        }
+
+        function GetEditBranch(id) {
+
+            $.getJSON("/api/ReferenceData/EditBranch?id=" + id, null, function (data) {
+			data = DOMPurify.sanitize(data);
+
+                $("input[name=id]").val(data.Branch_Id);
+                $("input[name=kodebranch]").val(data.Branch_Code);
+                $("input[name=namabranch]").val(data.Branch_Name);
+                $("[name=ProvinsiBranch]").val(data.FK_Prov_Id);
+
+            });
+
+        }
+
+        function submitEditBranch() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var arrData = {
+                Branch_Id: $("#modal-edit-branch #id").val(),
+                Branch_Code: $("#modal-edit-branch #kodebranch").val(),
+                Branch_Name: $("#modal-edit-branch #namabranch").val(),
+                FK_Prov_Id: $("#modal-edit-branch #listProvinsiEditBranch").val()
+            };
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "Api/ReferenceData/SaveEditBranch",
+                //data: { code: kode, nama: nama, deskripsi: deskripsi },
+                data: JSON.stringify(arrData),
+                //data: arrData,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: headers,
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+                    alert('Berhasil Di Edit');
+                    $('#modal-edit-branch').modal('hide');
+                    // $("#exampleModal").hide();
+                    table_list_branch.ajax.reload();
+                }
+            });
+
+        }
+
+        function deleteItemBranch(id) {
+            $("#modal-delete-branch").modal('show');
+            $("#modal-delete-branch #idToDelete").val(id);
+            var id = parseInt($("#modal-delete-branch #idToDelete").val());
+            //alert('id nya' + id);
+        }
+
+        function submitDeleteBranch() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var id = parseInt($("#modal-delete-branch #idToDelete").val());
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: "api/ReferenceData/DeleteBranch",
+                method: "POST", // ⬅️ penting
+                headers: headers,
+                contentType: "application/json",
+                data: JSON.stringify({ id: id }), // ⬅️ kirim di body
+                success: function (data) {
+
+                    // handle response object / string
+                    if (typeof data === "object") {
+                        alert(data.message);
+                    } else {
+                        alert(DOMPurify.sanitize(data));
+                    }
+
+                    $("#modal-delete-branch").modal('hide');
+                    table_list_branch.ajax.reload();
+                },
+                error: function (xhr) {
+                    if (xhr.status === 404) {
+                        alert("Data tidak ditemukan");
+                    } else {
+                        alert("Terjadi kesalahan");
+                    }
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        /*=================================================================================================================================================================================================================================*/
+
+        var table_coba_branch;
+
+        function formatbranch(d) {
+            //alert("masuk");
+            var brenc = d.Branch_Id;
+            //alert("id" + brenc);
+
+            table_coba_branch = $('#table-master-coba').DataTable({
+                "ajax": 'api/ReferenceData/GetTblBranchDepartment?Id=' + brenc,
+                "columns": [
+                    { "data": "FK_Department_Id" },
+                    { "data": "null", "width": "7%" }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:editDeptBranch(' + row.Branch_Id + ' , ' + row.Department_Id + ')" rowDept="' + row.Department_Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                '<a href="javascript:deleteDeptBranch(' + row.Id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            /*'<a href="javascript:addDeptBranch(' + row.Branch_Id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-success add" title="Add"><span class="fa fa-plus"></span></a> ' +*/
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    }
+                ],
+                "order": [[0, "asc"]],
+                "dom": '<"toolbar">frtip',
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+
+        }
+
+        function addDeptBranch(id) {
+            //alert("id" + id);
+            $("#modal-create-branchdept").modal('show');
+            $("#modal-create-branchdept #idToCreate").val(id);
+            var id = $("#modal-create-branchdept #idToCreate").val();
+        }
+
+        function submitDeptBranch() {
+            var branchid = $("#modal-create-branchdept #idToCreate").val();
+            //alert("id " + branchid);
+            var deptbranch = $("[name=DepartmentBranch]").val();
+            var url = "api/ReferenceData/AddDepartmentBranch"
+            $.ajax({
+                url: url,
+                data: { Branch_Id: branchid, Department_Id: deptbranch },
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+                    $("#modal-create-branchdept").modal('hide');
+                    table_coba_branch.ajax.reload();
+                    alert(data);
+                },
+                complete: function () {
+                    table_coba_branch.ajax.reload();
+                }
+            });
+
+        }
+
+        function editDeptBranch(idbranch, iddept) {
+            //alert("id" + idbranch);
+            //alert("id" + iddept);
+            $("#modal-edit-branchdept").modal('show');
+            GetEditDeptBranch(idbranch, iddept);
+        }
+
+        function GetEditDeptBranch(idbranch, iddept) {
+            //alert("id" + idbranch);
+            //alert("id" + iddept);
+            $.getJSON("/api/ReferenceData/EditDepartmentBranch?idbranch=" + idbranch + "&iddept=" + iddept, null, function (data) {
+			data = DOMPurify.sanitize(data);
+
+                $("input[name=id]").val(data.Id);
+                $("[name=EditDepartmentBranch]").val(data.FK_Department_Id);
+
+            });
+
+        }
+
+        function submitEditDeptBranch() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var arrData = {
+                Id: $("#modal-edit-branchdept #id").val(),
+                FK_Department_Id: $("#modal-edit-branchdept #listEditDepartmentBranch").val()
+            };
+
+            console.log(arrData);
+
+            $.ajax({
+                method: "POST",
+                url: "Api/ReferenceData/SaveEditDepartmentBranch",
+                //data: { code: kode, nama: nama, deskripsi: deskripsi },
+                data: JSON.stringify(arrData),
+                //data: arrData,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+                    alert('Berhasil Di Edit');
+                    $("#modal-create-branchdept").modal('hide');
+                    // $("#exampleModal").hide();
+                    table_coba_branch.ajax.reload();
+                }
+            });
+
+        }
+
+        function deleteDeptBranch(id) {
+            $("#modal-delete-branchdept").modal('show');
+            $("#modal-delete-branchdept #idToDelete").val(id);
+            var id = $("#modal-delete-branchdept #idToDelete").val();
+            //alert('id nya' + id);
+        }
+
+        function submitDeleteDeptBranch() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var id = parseInt($("#modal-delete-branchdept #idToDelete").val());
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: "api/ReferenceData/DeleteDepartmentBranch",
+                method: "POST",
+                headers: headers,
+                contentType: "application/json",
+                data: JSON.stringify({ id: id }),
+                success: function (data) {
+
+                    if (typeof data === "object") {
+                        alert(data.message);
+                    } else {
+                        alert(DOMPurify.sanitize(data));
+                    }
+
+                    $("#modal-delete-branchdept").modal('hide');
+                    table_coba_branch.ajax.reload();
+                },
+                error: function (xhr) {
+                    if (xhr.status === 404) {
+                        alert("Data tidak ditemukan");
+                    } else {
+                        alert("Terjadi kesalahan");
+                    }
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        function SetListProvinsi(el) {
+            $.ajax({
+                url: "/api/ReferenceData/GetAllProvinsi",
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+				if(data){
+                    for (var i in data) {
+                        $(el).append("<option value='" + data[i].id + "'>" + data[i].Name + "</option>");
+                    }
+				}
+                }
+            });
+        }
+
+        function SetListDepartment(el) {
+            $.ajax({
+                url: "/api/ReferenceData/GetAllDepartment",
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+				if(data){
+                    for (var i in data) {
+                        $(el).append("<option value='" + data[i].Department_Id + "'>" + data[i].Department_Name + "</option>");
+                    }
+                }
+                }
+            });
+        }
+
+        $(function () {
+            SetListProvinsi("#listProvinsiBranch");
+            SetListProvinsi("#listProvinsiEditBranch");
+            SetListProvinsi("#listProvinsiDepartment");
+            SetListProvinsi("#listProvinsiEditDepartment");
+            SetListDepartment("#listDepartmentBranch");
+            SetListDepartment("#listEditDepartmentBranch");
+        });
+
+        /*=================================================================================================================================================================================================================================*/
+
+        $(function () {
+            table_list = $('#table-master-department').DataTable({
+                "ajax": 'api/ReferenceData/GetTblDepartment',
+                "columns": [
+                    //{ "data": "Branch_Id" },
+                    { "data": "Department_Code" },
+                    { "data": "Department_Name" },
+                    { "data": "null", "width": "7%" }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
+                        },
+                        "targets": 0,
+                        "orderable": true
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:editItemDepartment(' + row.Department_Id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                '<a href="javascript:deleteItemDepartment(' + row.Department_Id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                        },
+                        "targets": 2,
+                        "orderable": true
+                    }
+                ],
+                "order": [[1, "asc"]],
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+        });
+
+        function NewItemDepartment() {
+            $("#modal-create-department").modal('show');
+        }
+
+        function submitCreateDepartment() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var kodedepartment = $("#kodedepartment").val();
+            var namadepartment = $("#namadepartment").val();
+            //var provdepartment = $("[name=ProvinsiDepartment]").val();
+            var url = "api/ReferenceData/AddDepartment"
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: url,
+                method: "POST",
+                contentType: "application/json",
+                headers: headers,
+                data: JSON.stringify({
+                    Department_Code: kodedepartment,
+                    Department_Name: namadepartment
+                }),
+                success: function (data) {
+                    $("#modal-create-department").modal('hide');
+                    table_list.ajax.reload();
+
+                    // tampilkan response dengan aman
+                    alert(data.message || data);
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+
+        function editItemDepartment(id) {
+            $("#modal-edit-department").modal('show');
+            GetEditDepartment(id);
+        }
+
+        function GetEditDepartment(id) {
+
+            $.getJSON("/api/ReferenceData/EditDepartment?id=" + id, null, function (data) {
+			    data = DOMPurify.sanitize(data);
+
+                $("input[name=id]").val(data.Department_Id);
+                $("input[name=kodedepartment]").val(data.Department_Code);
+                $("input[name=namadepartment]").val(data.Department_Name);
+
+            });
+
+        }
+
+        function submitEditDepartment() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var arrData = {
+                Department_Id: $("#modal-edit-department #id").val(),
+                Department_Code: $("#modal-edit-department #kodedepartment").val(),
+                Department_Name: $("#modal-edit-department #namadepartment").val()
+            };
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "Api/ReferenceData/SaveEditDepartment",
+                //data: { code: kode, nama: nama, deskripsi: deskripsi },
+                data: JSON.stringify(arrData),
+                //data: arrData,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                headers: headers,
+                success: function (data) {
+				data = DOMPurify.sanitize(data);
+                    alert('Berhasil Di Edit');
+                    $('#modal-edit-department').modal('hide');
+                    // $("#exampleModal").hide();
+                    table_list.ajax.reload();
+                }
+            });
+
+        }
+
+        function deleteItemDepartment(id) {
+            $("#modal-delete-department").modal('show');
+            $("#modal-delete-department #idToDelete").val(id);
+            var id = $("#modal-delete-department #idToDelete").val();
+            //alert('id nya' + id);
+        }
+
+        function submitDeleteDepartment() {
+
+            if (!csrfToken) {
+                alert("CSRF token belum siap, refresh halaman");
+                return;
+            }
+
+            var id = parseInt($("#modal-delete-department #idToDelete").val());
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            $.ajax({
+                url: "api/ReferenceData/DeleteDepartment",
+                method: "POST", // ⬅️ penting
+                headers: headers,
+                contentType: "application/json",
+                data: JSON.stringify({ id: id }),
+                success: function (data) {
+
+                    // kalau response object
+                    if (typeof data === "object") {
+                        alert(data.message);
+                    } else {
+                        alert(DOMPurify.sanitize(data));
+                    }
+
+                    $("#modal-delete-department").modal('hide');
+                    table_list.ajax.reload();
+                },
+                complete: function (xhr) {
+                    ajaxCompleteProcess(xhr);
+                }
+            });
+        }
+    </script>
+
+    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
+</body>
+
+</html>

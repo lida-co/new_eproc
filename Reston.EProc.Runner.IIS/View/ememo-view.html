@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <!--<link rel="stylesheet" href="plugins/select2/select2.min.css">-->
+    <!--<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="plugins/datatables/jquery.dataTablesNew.css">-->
+    <!--<link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css" />-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+
+
+    <![endif]-->
+
+    <link rel="stylesheet" href="dist/site.css" />
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel='stylesheet' href="quill/1.3.6/quill.snow.css" />
+    <style type="text/css">
+
+        .approval-box {
+            margin: 1em 0 1em 0;
+        }
+
+        .approval-box-row {
+            margin: .3em 0 1em 0;
+        }
+
+        .btn-approval-decission {
+            margin: 3px 7px 3px 0px;
+        }
+
+        .hand-cursor {
+            cursor: pointer;
+        }
+
+        .dropz::before {
+            content: "Drop file here to upload";
+            color: #000;
+            background-color: #fff;
+            padding: 5px 10px;
+            display: inline-block;
+            font-weight: 400;
+            border-radius: 5px;
+        }
+
+        .dropz {
+            min-height: 150px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            background: white;
+            padding: 20px 20px;
+        }
+
+        .chip {
+            overflow: hidden;
+            width: 120px;
+            height: 120px;
+            position: relative;
+            display: block;
+            z-index: 10;
+            border-radius: 20px;
+            background: linear-gradient(to bottom, #eee, #ddd);
+            font-size: 10px;
+        }
+
+        .fileupload-item-title {
+            font-weight: bold;
+            padding-top: 30px;
+        }
+
+        .remove-file {
+            margin-top: 8px;
+            margin-right: 35px;
+            font-size: 40px;
+            border-radius: 30px;
+            background-color: #fff;
+            width: 50px;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper" style="background-color:#ECF0F5;">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">E-Memo / View</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <ul id="menu-top" class="nav navbar-nav">
+                                <li>
+                                    <a id="btn-page-action-edit" class="btn-page-action-edit" title="Edit" href="#">
+                                        <i class="fa fa-fw fa-edit" style="font-size:20px;"></i>Edit
+                                    </a>
+                                </li>
+                            </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.nama"></p>
+                            <p class="deskripsi" ng-bind="user.divisi"></p>
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                        </div>
+                    </div>-->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <div class="col-md-10" style="padding-right: 0px;">
+
+                <section class="content" id="section-1">
+                    <div class="box box-primary box-white">
+                        <div class="box-header">
+                            <ul class="messages list-unstyled" style="margin-top:5px;">
+                            </ul>
+                        </div>
+                        <div class="box-body">
+                            <form id="ememo-create-form" role="form">
+                                <input name="EMemoId" id="EMemoId" type="hidden">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Nomor</label>
+                                        <div id="DocumentNo" class="form-control"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Unit Kerja</label>
+                                        <div id="WorkUnitName" class="form-control"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Nomor Ref. Internal</label>
+                                        <div id="InternalRefNo" class="form-control"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Perihal</label>
+                                        <div id="Subject" class="form-control"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Kepada</label>
+                                        <div id="Kepada" class="form-control"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Tembusan</label>
+                                        <div id="Tembusan" class="form-control"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">HPSAmount</label>
+                                        <div id="HPSAmount" class="form-control"></div>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <hr />
+                            <div class="row" style="min-height:600px">
+                                <div class="col-md-6">
+                                    <ul id="tabs" class="nav nav-tabs">
+                                        <li class="active" role="presentation">
+                                            <a id="main-tab" href="#main-tab-content" data-toggle="tab" aria-expanded="true">Isi</a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a id="approvals-tab" href="#approvals-tab-content" data-toggle="tab" aria-expanded="false">Approval &amp; Disposisi</a>
+                                        </li>
+                                        <!--<li role="presentation">
+                                            <a id="approvals-tab" href="#approvals-direksi-tab-content" data-toggle="tab" aria-expanded="false">Persetujuan Direksi</a>
+                                        </li>-->
+                                        <li role="presentation">
+                                            <a id="attachments-tab" href="#attachments-tab-content" data-toggle="tab" aria-expanded="false">Lampiran</a>
+                                        </li>
+                                    </ul>
+                                    <div id="tab-contents" class="tab-content">
+                                        <div id="main-tab-content" class="tab-pane active" role="tabpanel">
+                                            <div class="ememo-maindoc" style="margin-top:1em;">
+
+                                                <div class="row ememo-maindoc-editor">
+                                                    <div class="col-md-12" style="height:400px">
+                                                        <div id="eMemo-editor-toolbar"></div>
+                                                        <div id="eMemo-editor"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row ememo-maindoc-filechooser">
+                                                    <div class="col-md-12">
+                                                        <div class="file-chooser file-chooser-ememo-maindoc" data-max-items="1" data-max-size="2000000">
+                                                            <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                                            <div class="file-chooser-file-list"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div id="approvals-tab-content" class="tab-pane" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-12 approvals-tab-content-container">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div id="approvals-direksi-tab-content" class="tab-pane" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    x
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div id="attachments-tab-content" class="tab-pane" role="tabpanel" style="margin-top:1em;">
+
+                                            <label for="file-chooser-penawaran">Dokumen Penawaran</label>
+                                            <div id="file-chooser-penawaran" class="file-chooser file-chooser-penawaran" data-max-items="5" data-max-size="2000000">
+                                                <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                                <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
+                                            </div>
+
+                                            <label for="file-chooser-costbenef">Dokumen Analisa Cost &amp; Benefit</label>
+                                            <div id="file-chooser-costbenef" class="file-chooser file-chooser-costbenef" data-max-items="5" data-max-size="2000000">
+                                                <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                                <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
+                                            </div>
+
+                                            <label for="file-chooser-other">Dokumen Lain-lain</label>
+                                            <div class="file-chooser file-chooser-other" data-max-items="5" data-max-size="2000000">
+                                                <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                                <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section><!-- /.content -->
+
+
+
+            </div>
+
+            <div class="col-lg-2" style="padding-left: 0px;">
+
+
+                <section class="content" id="section-1" style="padding-left: 0px;padding-right: 0px;">
+                    <section class="box box-primary box-white">
+                        <div class="box-header">
+                            <b>Riwayat</b>
+
+                        </div>
+                        <div class="box-body" ng-controller="history">
+                            <ul class="products-list product-list-in-box" id="result">
+                            </ul>
+                        </div>
+
+                    </section>
+            </div>
+
+        </div>
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+    <!-- .interaction-blocker-modal -->
+    <div class="modal interaction-blocker-modal" id="interactionBlockerModal" role="dialog" aria-hidden="true" data-list-target-id="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sedang memuat...</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /.interaction-blocker-modal -->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="dist/js/purify.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="quill/1.3.6/quill.min.js"></script>
+    <script>
+        const EMEMO_EDIT_URL = 'ememo-edit.html';
+        const EMEMO_DETAIL_GET_URL = 'api/EMemo/Get';
+        const EMEMO_APPROVAL_WORKFLOW_DETAIL_GET_URL = 'api/EMemo/GetApprovalWorkflowDetail';
+        const EMEMO_APPROVAL_WORKFLOW_DETAIL_SEARCH_URL = 'api/EMemo/SearchApprovalWorkflowDetails';
+
+        var eMemoContentEditor;
+
+        $(document).ready(function () {
+
+            eMemoContentEditor = new Quill('#eMemo-editor', {
+                theme: 'snow',
+                readOnly: true,
+                modules: {
+                    toolbar: false
+                }
+            });
+
+            showProgressBar('#interactionBlockerModal');
+
+            new Promise((resolve, reject) => {
+                // Fetch EMemo detail
+                var q = parseQueryString();
+                if (!q.docId) return reject('Document Id is required');
+                $.ajax({
+                    url: EMEMO_DETAIL_GET_URL + '?docId=' + q.docId,
+                    method: 'GET',
+                    success: resolve,
+                    error: reject
+                });
+            }).then((data) => {
+                // Populate view using EMemo detail
+                if (!data.Detail) return Promise.reject(new Error("Unexpected data format"));
+                populateView(document, data.Detail);
+                return Promise.resolve(data);
+            }).then((data) => {
+                // Attach listeners here
+
+                // #btn-page-action-edit
+                $('#btn-page-action-edit').on('click', (e) => {
+                    const docId = data.Detail.Id;
+                    window.location.href = EMEMO_EDIT_URL + '?docId=' + docId;
+                });
+
+                // .file-chooser
+                $('.file-chooser').on('click', '.file-upload-item', (e) => {
+                    e.preventDefault();
+                    let fileChooserElem = $(this);
+                    let contentTitle = fileChooserElem.find('.fileupload-item-title').data('item-title');
+                    let contentType = fileChooserElem.find('.fileupload-item-content-type').html();
+                    let contentData = fileChooserElem.find('.fileupload-item-data-b64').html();
+
+                    downloadDocument(contentTitle, contentType, contentData);
+                    return false;
+
+                });
+
+            }).catch((err) => {
+                console.error(err)
+                showMessage('error', 'Gagal memuat dokumen.', true, '.messages', err);
+            }).finally(() => {
+                hideProgressBar('#interactionBlockerModal');
+            });
+
+        });
+
+
+        function createViewModel() {
+            let vm = {
+                Id: null,
+                DocumentNo: '',
+                DecissionNote: '',
+            };
+
+            return vm;
+
+        }
+
+        function populateViewModel(parent, viewModel) {
+            const root = parent == null ? $(document) : $(parent);
+            const vm = viewModel == null ? createViewModel() : viewModel;
+
+            vm.Id = root.find('input[name="EMemoId"]').val();
+            vm.DocumentNo = root.find('input[name="DocumentNo"]').val();
+            vm.DecissionNote = root.find('input[name="ApprovalDecissionNote"]').val();
+
+            return vm;
+        }
+
+        function populateView(parent, viewModel) {
+
+            const root = parent == null ? $(document) : $(parent);
+
+            root.find('input[name="EMemoId"]').val(viewModel.Id);
+            root.find('#DocumentNo').html(viewModel.DocumentNo);
+            root.find('#WorkUnitName').html(viewModel.WorkUnitName);
+            root.find('#InternalRefNo').html(viewModel.InternalRefNo);
+            root.find('#Subject').html(viewModel.Subject);
+            root.find('#Kepada').html(viewModel.Kepada);
+            root.find('#Tembusan').html(viewModel.Tembusan);
+            root.find('#HPSAmount').html(viewModel.HPSAmount);
+
+            if (viewModel.ContentType === 'text/html') {
+                if (eMemoContentEditor) {
+                    //eMemoContentEditor.setText(atob(viewModel.ContentData));
+                    eMemoContentEditor.root.innerHTML = atob(viewModel.ContentData);
+                }
+                root.find('.btn-maindoc-filechooser').removeClass('active');
+                root.find('.ememo-maindoc-filechooser').hide();
+                root.find('.btn-maindoc-editor').addClass('active');
+                root.find('.ememo-maindoc-editor').show();
+            } else {
+                root.find('.file-chooser-ememo-maindoc .file-chooser-file-list').empty();
+                root.find('.file-chooser-ememo-maindoc .file-chooser-file-list')
+                    .append(FileChooserFileItem(
+                        viewModel.ContentTitle,
+                        viewModel.ContentSize,
+                        viewModel.ContentType,
+                        viewModel.ContentData,
+                        true
+                    ));
+
+                root.find('.btn-maindoc-editor').removeClass('active');
+                root.find('.ememo-maindoc-editor').hide();
+                root.find('.btn-maindoc-filechooser').addClass('active');
+                root.find('.ememo-maindoc-filechooser').show();
+            }
+
+            if (viewModel.PenawaranAttachments && Array.isArray(viewModel.PenawaranAttachments)) {
+                const fileChooserFileListElem = root.find('.file-chooser-penawaran .file-chooser-file-list');
+                fileChooserFileListElem.empty();
+                viewModel.PenawaranAttachments.forEach(function (item) {
+                    fileChooserFileListElem.append(
+                        FileChooserFileItem(
+                            item.Name,
+                            item.Size,
+                            item.ContentType,
+                            item.Data,
+                            true
+                        )
+                    );
+                });
+            }
+
+            if (viewModel.CostBenefitAttachments && Array.isArray(viewModel.CostBenefitAttachments)) {
+                const fileChooserFileListElem = root.find('.file-chooser-costbenef .file-chooser-file-list');
+                fileChooserFileListElem.empty();
+                viewModel.CostBenefitAttachments.forEach(function (item) {
+                    fileChooserFileListElem.append(
+                        FileChooserFileItem(
+                            item.Name,
+                            item.Size,
+                            item.ContentType,
+                            item.Data,
+                            true
+                        )
+                    );
+                });
+            }
+
+            if (viewModel.OtherAttachments && Array.isArray(viewModel.OtherAttachments)) {
+                const fileChooserFileListElem = root.find('.file-chooser-other .file-chooser-file-list');
+                fileChooserFileListElem.empty();
+                viewModel.OtherAttachments.forEach(function (item) {
+                    fileChooserFileListElem.append(
+                        FileChooserFileItem(
+                            item.Name,
+                            item.Size,
+                            item.ContentType,
+                            item.Data,
+                            true
+                        )
+                    );
+                });
+            }
+
+            $('.approvals-tab-content-container').empty();
+            $('.approvals-tab-content-container').append($('<label>Validator</label>'));
+            if (viewModel.Validators && Array.isArray(viewModel.Validators)) {
+                const validators = viewModel.Validators;
+                const wfDetails = viewModel.ApprovalWorkflowDetails;
+
+                // enumerate reviewers
+                validators.forEach((item) => {
+
+                    let wfDetail = wfDetails ? wfDetails.find((wfdtl) =>
+                        wfdtl.ApproverUserId == item.PersonelUserId
+                        && wfdtl.ApproverRole == item.ParticipantRole) : null;
+
+                    let participantId = item.Id;
+                    let personelId = item.PersonelUserId;
+                    let personelName = item.PersonelFullName;
+                    let wfDetailId = wfDetail ? wfDetail.Id : '';
+                    let personelPosition = wfDetail && wfDetail.ApproverPersonelPosition ? wfDetail.ApproverPersonelPosition : '';
+                    let personelApprovalDecission = wfDetail && wfDetail.ApprovalDecission ? wfDetail.ApprovalDecission : '';
+                    let personelApprovalDecissionDate = wfDetail && wfDetail.ApprovalDecissionDate ? wfDetail.ApprovalDecissionDate : '';
+                    let personelApprovalNotes = wfDetail && wfDetail.ApprovalNotes ? wfDetail.ApprovalNotes : '';
+
+                    let decStr = isNullOrEmpty(personelApprovalDecission) ? '(belum ada tanggapan)' :
+                        personelApprovalDecission == 0 ? 'Disetujui' :
+                            personelApprovalDecission == 1 ? 'Ditolak' :
+                                personelApprovalDecission == 2 ? 'Disetujui dengan catatan' :
+                                    '(belum ada tanggapan)';
+
+                    $('.approvals-tab-content-container').append(
+                        ApprovalPanel(
+                            wfDetailId
+                            , personelName
+                            , personelPosition
+                            , decStr
+                            , personelApprovalDecissionDate
+                            , personelApprovalNotes
+                            , true
+                        )
+                    );
+                });
+            }
+
+            $('.approvals-tab-content-container').append($('<hr/>'));
+            $('.approvals-tab-content-container').append($('<label>Approver</label>'));
+            if (viewModel.Approvers && Array.isArray(viewModel.Approvers)) {
+                const approvers = viewModel.Approvers;
+                const wfDetails = viewModel.ApprovalWorkflowDetails;
+
+                // enumerate approvers
+                approvers.forEach((item) => {
+
+                    let wfDetail = wfDetails ? wfDetails.find((wfdtl) =>
+                        wfdtl.ApproverUserId == item.PersonelUserId
+                        && wfdtl.ApproverRole == item.ParticipantRole) : null;
+
+                    let participantId = item.Id;
+                    let personelId = item.PersonelUserId;
+                    let personelName = item.PersonelFullName;
+                    let wfDetailId = wfDetail ? wfDetail.Id : '';
+                    let personelPosition = wfDetail && wfDetail.ApproverPersonelPosition ? wfDetail.ApproverPersonelPosition : '';
+                    let personelApprovalDecission = wfDetail && wfDetail.ApprovalDecission ? wfDetail.ApprovalDecission : '';
+                    let personelApprovalDecissionDate = wfDetail && wfDetail.ApprovalDecissionDate ? wfDetail.ApprovalDecissionDate : '';
+                    let personelApprovalNotes = wfDetail && wfDetail.ApprovalNotes ? wfDetail.ApprovalNotes : '';
+
+
+                    let decStr = isNullOrEmpty(personelApprovalDecission) ? '(belum ada tanggapan)' :
+                        personelApprovalDecission == 0 ? 'Disetujui' :
+                            personelApprovalDecission == 1 ? 'Ditolak' :
+                                personelApprovalDecission == 2 ? 'Disetujui dengan catatan' :
+                                    '(belum ada tanggapan)';
+
+                    $('.approvals-tab-content-container').append(
+                        ApprovalPanel(
+                            wfDetailId
+                            , personelName
+                            , personelPosition
+                            , decStr
+                            , personelApprovalDecissionDate
+                            , personelApprovalNotes
+                            , true
+                        )
+                    );
+                });
+            }
+            // If this EMemo not editable, hide the edit button
+            if (viewModel.IsDraft != 1) {
+                $('#btn-page-action-edit').hide();
+            }
+        }
+
+
+        function isValidationResultEmpty(valResultObj) {
+            // Check if valResult is null or undefined
+            if (valResultObj === null || valResultObj === undefined) {
+                return true;
+            }
+
+            // Check if valResult has no properties
+            if (Object.keys(valResultObj).length === 0) {
+                return true;
+            }
+
+            // Check if all properties' arrays are empty
+            for (const property in valResultObj) {
+                if (valResultObj.hasOwnProperty(property) && Array.isArray(valResultObj[property]) && valResultObj[property].length > 0) {
+                    return false; // At least one non-empty array found
+                }
+            }
+
+            // If all properties' arrays are empty or undefined, valResult is considered empty
+            return true;
+        }
+
+        function highlighError(selector, msg) {
+            let elem = $(selector);
+            let formGroupElem = elem.closest('.form-group');
+            let message = '';
+            if (Array.isArray(msg)) {
+                message = msg.reduce((accumulator, currentValue) => {
+                    return accumulator + (', ' + currentValue);
+                }, '');
+            } else {
+                message = msg;
+            }
+            // remove leading comma
+            if (message.startsWith(', ')) message = message.slice(2);
+
+            let helpBlockElem = $('<span class="help-block">' + message + '</span>');
+            formGroupElem.find('.help-block').remove(); // remove any help-block element before adding
+            formGroupElem.append(helpBlockElem); // then add
+            formGroupElem.addClass('has-error'); // then highlight
+        }
+
+        // Utility Function
+        function isNullOrEmpty(value) {
+            return value === null || // Check for null
+                (typeof value === 'object' && Object.keys(value).length === 0) || // Check for an empty object
+                (typeof value === 'string' && value.trim().length === 0); // Check for an empty string
+        }
+
+        // Utility function
+        function parseQueryString() {
+            var queryString = window.location.search.slice(1);
+            var params = {};
+            queryString.split("&").forEach(function (pair) {
+                var parts = pair.split("=");
+                var key = decodeURIComponent(parts[0]);
+                var value = decodeURIComponent(parts[1] || "");
+
+                params[key] = value;
+            });
+            return params;
+        }
+
+        // UI Utility Function
+        function showMessage(msgType, msg, clear, selector, hiddenMsg) {
+            let className = '';
+            switch (msgType) {
+                case 'success':
+                    className = 'alert-success';
+                    break;
+                case 'info':
+                    className = 'alert-info';
+                    break;
+                case 'warning':
+                    className = 'alert-warning';
+                    break;
+                case 'danger':
+                case 'error':
+                    className = 'alert-danger';
+                    break;
+                default:
+                    className = 'alert-success';
+
+            }
+
+            let msgEl = $('<li><div class="alert alert-dismissible ' + className + '">'
+                + (hiddenMsg ? '<span class="hidden">' + hiddenMsg + '</span>' : '')
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+                + msg
+                + '</div></li>');
+
+            if (clear) {
+                $(selector).empty();
+            }
+            $(selector).append(msgEl);
+
+        }
+
+        // UI Utility Function
+        function showProgressBar(selector) {
+            $(selector).modal({
+                backdrop: 'static', // Prevent closing on outside click
+                keyboard: false // Prevent closing with keyboard
+            });
+        }
+
+        // UI Utility Function
+        function hideProgressBar(selector) {
+            $(selector).modal('hide');
+        }
+
+        // UI Component
+        function FileChooserFileItem(fileName, fileSize, fileContentType, fileDataB64, readOnly) {
+
+            const fileItemElem = $('<div class="file-upload-item hand-cursor"></div>');
+            const fileNameElem = $('<div class="chip fileupload-item-title" data-item-title="' + fileName + '">' + fileName + (readOnly ? '' : '<span class="close remove-file" aria-label="Close">&times;</span>') + '</div>');
+            const fileSizeElem = $('<div class="fileupload-item-size hidden">' + fileSize + '</div>');
+            const fileContentTypeElem = $('<div class="fileupload-item-content-type hidden">' + fileContentType + '</div>');
+            const fileDataB64Elem = $('<div class="fileupload-item-data-b64 hidden">' + fileDataB64 + '</div>');
+
+            fileItemElem.append(fileNameElem);
+            fileItemElem.append(fileSizeElem);
+            fileItemElem.append(fileContentTypeElem);
+            fileItemElem.append(fileDataB64Elem);
+
+            return fileItemElem;
+        }
+
+        function ApprovalPanel(approvalRequestId, personelName, personelPosition, approvalDecission, approvalDecissionDate, approvalNotes, readOnly) {
+            let comp = '<div data-approval-request-id="' + approvalRequestId + '" class="approval-box panel panel-info">'
+            comp += '<div class="container panel-body">';
+            if (readOnly) {
+                comp += '<div class="row approval-box-row">'
+
+                comp += '<div class="col-md-2"><label>Nama</label><div>' + personelName + '</div></div>';
+                //comp += '<div class="col-md-1">' + personelPosition + '</div>';
+                comp += '<div class="col-md-2"><label>Jawaban</label><div>' + approvalDecission + '</div></div>';
+                comp += '<div class="col-md-2"><label>Tanggal jawab</label><div>' + formatISODate(approvalDecissionDate) + '</div></div>';
+                comp += '</div>'
+                comp += '<div class="row approval-box-row">'
+                comp += '<div class="col-md-6">'
+                    + '<label>Disposisi</label>'
+                    + '<div class="form-control">'
+                    + approvalNotes
+                    + '</div>'
+                    + '</div>';
+                comp += '</div>'
+            } else {
+                comp += '<div class="row approval-box-row">'
+                comp += '<div class="form-group col-md-6 validatable">'
+                    + '<label for="ApprovalDecissionNote">Disposisi</label>'
+                    + '<input type="text" name="ApprovalDecissionNote" class="form-control input-approval-decission-note" maxlength="200">'
+                    + '</div>';
+                comp += '</div>'
+                comp += '<div class="row approval-box-row">'
+                comp += '<div class="col-md-6">'
+                    + '<label for="">Approval</label>'
+                    + '<div>'
+                    + '<button type="button" class="btn btn-primary btn-approval-decission btn-approval-decission-approve">Setujui</button>'
+                    + '<button type="button" class="btn btn-default btn-approval-decission btn-approval-decission-approve-notes">Lanjutkan dengan catatan</button>'
+                    + '<button type="button" class="btn btn-danger btn-approval-decission btn-approval-decission-reject">Tolak</button>'
+                    + '</div>'
+                    + '</div>';
+                comp += '</div>'
+            }
+            comp += '</div>';
+            comp += '</div>';
+
+            return $(comp);
+        }
+
+        function formatISODate(inputISODate) {
+            if (!inputISODate) return '';
+
+            const date = new Date(inputISODate);
+            const currentDate = new Date();
+
+            // Get date components
+            const year = date.getFullYear() === currentDate.getFullYear()
+                ? ''  // Don't include year if it's the current year
+                : date.getFullYear().toString().slice(-4); // Get last two digits of the year
+            const monthNameShort = date.toLocaleString('default', { month: 'short' }); // Get local month name
+            const month = ('0' + (date.getMonth() + 1)).slice(-2); // Get two-digit month
+            //const day = ('0' + date.getDate()).slice(-2); // Get two-digit day
+            const day = date.getDate() === currentDate.getDate() && date.getMonth() === currentDate.getMonth()
+                ? ''  // Don't include day if it's today
+                : ('0' + date.getDate()).slice(-2); // Get two-digit day
+            const hour = ('0' + date.getHours()).slice(-2); // Get two-digit hours
+            const minute = ('0' + date.getMinutes()).slice(-2); // Get two-digit minutes
+
+
+            // Format as 'YY-MM-DD'
+            //const formattedDate = `${day}-${monthNameShort}-${year} ${hour}:${minute}`;
+            const formattedDate = `${day ? ` ${day}-${monthNameShort}` : ''}${year ? ` ${year}` : ''} ${hour}:${minute}`;
+
+            return formattedDate;
+        }
+
+        // Utility function
+        function downloadDocument(contentTitle, contentType, contentDataBase64) {
+            var binaryData = atob(contentDataBase64);
+            var arrayBuffer = new ArrayBuffer(binaryData.length);
+            var uint8Array = new Uint8Array(arrayBuffer);
+            for (var i = 0; i < binaryData.length; i++) {
+                uint8Array[i] = binaryData.charCodeAt(i);
+            }
+            var blob = new Blob([arrayBuffer], { type: contentType });
+            var a = document.createElement("a");
+            a.href = window.URL.createObjectURL(blob);
+            a.download = contentTitle;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+    </script>
+
+    <script>
+
+        //$.ajax({
+        //    url: `/api/ememo/riwayatDokumen?Id=` + $("#EMemoId").val(),
+        //    method: "GET",
+        //    success: data => console.log("GET", data),
+        //    error: xhr => console.error(xhr.responseText)
+        //});
+        var q = parseQueryString();
+        $.ajax({
+            url: `/api/ememo/riwayatDokumen?Id=` + q.docId,
+            method: "GET",
+            success: function (data) {
+                const $list = $("#result").empty(); // kosongkan dulu
+
+                const items = Array.isArray(data) ? data : [data];
+
+                items.forEach(item => {
+                    const tgl = new Date(item.CreateDate)
+                        .toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
+
+                    // Buat <li> baru
+                    const $li = $("<li>");
+
+                    // Tambahkan teks tanggal dan konten
+                    $li.append(`${tgl} - ${item.Content}`);
+
+                    // Jika ada file_base64, buat link download
+                    if (item.AttactmentPenawaranFiles) {
+                        const byteCharacters = atob(item.AttactmentPenawaranFiles);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: item.AttactmentPenawaranType || "application/octet-stream" });
+                        const url = URL.createObjectURL(blob);
+
+                        const $downloadLink = $("<a>")
+                            .attr("href", url)
+                            .attr("download", item.AttactmentPenawaranFiles || "file")
+                            .text(item.AttactmentPenawaran);
+
+                        $li.append("<br> File Penawaran: ").append($downloadLink);
+                    }
+
+                    // Jika ada file_base64, buat link download
+                    if (item.AttachtmentAnalisaFile) {
+                        const byteCharacters = atob(item.AttachtmentAnalisaFile);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: item.AttachtmentAnalisaType || "application/octet-stream" });
+                        const url = URL.createObjectURL(blob);
+
+                        const $downloadLink = $("<a>")
+                            .attr("href", url)
+                            .attr("download", item.AttachtmentAnalisaFile || "file")
+                            .text(item.AttachtmentAnalisa);
+
+                        $li.append("<br> File Analisa: ").append($downloadLink);
+                    }
+
+                    // Jika ada file_base64, buat link download
+
+                    // Jika ada file_base64, buat link download
+                    if (item.AttachmentLampiranFile) {
+                        const byteCharacters = atob(item.AttachmentLampiranFile);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: item.AttachmentLampiranType || "application/octet-stream" });
+                        const url = URL.createObjectURL(blob);
+
+                        const $downloadLink = $("<a>")
+                            .attr("href", url)
+                            .attr("download", item.AttachmentLampiranFile || "file")
+                            .text(item.AttachmentLampiran);
+
+                        $li.append("<br> File Lampiran: ").append($downloadLink);
+                    }
+                    $li.append("<hr>");
+                    $list.append($li);
+                });
+            },
+            error: xhr => console.error(xhr.responseText)
+        });
+
+    </script>
+</body>
+</html>

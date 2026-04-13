@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <img src="Images/ajax-loader.gif" />
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+	<script src="dist/js/purify.js"></script>
+    <script src="site.js"></script>
+    <script>
+        //console.log("INDEX LOAD");
+
+        //var csrfToken = "";
+
+        //async function initCsrf() {
+        //    try {
+        //        const res = await fetch('/api/security/GetCsrfToken');
+        //        const data = await res.json();
+        //        csrfToken = data.csrfToken;
+
+        //        //console.log("CSRF TOKEN READY:", csrfToken);
+        //    } catch (e) {
+        //        console.error("Gagal ambil CSRF token", e);
+        //    }
+        //}
+
+        //$.ajaxSetup({
+        //    beforeSend: function (xhr) {
+        //        if (csrfToken) {
+        //            xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+        //        }
+        //    }
+        //});
+
+        $(function () {
+            //console.log("JQUERY READY");
+
+            initCsrf();
+
+            //console.log("TOKEN:", csrfToken);
+
+            cekLogin(1);
+        });
+    </script>
+</body>
+</html>

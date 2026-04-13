@@ -1,0 +1,374 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+
+
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+    <link href="dist/site.css" rel="stylesheet" />
+    <link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel="stylesheet" href="dropzone.css">
+    <style type="text/css">
+        .dz-error-mark {
+            display: none !important;
+        }
+
+        .dropzone {
+            min-height: 50px;
+        }
+
+            .dropzone .dz-message {
+                margin: 0em 0;
+                text-align: center;
+            }
+
+        form.jp-navbar-form {
+            padding-top: 3px;
+            padding-left: 50px;
+            margin: 0;
+        }
+
+        .clear-margin {
+            margin: 0 !important;
+            padding-top: 3px;
+            padding-left: 250px;
+        }
+
+        .bootstrap-datetimepicker-widget {
+            z-index: 100000000000000000000000000000 !important;
+        }
+
+        hr {
+            margin-top: 0;
+        }
+    </style>
+    <style>
+        #det {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #det td, #det th {
+                border: 1px solid #08205c;
+                padding: 8px;
+            }
+
+            #det tr:nth-child(odd) {
+                background-color: #f2f2f2;
+            }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper" id="section-1">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Pencarian Rekanan</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- <div class="user-panel" ng-controller="user">
+                         <div class="pull-left info">
+                             <p class="title" ng-bind="user.nama"></p>
+                             <p class="deskripsi" ng-bind="user.divisi"></p>
+                         </div>
+                         <div class="pull-right image image-profile">
+                             <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                         </div>
+                     </div>-->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <input type="hidden" id="spkId" />
+            <input type="hidden" id="pengadaanId" />
+            <input type="hidden" id="isPIC" />
+            <input type="hidden" id="isTEAM" />
+            <input type="hidden" id="isPersonil" />
+            <input type="hidden" id="State" />
+            <input type="hidden" id="StatusName" />
+            <input type="hidden" id="StatusTahapan" value="0" />
+            <input type="hidden" id="AturanPengadaan" />
+            <input type="hidden" id="AturanPenawaran" />
+            <input type="hidden" id="Pemenang" />
+            <input type="hidden" id="isPemenangApproved" />
+            <input type="hidden" id="CekAsuransi">
+            <input type="hidden" class="isinputpenawaran">
+            <input type="hidden" class="isinputklarifikasipenawaran">
+
+            <section class="content">
+                <!-- Default box -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-primary box-white">
+                            <div class="box-body ">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <th style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;"> .</th>
+                                                <th style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">List Rekanan</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form class="form-horizontal label-kanan">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Cari</label>
+                                                    <div class="col-sm-4">
+                                                        <input id="txtcari" type="text" class="form-control " placeholder="Nama / Nomor Rekanan">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Tipe Rekanan</label>
+                                                    <div class="col-sm-4">
+                                                        <select id="TipeVendor" class="form-control select2" style="width: 100%;">
+                                                            <option selected="selected" value="">ALL</option>
+                                                            <option value="1">Rekanan Lokal - Perusahaan</option>
+                                                            <option value="2">Rekanan Lokal - Perorangan</option>
+                                                            <option value="3">Principal</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Jenis Sanksi</label>
+                                                    <div class="col-sm-4">
+                                                        <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                                            <option selected="selected" value="">ALL</option>
+                                                            <option value="SV01">Tidak Ada Sanksi</option>
+                                                            <option value="SV02">Peringatan</option>
+                                                            <option value="SV04">Penalti</option>
+                                                            <option value="SV03">Blacklist</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div id="btn_1" class="row ">
+                                        <div class="col-md-12">
+                                            <div class="submitgray button-row">
+                                                <button type="submit" name="search-btn" id="search-btn" onclick="fungsicari()" class="btn btn-primary"><i class="fa fa-search"></i> Cari</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="tab-pic" style="overflow-x:auto;">
+                                        <table class="table table-bordered" id="table-pencarian-rekanan">
+                                            <thead>
+                                                <tr>
+                                                    <td class="tengah text-bold">Nama Rekanan</td>
+                                                    <td class="tengah text-bold">Nomor Pendaftaran</td>
+                                                    <td class="tengah text-bold">Tipe Rekanan</td>
+                                                    <td class="tengah text-bold">Status Sanksi</td>
+                                                    <td class="tengah text-bold">Action</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div>
+
+
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+    
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/JQueryValidation/jquery.validate.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+
+    <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
+    <script src="dist/site.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+    <!--<script src="plugins/datepicker/bootstrap-datepicker.js"></script>-->
+    <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <!--<script src="chatjs/chat.js"></script>-->
+    <script src="site.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <!--<script src="dist/js/penilaian-detail.js"></script>-->
+    <!--<script src="dist/js/penilaian-assesment.js"></script>-->
+    <script src="dist/js/menu.js"></script>
+    <script src="dist/js/workflow.js"></script>
+
+    <script>
+        cekLogin(0)
+
+        $(function () {
+            table_list = $('#table-pencarian-rekanan').DataTable({
+                "ajax": {
+                    "url": 'api/NilaiVendor/rekananPencarian',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = $("#klasifikasi").val();
+                        d.tipe = $("#TipeVendor").val();
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NamaVendor" },
+                    { "data": "NomorVendor" },
+                    { "data": "TipeVendor" },
+                    { "data": "StatusSanksi" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (row.StatusSanksi == "SV01") {
+                                return '<span class="label label-success" style="font-size:small;">No Warning</span>';
+                            }
+                            else if (row.StatusSanksi == "SV02") {
+                                return '<span class="label label-warning" style="font-size:small;">Warning</span>';
+                            }
+                            else if (row.StatusSanksi == "SV04") {
+                                return '<span class="label label-danger" style="font-size:small;">Penalty</span>';
+                            }
+                            else if (row.StatusSanksi == "SV03") {
+                                return '<span class="label label-default" style="font-size:small;">Blacklist</span>';
+                            }
+                        },
+                        "targets": 3,
+                        //"orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (row.TipeVendor == "1") {
+                                return '<p>Rekanan Lokal - Perusahaan</p>';
+                            }
+                            else if (row.TipeVendor == "2") {
+                                return '<p>Rekanan Lokal - Perorangan</p>';
+                            }
+                            else if (row.TipeVendor == "3") {
+                                return '<p>Principal</p>';
+                            } else if (row.TipeVendor == "") {
+                                return '<p></p>';
+                            }
+                        },
+                        "targets": 2,
+                        //"orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            //return '<a class="btn btn-sm btn-warning" id="" onclick="create(\'' + row.Id + '\')">Buat</a>';
+                            return '<a href="rekanan-detail-v2.html?id=' + row.IdVendor + '" target="_blank" id="" class="btn btn-sm btn-primary "> Lihat </a>';
+                            
+                        },
+                        "targets": 4,
+                        //"orderable": false
+                    },
+                ],
+                "serverSide": true,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+        });
+
+        function fungsicari() {
+            table_list.draw();
+        }
+
+    </script>
+</body>
+</html>

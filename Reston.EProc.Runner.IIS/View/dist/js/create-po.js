@@ -1,0 +1,659 @@
+﻿//var Id = DOMPurify.sanitize(gup("id", window.location.href));
+
+var rawId = gup("id", window.location.href);
+var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
+var Id = encodeURIComponent(safeId);
+
+var tableitem;
+
+$(function () {
+    //$("#pengadaanId").val(PengadaanId);
+    //$("#VendorId").val(VendorId);
+    //console.log("id Po nya: " + Id);
+    if (Id != "" && Id != null) {
+        loadDetail(Id);
+    }
+    else {
+        SetListBank("");
+        SetListVendor("");
+        SetListVendor2("");
+    }
+    //if ($("#Id").val() != "" && (Id == null || Id == "")) loadDetail($("#Id").val());
+       //window.location.href("http://" + window.location.host + "/pks.html");
+
+    $("#HapusFile").on("click", function () {
+        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
+        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        $.ajax({
+            method: "POST",
+            url: "Api/PO/deleteDokumenPO?Id=" + FileId
+        }).done(function (data) {
+            if (DOMPurify.sanitize(data.Id) == "1") {
+                    $.each(myDropzonePO.files, function (index, item) {
+                        var id = 0;
+                        if (DOMPurify.sanitize(item.Id) != undefined) {
+                            id = DOMPurify.sanitize(item.Id);
+                        }
+                        else {
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                        }
+
+                        if (id == FileId) {
+                            myDropzonePO.removeFile(item);
+                        }
+                    });
+                }            
+            $("#konfirmasiFile").modal("hide");
+        });
+    });
+
+    var myDropzonePO = new Dropzone("#DOKPO",
+             {
+                 maxFilesize: 10,
+                 acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
+                 accept: function (file, done) {
+                     this.options.url = $("#DOKPO").attr("action") + "?id=" + $("#Id").val();
+                     done();
+                 },
+                 init: function () {
+                     this.on("addedfile", function (file) {
+                         file.previewElement.addEventListener("click", function () {
+                             var id = 0;
+                             if (file.Id != undefined)
+                                 id = file.Id;
+                             else
+                                 id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                             $("#HapusFile").show();
+                             $("#konfirmasiFile").attr("attr1", "PKS");
+                             $("#konfirmasiFile").attr("FileId", id);
+                             $("#konfirmasiFile").modal("show");
+                         });
+                     });
+
+                     this.on("error", function (file) {
+                         myDropzonePO.removeFile(file);
+                     });
+                     this.on("success", function (file, responseText) {
+                         if (responseText == "00000000-0000-0000-0000-000000000000" || responseText == null) {
+                             myDropzonePO.removeFile(file);
+                         }
+                     });
+                 }
+             }
+         );
+
+    renderDokumenDropzone(myDropzonePO, "DOKPO");
+    Dropzone.options.DOKPO = false;
+});
+
+$(function () {
+    // $("#bingkai-upload-legal").hide();
+    //if (Id != "" && Id != null) loadDetail(Id);
+
+    var idValue = $("#Id").val();
+    idValue = DOMPurify.sanitize(idValue, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
+
+    if (idValue !== "" && (Id == null || Id === "")) {
+        Id = idValue;
+    }
+
+    if (!/^[a-zA-Z0-9-]+$/.test(Id)) {
+        console.error("Invalid ID format");
+        return;
+    }
+
+
+    //if ($("#Id").val() != "" && (Id == null || Id == "")) Id = $("#Id").val();
+    tableitem = $('#table-podetail').DataTable({
+        "serverSide": true,
+        "searching": false,
+        "ajax": {
+            "url": 'api/PO/ListItem',
+            "type": 'POST',
+            "data": function (d) {
+                d.PoId = Id;
+                d.search = "";
+            }
+        },
+        "columns": [
+            { "data": "Kode", "width": "5%" },
+            { "data": "NamaBarang", "width": "40%" },
+            { "data": "Banyak", "width": "10%" },
+            { "data": "Satuan", "width": "10%" },
+            { "data": null,"width": "5%"  },
+            { "data": null, "width": "10%" },
+            { "data": "Keterangan", "width": "20%" },
+            { "data": null, "width": "15%" },
+            { "data": null,"width":"15%" }
+        ],
+        "columnDefs": [
+            {
+                "render": function (data, type, row) {
+                    return accounting.formatNumber(row.Banyak, { thousand: ".", decimal: ",", precision: 2 });
+                },
+
+                "targets": 2,
+                "orderable": false
+            },
+            {
+                "render": function (data, type, row) {
+                    return accounting.formatNumber(row.Harga , { thousand: ".", decimal: ",", precision: 2 });
+                },
+
+                "targets": 4,
+                "orderable": false
+            },
+            {
+                "render": function (data, type, row) {
+                    return accounting.formatNumber(row.Harga * row.Banyak, { thousand: ".", decimal: ",", precision: 2 });
+                },
+
+                "targets": 5,
+                "orderable": false
+            },
+            {
+                "render": function (data, type, row) {
+                    if (data.Pph == 1) {
+                        return "<p><i class='fa fa-check-square-o'></i></p>";
+                    } else {
+                        return "<p><i class='fa fa-square-o'></i></p>";
+                    }
+                    //return "<p><i class='fa fa-square-o'></i></p>";
+                },
+
+                "targets": 7,
+                "orderable": false
+            },
+            {
+                "render": function (data, type, row) {
+                    var objData = JSON.stringify(row);
+                    return "<a attrData='" + objData + "' class='btn btn-success btn-sm edit-item '>Edit </a> <a attrId='" + row.Id + "' class='btn btn-danger btn-sm delete-item '>Delete </a>";
+                },
+
+                "targets": 8,
+                "orderable": false
+            }
+        ],
+        "paging": true,
+        "lengthChange": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+    });
+});
+
+//$(function () {
+//    $("#Vendor").change(function () {
+//        var nv = $("#Vendor").val();
+//        int xx = $("#atas-nama").val();
+//        //console.log("a" + nv);
+//        if (nv == null) {
+//           alert('hmm');
+//        }
+//        else {
+//           alert('haha');
+//        }
+
+$(function () {
+    $(".add-item").on("click", function () {
+        $('input[name=item-pph]').prop("checked", false);
+        document.getElementById("itemId").value = "";
+        if (!$("#Id").val().trim()) {
+            BootstrapDialog.show({
+                title: 'Konfirmasi',
+                message: 'Harap Simpan Dahulu PO!',
+                buttons: [{
+                    label: 'Close',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+        }
+        else {
+            clear()
+            $("#item-modal").modal("show");
+        }
+    });
+
+    $(".close-item-form").on("click", function () {
+        $("#Id").val("");
+    });
+
+    $("#table-podetail").on("click", ".pilih-pks", function () {
+        var obj = jQuery.parseJSON($(this).attr("obj"));       
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $("#judul").val(obj.Judul);
+        $("#no-pengadaan").val(obj.NoPengadaan);
+        $("#no-spk").val(obj.NoSpk);
+        $("#no-pks").val(obj.NoPks);
+        $("#pelaksana").val(obj.Vendor);
+        $("#PemenangPengadaanId").val(obj.PemenangPengadaanId);
+        $("#pks_modal").modal("hide");
+        $("#pksId").val(obj.Id);
+        waitingDialog.hideloading();
+    });
+
+    $(".Simpan").on("click", function () {
+        var data = {};
+        data.Id = $("#Id").val();
+        data.Prihal = $("#prihal").val();
+        data.Vendor = $("#idVendor").val();
+        data.NoPO = $("#no-po").val();
+        data.TanggalPOstr = moment($("#tanggal-po").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.TanggalDOstr = moment($("#tanggal-do").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.TanggalInvoicestr = moment($("#tanggal-invoice").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.TanggalFinancestr = moment($("#tanggal-kirim-finance").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.NilaiPO = $("#nilai-po-hidden").val();
+        data.UP = $("#up").val();
+        data.PeriodeDaristr = moment($("#periode-dari").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.PeriodeSampaistr = moment($("#periode-sampai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
+        data.NamaBank = $("[name='BankInfo.Nama']").val();
+        data.AtasNama = $("#atas-nama").val();
+        data.NoRekening = $("#no-rekening").val();
+        data.AlamatPengirimanBarang = $("#alamat-pengiriman-barang").val();
+        data.UPPengirimanBarang = $("#up-pengiriman-barang").val();
+        data.TelpPengirimanBarang = $("#telp-pengiriman-barang").val();
+        data.AlamatKwitansi = $("#alamat-kwitansi").val();
+        data.NPWP = $("#npwp").val();
+        data.AlamatPengirimanKwitansi = $("#alamat-pengiriman-kwitansi").val();
+        data.UPPengirimanKwitansi = $("#up-pengiriman-kwitansi").val();
+        data.Ttd1 = $("#ttd1").val();
+        data.Ttd2 = $("#ttd2").val();
+        data.Ttd3 = $("#ttd3").val();
+        data.Discount = $("#discount").val();
+        if ($('#ppn').is(':checked')) 
+            data.ppn = 10;
+        else 
+            data.ppn = 0;
+        data.pph = $("#pph").val();
+        data.keterangan = $("#keterangan").val();
+        save(data);
+    });   
+
+    $(".Hapus").on("click", function () {
+        waitingDialog.showloading("Proses Harap Tunggu");
+        $.ajax({
+            url: "Api/PO/delete?Id=" + $("#Id").val(),
+            method: "POST",
+        }).done(function (data) {
+            window.location.replace("http://" + window.location.host + "/PO.html");
+            waitingDialog.hideloading();
+        });
+
+    });
+    
+    $(".date").datetimepicker({
+        format: "DD MMMM YYYY",
+        locale: 'id',
+        useCurrent: true,
+    });
+
+    $("#banyak").on("change", function () {
+        if (parseFloat($("#banyak").val()) > 0 && parseFloat($("#harga").val()) > 0) {
+            $("#jumlah").val(parseFloat($("#banyak").val()) * parseFloat($("#harga").val()));
+        }
+    });
+    $("#harga").on("change", function () {
+        if (parseFloat($("#banyak").val()) > 0 && parseFloat($("#harga").val()) > 0) {
+            $("#jumlah").val(parseFloat($("#banyak").val()) * parseFloat($("#harga").val()));
+        }
+    });
+});
+
+$(function () {
+    //edit-item
+    $(".save-item").on("click", function () {
+        var data = {};
+        var pph;
+        if ($('input[name=item-pph]').prop("checked") == true) {
+            //$("#item-pph").val(1);
+            pph = '1';
+            //alert("true" + pph);
+        }
+        if ($('input[name=item-pph]').prop("checked") == false) {
+            //$("#item-pph").val(0);
+            pph = '0';
+            //alert("false" + pph);
+        }
+        if ($("#itemId").val() != "") data.Id = $("#itemId").val();
+        data.POId = $("#Id").val();
+        data.NamaBarang = $("#nama-barang").val();
+        data.Kode = $("#kode").val();
+        data.Banyak = $("#banyak").val();
+        data.Satuan = $("#satuan").val();
+        data.Harga = $("#harga").val();
+        data.Keterangan = $("#keterangan").val();
+        data.Pph = pph;
+        saveItem(data);
+
+    });
+
+    $("#table-podetail").on("click", ".edit-item", function () {
+        var data = jQuery.parseJSON($(this).attr("attrData"));
+        //alert("harga nya " + (data.Banyak * data.Harga));
+        if (data.Pph == 1) {
+            //alert("Hidup");
+            $('input[name=item-pph]').prop("checked", true);
+        }
+        if (data.Pph == 0 || data.Pph == null ) {
+            //alert("Mati");
+            $('input[name=item-pph]').prop("checked", false);
+        }
+        $("#itemId").val(DOMPurify.sanitize(data.Id));
+        $("#nama-barang").val(DOMPurify.sanitize(data.NamaBarang));
+        $("#kode").val(DOMPurify.sanitize(data.Kode));
+        $("#banyak").val(DOMPurify.sanitize(data.Banyak));
+        $("#satuan").val(DOMPurify.sanitize(data.Satuan));
+        $("#harga").val(DOMPurify.sanitize(data.Harga));
+        $("#jumlah").val(DOMPurify.sanitize(data.Banyak) * DOMPurify.sanitize(data.Harga));
+        $("#keterangan").val(DOMPurify.sanitize(data.Keterangan));
+        $("#item-modal").modal("show");
+    });
+
+    $("#table-podetail").on("click",".delete-item", function () {
+        deleteItem($(this).attr("attrId"));
+    });
+
+    $(".ge-no-po").on("click", function () {
+        generateNoPO();
+    });
+
+    $("#downloadFile").on("click", function () {
+        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+
+        downloadFileUsingForm("/api/PO/OpenFile?Id=" + FileId);
+    });
+    //downloadFileUsingForm("/api/report/BerkasAanwzjing?Id=" + $("#pengadaanId").val());
+});
+
+function SetListBank(namabank) {
+    //console.log("SetListBank");
+    //alert("aw");
+    $.ajax({
+        url: "/api/ReferenceData/GetAllBank",
+        success: function (data) {
+			//data = DOMPurify.sanitize(data);
+            for (var i in data) {
+                if (namabank == DOMPurify.sanitize(data[i].Name)) {
+                    $("[name='BankInfo.Nama']").append("<option value='" + DOMPurify.sanitize(data[i].Name) + "' selected>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                }
+                else {
+                    $("[name='BankInfo.Nama']").append("<option value='" + DOMPurify.sanitize(data[i].Name) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                }
+            }
+        }
+    });
+}
+
+function loadDetail(Id) {
+    //alert("hmm");
+    $.ajax({
+        url: "Api/PO/detail?Id=" + Id
+    }).done(function (data) {
+		//data = DOMPurify.sanitize(data);
+        $("#Id").val(data.Id);
+        $("#prihal").val(data.Prihal);
+        $("#idVendor").val(data.Vendor);
+        $("#no-po").val(data.NoPO);
+        $("#tanggal-po").val(moment(data.TanggalPO).format("DD MMMM YYYY"));
+        $("#tanggal-do").val(moment(data.TanggalDO).format("DD MMMM YYYY"));
+        $("#tanggal-invoice").val(moment(data.TanggalInvoice).format("DD MMMM YYYY"));
+        $("#tanggal-kirim-finance").val(moment(data.TanggalFinance).format("DD MMMM YYYY"));
+        $("#nilai-po-hidden").val(data.NilaiPO);
+        $("#nilai-po").val(accounting.formatNumber(data.NilaiPO, { thousand: ".", decimal: ",", precision: 2 }));
+        $("#up").val(data.UP);
+        $("#periode-dari").val(moment(data.PeriodeDari).format("DD MMMM YYYY"));
+        $("#periode-sampai").val(moment(data.PeriodeSampai).format("DD MMMM YYYY"));
+        $("#atas-nama").val(data.AtasNama);
+        $("#no-rekening").val(data.NoRekening);
+        $("#alamat-pengiriman-barang").val(data.AlamatPengirimanBarang);
+        $("#up-pengiriman-barang").val(data.UPPengirimanBarang);
+        $("#telp-pengiriman-barang").val(data.TelpPengirimanBarang);
+        $("#alamat-kwitansi").val(data.AlamatKwitansi);
+        $("#npwp").val(data.NPWP);
+        $("#alamat-pengiriman-kwitansi").val(data.AlamatPengirimanKwitansi);
+        $("#up-pengiriman-kwitansi").val(data.UPPengirimanKwitansi);
+        $("#ttd1").val(data.Ttd1);
+        $("#ttd2").val(data.Ttd2);
+        $("#ttd3").val(data.Ttd3);
+        $("#discount").val(data.Discount);
+        if (data.PPN != "")
+            $("#ppn").attr("checked", true);
+        $("#pph").val(data.PPH);
+        SetListBank(data.NamaBank);
+        SetListVendor(data.Vendor);
+        //SetListVendor2(data.Vendor);
+        if (data.PeriodeDari != null || data.PeriodeSampai != null) {
+            $("#hide-periode").attr("checked",true);
+            $("#hide-periode-sewa").show();
+        }
+        else if (data.PeriodeDari == null || data.PeriodeSampai == null)
+        {
+            $("#hide-periode").attr("checked",false);
+            $("#hide-periode-sewa").hide();
+        }
+        });
+}
+
+function renderDokumenDropzone(myDropzone) {
+    var rId = Id;
+    if ($("#Id").val() !== '') rId = $("#Id").val();
+    $.ajax({
+        url: "Api/PO/getDokumens?Id=" + rId,
+        success: function (data) {
+			//data = DOMPurify.sanitize(data);
+            for (var key in data) {
+                var file = {
+                    Id: data[key].Id, name: data[key].File, accepted: true,
+                    status: Dropzone.SUCCESS, processing: true, size: data[key].SizeFile
+                };
+                //thisDropzone.options.addedfile.call(thisDropzone, file);
+                myDropzone.emit("addedfile", file);
+                myDropzone.emit("complete", file);
+                myDropzone.files.push(file);
+            }
+        },
+        error: function (errormessage) {
+            //location.reload();
+        }
+    });
+}
+
+function save(po) {
+    //alert("duh");
+    //alert('etdah');
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        url: "Api/po/Save" ,
+        method: "POST",
+        data: po
+    }).done(function (data) {
+        //loadDetail(data.Id);
+        jawsReload(data.Id);
+        var msg = data.message;
+        waitingDialog.hideloading();
+        BootstrapDialog.show({
+            title: 'Infomasi',
+            message: msg,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+    });
+}
+
+function jawsReload(Id){
+    //alert("ini idnya " + Id);
+    loadDetail(Id);
+    window.location.href = "create-po.html?id=" + Id;
+}
+
+function saveItem(item) {
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        url: "Api/po/SaveItem",
+        method: "POST",
+        data: item
+    }).done(function (data) {
+        var msg = data.message;
+        waitingDialog.hideloading();
+        BootstrapDialog.show({
+            title: 'Infomasi',
+            message: msg,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        tableitem.draw();
+        $("#item-modal").modal("hide");
+    });
+}
+
+function deleteItem(Id) {
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        url: "Api/po/DeleteItem?Id="+Id,
+        method: "GET",
+    }).done(function (data) {
+        var msg = data.message;
+        waitingDialog.hideloading();
+        BootstrapDialog.show({
+            title: 'Infomasi',
+            message: msg,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        tableitem.draw();
+    });
+}
+
+function generateNoPO() {
+    waitingDialog.showloading("Proses Harap Tunggu");
+    $.ajax({
+        url: "Api/po/GenerateNoPO?Id="+$("#Id").val(),
+        method: "GET",
+    }).done(function (data) {
+        loadDetail(data.Id)
+        var msg = data.message;
+        waitingDialog.hideloading();
+        BootstrapDialog.show({
+            title: 'Infomasi',
+            message: msg,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+        tableitem.draw();
+    });
+}
+
+$(function () {
+    $("#cetak-po").on("click", function () {
+        downloadFileUsingForm("Api/po/Report?Id=" + $("#Id").val());
+    });
+});
+
+$("#hide-periode").on("click", function () {
+    if ($("#hide-periode").prop("checked") == true) {
+        $("#hide-periode-sewa").show();
+    }
+    else if ($("#hide-periode").prop("checked") == false) {
+        $("#hide-periode-sewa").hide();
+    }
+});
+
+function clear() {
+    //alert("ngapus kudunya");
+    document.getElementById("kode").value = "";
+    document.getElementById("nama-barang").value = "";
+    document.getElementById("banyak").value = "";
+    document.getElementById("satuan").value = "";
+    document.getElementById("harga").value = "";
+    document.getElementById("jumlah").value = "";
+    document.getElementById("keterangan").value = "";
+}
+
+function SetListVendor2(vendor2) {
+    //console.log("SetListBank");
+    //alert("aw");
+    $.ajax({
+        url: "/api/ReferenceData/GetAllInfoPerusahaan",
+        success: function (data) {
+			//data = DOMPurify.sanitize(data);
+            for (var i in data) {
+                if (vendor2 == data[i].Name) {
+                    //$("[name='Vendor']").append("<option value='" + data[i].Name + "' selected>" + data[i].Name + "</option>");
+                    $("#npwp").append("<option value='" + DOMPurify.sanitize(data[i].Desc) + "' selected>" + DOMPurify.sanitize(data[i].Desc) + "</option>");
+                }
+                else {
+                    //$("[name='Vendor']").append("<option value='" + data[i].Name + "'>" + data[i].Name + "</option>");
+                    $("#npwp").append("<option value='" + DOMPurify.sanitize(data[i].Desc) + "'>" + DOMPurify.sanitize(data[i].Desc) + "</option>");
+                }
+            }
+        }
+    });
+}
+
+function SetListVendor(vendor) {
+    //alert("hmm");
+    $.ajax({
+        url: "/api/Vendor/GetAllVendor",
+        success: function (data) {
+			//data = DOMPurify.sanitize(data);
+            for (var i in data) {
+                if (vendor == DOMPurify.sanitize(data[i].Nama)) {
+                    $("[name = 'Vendor']").append("<option value='" + DOMPurify.sanitize(data[i].id) + "' selected>" + DOMPurify.sanitize(data[i].Nama) + "</option>");
+                    $("#idVendor").val(DOMPurify.sanitize(data[i].Nama));
+                }
+                else {
+                    $("[name = 'Vendor']").append("<option value='" + DOMPurify.sanitize(data[i].id) + "'>" + DOMPurify.sanitize(data[i].Nama) + "</option>");
+                    $("#idVendor").val(DOMPurify.sanitize(data[i].Nama));
+                }
+            }
+        }
+    });
+}
+
+$(function () {
+    $("[name = 'Vendor']").change(function () {
+        var nv = $("[name = 'Vendor']").val();
+        //alert('id vendor= ' + $("#idVendor").val());
+        //alert('ID vendor= ' + nv);
+        
+        //if (nv == "1") {
+        //    $('#atas-nama').val("");
+        //    $('#no-rekening').val("");
+        //    $("[name='BankInfo.Nama']").val("");
+        //    $('#npwp').val("");
+        //}
+        //else {
+            $.ajax({
+                url: "api/Vendor/GetVendorDetail/" + nv,
+                success: function (data) {
+					//data = DOMPurify.sanitize(data);
+                    $("#idVendor").val(DOMPurify.sanitize(data.Nama));
+                    $('#atas-nama').val(DOMPurify.sanitize(data.BankInfo.NamaRekening));
+                    $('#no-rekening').val(DOMPurify.sanitize(data.BankInfo.NomorRekening));
+                    $("[name='BankInfo.Nama']").val(DOMPurify.sanitize(data.BankInfo.Nama));
+                    $('#npwp').val(DOMPurify.sanitize(data.NPWP.Nomor));
+                }
+        });
+        //alert('nama vendor= ' + $("#idVendor").val(););
+        //}
+    });
+});

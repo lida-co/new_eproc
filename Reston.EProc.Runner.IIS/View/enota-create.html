@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="dropzone.css">
+    <!--<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="plugins/datatables/jquery.dataTablesNew.css">-->
+    <!--<link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css" />-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+
+
+    <![endif]-->
+
+    <link href="dist/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel='stylesheet' href="quill/1.3.6/quill.snow.css" />
+    <style type="text/css">
+
+        .enota-maindoc-editor {
+            min-height: 200px;
+            height: 200px;
+        }
+
+        .eNota-editor {
+            min-height: 200px;
+            height: 200px;
+        }
+
+        .hand-cursor {
+            cursor: pointer;
+        }
+
+        ::file-selector-button {
+            border: 1px solid #c6c6c6;
+            padding: 7px 10px 8px 10px;
+            border-bottom-right-radius: 2px;
+            border-top-right-radius: 2px;
+            background-color: #e6e6e6;
+            color: #333;
+        }
+
+        .dropz::before {
+            content: "Drop file here to upload";
+            color: #000;
+            background-color: #fff;
+            padding: 5px 10px;
+            display: inline-block;
+            font-weight: 400;
+            border-radius: 5px;
+        }
+
+        .dropz {
+            min-height: 150px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            background: white;
+            padding: 20px 20px;
+        }
+
+        .fileupload-item-title {
+            overflow: hidden;
+            width: 120px;
+            height: 120px;
+            position: relative;
+            display: block;
+            z-index: 10;
+            border-radius: 20px;
+            background: linear-gradient(to bottom, #eee, #ddd);
+            font-size: 10px;
+            font-weight: bold;
+            padding-top: 30px;
+        }
+
+
+        .remove-file {
+            margin-top: 8px;
+            margin-right: 35px;
+            font-size: 40px;
+            border-radius: 30px;
+            background-color: #fff;
+            width: 50px;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">e-Nota / Create</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li>
+                                <a id="btn-page-action-save-draft" class="btn-page-action-save-draft" title="Simpan" href="#">
+                                    <i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan
+                                </a>
+                            </li>
+                            <li>
+                                <a id="btn-page-action-submit" class="page-action-save-submit" title="Simpan & Ajukan Validasi" href="#">
+                                    <i class="fa fa-fw fa-paper-plane " style="font-size:20px;"></i>Simpan & Ajukan
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.nama"></p>
+                            <p class="deskripsi" ng-bind="user.divisi"></p>
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                        </div>
+                    </div>-->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content" id="section-1">
+                <div class="box box-primary box-white">
+                    <div class="box-header">
+                        <ul class="messages list-unstyled">
+                        </ul>
+                    </div>
+                    <div class="box-body">
+                        <form id="enota-create-form" role="form">
+                            <input name="ENotaId" id="ENotaId" type="hidden">
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label">Nomor</label>
+                                    <input name="DocumentNo" id="DocumentNo" type="text" maxlength="150" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label">Unit Kerja</label>
+                                    <select name="WorkUnitCode" id="select-work-unit" class="form-control select2">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label">Nomor Ref. Internal</label>
+                                    <input name="InternalRefNo" id="InternalRefNo" type="text" maxlength="150" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label">Perihal</label>
+                                    <input name="Subject" id="Subject" type="text" maxlength="150" class="form-control " placeholder="Perihal">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label">Kepada</label>
+                                    <input name="Kepada" id="Kepada" type="text" maxlength="200" class="form-control " placeholder="Kepada">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label">Tembusan</label>
+                                    <input name="Tembusan" id="Tembusan" type="text" maxlength="200" class="form-control " placeholder="Tembusan">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label">HPSAmount</label>
+                                    <input name="HPSAmount" id="HPSAmount" type="number" class="form-control" placeholder="HPSAmount">
+                                </div>
+                            </div>
+
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6 enota-maindoc-container form-group validatable" data-input-mode="edit">
+                                    <input type="hidden" name="MainDocContentType" />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Isi</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- .btn-toolbar -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="btn-group">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default active btn-maindoc-editor">Editor</button>
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                        <span class="sr-only">Editor</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#" class="btn-maindoc-editor-template">Ambil dari template...</a></li>
+                                                    </ul>
+                                                </div>
+                                                <!--<button type="button" class="btn btn-default btn-maindoc-filechooser">Upload</button>-->
+                                                <input type="file" id="uploadDoc" accept=".docx" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.btn-toolbar -->
+
+                                    <div class="row">
+                                        <div class="col-md-12" style="height:80%;">
+                                            <div id="eNota-editor-toolbar"></div>
+                                            <div id="eNota-editor" style="height:400px">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row enota-maindoc-filechooser">
+                                        <div class="col-md-12">
+                                            <div class="file-chooser file-chooser-enota-maindoc" data-max-items="1" data-max-size="2000000">
+                                                <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                                <div class="file-chooser-file-list"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label title">Penawaran</label>
+                                    <div class="file-chooser file-chooser-penawaran" data-max-items="5" data-max-size="2000000">
+                                        <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                        <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label title">Analisa Cost Benefit</label>
+                                    <div class="file-chooser file-chooser-costbenef" data-max-items="5" data-max-size="2000000">
+                                        <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                        <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label title">Lampiran Lain-lain</label>
+                                    <div class="file-chooser file-chooser-other" data-max-items="5" data-max-size="2000000">
+                                        <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                        <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label title">Validasi</label>
+                                    <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
+
+                                        <button data-input-list="input-list-validator" type="button" class="btn btn-sm btn-social btn-bitbucket btn-user-select">
+                                            <span class="fa fa-plus"></span> Tambah Validator
+                                        </button>
+                                        <br />
+                                        <div class="input-list chip-list" id="input-list-validator" style="display: flex; flex-wrap: wrap;" data-max-item="5">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label title">Approval</label>
+                                    <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
+
+                                        <button data-input-list="input-list-approver" type="button" class="btn btn-sm btn-social btn-bitbucket btn-user-select">
+                                            <span class="fa fa-plus"></span> Tambah Approver
+                                        </button>
+                                        <br />
+                                        <div class="input-list chip-list" id="input-list-approver" style="display: flex; flex-wrap: wrap;" data-max-item="5">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6 validatable">
+                                    <label class="control-label title">Approval</label>
+                                    <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
+
+                                        <button data-input-list="input-list-direksi" type="button" class="btn btn-sm btn-social btn-bitbucket btn-user-select">
+                                            <span class="fa fa-plus"></span> Tambah Approval Direksi Khusus
+                                        </button>
+                                        <br />
+                                        <br />
+                                        <div class="input-list chip-list" id="input-list-direksi" style="display: flex; flex-wrap: wrap;" data-max-item="5">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div>
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+    <!-- .pesonel-modal -->
+    <div class="modal personel-modal" role="dialog" aria-hidden="true" data-list-target-id="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Daftar Personil</h4>
+                </div>
+                <div class="modal-body">
+                    <!--<input type="hidden" id="tipe-person-list" />-->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Cari..." id="search-personel" />
+                                    <div class="input-group-addon">
+                                        <a href="#search"><i class="glyphicon glyphicon-search"></i></a>
+                                    </div>
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="box-body">
+                            <ul class="personel-list list-unstyled">
+                            </ul>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer text-center">
+                            <a class="uppercase" id="personel-list-more" data-offset="0" data-length="7">Berikutnya</a>
+                        </div><!-- /.box-footer -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline personel-modal-cancel-btn" data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /.personel-modal -->
+    <!-- .interaction-blocker-modal -->
+    <div class="modal interaction-blocker-modal" id="interactionBlockerModal" role="dialog" aria-hidden="true" data-list-target-id="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sedang memuat...</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /.interaction-blocker-modal -->
+    <!-- .template-modal -->
+    <div class="modal template-modal" role="dialog" aria-hidden="true" data-list-target-id="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Pilih Template...</h4>
+                    <div class="template-modal-msg"></div>
+                </div>
+                <div class="modal-body">
+                    <!--<input type="hidden" id="tipe-person-list" />-->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Cari..." id="search-template" />
+                                    <div class="input-group-addon">
+                                        <a href="#search-template"><i class="glyphicon glyphicon-search"></i></a>
+                                    </div>
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="box-body">
+                            <ul class="template-list list-unstyled">
+                            </ul>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer text-center">
+                            <a class="uppercase" id="template-list-more" data-offset="0" data-length="7">Berikutnya</a>
+                        </div><!-- /.box-footer -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline template-modal-cancel-btn" data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /.template-modal -->
+
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="dist/js/purify.js"></script>
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="quill/1.3.6/quill.min.js"></script>
+    <script src="plugins/select2/select2.min.js"></script>
+    <script src="dropzone.js"></script>
+    <script>
+        const ENOTA_CREATE_URL = 'api/ENota/Create';
+        const ENOTA_UPDATE_URL = 'api/ENota/Update';
+        const ENOTA_APPROVAL_CREATE_URL = 'api/ENota/CreateApprovalWorkflow';
+        const PERSONEL_SEARCH_URL = 'api/ENota/SearchPersonels';
+        const ENOTA_TEMPLATE_SEARCH_URL = 'api/enota/SearchENotaTemplates';
+        const ENOTA_TEMPLATE_GET_URL = 'api/enota/GetENotaTemplate';
+        const PERSONEL_SEARCH_WAIT_TIME = 500; //milliseconds
+        const PERSONEL_SEARCH_MIN_CHAR_COUNT = 3;
+        let personelSearchTimeout; // setTimeout return
+        let templateSearchTimeout; // setTimeout return
+
+
+        var eNotaContentEditor;
+
+        $(document).ready(function () {
+            initCsrf();
+        });
+
+        // Optional: Provide a way to get current token
+        function getCsrfToken() {
+            return csrfToken;
+        }
+
+
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+
+        $(document).ready(function () {
+
+            showProgressBar('#interactionBlockerModal');
+
+            // Load everything for the initial page view
+            new Promise(function (resolve, reject) {
+                // .select-work-unit onload
+                $.get('api/enota/getWorkUnits?sel=', function (response) {
+                    let workUnitList = (typeof response === 'string' ? JSON.parse(response) : response);
+                    $('#select-work-unit').empty();
+                    $('#select-work-unit').append($('<option value=""></option>'));
+                    if (workUnitList && Array.isArray(workUnitList)) {
+                        for (const workUnit of workUnitList) {
+                            let optElem = $('<option value="' + workUnit.Value + '" ' + (workUnit.IsSelected ? 'selected' : '') + '>' + workUnit.Label + '</option>');
+                            $('#select-work-unit').append(optElem);
+                        }
+                        resolve();
+                    } else {
+                        reject('Invalid response');
+                    }
+                }).fail(function (jqXHR, status, err) {
+                    console.log(jqXHR, status, err);
+                    //showMessage('error', 'Failed to load resource.', true, '.messages', jqXHR.responseText.replace("<",""));
+                    reject(DOMPurify.sanitize(jqXHR.responseText));
+                });
+
+            }).catch(function (err) {
+                showMessage('error', 'Failed to load resource.', true, '.messages', err.responseText);
+            }).finally(function () {
+                hideProgressBar('#interactionBlockerModal');
+            });
+
+            $('.enota-maindoc-editor').show();
+            $('.enota-maindoc-filechooser').hide();
+            $('input[name="MainDocContentType"]').val('text/html');
+
+
+
+            // .personel-modal onclose
+            $('.personel-modal').on('hidden.bs.modal', function () {
+                // clear source list id
+                $('.personel-modal').data('list-target-id', '');
+            });
+
+            // .btn-user-select onclick
+            $('.btn-user-select').on('click', function (e) {
+                const inputListElem = $(e.target).closest(".input-list-wrapper").find('.input-list').first();
+                if (!inputListElem) return;
+                const inputListElemId = inputListElem.attr('id');
+                if (!inputListElemId) return;
+
+                $('.personel-modal').modal('hide');
+                $('.personel-modal').data('list-target-id', inputListElemId);
+                $('.personel-modal .personel-list').empty();
+
+                //let start = $('personel-list-more').data('offset') || 0;
+                //let limit = $('personel-list-more').data('length') || 7;
+                let start = 0;
+                let limit = 7;
+                $.get(PERSONEL_SEARCH_URL + '?start=' + start + '&limit=' + limit + '&search=', function (data) {
+                    let response = (typeof data === 'string' ? JSON.parse(data) : data);
+                    if (response.Details && Array.isArray(response.Details)) {
+                        for (const personel of response.Details) {
+                            const listItem = $(
+                                '<li class="item personel-list-item" style="padding:.7em 0;" data-personel-id="' + personel.Id + '" data-personel-label="' + personel.DisplayName + '">'
+                                + '<a class="">' + personel.DisplayName + '</a>'
+                                + '</li>'
+                            );
+
+                            $('.personel-modal .personel-list').append(listItem);
+                            $('.personel-modal').modal('show');
+                        }
+                        $('personel-list-more').data('offset', start + limit);
+                        $('personel-list-more').data('length', limit);
+                    }
+                }).fail(function (jqXHR, status, err) {
+                    console.log(jqXHR, status, err);
+                    showMessage('error', 'Failed to load resource. ' + err, true, '.messages', DOMPurify.sanitize(jqXHR.responseText));
+                    $('.personel-modal').modal('hide');
+                });
+            });
+
+            $('#search-personel').on('keyup', (e) => {
+
+                var searchQuery = $('#search-personel').val();
+                if (searchQuery.length >= PERSONEL_SEARCH_MIN_CHAR_COUNT) {
+                    if (personelSearchTimeout) {
+                        clearTimeout(personelSearchTimeout);
+                    }
+
+                    personelSearchTimeout = setTimeout(() => {
+                        $.ajax({
+                            url: PERSONEL_SEARCH_URL,
+                            method: 'GET',
+                            data: {
+                                start: 0,
+                                limit: 7,
+                                search: searchQuery
+                            },
+                            success: (data) => {
+                                let response = (typeof data === 'string' ? JSON.parse(data) : data);
+                                if (response.Details && Array.isArray(response.Details)) {
+                                    $('.personel-modal .personel-list').empty();
+                                    for (const personel of response.Details) {
+                                        const listItem = $(
+                                            '<li class="item personel-list-item" style="padding:.7em 0;" data-personel-id="' + personel.Id + '" data-personel-label="' + personel.DisplayName + '">'
+                                            + '<a class="">' + personel.DisplayName + '</a>'
+                                            + '</li>'
+                                        );
+
+                                        $('.personel-modal .personel-list').append(listItem);
+                                        $('.personel-modal').modal('show');
+                                    }
+                                }
+                            },
+                            error: (jqXHR, status, err) => {
+                                console.log(jqXHR, status, err);
+                                showMessage('error', 'Failed to load resource.', true, '.messages', DOMPurify.sanitize(jqXHR.responseText));
+                            }
+                        });
+                    }, PERSONEL_SEARCH_WAIT_TIME);
+                }
+            });
+
+            //$('#personel-list-more').on('click', (e) => {
+            //    let start = $('#personel-list-more').data('offset');
+            //    let limit = $('#personel-list-more').data('length');
+            //    $('#personel-list-more').data('offset', start + limit);
+            //    $('#personel-list-more').data('length', limit);
+            //    // fetch
+            //});
+
+
+            // .personel-list-item onclick
+            $('.personel-list').on('click', '.personel-list-item', function (e) {
+                const selectedElem = $(e.target);
+                if (!selectedElem) return;
+
+                const listItemElem = selectedElem.closest('.personel-list-item');
+
+                const targetListId = $('.personel-modal').data('list-target-id');
+                if (!targetListId) return;
+
+                // Make sure we can still add to the chip list
+                const targetListMaxItem = $('#' + targetListId).data('max-item') || 5;
+                const targetListCurrentItem = $('#' + targetListId).find('.personel-chip').length;
+                if (targetListCurrentItem >= targetListMaxItem) {
+                    return;
+                }
+
+                const personelId = listItemElem.data('personel-id');
+                const personelLabel = listItemElem.data('personel-label');
+
+                let alreadyAdded = false;
+                $('#' + targetListId).find('.personel-chip').each((index, chip) => {
+                    let chipPersonelId = $(chip).data('personel-id');
+                    if (chipPersonelId == personelId)
+                        alreadyAdded = true;
+                });
+                if (alreadyAdded) {
+                    console.log("This personel is already added to this chip list");
+                    return;
+                }
+
+                $('#' + targetListId).append(PersonelChip(personelId, personelLabel));
+
+            });
+
+            $('.input-list').on('click', '.remove-personel', function (e) {
+                const el = $(e.target);
+                if (!el) return;
+
+                const chipEl = el.closest('.personel-chip').first();
+                chipEl.remove();
+
+                //const personelId = el.data('personel-id');
+                //console.log('removing ' + personelId);
+            });
+
+            $('.file-chooser').on('click', function (e) {
+                const el = $(e.target);
+                if (!e) return;
+
+                const fileChooserElem = el.closest('.file-chooser').find('.file-chooser-input').first();
+                if (!fileChooserElem) return;
+
+                fileChooserElem.trigger('click');
+
+            });
+
+            // This handler is needed to prevent the click event being
+            // handled by the containing element which will result in
+            // infinite loop
+            $('.file-chooser-input').on('click', function (e) {
+                e.stopPropagation();
+            });
+
+            $('.file-chooser-input').on('change', function (e) {
+                const el = $(e.target);
+                if (!el || el.length != 1) return;
+
+                const fileChooserElem = el.closest('.file-chooser');
+                const maxFileCount = fileChooserElem.data('max-items');
+                const maxFileSize = fileChooserElem.data('max-size');
+
+                if (el[0].files.length > maxFileCount) {
+                    window.alert('Jumlah file yang bisa di lampirkan pada area ini maksimal ' + maxFileCount + ' buah.');
+                    return;
+                }
+
+                const fileChooserFileListElem = el.closest('.file-chooser').find('.file-chooser-file-list').first();
+                if (!fileChooserFileListElem) return;
+                fileChooserFileListElem.empty();
+
+                // process each files and append <input type="hidden" element to b64EncListElem
+                if (el[0].files.length > 0) {
+
+                    // maximum number of files to choose is 5
+                    if (el[0].files.length > 5) return;
+
+                    for (let i = 0; i < el[0].files.length; i++) {
+                        let file = el[0].files[i];
+
+                        // check maximum file size
+                        if (file.size > maxFileSize) {
+                            window.alert('Ukuran file yang bisa di lampirkan pada area ini maksimal ' + maxFileSize + ' byte.');
+                            continue;
+                        }
+
+                        let reader = new FileReader();
+                        reader.onload = function () {
+                            //console.log(reader.result);
+                            const data = reader.result.split(';');
+                            if (data.length < 2) return;
+                            const fileName = file.name;
+                            const fileSize = file.size;
+                            const fileContentType = data[0].replace(/data:/, '');
+                            const fileDataB64 = data[1].replace(/base64,/, '');
+
+                            fileChooserFileListElem.append(FileChooserFileItem(
+                                fileName,
+                                fileSize,
+                                fileContentType,
+                                fileDataB64
+                            ));
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                }
+
+            });
+
+            $('.file-chooser').on('click', '.remove-file', function (e) {
+                e.stopPropagation();
+                const el = $(e.target);
+                if (!el) return;
+
+                el.closest('.file-upload-item').remove();
+            });
+
+            $('.btn-page-action-save-draft').on('click', function (e) {
+
+                // prevent interaction while we submit
+                showProgressBar('#interactionBlockerModal');
+
+                let vm = populateViewModel();
+                let valResult = validateViewModel(vm, 'save-draft');
+                handleValidationResult(valResult);
+                let documentId = $('input[name="ENotaId"]').val();
+
+                if (isValidationResultEmpty(valResult)) {
+                    // if this document does not have Id, treat this as a new document
+                    let isCreate = isNullOrEmpty(documentId);
+
+                    saveAndContinueEdit(vm,
+                        {
+                            url: isCreate ? ENOTA_CREATE_URL : ENOTA_UPDATE_URL
+                        })
+                        .then((response) => {
+                            showMessage('success', 'Dokumen berhasil disimpan', true, '.messages');
+                            populateView(document, response);
+                        })
+                        .catch((jqXHR) => {
+                            showMessage('error', 'Dokumen gagal disimpan', true, '.messages', DOMPurify.sanitize(jqXHR.responseText));
+                        })
+                        .finally(() => {
+                            hideProgressBar('#interactionBlockerModal');
+                        });
+
+                } else {
+                    showMessage('error', 'Harap perbaiki isian', true, '.messages');
+                    hideProgressBar('#interactionBlockerModal');
+                }
+
+            });
+
+            $('.page-action-save-submit').on('click', function (e) {
+
+                // prevent interaction while we submit
+                showProgressBar('#interactionBlockerModal');
+
+                let vm = populateViewModel();
+                let valResult = validateViewModel(vm, 'submit');
+                handleValidationResult(valResult);
+                let documentId = $('input[name="ENotaId"]').val();
+
+                if (isValidationResultEmpty(valResult)) {
+
+                    saveAndSubmit(vm,
+                        {
+                            url: ENOTA_APPROVAL_CREATE_URL
+                        })
+                        .then((response) => {
+                            showMessage('success', 'Dokumen berhasil disimpan', true, '.messages');
+                            window.location.href = "/enota-list.html";
+                        })
+                        .catch((jqXHR) => {
+                            showMessage('error', 'Dokumen gagal disimpan', true, '.messages', DOMPurify.sanitize(jqXHR.responseText));
+                        })
+                        .finally(() => {
+                            hideProgressBar('#interactionBlockerModal');
+                        });
+
+                } else {
+                    showMessage('error', 'Harap perbaiki isian', true, '.messages');
+                    hideProgressBar('#interactionBlockerModal');
+                }
+
+            });
+
+            $('.btn-maindoc-editor').on('click', function (e) {
+                if ($('.btn-maindoc-editor').hasClass('active'))
+                    return;
+
+                // test if maindoc-filechooser contains data and ask for confirmation if it is
+                if ($('.file-chooser-enota-maindoc .file-chooser-file-list .file-upload-item').length > 0) {
+                    var answer = window.confirm("Beralih ke mode edit akan menghapus file yang sudah dilampirkan. Lanjutkan?");
+                    if (!answer) {
+                        return;
+                    }
+                }
+
+                // hapus semua file yang sudah dilampirkan
+                $('.file-chooser-enota-maindoc .file-chooser-file-list').empty();
+
+                $('.btn-maindoc-filechooser').removeClass('active');
+                $('.btn-maindoc-editor').parent().find('.dropdown-toggle').prop('disabled', false);
+                $('.enota-maindoc-filechooser').hide();
+
+                $('.btn-maindoc-editor').addClass('active');
+                $('.enota-maindoc-editor').show();
+            });
+
+            $('.btn-maindoc-filechooser').on('click', function (e) {
+                if ($('.btn-maindoc-filechooser').hasClass('active'))
+                    return;
+
+                // test if maindoc-editor contains data and ask for confirmation if it is
+
+                if (eNotaContentEditor && eNotaContentEditor.getText().replace(/[\r\n]+$/, '').length > 0) {
+                    var answer = window.confirm("Beralih ke mode upload akan menghapus isi yang sudah diketik. Lanjutkan?");
+                    if (!answer) {
+                        return;
+                    }
+                }
+
+                // hapus semua content yang sudah di ketik
+                eNotaContentEditor.setText('');
+
+                $('.btn-maindoc-editor').removeClass('active');
+                $('.btn-maindoc-editor').parent().find('.dropdown-toggle').prop('disabled', true);
+                $('.enota-maindoc-editor').hide();
+
+                $('.btn-maindoc-filechooser').addClass('active');
+                $('.enota-maindoc-filechooser').show();
+
+            });
+
+            $('.btn-maindoc-editor-template').on('click', (e) => {
+
+                $('.template-modal').modal('show');
+            });
+
+            $('.template-modal').on('show.bs.modal', (e) => {
+                console.log(e);
+                $('.template-modal .template-modal-msg').empty();
+                const searchQuery = $('.template-modal ').val();
+                const data = {
+                    Header: {},
+                    Filter: {
+                        Title: searchQuery
+                    }
+                };
+
+                var headers = {};
+                if (csrfToken) {
+                    headers['X-CSRF-Token'] = csrfToken;
+                    headers['X-XSRF-TOKEN'] = csrfToken;
+                }
+
+                new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: ENOTA_TEMPLATE_SEARCH_URL,
+                        method: 'POST',
+                        contentType: 'application/json',
+                        headers: headers,
+                        data: JSON.stringify(data),
+                        success: resolve,
+                        error: reject
+                    });
+                }).then((data) => {
+                    console.log(data);
+                    if (!data || !data.Details || !Array.isArray(data.Details))
+                        return Promise.reject({ message: 'Invalid response ' + JSON.stringify(data) });
+
+                    $('.template-modal .template-list').empty();
+                    for (var item of data.Details) {
+                        $('.template-modal .template-list').append(
+                            TemplateSearchResultItem(item.Id, item.Title)
+                        );
+                    }
+                }).catch((err) => {
+                    let diagMsg = err.message || (err.responseJSON && err.responseJSON.Message ? err.responseJSON.Message : null);
+                    console.log(diagMsg);
+                    showMessage('error',
+                        'Gagal mengambil data.',
+                        true,
+                        '.template-modal-msg',
+                        diagMsg);
+                }).finally(() => {
+                    console.log('api/enota/SearchENotaTemplates completed');
+                });
+            });
+
+            $('.template-modal .template-list').on('click', '.template-list-item', (e) => {
+                const elem = $(e.target).closest('.template-list-item');
+                const id = elem.data('item-id');
+                const label = elem.data('item-label');
+                const data = {
+                    docId: id
+                };
+                new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: ENOTA_TEMPLATE_GET_URL + '?docId=' + data.docId,
+                        method: 'GET',
+                        success: resolve,
+                        error: reject,
+                    });
+                }).then((data) => {
+                    if (!data || !data.Detail || !data.Detail.ContentData)
+                        return Promise.reject({ message: 'Invalid Response' });
+
+                    if (!eNotaContentEditor)
+                        return Promise.reject({ message: 'Target element does not exists: eNotaContentEditor' });
+
+                    if (eNotaContentEditor && eNotaContentEditor.getText().replace(/[\r\n]+$/, '').length > 0) {
+                        var answer = window.confirm("Editor sedang berisi suntingan, Melanjutkan langkah ini akan menimpa suntingan yang sudah ada. Lanjutkan?");
+                        if (!answer) {
+                            return;
+                        }
+                    }
+
+                    eNotaContentEditor.root.innerHTML = atob(data.Detail.ContentData);
+                    $('.template-modal').modal('hide');
+                }).catch((err) => {
+                    let diagMsg = err.message || (err.responseJSON && err.responseJSON.Message ? err.responseJSON.Message : null);
+                    console.log(diagMsg);
+                    showMessage('error',
+                        'Gagal mengambil data.',
+                        true,
+                        '.template-modal-msg',
+                        diagMsg);
+                });
+
+
+
+            });
+
+            $('.file-chooser').on('click', '.file-upload-item', (e) => {
+                e.preventDefault();
+                let fileChooserElem = $(this);
+                let contentTitle = fileChooserElem.find('.fileupload-item-title').data('item-title');
+                let contentType = fileChooserElem.find('.fileupload-item-content-type').html();
+                let contentData = fileChooserElem.find('.fileupload-item-data-b64').html();
+
+                downloadDocument(contentTitle, contentType, contentData);
+                return false;
+
+            });
+
+            // #enota-editor
+            //eNotaContentEditor = new Quill('#eNota-editor', {
+            //   theme: 'snow'
+            //});
+        });
+
+        function createViewModel() {
+            let vm = {
+                Id: null,
+                DocumentNo: '',
+                WorkUnitCode: '',
+                InternalRefNo: '',
+                Subject: '',
+                Kepada: '',
+                Tembusan: '',
+                HPSAmount: '',
+                ContentInputMode: '',
+                ContentData: '',
+                ContentType: '',
+                PenawaranAttachments: [],
+                CostBenefitAttachments: [],
+                OtherAttachments: [],
+                Validators: [],
+                Approvers: [],
+                AppDireksi: []
+            };
+
+            return vm;
+
+        }
+
+        function populateViewModel(parent, viewModel) {
+            const root = parent == null ? $(document) : $(parent);
+            const vm = viewModel == null ? createViewModel() : viewModel;
+
+            vm.Id = isNullOrEmpty(root.find('input[name="ENotaId"]').val()) ? null : root.find('input[name="ENotaId"]').val();
+            vm.DocumentNo = root.find('input[name="DocumentNo"]').val();
+            vm.WorkUnitCode = root.find('select[name="WorkUnitCode"]').val();
+            vm.InternalRefNo = root.find('input[name="InternalRefNo"]').val();
+            vm.Subject = root.find('input[name="Subject"]').val();
+            vm.Kepada = root.find('input[name="Kepada"]').val();
+            vm.Tembusan = root.find('input[name="Tembusan"]').val();
+            vm.HPSAmount = root.find('input[name="HPSAmount"]').val();
+
+            // populate content type and content data for the main enota doc
+            let mainDocInputMode = $('.btn-maindoc-editor').hasClass('active') ? 'edit' :
+                $('.btn-maindoc-filechooser').hasClass('active') ? 'upload' :
+                    'edit';
+            if (mainDocInputMode === 'edit') {
+                vm.ContentTitle = vm.Subject; // use subject for the title
+                vm.ContentType = 'text/html';
+                //vm.ContentData = eNotaContentEditor ? btoa(eNotaContentEditor.getText()) : null;
+                vm.ContentData = eNotaContentEditor ? btoa(eNotaContentEditor.root.innerHTML) : null;
+            } else if (mainDocInputMode === 'upload') {
+                let mainDocContentTitle = $('.file-chooser-enota-maindoc .file-chooser-file-list .file-upload-item .fileupload-item-title').first().text();
+                let mainDocContentType = $('.file-chooser-enota-maindoc .file-chooser-file-list .file-upload-item .fileupload-item-content-type').first().text();
+                let mainDocContentData = $('.file-chooser-enota-maindoc .file-chooser-file-list .file-upload-item .fileupload-item-data-b64').first().text();
+                vm.ContentTitle = mainDocContentTitle;
+                vm.ContentType = mainDocContentType;
+                vm.ContentData = mainDocContentData;
+            }
+            vm.ContentInputMode = mainDocInputMode;
+
+            $('#input-list-validator .personel-chip').each(function (index, itemElem) {
+                const personelId = $(itemElem).data('personel-id');
+                const personelName = $(itemElem).data('personel-label');
+
+                vm.Validators.push({
+                    PersonelUserId: personelId,
+                    PersonelFullName: personelName
+                });
+            });
+
+            $('#input-list-approver .personel-chip').each(function (index, itemElem) {
+                const personelId = $(itemElem).data('personel-id');
+                const personelName = $(itemElem).data('personel-label');
+
+                vm.Approvers.push({
+                    PersonelUserId: personelId,
+                    PersonelFullName: personelName
+                });
+            });
+
+            $('#input-list-direksi .personel-chip').each(function (index, itemElem) {
+                const personelId = $(itemElem).data('personel-id');
+                const personelName = $(itemElem).data('personel-label');
+
+                vm.AppDireksi.push({
+                    PersonelUserId: personelId,
+                    PersonelFullName: personelName
+                });
+            });
+
+            $('.file-chooser-penawaran .file-upload-item').each(function (index, itemElem) {
+                const fileName = $(itemElem).find('.fileupload-item-title').first().data('item-title');
+                const fileSize = $(itemElem).find('.fileupload-item-size').first().text();
+                const fileContentType = $(itemElem).find('.fileupload-item-content-type').first().text();
+                const fileDataB64 = $(itemElem).find('.fileupload-item-data-b64').first().text();
+
+                vm.PenawaranAttachments.push({
+                    Name: fileName,
+                    Size: fileSize,
+                    ContentType: fileContentType,
+                    Data: fileDataB64
+
+                });
+            });
+
+            $('.file-chooser-costbenef .file-upload-item').each(function (index, itemElem) {
+                const fileName = $(itemElem).find('.fileupload-item-title').first().data('item-title');
+                const fileSize = $(itemElem).find('.fileupload-item-size').first().text();
+                const fileContentType = $(itemElem).find('.fileupload-item-content-type').first().text();
+                const fileDataB64 = $(itemElem).find('.fileupload-item-data-b64').first().text();
+
+                vm.CostBenefitAttachments.push({
+                    Name: fileName,
+                    Size: fileSize,
+                    ContentType: fileContentType,
+                    Data: fileDataB64
+
+                });
+            });
+
+            $('.file-chooser-other .file-upload-item').each(function (index, itemElem) {
+                const fileName = $(itemElem).find('.fileupload-item-title').first().data('item-title');
+                const fileSize = $(itemElem).find('.fileupload-item-size').first().text();
+                const fileContentType = $(itemElem).find('.fileupload-item-content-type').first().text();
+                const fileDataB64 = $(itemElem).find('.fileupload-item-data-b64').first().text();
+
+                vm.OtherAttachments.push({
+                    Name: fileName,
+                    Size: fileSize,
+                    ContentType: fileContentType,
+                    Data: fileDataB64
+
+                });
+            });
+
+            return vm;
+
+        }
+
+        function populateView(parent, viewModel) {
+
+            let vm = viewModel.Detail;
+            if (isNullOrEmpty(vm)) return;
+
+            const root = parent == null ? $(document) : $(parent);
+
+            root.find('input[name="ENotaId"]').val(vm.Id);
+            root.find('input[name="DocumentNo"]').val(vm.DocumentNo);
+            root.find('input[name="WorkUnitCode"]').val(vm.WorkUnitCode);
+            root.find('input[name="InternalRefNo"]').val(vm.InternalRefNo);
+            root.find('input[name="Subject"]').val(vm.Subject);
+            root.find('input[name="Kepada"]').val(vm.Kepada);
+            root.find('input[name="Tembusan"]').val(vm.Tembusan);
+            root.find('input[name="HPSAmount"]').val(vm.HPSAmount);
+            root.find('input[name="MainDocContentType"]').val(vm.ContentType);
+            if (vm.ContentType === 'text/html') {
+                if (eNotaContentEditor) {
+                    eNotaContentEditor.root.innerHTML = atob(vm.ContentData);
+                }
+                root.find('.btn-maindoc-filechooser').removeClass('active');
+                root.find('.enota-maindoc-filechooser').hide();
+                root.find('.btn-maindoc-editor').addClass('active');
+                root.find('.enota-maindoc-editor').show();
+            } else {
+                root.find('.file-chooser-enota-maindoc .file-chooser-file-list').empty();
+                root.find('.file-chooser-enota-maindoc .file-chooser-file-list')
+                    .append(FileChooserFileItem(
+                        vm.ContentTitle,
+                        vm.ContentSize,
+                        vm.ContentType,
+                        vm.ContentData
+                    ));
+
+                root.find('.btn-maindoc-editor').removeClass('active');
+                root.find('.enota-maindoc-editor').hide();
+                root.find('.btn-maindoc-filechooser').addClass('active');
+                root.find('.enota-maindoc-filechooser').show();
+            }
+
+            if (vm.Validators && Array.isArray(vm.Validators)) {
+                const container = root.find('#input-list-validator');
+                container.empty();
+                vm.Validators.forEach(function (item) {
+                    container.append(
+                        PersonelChip(
+                            item.PersonelUserId,
+                            item.PersonelFullName
+                        )
+                    );
+                });
+            }
+
+            if (vm.Approvers && Array.isArray(vm.Approvers)) {
+                const container = root.find('#input-list-approver');
+                container.empty();
+                vm.Approvers.forEach(function (item) {
+                    container.append(
+                        PersonelChip(
+                            item.PersonelUserId,
+                            item.PersonelFullName
+                        )
+                    );
+                });
+            }
+
+            if (vm.AppDireksi && Array.isArray(vm.AppDireksi)) {
+                const container = root.find('#input-list-direksi');
+                container.empty();
+                vm.AppDireksi.forEach(function (item) {
+                    container.append(
+                        PersonelChip(
+                            item.PersonelUserId,
+                            item.PersonelFullName
+                        )
+                    );
+                });
+            }
+
+
+            if (vm.PenawaranAttachments && Array.isArray(vm.PenawaranAttachments)) {
+                const fileChooserFileListElem = root.find('.file-chooser-penawaran .file-chooser-file-list');
+                fileChooserFileListElem.empty();
+                vm.PenawaranAttachments.forEach(function (item) {
+                    fileChooserFileListElem.append(
+                        FileChooserFileItem(
+                            item.Name,
+                            item.Size,
+                            item.ContentType,
+                            item.Data
+                        )
+                    );
+                });
+            }
+
+            if (vm.CostBenefitAttachments && Array.isArray(vm.CostBenefitAttachments)) {
+                const fileChooserFileListElem = root.find('.file-chooser-costbenef .file-chooser-file-list');
+                fileChooserFileListElem.empty();
+                vm.CostBenefitAttachments.forEach(function (item) {
+                    fileChooserFileListElem.append(
+                        FileChooserFileItem(
+                            item.Name,
+                            item.Size,
+                            item.ContentType,
+                            item.Data
+                        )
+                    );
+                });
+            }
+
+            if (vm.OtherAttachments && Array.isArray(vm.OtherAttachments)) {
+                const fileChooserFileListElem = root.find('.file-chooser-other .file-chooser-file-list');
+                fileChooserFileListElem.empty();
+                vm.OtherAttachments.forEach(function (item) {
+                    fileChooserFileListElem.append(
+                        FileChooserFileItem(
+                            item.Name,
+                            item.Size,
+                            item.ContentType,
+                            item.Data
+                        )
+                    );
+                });
+            }
+
+        }
+
+        function validateViewModel(viewModel, action) {
+
+            let validationResult = {
+                DocumentNo: [],
+                WorkUnitCode: [],
+                InternalRefNo: [],
+                Subject: [],
+                Kepada: [],
+                Tembusan: [],
+                Isi: [],
+                PenawaranAttachments: [],
+                CostBenefitAttachments: [],
+                OtherAttachments: [],
+                Validators: [],
+                Approvers: [],
+                AppDireksi: [],
+            };
+
+            if (action == 'save-draft') {
+                // - viewModel.WorkUnitCode wajib isi
+                if (isNullOrEmpty(viewModel.WorkUnitCode)) {
+                    validationResult.WorkUnitCode.push("Wajib diisi.");
+                }
+
+                // -viewModel.Subject wajib isi
+                if (isNullOrEmpty(viewModel.Subject)) {
+                    validationResult.Subject.push("Wajib diisi.");
+                }
+                if (viewModel.Subject.length > 150) {
+                    validationResult.Subject.push("Maksimum 150 karakter.");
+                }
+            } else if (action == 'submit') {
+                // - viewModel.DocumentNo wajib isi
+                if (isNullOrEmpty(viewModel.DocumentNo)) {
+                    validationResult.DocumentNo.push("Wajib diisi. Simpan dokumen sebagai draft untuk mendapatkan nomor dokumen.");
+                }
+                // - viewModel.DocumentNo max 150 char
+                if (viewModel.DocumentNo.length > 150) {
+                    validationResult.DocumentNo.push("Maksimum 150 karakter.");
+                }
+                // - viewModel.WorkUnitCode wajib isi
+                if (isNullOrEmpty(viewModel.WorkUnitCode)) {
+                    validationResult.WorkUnitCode.push("Wajib diisi.");
+                }
+                // - viewModel.InternalRefNo max 150 char
+                if (viewModel.InternalRefNo.length > 150) {
+                    validationResult.InternalRefNo.push("Maksimum 150 karakter.");
+                }
+                // - viewModel.Subject wajib isi
+                if (isNullOrEmpty(viewModel.Subject)) {
+                    validationResult.Subject.push("Wajib diisi.");
+                }
+                // - viewModel.Subject max 150 char
+                if (viewModel.Subject.length > 150) {
+                    validationResult.Subject.push("Maksimum 150 karakter.");
+                }
+                // - viewModel.Kepada wajib isi
+                if (isNullOrEmpty(viewModel.Kepada)) {
+                    validationResult.Kepada.push("Wajib diisi.");
+                }// - viewModel.Kepada wajib isi
+                if (isNullOrEmpty(viewModel.HPSAmount)) {
+                    validationResult.HPSAmount.push("Wajib diisi.");
+                }
+                // - viewModel.Kepada max 150 char
+                if (viewModel.Kepada.length > 150) {
+                    validationResult.Kepada.push("Maksimum 150 karakter.");
+                }
+                // - viewModel.Tembusan max 150 char
+                if (viewModel.Tembusan.length > 150) {
+                    validationResult.Tembusan.push("Maksimum 150 karakter.");
+                }
+                // - viewModel.PenawaranAttachments max 5 item
+                if (Array.isArray(viewModel.PenawaranAttachments) && viewModel.PenawaranAttachments.length > 5) {
+                    validationResult.PenawaranAttachments.push("Maksimum 5 item.");
+                }
+                // - viewModel.CostBenefitAttachments max 5 item
+                if (Array.isArray(viewModel.CostBenefitAttachments) && viewModel.CostBenefitAttachments.length > 5) {
+                    validationResult.CostBenefitAttachments.push("Maksimum 5 item.");
+                }
+                // - viewModel.OtherAttachments max 5 item
+                if (Array.isArray(viewModel.OtherAttachments) && viewModel.OtherAttachments.length > 5) {
+                    validationResult.OtherAttachments.push("Maksimum 5 item.");
+                }
+                // - viewModel.Validators wajib isi
+                if (Array.isArray(viewModel.Validators) && viewModel.Validators.length == 0) {
+                    validationResult.Validators.push('Wajib diisi.');
+                }
+                // - viewModel.Validators max 5 item
+                if (Array.isArray(viewModel.Validators) && viewModel.Validators.length > 5) {
+                    validationResult.Validators.push('Maksimum 5 item.');
+                }
+                // - viewModel.Approvers wajib isi
+                if (Array.isArray(viewModel.Approvers) && viewModel.Approvers.length == 0) {
+                    validationResult.Approvers.push('Wajib diisi.');
+                }
+                // - viewModel.Approvers max 5 item
+                if (Array.isArray(viewModel.Approvers) && viewModel.Approvers.length > 5) {
+                    validationResult.Approvers.push('Maksimum 5 item.');
+                }
+                // - viewModel.Approvers wajib isi
+                if (Array.isArray(viewModel.AppDireksi) && viewModel.AppDireksi.length == 0) {
+                    validationResult.Direksi.push('Wajib diisi.');
+                }
+                // - viewModel.Approvers max 5 item
+                if (Array.isArray(viewModel.AppDireksi) && viewModel.AppDireksi.length > 3) {
+                    validationResult.Direksi.push('Maksimum 5 item.');
+                }
+
+
+                // validasi isi
+                // Agak lain memang
+                if (viewModel.ContentInputMode == 'edit') {
+                    if (eNotaContentEditor && eNotaContentEditor.getLength() <= 1) { // empty quill editor still has a '\n' character in it
+                        validationResult.Isi.push('Wajib isi.');
+                    }
+                } else if (viewModel.ContentInputMode == 'upload') {
+                    if (isNullOrEmpty(viewModel.ContentData)) {
+                        validationResult.Isi.push('Wajib isi.');
+                    }
+                }
+            }
+
+            return validationResult;
+        }
+
+        function handleValidationResult(validationResults) {
+
+            $('.validatable').removeClass('has-error');
+            $('.validatable .help-block').remove();
+
+            for (let key in validationResults) {
+                if (validationResults.hasOwnProperty(key)) {
+                    let elemIdOrName = key;
+                    let validationMessages = validationResults[key]; // array
+
+                    if (!Array.isArray(validationMessages) || validationMessages.length == 0) {
+                        // if the validation messages array is empty
+                        // then this element does not have offending
+                        // validation. Continue to the next element.
+                        continue;
+                    }
+
+                    if (elemIdOrName == 'DocumentNo') {
+                        highlighError('#DocumentNo', validationMessages);
+
+                    } else if (elemIdOrName == 'WorkUnitCode') {
+                        highlighError('select[name="WorkUnitCode"]', validationMessages);
+
+                    } else if (elemIdOrName == 'InternalRefNo') {
+                        highlighError('#InternalRefNo', validationMessages);
+
+                    } else if (elemIdOrName == 'Subject') {
+                        highlighError('#Subject', validationMessages);
+
+                    } else if (elemIdOrName == 'Kepada') {
+                        highlighError('#Kepada', validationMessages);
+
+                    } else if (elemIdOrName == 'HPSAmount') {
+                        highlighError('#HPSAmount', validationMessages);
+                    } else if (elemIdOrName == 'Tembusan') {
+                        highlighError('#Tembusan', validationMessages);
+                    } else if (elemIdOrName == 'Isi') {
+                        highlighError('input[name="MainDocContentType"]', validationMessages); // agak lain memang
+
+                    } else if (elemIdOrName == 'PenawaranAttachments') {
+                        highlighError('.file-chooser-penawaran', validationMessages);
+
+                    } else if (elemIdOrName == 'CostBenefitAttachments') {
+                        highlighError('.file-chooser-costbenef', validationMessages);
+
+                    } else if (elemIdOrName == 'OtherAttachments') {
+                        highlighError('.file-chooser-other', validationMessages);
+
+                    } else if (elemIdOrName == 'Validators') {
+                        highlighError('#input-list-validator', validationMessages);
+
+                    } else if (elemIdOrName == 'Approvers') {
+                        highlighError('#input-list-approver', validationMessages);
+
+                    } else if (elemIdOrName == 'AppDireksi') {
+                        highlighError('#input-list-direksi', validationMessages);
+                    }
+
+                }
+            }
+
+        }
+
+        function isValidationResultEmpty(valResultObj) {
+            // Check if valResult is null or undefined
+            if (valResultObj === null || valResultObj === undefined) {
+                return true;
+            }
+
+            // Check if valResult has no properties
+            if (Object.keys(valResultObj).length === 0) {
+                return true;
+            }
+
+            // Check if all properties' arrays are empty
+            for (const property in valResultObj) {
+                if (valResultObj.hasOwnProperty(property) && Array.isArray(valResultObj[property]) && valResultObj[property].length > 0) {
+                    return false; // At least one non-empty array found
+                }
+            }
+
+            // If all properties' arrays are empty or undefined, valResult is considered empty
+            return true;
+        }
+
+        function highlighError(selector, msg) {
+            let elem = $(selector);
+            let formGroupElem = elem.closest('.form-group');
+            let message = '';
+            if (Array.isArray(msg)) {
+                message = msg.reduce((accumulator, currentValue) => {
+                    return accumulator + (', ' + currentValue);
+                }, '');
+            } else {
+                message = msg;
+            }
+            // remove leading comma
+            if (message.startsWith(', ')) message = message.slice(2);
+
+            let helpBlockElem = $('<span class="help-block">' + message + '</span>');
+            formGroupElem.find('.help-block').remove(); // remove any help-block element before adding
+            formGroupElem.append(helpBlockElem); // then add
+            formGroupElem.addClass('has-error'); // then highlight
+        }
+
+
+        function saveAndContinueEdit(payload, setting) {
+
+            const data = {
+                Header: {},
+                Detail: payload,
+            };
+
+            if (!setting)
+                setting = {};
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    type: setting.method || 'POST',
+                    url: setting.url,
+                    contentType: setting.contentType || 'application/json',
+                    headers: headers,
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        console.log('success', response);
+                        resolve(response);
+                    },
+                    error: function (err) {
+                        console.log('fail', err);
+                        reject(err);
+                    }
+                });
+
+            });
+
+        }
+
+        function saveAndSubmit(payload, setting) {
+
+            const data = {
+                Header: {},
+                Detail: {
+                    ENotaRequestDetail: payload
+                },
+            };
+
+            if (!setting)
+                setting = {};
+
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    type: setting.method || 'POST',
+                    url: setting.url,
+                    contentType: setting.contentType || 'application/json',
+                    headers: headers,
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        console.log('success', response);
+                        resolve(response);
+                    },
+                    error: function (err) {
+                        console.log('fail', err);
+                        reject(err);
+                    }
+                });
+
+            });
+
+        }
+
+        // Utility Function
+        function isNullOrEmpty(value) {
+            return value === null || // Check for null
+                (typeof value === 'object' && Object.keys(value).length === 0) || // Check for an empty object
+                (typeof value === 'string' && value.trim().length === 0); // Check for an empty string
+        }
+
+        // UI Utility Function
+        function showMessage(msgType, msg, clear, selector, hiddenMsg) {
+            let className = '';
+            switch (msgType) {
+                case 'success':
+                    className = 'alert-success';
+                    break;
+                case 'info':
+                    className = 'alert-info';
+                    break;
+                case 'warning':
+                    className = 'alert-warning';
+                    break;
+                case 'danger':
+                case 'error':
+                    className = 'alert-danger';
+                    break;
+                default:
+                    className = 'alert-success';
+
+            }
+
+            let msgEl = $('<li><div class="alert alert-dismissible ' + className + '">'
+                + (hiddenMsg ? '<span class="hidden">' + hiddenMsg + '</span>' : '')
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+                + msg
+                + '</div></li>');
+
+            if (clear) {
+                $(selector).empty();
+            }
+            DOMPurify.sanitize($(selector).append(msgEl));
+
+        }
+
+        // UI Utility Function
+        function showProgressBar(selector) {
+            $(selector).modal({
+                backdrop: 'static', // Prevent closing on outside click
+                keyboard: false // Prevent closing with keyboard
+            });
+        }
+
+        // UI Utility Function
+        function hideProgressBar(selector) {
+            $(selector).modal('hide');
+        }
+
+
+        // UI Component
+        function FileChooserFileItem(fileName, fileSize, fileContentType, fileDataB64) {
+
+            const fileItemElem = $('<div class="file-upload-item hand-cursor"></div>');
+            const fileNameElem = $('<div class="chip fileupload-item-title" data-item-title="' + fileName + '">' + fileName + '<span class="close remove-file" aria-label="Close">&times;</span></div>');
+            const fileSizeElem = $('<div class="fileupload-item-size hidden">' + fileSize + '</div>');
+            const fileContentTypeElem = $('<div class="fileupload-item-content-type hidden">' + fileContentType + '</div>');
+            const fileDataB64Elem = $('<div class="fileupload-item-data-b64 hidden">' + fileDataB64 + '</div>');
+
+            fileItemElem.append(fileNameElem);
+            fileItemElem.append(fileSizeElem);
+            fileItemElem.append(fileContentTypeElem);
+            fileItemElem.append(fileDataB64Elem);
+
+            return fileItemElem;
+        }
+
+        // UI Component
+        function PersonelChip(personelId, personelName) {
+            return $('<span class="btn btn-app chip personel-chip" data-personel-id="' + personelId + '" data-personel-label="' + personelName + '"><i class="fa fa-user"></i> ' + personelName
+                + '<span class="badge bg-red remove-person close remove-personel" aria-label="Close" style="opacity: 100 !important">&times;</span>'
+                + '</span>');
+
+        }
+
+        // Utility function
+        function downloadDocument(contentTitle, contentType, contentDataBase64) {
+            var binaryData = atob(contentDataBase64);
+            var arrayBuffer = new ArrayBuffer(binaryData.length);
+            var uint8Array = new Uint8Array(arrayBuffer);
+            for (var i = 0; i < binaryData.length; i++) {
+                uint8Array[i] = binaryData.charCodeAt(i);
+            }
+            var blob = new Blob([arrayBuffer], { type: contentType });
+            var a = document.createElement("a");
+            a.href = window.URL.createObjectURL(blob);
+            a.download = contentTitle;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+
+        // UI Component
+        function TemplateSearchResultItem(id, label) {
+            return $('<li class="item template-list-item" style="padding:.7em 0;" data-item-id="' + id + '" data-item-label="' + label + '">'
+                + '<a class="">' + label + '</a>'
+                + '</li>');
+        }
+
+        function generateDropZone(el) {
+            var dzOption = {
+                maxFilesize: 1,
+                //url: 'api/Vendor/UploadFile?tipe=NPWP',
+                maxFiles: 1,
+                acceptedFiles: ".png, .jpg, .pdf, .xls, .jpeg, .doc, .xlsx, .docx",
+                accept: function (file, done) {
+                    done();
+                },
+                success: function (file, response) {
+                    //$("[name='LaporanKeuangan.File']").val(response.File);
+                    //$("[name='LaporanKeuangan.ContentType']").val(response.ContentType);
+                },
+                init: function () {
+                    this.on("addedfile", function () {
+                        if (this.files[1] != null) {
+                            this.removeFile(this.files[0]);
+                        }
+                    });
+                }
+            };
+            $('#File' + el).addClass('dropzone');
+            var tmp = new Dropzone('#File' + el, {
+                maxFilesize: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
+                accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='" + el + ".base64']").val(response.base64); $("[name='" + el + ".ContentType']").val(response.ContentType); $("[name='" + el + ".FileName']").val(response.FileName); }
+            });
+            console.log(tmp)
+            return tmp;
+        }
+
+
+
+    </script>
+    <script>
+
+
+        document.getElementById('uploadDoc').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+
+            if (!file || file.name.split('.').pop().toLowerCase() !== 'docx') {
+                alert("Please upload a .docx file");
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const arrayBuffer = event.target.result;
+
+                mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+                    .then(function (result) {
+                        eNotaContentEditor.setText(result.value);
+                    })
+                    .catch(function (err) {
+                        console.error("Error reading DOCX:", err);
+                    });
+            };
+
+            reader.readAsArrayBuffer(file);
+        });
+    </script>
+    <script>
+        var eNotaContentEditor = new Quill('#eNota-editor', {
+            theme: 'snow'
+        });
+
+        // Set default content using HTML
+        eNotaContentEditor.root.innerHTML = "<p>1. Latar Belakang</p><p>a. .............</p><p>b. .............</p><p>c. .............</p><p>2. Tujuan </p><p>a. .............</p><p>b. .............</p><p>c. .............</p><p>3. Usulan </p><p>a. .............</p><p>b. .............</p><p>c. .............</p><p>4. Penutup </p><p>.............</p>";
+    </script>
+</body>
+</html>

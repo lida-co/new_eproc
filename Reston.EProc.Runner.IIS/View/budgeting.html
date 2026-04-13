@@ -1,0 +1,1042 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+    <link href="plugins/datatables/extensions/responsive/css/datatables.responsive.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dropzone.css">
+    <style type="text/css">
+        .dz-error-mark {
+            display: none !important;
+        }
+
+        .dropzone {
+            min-height: 50px;
+        }
+
+            .dropzone .dz-message {
+                margin: 0em 0;
+                text-align: center;
+            }
+
+        .clear-margin {
+            margin: 0 !important;
+            padding-top: 3px;
+            padding-left: 250px;
+        }
+    </style>
+</head>
+
+
+
+
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
+    <div class="wrapper">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a id="judul-page" href="#">Budget</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li>
+                                <!--<div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
+                                    <form action="" class="search-form">
+                                        <div class="form-group has-feedback">
+                                            <label for="search" class="sr-only">Search</label>
+                                            <input type="text" class="form-control" name="search" id="search">
+                                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                        </div>
+                                    </form>
+                                </div>-->
+                            </li>
+                            <!--<li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>-->
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar" ng-app="app">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.FullName"></p>
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        </div>
+                    </div>
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <!-- Default box -->
+                <div class="box box-primary box-white">
+                    <div class="box-body form-horizontal">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">List COA Budget <!--<script>document.write(new Date().getFullYear());</script>--></h3>
+                                <div class="box-tools pull-right">
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form class="form-horizontal label-kanan">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Periode Anggaran</label>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control select2" name="PeriodeAnggaran" id="PeriodeAnggaran" style="width: 100%;">
+                                                        <option value="" selected>All</option>
+                                                    </select>
+                                                </div>
+                                                <label class="col-sm-2 control-label">Jenis Anggaran</label>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control select2" name="JenisPembelanjaan" id="JenisPembelanjaan" style="width: 100%;">
+                                                        <option value="" selected>All</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Branch</label>
+                                                <div class="col-sm-4">
+                                                    <select id="listBranch" class="form-control select2 required" style="width: 100%;">
+                                                        <option value="" selected>All</option>
+                                                    </select>
+                                                </div>
+                                                <label class="col-sm-2 control-label">Department</label>
+                                                <div class="col-sm-4">
+                                                    <select id="listDepartment" name="Department" class="form-control select2 required" style="width: 100%;">
+                                                        <option value="" selected>All</option>
+                                                    </select>
+                                                </div>
+                                                <!--<label class="col-sm-2 control-label">Bulan</label>
+                                                <div class="col-sm-4">
+                                                    <select name="pilihbulan" id="month" class="form-control select2 required" style="width: 100%;">
+                                                        <option value="" selected>All</option>
+                                                        <option>January</option>
+                                                        <option>February</option>
+                                                        <option>March</option>
+                                                        <option>April</option>
+                                                        <option>May</option>
+                                                        <option>June</option>
+                                                        <option>July</option>
+                                                        <option>August</option>
+                                                        <option>September</option>
+                                                        <option>October</option>
+                                                        <option>November</option>
+                                                        <option>December</option>
+                                                    </select>
+
+                                                </div>-->
+                                            </div>
+                                            <!--<div class="form-group">
+                                                <label class="col-sm-2 control-label">Department</label>
+                                                <div class="col-sm-4">
+                                                    <select id="listDepartment" name="Department" class="form-control select2 required" style="width: 100%;">
+                                                        <option value="" selected>All</option>
+                                                    </select>
+                                                </div>
+                                            </div>-->
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <div class="submitgray button-row">
+                                            <button id="cari" class="btn btn-primary " type="submit" onclick="fungsicari()">Cari</button>
+                                            <button id="upload" class="btn btn-success" onclick="NewItem()" type="submit" disabled>Upload</button>
+                                            <label id="stats" style="display:none"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="row ">
+                                    </br>
+                                    <div class="col-md-12">
+                                        <div class="col-md-5 box-header" style="background-color: yellow;font-style: italic;">
+                                            <h1 class="box-title" style="margin-bottom: 2%;">Current Process Upload Budgeting</h1>
+                                            <div class="form-group">
+                                                <label class="col-sm-3">Version : 5</label>
+                                                <label class="col-sm-3">Year : 2019</label>
+                                                <label class="col-sm-6">Status : On Upload Process</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 box-header">
+                                        </div>
+                                        <div class="col-md-5 box-header" style="background-color: lightgreen;font-style: italic;">
+                                            <h1 class="box-title" style="margin-bottom: 2%;">Current Active Budgeting</h1>
+                                            <div class="form-group">
+                                                <label class="col-sm-3">Version : 4</label>
+                                                <label class="col-sm-3">Year : 2019</label>
+                                                <label class="col-sm-6">Status : Active</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                            <div class="box-body" style="overflow-x:auto">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered" id="table-budget">
+                                            <thead>
+                                                <tr>
+                                                    <!--<th class="tengah text-bold">No</th>-->
+                                                    <!--<td class="tengah text-bold">Tahun</td>-->
+                                                    <th class="tengah text-bold">Branch</th>
+                                                    <th class="tengah text-bold">Department</th>
+                                                    <th class="tengah text-bold">Deskripsi</th>
+                                                    <th class="tengah text-bold">No. COA</th>
+                                                    <!--<th class="tengah text-bold">Tahun</th>-->
+                                                    <!--<th class="tengah text-bold">Bulan</th>-->
+                                                    <th class="tengah text-bold">Budget Amount</th>
+                                                    <th class="tengah text-bold">Budget Usage</th>
+                                                    <th class="tengah text-bold">Budget Left</th>
+                                                    <!--<th class="tengah text-bold">Budget Reserved</th>-->
+                                                    <!--<th class="tengah text-bold">Action</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <!--<div class="pull-right hidden-xs">
+              <b>Version</b> 1.0.0
+            </div>
+            <strong>Supplier Relation Management</strong> -->
+        </footer>
+    </div><!-- ./wrapper -->
+
+    <div class="modal fade" id="modal-create" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id="UploadModal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Upload Data</h4>
+                </div>
+                <div class="modal-content">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="title">Periode Anggaran</label>
+                                    <select class="form-control select2" name="PeriodeAnggaran" id="PeriodeAnggaranUpload" style="width: 100%;" onchange="year()">
+                                        <option value="" selected>--Pilih Periode Anggaran--</option>
+                                    </select>
+                                    <!--<select name="select" class="form-control" id="chooseYear" style="width: 100%;" onchange="year()"></select>-->
+                                    <label class="title">Jenis Anggaran</label>
+                                    <select class="form-control select2" name="JenisPembelanjaan" id="JenisPembelanjaanUpload" style="width: 100%;" onchange="jenis()">
+                                        <option selected>--Pilih Jenis Anggaran--</option>
+                                    </select>
+                                    <label value="" class="title">Unggah Dokumen Budget</label>
+                                    <!--<div id="dokMemo" attr="Memo" action="/api/Budget/UploadBudget" class="dropzone"></div>-->
+                                    <div id="dokMemo" attr="Memo" action="/" class="dropzone"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="Upload" class="btn btn-primary " type="submit">Upload</button>
+                    <!--<button type="button" onclick="submitCreate()" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal" id="konfirmasiFileNonPks" role="dialog" FileId="" attr1="" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="downloadFileNonPks" class="btn btn-default">Download</button>
+                    <button type="button" id="HapusFileNonPks" class="btn btn-default">Hapus</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div id="DeleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <input type="hidden" id="IdProduk" name="IdProduk" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="tobeDelete" />
+                    <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menghapus data ini?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Hapus" onclick="Delete()" class="btn btn-default">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src="dist/js/purify.js"></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+    <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+    <script src="plugins/typeaheadjs/handlebars.js"></script>
+    <script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+    <script src="plugins/typeaheadjs/app_bs3.js"></script>
+    <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+    <script src="plugins/jQueryNumber/jquery.number.js"></script>
+    <!--<script src="dist/site.js"></script>-->
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <!--<script src="dist/js/pengadaan-add.js"></script>-->
+    <script src="blockui/jquery.blockUI.js"></script>
+    <script src="dropzone.js"></script>
+    <script src="dist/js/menu.js"></script>
+
+    <script src="dist/dataTables.select.min.js"></script>
+    
+    <script>
+
+        var waitingDialog = waitingDialog || (function ($) {
+            'use strict';
+
+            // Creating modal dialog's DOM
+            var $loading = $(
+                '<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
+                '<div class="modal-dialog modal-m">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
+                '<div class="modal-body">' +
+                '<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
+                '</div>' +
+                '</div></div></div>');
+
+
+            var $dialogresult = $(
+                '<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
+                '<div class="modal-dialog modal-m">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header"><h3 id="modalheader" style="margin:0;"></h3></div>' +
+                '<div class="modal-body">' +
+                '<h3 id="modalmessages" style="margin-bottom:0;"></h3>' +
+                '</div>' +
+                '</div></div></div>');
+
+
+
+            return {
+                /**
+                 * Opens our dialog
+                 * @param message Custom message
+                 * @param options Custom options:
+                 * 				  options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
+                 * 				  options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
+                 */
+                showloading: function (message, options) {
+                    // Assigning defaults
+                    if (typeof options === 'undefined') {
+                        options = {};
+                    }
+                    if (typeof message === 'undefined') {
+                        message = 'Loading';
+                    }
+                    var settings = $.extend({
+                        dialogSize: 'm',
+                        progressType: '',
+                        onHide: null // This callback runs after the dialog was hidden
+                    }, options);
+
+                    // Configuring dialog
+                    $loading.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
+                    $loading.find('.progress-bar').attr('class', 'progress-bar');
+                    if (settings.progressType) {
+                        $loading.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
+                    }
+                    $loading.find('h3').text(message);
+                    // Adding callbacks
+                    if (typeof settings.onHide === 'function') {
+                        $loading.off('hidden.bs.modal').on('hidden.bs.modal', function (e) {
+                            settings.onHide.call($loading);
+                        });
+                    }
+                    // Opening dialog
+                    $loading.modal();
+                },
+
+
+
+                showresult: function (messageheader, messagebody) {
+
+                    if (typeof messageheader === 'undefined') {
+                        messageheader = 'Message';
+                    }
+
+                    if (typeof messagebody === 'undefined') {
+                        messagebody = '..........';
+                    }
+
+
+                    $dialogresult.find('#modalheader').text(messageheader);
+                    $dialogresult.find('#modalmessages').text(messagebody);
+                    // Adding callbacks
+
+                    // Opening dialog
+                    $dialogresult.modal();
+                },
+                /**
+                 * Closes dialog
+                 */
+
+                hideresult: function () {
+                    $dialogresult.modal('hide');
+                },
+
+
+                hideloading: function () {
+                    $loading.modal('hide');
+                }
+            };
+
+        })(jQuery);
+
+        function NewItem() {
+            var text = $("#myTab li.active a").html();
+            $("#modal-create #qualifier").html(text);
+            $("#modal-create").modal('show');
+        }
+
+
+        //var branch = $("[name=Branch]").val();
+        //var department = $("[name=Department]").val();
+        //var table_list = $('#table-budget').DataTable({
+        //    "ajax": "api/Budget/GetTblCOAPengadaan?branch=" + $('#listBranch').val() + '&year=' + $('#PeriodeAnggaran').val() + '&jenis=' + $('#JenisPembelanjaan').val(),
+        //    "type": 'POST',
+        //    "language": {
+        //        "decimal": ",",
+        //        "thousands": "."
+        //    },
+        //    "columns": [
+        //        { "data": "null" },
+        //        { "data": "Branch" },
+        //        { "data": "Department" },
+        //        { "data": "Description" },
+        //        { "data": "COA" },
+        //        //{ "data": "Year" },
+        //        { "data": "Month" },
+        //        { "data": "BudgetAmount", render: $.fn.dataTable.render.number('.', ',', 2, '') },
+        //        { "data": "BudgetUsage", render: $.fn.dataTable.render.number('.', ',', 2, '') },
+        //        { "data": "BudgetLeft", render: $.fn.dataTable.render.number('.', ',', 2, '') },
+        //        //{ "data": "BudgetReserved", render: $.fn.dataTable.render.number('.', ',', 2, '') },
+        //        //{ "data": "null", "width": "5%" }
+        //    ],
+        //    "columnDefs": [
+        //        {
+        //            "render": function (data, type, row, meta) {
+        //                return meta.row + meta.settings._iDisplayStart + 1;
+        //            },
+        //            "targets": 0,
+        //            "orderable": true
+        //        },
+        //        {
+        //            "render": function (data, type, row) {
+        //                return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
+        //            },
+        //            "targets": 1,
+        //            "orderable": true
+        //        },
+        //        {
+
+        //            "targets": 3,
+        //            "orderable": false
+        //        },
+        //        {
+        //            "formatNumber": true,
+        //            "targets": 6,
+        //            "orderable": false
+        //        },
+        //        {
+
+        //            "targets": 7,
+        //            "orderable": false
+        //        },
+        //        {
+
+        //            "targets": 8,
+        //            "orderable": false
+        //        }
+        //        //,
+        //        //{
+        //        //    "render": function (data, type, row) {
+        //        //        if (data.BudgetReserved <= 0 || data.BudgetReserved == null) {
+        //        //            return 0;
+        //        //        }
+        //        //    },
+        //        //    "targets": 9,
+        //        //    "orderable": false
+        //        //}
+        //        //,
+        //        //{
+        //        //    "render": function (data, type, row) {
+        //        //        return '<a href="javascript:editItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+        //        //            '<a href="javascript:deleteItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+        //        //    },
+        //        //    "targets": 10,
+        //        //    "orderable": false
+        //        //}
+        //    ],
+        //    "serverSide": false,
+        //    pageLength: 100,
+        //    "paging": true,
+        //    "lengthChange": false,
+        //    "searching": false,
+        //    "ordering": false,
+        //    "info": true,
+        //    "autoWidth": false,
+        //    "responsive": true,
+        //    "destroy": true
+        //});
+
+        $(function () {
+            table_list = $('#table-budget').DataTable({
+                "ajax": {
+                    "url": 'api/Budget/GetTblCOAPengadaan',
+                    "type": 'POST',
+                    //"order": [],
+                    //"aaSorting": [[2, 'asc']],
+                    //"bSortable": true,
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        //if ($('#listBranch').val() != null) { d.branch = $('#listBranch').val(); } else { d.branch = ""}
+                        //if ($('#PeriodeAnggaran').val() != null) { d.year = $('#PeriodeAnggaran').val(); } else { d.year = "0" }
+                        //if ($('#JenisPembelanjaan').val() != null) { d.jenis = $('#JenisPembelanjaan').val(); } else { d.jenis = "0" }
+                        if ($('#listDepartment').val() != null || $('#listDepartment').val() != "") { d.department = $('#listDepartment').val(); } else { d.department = ""; }
+                        if ($('#listBranch').val() != null || $('#listBranch').val() != "") { d.branch = $('#listBranch').val(); } else { d.branch = ""; }
+                        if ($('[name=PeriodeAnggaran]').val() != null || $('[name=PeriodeAnggaran]').val() != "") { d.year = $('[name=PeriodeAnggaran]').val(); } else { d.year = ""; }
+                        if ($('[name=JenisPembelanjaan]').val() != null || $('#[name=JenisPembelanjaan]').val() != "") { d.jenis = $('[name=JenisPembelanjaan]').val(); } else { d.jenis = ""; }
+                        if ($('#month').val() != null || $('#month').val() != "") { d.month = $('#month').val(); } else { d.month = ""; }
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    },
+                    "language": {
+                        "decimal": ",",
+                        "thousands": "."
+                    }
+                },
+                "columns": [
+                    //{ "data": "Branch" },
+                    { "data": "Branch" },
+                    { "data": "Department" },
+                    { "data": "Description" },
+                    { "data": "COA" },
+                    //{ "data": "Year" },
+                    //{ "data": "Month" },
+                    { "data": "BudgetAmount", render: $.fn.dataTable.render.number('.', ',', 2, ''), "class": "rata_kanan_pad10" },
+                    { "data": "BudgetUsage", render: $.fn.dataTable.render.number('.', ',', 2, ''), "class": "rata_kanan_pad10" },
+                    { "data": "BudgetLeft", render: $.fn.dataTable.render.number('.', ',', 2, ''), "class": "rata_kanan_pad10" },
+                    //{ "data": "BudgetReserved", render: $.fn.dataTable.render.number('.', ',', 2, '') },
+                    //{ "data": "null", "width": "5%" }
+                ],
+                "columnDefs": [
+                    //{
+                    ////    "render": function (data, type, row, meta) {
+                    ////        return meta.row + meta.settings._iDisplayStart + 1;
+                    ////    },
+                    ////    "targets": 0,
+                    ////    "orderable": false
+                    //    "type": 'natural-nohtml',
+                    //    "targets": 0
+                    //},
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
+                        },
+                        "targets": 0,
+                        //"aaSorting": true
+                    },
+                    //{
+
+                    //    "targets": 3,
+                    //    "orderable": false
+                    //},
+                    {
+                        "formatNumber": true,
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "formatNumber": true,
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "formatNumber": true,
+                        "targets": 6,
+                        "orderable": false
+                    }
+                    //,
+                    //{
+                    //    "render": function (data, type, row) {
+                    //        if (data.BudgetReserved <= 0 || data.BudgetReserved == null) {
+                    //            return 0;
+                    //        }
+                    //    },
+                    //    "targets": 9,
+                    //    "orderable": false
+                    //}
+                    //,
+                    //{
+                    //    "render": function (data, type, row) {
+                    //        return '<a href="javascript:editItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                    //            '<a href="javascript:deleteItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                    //    },
+                    //    "targets": 10,
+                    //    "orderable": false
+                    //}
+                ],
+                "serverSide": true,
+                pageLength: 100,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+        });
+
+        function fungsicari() {
+            table_list.draw();
+        }
+        //$.when($.ajax(change())).then(function () {
+        //    myDropzoneMemo.processQueue();
+        //});
+
+        function year() {
+            //var x = document.getElementById("PeriodeAnggaran").value;
+            //alert("Data " + $('#chooseYear').val() + $('#chooseJenis').val());
+            $('#dokMemo').attr('action', "/Api/Budget/UploadBudget?Tahun=" + $('#PeriodeAnggaranUpload').val() + '&Jenis=' + $('#JenisPembelanjaanUpload').val());
+        }
+
+        function jenis() {
+            //var x = document.getElementById("JenisPembelanjaan").value;
+            //alert("Data " + $('#chooseYear').val() + $('#chooseJenis').val());
+            $('#dokMemo').attr('action', "/Api/Budget/UploadBudget?Tahun=" + $('#PeriodeAnggaranUpload').val() + '&Jenis=' + $('#JenisPembelanjaanUpload').val());
+        }
+
+        //$('#chooseYear').each(function () {
+
+        //    var year = (new Date()).getFullYear();
+        //    var current = year;
+        //    year -= 3;
+        //    for (var i = 0; i < 6; i++) {
+        //        if ((year + i) == current)
+        //            $(this).append('<option selected value="' + (year + i) + '">' + (year + i) + '</option>');
+        //        else
+        //            $(this).append('<option value="' + (year + i) + '">' + (year + i) + '</option>');
+        //    }
+
+        //})
+
+        $('#Upload').click(function () {
+            //$.when($.ajax(change())).then(function () {
+            //    myDropzoneMemo.processQueue();
+            //    waitingDialog.showloading("Proses Harap Tunggu");
+            //});
+            waitingDialog.showloading("Proses Harap Tunggu");
+            if ($('#PeriodeAnggaranUpload').val() == "" || $('#JenisPembelanjaanUpload').val() == "") {
+                waitingDialog.hideloading();
+                BootstrapDialog.show({
+                    title: 'Konfirmasi',
+                    message: 'Masukan Jenis Anggaran dan Periode Anggaran',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialog) {
+                            waitingDialog.hideloading();
+                            dialog.close();
+                        }
+                    }]
+                });
+            }
+            else {
+                if (myDropzoneMemo.files.length == null || myDropzoneMemo.files.length < 1 || myDropzoneMemo.files.length == 0) {
+                    waitingDialog.hideloading();
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Pilih Dokumen Budgeting Terlebih Dahulu',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                waitingDialog.hideloading();
+                                dialog.close();
+                            }
+                        }]
+                    });
+                }
+                else {
+                    myDropzoneMemo.processQueue();
+                }
+            }
+        });
+
+
+        //function change() {
+        //    $('#dokMemo').attr('action', "/Api/Budget/UploadBudget?Tahun=" + $('#chooseYear').val() + '&Jenis=' + $('#chooseJenis').val());
+        //}
+
+        Dropzone.autoDiscover = false;
+
+        var myDropzoneMemo = new Dropzone("#dokMemo",
+            {
+                //url: "/api/Budget/UploadBudget",
+                //url: "/Api/Budget/UploadBudget/",
+                addRemoveLinks: true,
+                autoProcessQueue: false,
+                maxFilesize: 10,
+                acceptedFiles: ".xls,.xlsx",
+                accept: function (file, done) {
+                    this.options.url = $("#dokMemo").attr("action");
+                    var jumFile = myDropzoneMemo.files.length;
+                    if (jumFile = 0) {
+                        waitingDialog.hideloading();
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: 'Pilih Dokumen Terlebih Dahulu',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    myDropzoneMemo.removeFile(file);
+                                    waitingDialog.hideloading();
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+                    if (jumFile > 1) {
+                        waitingDialog.hideloading();
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: 'Berkas Sudah Ada ',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    myDropzoneMemo.removeFile(file);
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    } else {
+                        //waitingDialog.hideloading();
+                        //var Id = $("#spkId").val();
+                        //var Klasifikasi = "Aanwijzing";
+                        //$("#IdforAttribut").val(Id);
+                        //$("#KlasifikasiforAttribut").val(Klasifikasi);
+                        //$("#addatribut").modal({ "backdrop": "static" });
+                        done();
+                        waitingDialog.hideloading();
+                        //setTimeout(function () {
+                        //    waitingDialog.hideloading();
+                        //    window.location.reload();
+                        //}, 10000);
+                    }
+                },
+                init: function () {
+                    //this.on("addedfile", function (file) {
+                    //    file.previewElement.addEventListener("click", function () {
+                    //        var id = 0;
+                    //        if (file.Id != undefined)
+                    //            id = file.Id;
+                    //        else
+                    //            id = $.parseJSON(file.xhr.response);
+                    //        $("#HapusFile").show();
+                    //        $("#konfirmasiFileNonPks").attr("attr1", "PKS");
+                    //        $("#konfirmasiFileNonPks").attr("attr2", "Memo");
+                    //        $("#konfirmasiFileNonPks").attr("FileId", id);
+                    //        $("#konfirmasiFileNonPks").modal("show");
+                    //        //if ($("#isOwner").val() == 1 && $("#StatusSpk").val() == 0) {
+                    //        //    $("#HapusFile").show();
+                    //        //} else { $("#HapusFile").hide() }
+                    //    });
+                    //});
+
+                    this.on("error", function (file) {
+                        BootstrapDialog.show({
+                            title: 'Notifikasi',
+                            message: 'Gagal !',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    waitingDialog.hideloading();
+                                    myDropzoneMemo.removeFile(file);
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    });
+                    this.on("success", function (file, responseText) {
+                        //if (responseText == "00000000-0000-0000-0000-000000000000" || responseText == null) {
+                        //    BootstrapDialog.show({
+                        //        title: 'Notifikasi',
+                        //        message: 'Gagal !',
+                        //        buttons: [{
+                        //            label: 'Close',
+                        //            action: function (dialog) {
+                        //                waitingDialog.hideloading();
+                        //                myDropzoneMemo.removeFile(file);
+                        //                dialog.close();
+                        //            }
+                        //        }]
+                        //    });
+                        //} else {
+                        waitingDialog.hideloading();
+                        window.location.reload();
+                        //}
+                    });
+                }
+            }
+        );
+        Dropzone.options.dokMemo = false;
+
+
+
+        function SetListBranch(el) {
+            $.ajax({
+                url: "/api/ReferenceData/GetAllBranch",
+                success: function (data) {
+                    if (data && Array.isArray(data)) {
+                        data.forEach(branch => {
+                            if (branch && branch.Branch_Name) {
+                                // Create <option> safely
+                                const option = $("<option>", {
+                                    value: String(branch.Branch_Name)  // ensures proper escaping
+                                }).text(branch.Branch_Name);
+
+                                $(el).append(option);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+
+
+
+        function SetListDepartment(el) {
+            $.ajax({
+                url: "/api/ReferenceData/GetAllDepartment",
+                success: function (data) {
+                    if (Array.isArray(data)) {
+                        for (var i = 0; i < data.length; i++) {
+                            var deptName = data[i].Department_Name;
+
+                            if (typeof deptName === "string") {
+                                // Safely append using jQuery
+                                $(el).append(
+                                    $("<option>").val(deptName).text(deptName)
+                                );
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+        function SetListJenisPembelanjaan(el) {
+            $.ajax({
+                url: "/api/ReferenceData/GetAllJenisPembelanjaan",
+                success: function (data) {
+                    
+                    //if (data) {
+                    //    for (var i in data) {
+                    //        $(el).append("<option value='" + DOMPurify.sanitize(data[i].Code) + "'>" +DOMPurify.sanitize(data[i].Name) + "</option>");
+                    //    }
+                    //}
+
+                    if (Array.isArray(data)) {
+                        for (var i = 0; i < data.length; i++) {
+                            var Code = data[i].Code;
+                            var Name = data[i].Name;
+
+                            if (typeof Code === "string") {
+                                // Safely append using jQuery
+                                $(el).append(
+                                    $("<option>").val(Name).text(Code)
+                                );
+                            }
+                        }
+                    }
+
+                }
+            });
+        }
+
+        function SetListPeriode(el) {
+            $.ajax({
+                url: "/api/ReferenceData/GetAllPeriodeAnggaran",
+                success: function (data) {
+                    
+                  //  if (data) {
+                    //    for (var i in data) {
+                    //        $(el).append("<option value='" + DOMPurify.sanitize(data[i].Code) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                   //     }
+                   // }
+
+
+                    if (Array.isArray(data)) {
+                        for (var i = 0; i < data.length; i++) {
+                            var Code = data[i].Code;
+                            var Name = data[i].Name;
+
+                            if (typeof Code === "string") {
+                                // Safely append using jQuery
+                                $(el).append(
+                                    $("<option>").val(Name).text(Code)
+                                );
+                            }
+                        }
+                    }
+
+               
+                }
+            });
+        }
+
+        CekUpload();
+        function CekUpload() {
+            console.log("masuk fungsi CekUpload");
+            $.ajax({
+                method: "post",
+                url: "api/Budget/CekUpload"
+            }).done(function (data) {
+                //alert("Is What " + data.IsIdle);
+                if (DOMPurify.sanitize(data.IsIdle == 0)) {
+                    $("#upload").removeAttr('disabled');
+                    $("#stats").show();
+                    var tanggal = moment(DOMPurify.sanitize(data.CreateOn)).format('MMMM Do YYYY, h:mm:ss').toString();
+                    $("#stats").append('<ul class="list-unstyled"><li style = "color: mediumseagreen;" > Status : Last Uploaded ' + tanggal + '</li ></ul>');
+                }
+                else if (DOMPurify.sanitize(data.IsIdle) == 2) {
+                    $("#upload").removeAttr('disabled');
+                    $("#stats").show();
+                    $("#stats").append('<ul class="list-unstyled"><li style = "color: mediumseagreen;" > Status : No Budgeting Data Available</li ></ul>');
+                }
+                else if (DOMPurify.sanitize(data.IsIdle) == 1) {
+                    console.log("CekUpload: yes");
+                    $("#stats").show();
+                    var tanggal = DOMPurify.sanitize(moment(data.CreateOn)).format('MMMM Do YYYY, h:mm:ss').toString();
+                    //$("#stats").append('<ul class="list-unstyled"><li style = "color: red;" > Status : Budgeting Data is Being Updated, Last Uploaded ' + tanggal + ', Type ' + data.Jenis + ', Budget Year ' + data.Year + '</li ></ul>');
+                    $("#stats").append('<ul class="list-unstyled"><li style = "color: red;" > Status : Budgeting Data is being Updated. Please Wait! , Last Uploaded ' + tanggal + '</li ></ul>');
+                }
+                //else {
+                //    console.log("CekUpload: No");
+                //    $("#upload").removeAttr('disabled');
+                //    $("#stats").show();
+                //    $("#stats").append('<ul class="list-unstyled"><li style = "color: mediumseagreen;" > Status : Budgeting Data is Up To Date</li ></ul>');
+                //}
+                //alert("master user? " + $("#isMasterUser").val());
+                //alert("Pengadaan id nya" + $("#pengadaanId").val());
+            });
+        }
+
+
+        SetListBranch("#listBranch");
+        SetListDepartment("#listDepartment");
+        SetListPeriode("[name=PeriodeAnggaran]");
+        SetListJenisPembelanjaan("[name=JenisPembelanjaan]");
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1248 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+	
+	<link href="dist/site.css" rel="stylesheet" />
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css"> 
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+	<link rel="stylesheet" href="dist/app.css">	
+	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+	<link rel='stylesheet' href='plugins/datatables/extensions/Responsive/css/dataTables.responsive.css' />
+	
+		<style type="text/css">
+		table>tbody>td{
+			border: 1px solid #bebebe !important
+		
+		}
+		form.jp-navbar-form {
+			padding-top:3px;
+			padding-left:50px;
+			margin:0;
+		}
+		.clear-margin{
+			margin:0 !important;
+			padding-top:3px;
+			padding-left:250px;
+		}
+	
+
+    /* Custom Styles */
+    ul.nav-tabs{
+        width: 200px;
+        margin-top: 20px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    }
+    ul.nav-tabs li{
+        margin: 0;
+        border-top: 1px solid #ddd;
+    }
+    ul.nav-tabs li:first-child{
+        border-top: none;
+    }
+    ul.nav-tabs li a{
+        margin: 0;
+        padding: 8px 16px;
+        border-radius: 0;
+    }
+    ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover{
+        color: #fff;
+        background: #0088cc;
+        border: 1px solid #0088cc;
+    }
+    ul.nav-tabs li:first-child a{
+        border-radius: 4px 4px 0 0;
+    }
+    ul.nav-tabs li:last-child a{
+        border-radius: 0 0 4px 4px;
+    }
+    ul.nav-tabs.affix{
+        top: 30px; /* Set the top position of pinned element */
+    }
+	#example1 thead tr th{
+		text-align:center;
+	}
+	#example1 tbody tr td,#example1  thead tr th{
+		border: 1px solid black;
+	}
+</style>
+  </head>
+ <body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed"  data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+      
+     <div id="header">
+        <header class="main-header">
+        <!-- Logo -->
+        <a  class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span> 
+            <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span> 
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            </a>
+	        <div class="navbar-custom-menu pull-left"> 
+	        <ul class="nav navbar-nav">
+		       <li>	<a id="judul-page" href="#">RKS </a></li> 
+	        </ul>
+	        </div>
+            <div class="navbar-custom-menu">            
+            <ul id="menu-top" class="nav navbar-nav">
+                <li><a href="#" id="cetak-rks" title="Cetak"><i class="fa fa-fw fa-print " style="font-size:20px;"></i>Cetak</a></li>
+               <li><a href="#" id="simpanalasuransi" attr2="save" title="Simpan" ><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+            </ul>
+            </div>
+        </nav>
+        </header>
+    </div>
+          <!-- Left side column. contains the logo and sidebar -->
+    <div id="menu"  >
+          <aside class="main-sidebar" >
+            <!-- sidebar: style can be found in sidebar.less -->
+             <section class="sidebar" >
+              <!-- sidebar menu: : style can be found in sidebar.less -->
+              <ul class="sidebar-menu"  ng-controller="side-menu">
+               <!-- <li class="header">MAIN NAVIGATION</li>-->
+             
+			    <li class="treeview" ng-repeat="menu in menus">
+				    <a href="{{menu.url}}">
+				        <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+				    </a>				
+			    </li>
+              </ul>
+            </section>
+            <!-- /.sidebar -->
+          </aside>
+     </div>
+    
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+    
+		 <section class="content">
+
+			<!-- Default box -->
+			<input type="hidden" id="pengadaanId" />
+             <input type="hidden" id="region" />
+             <input type="hidden" id="aturan-pengadaan" />
+			 <div id="page-content" class="box box-primary box-white" >
+              <div class="box-body " style="margin-left: 30px;">
+                  <div class="row" style="margin-left:30px; margin-top:20px;">
+                      <div class="col-md-10">
+                          <div id="notif">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-11">
+                      <form role="form" class="jp-form">
+                          <div class="row">
+                              <div class="form-group">
+                                  <div class="form-group judul-pengadaan">
+                                      <label id="judul"></label>
+                                  </div>
+                                  <div class="form-group">
+                                      <label id="deskripsi"> </label>
+                                  </div>
+                                  <div class="form-group">
+                                      <label id="keterangan"></label>
+                                  </div>
+                                  <!--<div class="form-group">
+                            <label id="Status"></label>
+                        </div>-->
+                              </div>
+                          </div>
+                          <div class="row" style="display: none;">
+                              <div class="form-group col-md-6">
+                                  <label style="display:block"><b>Total HPS : </b></label>
+                                  <label style="display:block" id="totalRKS">0</label>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="padtop  button-row">
+                                          <!--<a alt="tambah judul" class="add btn btn-primary add-judul" attr="0" data-toggle="tooltip" title="Tambah Judul"><span class="fa fa-plus"></span> Add Judul</a>-->
+                                          <a class="add btn btn-primary load-rks" data-toggle="tooltip"><!--title="Load From Repository HPS"-->Load Dari Repository Asuransi</a>
+                                          <a class="add btn btn-primary save-rks-template" id="SaveKeRepository" onclick="//TampilSimpanRepository();"> <!--title="Load From Repository HPS"-->Simpan Ke Repository</a>
+                                          <a class="btn btn-primary" data-toggle="modal" onclick="tampilmodaltambah();"><!--title="Tambah"-->Tambah</a>
+                                          <!--<a class="add btn btn-primary save-template-hps" data-toggle="tooltip" title="Save To Repository HPS">Save To HPS Repository </a>-->
+                                          <!--<a id="take" class="btn btn-xs btn-primary" ><span class="fa  fa-edit"></span></a>-->
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row" style="display: none;">
+                                  <div class="col-md-18">
+                                      <input type="hidden" id="idRks" />
+                                      <table id="example1" class="table table-bordered table-hover" width="100%">
+                                          <thead>
+                                              <tr>
+                                                  <th class="tengah">Nama</th>
+                                                  <th class="tengah">Item</th>
+                                                  <th class="tengah">Satuan</th>
+                                                  <th class="tengah">Jumlah</th>
+                                                  <th class="tengah">HPS Satuan</th>
+                                                  <th class="tengah">Total</th>
+                                                  <th class="tengah">Keterangan</th>
+                                                  <th class="tengah">Action</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody></tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-18" style="margin-left: 13px;">
+                                      <input type="hidden" id="idRks" />
+                                      <table id="example" class="table table-bordered table-hover" width="100%">
+                                          <thead>
+                                              <tr>
+                                                  <th class="tengah text-bold">Benefit</th>
+                                                  <th class="tengah text-bold">Coverage</th>
+                                                  <th class="tengah text-bold">Region</th>
+                                                  <th colspan="2" class="tengah text-bold">Rate</th>
+                                                  <th class="tengah text-bold">Action</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody></tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+			</div>
+			
+			
+		</section><!-- /.content -->
+		</div>
+	
+       
+	   <footer class="main-footer">
+       <!-- <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0.0
+        </div>
+        <strong>Pengadaan-e</strong> -->
+	    </footer>
+    </div><!-- ./wrapper -->
+	
+	
+    <!--kilk persetujuan-->
+         <!-- Modal -->
+    <div class="modal" id="modal-simpan" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		    <h4 class="modal-title">Konfirmasi</h4>
+              <div class="modal-body" id="konten-simpan">              
+               </div>
+	      </div>
+	      <div class="modal-footer">
+              <button type="button" id="kembali" class="btn btn-default" data-toggle="tooltip" title="Kembali Ke Halaman Sebelumnya" >Kembali</button>		
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Lanjutkan isi RKS">Lanjutkan</button>-->		
+               <button type="button" class="btn btn-default refresh"  data-toggle="tooltip" title="Lanjutkan isi RKS">Lanjutkan</button>		
+	      </div>
+	    </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+     <div class="modal" id="modal-simpan-ulul" role="dialog" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <div class="modal-body" id="konten-simpan">
+                         <h4 class="modal-title">Konfirmasi</h4>
+                         <h4 class="modal-title"> </h4>
+                     </div>
+                     <div class="modal-body" id="konten-simpan">
+                         Data berhasil di simpan 
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" id="kembali-ulul" class="btn btn-default" data-toggle="tooltip" title="Kembali Ke Halaman Sebelumnya">Kembali</button>
+                     <!--<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Lanjutkan isi RKS">Lanjutkan</button>-->
+                     <button type="button" class="btn btn-default refresh" data-toggle="tooltip" title="Lanjutkan isi RKS">Lanjutkan</button>
+                 </div>
+             </div><!-- /.modal-content -->
+         </div><!-- /.modal-dialog -->
+     </div><!-- /.modal -->
+
+     <!--kilk persetujuan-->
+         <!-- Modal -->
+    <div class="modal" id="modal-load-rks" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		    <h4 class="modal-title">Load Template Asuransi</h4>
+              <div class="modal-body"> 
+                  <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal label-kanan">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Judul</label>
+                                    <div class="col-sm-4">
+                                        <input id="title" type="text" class="form-control " placeholder="Judul">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Jenis</label>
+                                    <div class="col-sm-4">
+                                        <select name="BenefitType" id="BenefitType" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <table id="list-rks-template" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="tengah text-bold">Document Title</th>
+                                    <th class="tengah text-bold">Jenis</th>
+                                    <th class="tengah text-bold">CreatedBy</th>
+                                    <th class="tengah text-bold">CreatedTS</th>
+                                    <th class="tengah text-bold">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+               </div>
+	      </div>
+	      <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+      <!--kilk persetujuan-->
+         <!-- Modal -->
+    <div class="modal" id="modal-save-rks" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		    <h4 class="modal-title">Form Save RKS Repository</h4>
+              <div class="modal-body"> 
+                  <div class="row">
+                        <div class="col-md-12">
+                            <form role="form" class="jp-form">
+                                <input type="hidden" id="idrepoRks"/>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Judul</label>
+                                            <div class="col-sm-6">
+                                                <input id="title" type="text" class="form-control " placeholder="Judul">
+                                                <!--hantu-->
+                                                <input id="documentidasuransi" type="hidden" class="form-control " >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Deskripsi</label>
+                                            <div class="col-sm-6">
+                                                <textarea id="deskripsi-repo" class="form-control "></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Klasifikasi</label>
+                                            <div class="col-sm-6">
+                                                <select id="Klasifikasi" class="form-control select2" style="width: 100%;">
+                                                    <option selected="selected" value="">ALL</option>
+                                                    <option value="0">SIPIL</option>
+                                                    <option value="1">NONSIPIL</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+               </div>
+	      </div>
+	      <div class="modal-footer">
+             <button type="button" class="btn btn-default save-repo-rks" data-toggle="tooltip" title="Save" >Save</button>	
+              <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+     <div id="DeleteModal" class="modal fade" role="dialog">
+         <div class="modal-dialog">
+             <input type="hidden" id="row_index" />
+             <!-- Modal content-->
+
+             <div class="modal-content">
+                 <input type="hidden" id="IdProduk" name="IdProduk" />
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <input type="hidden" id="tobeDelete" />
+                     <input type="hidden" id="tobeEdit" />
+                     <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                 </div>
+                 <div class="modal-body">
+                     <p>
+                         Anda akan menghapus data ini?
+                     </p>
+                 </div>
+                 <div class="modal-footer">
+                     <input type="button" value="Hapus" onclick="Delete()" class="btn btn-default">
+                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header" id="title_1">
+                     <h3 class="modal-title">Tambah Benefit </h3>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
+                 <div class="modal-header" id="title_2">
+                     <h3 class="modal-title">Edit Benefit </h3>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
+                 <div class="modal-body">
+                     <form id="addBenefitForm" name="addBenefitForm">
+                         <label class="control-label">Kode Benefit</label>
+                         <div>
+                             <select name="BenefitCode" class="form-control" id="BenefitCode"></select>
+                             <div id="benefitDesc"></div>
+                         </div>
+
+                         <label class="control-label">Coverage</label>
+                         <div>
+                             <select name="BenefitCoverage" class="form-control" id="BenefitCoverage"></select>
+                         </div>
+
+                         <label class="control-label">Region</label>
+                         <div>
+                             <select name="RegionCode" class="form-control" id="RegionCode"></select>
+                         </div>
+
+                         <div class="checkbox">
+                             <!--<input name="IsOpen" type="checkbox" class="form-check-input">-->
+                             <label><input type="checkbox" id="IsOpen"> Perlu Underwriting </label>
+                         </div>
+                         <div id="changeShipInputs">
+                             <label class="control-label">Rate Value Type</label>
+                             <div>
+                                 <select name="IsRange" id="IsRange" class="form-control" onchange="java_script_:show(this.options[this.selectedIndex].value)">
+                                     <option value="true" selected>Rate</option>
+                                     <option value="false">Value</option>
+                                 </select>
+                                 <label class="control-label">Rate</label>
+                                 <div id="raterange">
+                                     <input name="RateLowerLimit" id="RateLowerLimit" type="number" min="0" max="10000" class="form-control "> % s.d <input name="RateUpperLimit" id="RateUpperLimit" type="number" min="0" max="10000" class="form-control ">
+                                 </div>
+                                 <div id="ratevalue" style="display:none">
+                                     <input name="Rate" id="Rate" type="number" min="0" max="10000" class="form-control">
+                                 </div>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
+                 <div id="btn_1" class="modal-footer">
+                     <button id="addbenef" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Tambah Benefit</button>
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                 </div>
+                 <div id="btn_2" class="modal-footer" style="display: none;">
+                     <button id="Simpanedit" type="submit" onclick="//AddBenefit()" class="editbenef btn btn-primary">Edit Benefit</button>
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="modal fade" id="modal-save-to-template" tabindex="-1" role="dialog" aria-labelledby="modal-save-to-templateLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h3 class="modal-title">Simpan RKS Ke Template </h3>
+                 </div>
+                 <div class="modal-body">
+                     <form id="addBenefitForm">
+                         <label class="control-label">Judul</label>
+                         <div>
+                             <input name="DocumentTitle" id="DocumentTitle" type="text" class="form-control">
+                         </div>
+
+                         <label class="control-label">Jenis</label>
+                         <div>
+                             <select name="BenefitType" class="form-control" id="BenefitType"></select>
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                     <button id="savetotemplate" type="submit" onclick="//AddBenefit()" class="savetotemplate btn btn-primary">Simpan Ke Template</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+     <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+  
+	<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="plugins/jQueryUItotop/easing.js"></script>
+	<script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+	<script src="plugins/JQueryValidation/jquery.validate.js"></script>
+	<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+	<script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+	<script src="plugins/accounting/accounting.js"></script>	
+     <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+	<script src="dist/site.js"></script>	
+	 <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+	<script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+	<script src="plugins/typeaheadjs/handlebars.js"></script>
+	<script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+	 <script  src='plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js' ></script>
+     <script src='plugins/PriceFormat/jquery.priceformat.js'></script>
+
+     <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <!-- <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+	<script src="plugins/typeaheadjs/handlebars.js"></script>
+	<script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+	 <script src="plugins/typeaheadjs/app_bs3.js"></script>-->
+     <script src="plugins/htmltoword/FileSaver.js"></script> 
+    <script src="plugins/htmltoword/jquery.wordexport.js"></script>
+     <script src="dist/js/rks_asuransi.js"></script>	
+     <script src="dist/js/menu.js"></script>	
+     <script>
+         var listTableRks;
+         var table;
+       //  $(function () {
+             listTableRks = $('#list-rks-template').DataTable({
+                 "serverSide": true,
+                 "searching": false,
+                 "ajax": {
+                     "url": '/Api/MonitoringSelection/GetList',
+                     "type": 'POST',
+                     "data": function (d) {
+                         d.title = $("#title").val();
+                         d.type = $("#BenefitType").val();
+                     }
+                 },
+                 "columns": [
+                     { "data": "DocumentTitle" },
+                     { "data": "BenefitType" },
+                     { "data": "CreatedBy" },
+                     { "data": "CreatedTS" },
+                     { "data": null }
+                 ],
+                 "columnDefs": [
+                     {
+                         
+                         "render": function (data, type, row) {
+                             return '<button idDocument="' + data.DocumentId + '" class="btn btn-xs btn-primary pilih" title="pilih">Pilih</a> ';
+                        },
+                        "targets": 4,
+                        "orderable": false
+                     }
+                 ],
+                 "paging": true,
+                 "lengthChange": false,
+                 "ordering": false,
+                 "info": true,
+                 "autoWidth": false,
+                 "responsive": true,
+
+             });
+
+             function show(aval) {
+                 if (aval == "true") {
+                     raterange.style.display = 'inline';
+                     ratevalue.style.display = 'none';
+                     //Form.fileURL.focus();
+                 }
+                 else {
+                     raterange.style.display = 'none';
+                     ratevalue.style.display = 'inline';
+                 }
+             };
+
+             $(function () {
+                 $.ajax({
+                     method: "POST",
+                     url: "Api/PengadaanE/saveRKSAsuransiPertama?PengadaanId=" + $("#pengadaanId").val(),
+                     dataType: "json",
+                     contentType: 'application/json; charset=utf-8',
+                     success: function (data) {
+                         $("#documentidasuransi").val(data.DocumentId);
+                         tampil_tabel_load_rks_asuransi();
+                     }
+                 });
+             });
+
+             $("#list-rks-template").on("click", ".pilih", function () {
+                 var DocumentId = $(this).attr("idDocument");
+                 waitingDialog.showloading("Proses Harap Tunggu");
+                 $.ajax({
+                     method: "POST",
+                     url: "Api/PengadaanE/saveRksAsuransiFromTemplate?DocumentIdLama=" + DocumentId + "&PengadaanId=" + $("#pengadaanId").val() + "&DocumentIdBaru=" + $("#documentidasuransi").val(),
+                     dataType: "json",
+                     contentType: 'application/json; charset=utf-8',
+                     success: function (data) {
+                         alert("sukses copy data");
+                         table.ajax.reload();
+                         //tampil_tabel_load_rks_asuransi();
+                         waitingDialog.hideloading();
+                         $('#modal-load-rks').modal('hide');
+                     }
+                 });
+             });
+
+
+             $("#SaveKeRepository").on("click", function () {
+                 //var DocumentId = $(this).attr("idDocument");
+                 //alert("GukGukGuk");
+                 waitingDialog.showloading("Proses Harap Tunggu");
+                 $.ajax({
+                     method: "POST",
+                     url: "Api/PengadaanE/saveRksAsuransiToTemplate?DocumentIdBaru=" + $("#documentidasuransi").val() + "&PengadaanId=" + $("#pengadaanId").val(),
+                     dataType: "json",
+                     contentType: 'application/json; charset=utf-8',
+                     success: function (data) {
+                         alert("Berhasil Menyimpan Ke Repository");
+                         waitingDialog.hideloading();
+                         TampilSimpanRepository();
+                        // $('#modal-save-to-template').modal('hide');
+                     }
+                 });
+             });
+             
+             function TampilSimpanRepository() {
+                 //alert("qwerty");
+                 //clear();
+                 $("#modal-save-to-template").modal('show');
+             }
+
+
+         
+             $("#title,#BenefitType").on("input propertychange paste", function () {
+                 listTableRks.draw();
+             });
+
+             function tampil_tabel_load_rks_asuransi() {
+                 table = $('#example').DataTable({
+                     "serverSide": true,
+                     "searching": false,
+                     "ajax": {
+                         "url": '/Api/PengadaanE/GetListBenefitRateAsuransi?DocumentIdBaru=' + $("#documentidasuransi").val(), //6298c3a9-cf12-477a-bc00-f311703b9477', //?documentId=" + $.getUrlVar("documentId")
+                         "type": 'POST',
+                         "data": function (d) {
+                         },
+                         "error": function (jqXHR, textStatus, errorThrown) {
+                         }
+                     },
+                     "columns": [
+                         { "data": "BenefitCode" },
+                         { "data": "BenefitCoverage" },
+                         { "data": "RegionCode" },
+                         { "data": "RateLowerLimit" },
+                         { "data": "RateUpperLimit" },
+                         { "data": null },
+                     ],
+                     "columnDefs": [
+                         
+                         {
+                             "render": function (data, type, row) {
+                                 //var html = '<a style="margin-left: 5px;"  class="btn btn-success btn-sm product-title"><span class="fa fa-edit"></span> Edit </a>';
+                                 //html = html + '<a style="margin-left: 5px;"  class="btn btn-danger remove-item btn-sm product-title"><span class="fa fa-trash-o"></span> Hapus</a>';
+                                 var html = '<a style="margin-left: 5px;" idDelete="' + row.Id + '" class="btn btn-danger remove-item btn-sm product-title"><span class="fa fa-trash-o"></span> Hapus</a>';
+                                 html = html + '<a style="margin-left: 5px;" idEdit="' + row.Id + '" class="btn btn-primary edit-item btn-sm product-title"><span class="fa fa-pencil-square-o"></span> Edit</a>';
+                                 return html;
+                             },
+
+                             "targets": 5,
+                             "orderable": false
+                         }
+                     ],
+                     "createdRow": function (row, data, dataIndex) {
+                         //alert(data);
+                         //alert(data.IsRange);
+                         if (data.IsRange === false) {
+                             // Add COLSPAN attribute
+                             $('td:eq(3)', row).attr('colspan', 2);
+
+                             // Center horizontally
+                             $('td:eq(3)', row).attr('align', 'center');
+
+                             // Hide required number of columns
+                             // next to the cell with COLSPAN attribute
+                             $('td:eq(4)', row).css('display', 'none');
+                             //$('td:eq(3)', row).css('display', 'none');
+
+                             // Update cell data
+                             this.api().cell($('td:eq(3)', row)).data(data.Rate);
+                         }
+                         //alert(data.IsOpen);
+                         if (data.IsOpen === true) {
+                             // Add COLSPAN attribute
+                             $('td:eq(3)', row).attr('colspan', 2);
+
+                             // Center horizontally
+                             $('td:eq(3)', row).attr('align', 'center');
+
+                             // Hide required number of columns
+                             // next to the cell with COLSPAN attribute
+                             $('td:eq(4)', row).css('display', 'none');
+                             //$('td:eq(3)', row).css('display', 'none');
+
+                             // Update cell data
+                             this.api().cell($('td:eq(3)', row)).data('Perlu Underwriting');
+                         }
+                     },
+                     "paging": false,
+                     "lengthChange": false,
+                     "ordering": false,
+                     "info": false,
+                     "autoWidth": false,
+                     "responsive": true,
+                 });
+             }
+
+             function tampilmodaltambah() {
+                 //alert("qwerty");
+                 clear();
+                 $("#exampleModal").modal('show');
+                 $("#title_1").show();
+                 $("#title_2").hide();
+                 $("#btn_1").show();
+                 $("#btn_2").hide();
+             }
+
+             
+             
+
+             $("#example").on("click", ".remove-item", function () {
+                 showDeleteConfirmation($(this).attr("idDelete"));
+             });
+
+             function showDeleteConfirmation(idd) {
+                 $("#tobeDelete").val(idd);
+                 $("#DeleteModal").modal('show');
+             }
+
+             function Delete(idd) {
+                 $("#DeleteModal").modal('hide');
+                 var v = 0;
+                 if (!idd) {
+                     v = $("#tobeDelete").val();
+                 }
+                 else v = idd
+                 $.ajax({
+                     url: "/api/PengadaanE/deleteEach?Id=" + v,
+                     success: function (data) {
+                         table.ajax.reload();
+                         //tampil_tabel_load_rks_asuransi();
+                         alert(data.message);
+                     }
+                 });
+             }
+
+             $("#addbenef").on("click", function () {
+                 waitingDialog.showloading("Proses Harap Tunggu");
+                 $.ajax({
+                     url: "Api/Asuransi/AddBenefNoTpl?DocumentIdBaru=" + $("#documentidasuransi").val(),
+                     method: "POST",
+                     data: {
+                         BenefitCode: $("#BenefitCode").val(),
+                         RegionCode: $("#RegionCode").val(),
+                         IsOpen: $("#IsOpen").val(),
+                         RateUpperLimit: $("#RateUpperLimit").val(),
+                         RateLowerLimit: $("#RateLowerLimit").val(),
+                         Rate: $("#Rate").val(),
+                         IsRange: $("#IsRange").val(),
+                         BenefitCoverage: $("#BenefitCoverage").val(),
+                     },
+                 }).done(function (data) {
+                     //var msg = data.message;
+                     //alert(data.message);
+                     alert('Berhasil Di Tambah');
+                     waitingDialog.hideloading();
+                     $('#exampleModal').modal('hide');
+                     // $("#exampleModal").hide();
+                     table.ajax.reload();
+                 });
+             })
+         
+             $("#example").on("click", ".edit-item", function () {
+                 EditConfirmation($(this).attr("idEdit"));
+                 $("#title_1").hide();
+                 $("#title_2").show();
+                 $("#btn_1").hide();
+                 $("#btn_2").show();
+             });
+             function EditConfirmation(ide) {
+                 $("#tobeEdit").val(ide);
+                 $("#exampleModal").modal('show');
+                 Edit(ide);
+             }
+
+             function clear() {
+                 //alert("ngapus kudunya");
+                 document.getElementById("BenefitCode").value = "";
+                 document.getElementById("RegionCode").value = "";
+                 document.getElementById("BenefitCoverage").value = "";
+                 document.getElementById("RateLowerLimit").value = "";
+                 document.getElementById("RateUpperLimit").value = "";
+                 document.getElementById("Rate").value = "";
+                 document.getElementById("IsOpen").value = "";
+                 document.getElementById("changeShipInputs").value = "";
+                 $('#IsOpen').val();
+             }
+
+             function Edit(ide) {
+                 //alert(ide);
+                 var v = 0;
+                 if (!ide) {
+                     v = $("#tobeEdit").val();
+                 }
+                 else v = ide
+                 {
+                     $.getJSON("/api/Asuransi/GetEditFromPengadaan?Id=" + v, null, function (data) {
+                         clear();
+                         console.log("doc data:", data);
+                         $('#BenefitCode').val(data.BenefitCode);
+                         $('#RegionCode').val(data.RegionCode);
+                         $('#BenefitCoverage').val(data.BenefitCoverage);
+                         $('#RateLowerLimit').val(data.RateLowerLimit);
+                         $('#RateUpperLimit').val(data.RateUpperLimit);
+                         $('#Rate').val(data.Rate);
+                         $('#IsRange').val(String(data.IsRange));
+                         show(String(data.IsRange));
+                         $('#IsOpen').val(data.IsOpen);
+                        // isOpenChk
+                         if (data.IsOpen == 1) {
+                             document.getElementById("IsOpen").checked = true;
+                             //$('.IsOpen').prop('checked', true);
+                             $(".IsOpen").click();
+                             $("#changeShipInputs").hide();
+                         }
+                         else {
+                             document.getElementById("IsOpen").checked = false;
+                             //$('.IsOpen').prop('checked', false);
+                             $("#changeShipInputs").show();
+                         }
+                     });
+
+                     //});
+                 }
+             }
+
+             $("#Simpanedit").on("click", function () {
+                 var a = document.forms["addBenefitForm"]["BenefitCode"].value;
+                 var b = document.forms["addBenefitForm"]["RegionCode"].value;
+                 var c = document.forms["addBenefitForm"]["BenefitCoverage"].value;
+                 var x = document.forms["addBenefitForm"]["Rate"].value;
+                 var y = document.forms["addBenefitForm"]["RateLowerLimit"].value;
+                 var z = document.forms["addBenefitForm"]["RateUpperLimit"].value;
+                 //var regex = /^(\d*\.)?\d+$/;
+                 //var regex = /^([0-9]\.)?[0-9]$/;
+                 var regex = /^[0-9](\.[0-9]+)?$/;
+
+                 if (a == "" || b == "" || c == "") {
+                     alert("Silahkan Lengkapi Data");
+                     return false;
+                 }
+                 else if (x == "" && y == "" && z == "") {
+                     ForSaveEdit()
+                 }
+                 else if (x == "" && y.match(regex) && z.match(regex)) {
+                     ForSaveEdit()
+                 }
+                 else if (y == "" && z == "" && x.match(regex)) {
+                     ForSaveEdit()
+                 }
+                 else {
+                     alert("Silahkan Masukkan Angka");
+                     return false;
+                 }
+
+             });
+
+             function ForSaveEdit() {
+                 //alert(datanya = $("#tobeEdit").val());
+                 var arrData = {
+                     Id: $("#tobeEdit").val(),
+                     Rate: $("#Rate").val(),
+                     RateLowerLimit: $("#RateLowerLimit").val(),
+                     RateUpperLimit: $("#RateUpperLimit").val(),
+                     IsRange: $("#IsRange").val(),
+                     IsOpen: $("#IsOpen").val(),
+                     BenefitCode: $("#BenefitCode").val(),
+                     RegionCode: $("#RegionCode").val(),
+                     BenefitCoverage: $("#BenefitCoverage").val()
+                 };
+
+                 console.log(arrData);
+
+                 $.ajax({
+                     method: "POST",
+                     url: "Api/Asuransi/SaveEditRKSAsuransi",
+                     data: JSON.stringify(arrData),
+                     dataType: "json",
+                     contentType: 'application/json; charset=utf-8',
+                     success: function (data) {
+                         alert('Berhasil Di Edit');
+                         $('#exampleModal').modal('hide');
+                         // $("#exampleModal").hide();
+                         table.ajax.reload();
+                     }
+                 });
+             }
+                    
+
+             $("#savetotemplate").on("click", function () {
+                 var savetemp = {};
+                 savetemp.DocumentTitle = $("#DocumentTitle").val();
+                 savetemp.BenefitType = $("#BenefitType").val();
+                 console.log(savetemp);
+                 savetotemp(savetemp);
+             });
+
+             function savetotemp(savetemp) {
+                 $.ajax({
+                     url: "Api/Rks/simpantotemp?documentId=" + $("#documentidasuransi").val(),
+                     method: "POST",
+                     data: savetemp
+                 }).done(function (data) {
+                     var msg = data.message;
+                     alert(data.message);
+                     $('#modal-save-to-template').modal('hide');
+                 });
+             }
+
+             function init() {
+                 var tables = document.getElementsByClassName("editabletable");
+               
+                 var i;
+                 for (i = 0; i < tables.length; i++) {
+                     var temp = tables[i].getElementsByTagName('tbody')[0];
+                     
+                     AddRow(temp, 100);
+                     //makeTableEditable(temp);
+                 }
+             }
+
+             function AddRow(table, rowCount) {
+                
+                 for (var s = 0; s < rowCount; s++) {
+                     var row = table.insertRow(table.rows.length);
+                     var cell = row.insertCell(0);
+                     cell.innerHTML = "<div contenteditable></div>";
+                     cell = row.insertCell(1);
+                     cell.innerHTML = "<div contenteditable  ></div>";
+                     cell = row.insertCell(2);
+                     cell.innerHTML = "<div contenteditable  class='numberictest'></div>";
+                     cell = row.insertCell(3);
+                     cell.innerHTML = "<div contenteditable  class='numberictest'></div>";
+                     cell = row.insertCell(4);
+                     cell.innerHTML = "<div  class='numberictest'></div>";
+                     cell = row.insertCell(5);
+                     cell.innerHTML = "<div contenteditable></div>";
+                     cell = row.insertCell(6);
+                     cell.innerHTML = "";
+
+
+                 }
+                 
+             }
+
+             function makeTableEditable(table) {
+                 var rows = table.rows;
+                 var r;
+                 for (r = 0; r < rows.length; r++) {
+                     var cols = rows[r].cells;
+                     var c;
+                     for (c = 0; c < cols.length; c++) {
+                         var cell = cols[c];
+                         var listener = makeEditListener(table, r, c);
+                         cell.addEventListener("input", listener, false);
+                     }
+                 }
+             }
+
+             function makeEditListener(table, row, col) {
+                 return function (event) {
+                     var cell = getCellElement(table, row, col);
+                     var text = cell.innerHTML.replace(/<br>$/, '');
+                     var items = split(text);
+                     
+                     if (items.length === 1) {
+                         // Text is a single element, so do nothing.
+                         // Without this each keypress resets the focus.
+                        
+                         return;
+                     }
+
+                     var i;
+                     var r = row;
+                     var c = col;
+                     for (i = 0; i < items.length && r < table.rows.length; i++) {
+                         cell = getCellElement(table, r, c);
+                         cell.innerHTML = items[i]; // doesn't escape HTML
+
+                         c++;
+                         if (c === table.rows[r].cells.length) {
+                             r++;
+                             c = 0;
+                         }
+                     }
+                     cell.focus();
+                 };
+             }
+
+             function getCellElement(table, row, col) {
+                 // assume each cell contains a div with the text
+                 return table.rows[row].cells[col].firstChild;
+             }
+
+             function split(str) {
+                 // use comma and whitespace as delimiters
+                 //return str.split(/,|\s|<br>/);
+                 return str.split(/\s|<br>/);
+             }
+
+             init();
+             $(".numberictest").priceFormat({
+                 prefix: '',
+                 centsSeparator: ',',
+                 thousandsSeparator: '.',
+                 centsLimit: 2,
+                 leadingZero: false
+             });
+
+             
+             $(".numberictest").keyup(function () {
+                 placeCaretAtEnd($(this).get(0));//set cursor to last of text
+                 var satuan = $(this).closest('tr').find('.numberictest:eq(0)').priceToFloat();
+                 var jumlah = $(this).closest('tr').find('.numberictest:eq(1)').priceToFloat();
+
+                 var subtotal = satuan * jumlah;
+                 $(this).closest('tr').find('td:eq(4)').html(subtotal.format(2,3,'.',','));
+
+             });
+
+             function placeCaretAtEnd(el) {
+                 el.focus();
+                 if (typeof window.getSelection != "undefined"
+                     && typeof document.createRange != "undefined") {
+                     var range = document.createRange();
+                     range.selectNodeContents(el);
+                     range.collapse(false);
+                     var sel = window.getSelection();
+                     sel.removeAllRanges();
+                     sel.addRange(range);
+                 } else if (typeof document.body.createTextRange != "undefined") {
+                     var textRange = document.body.createTextRange();
+                     textRange.moveToElementText(el);
+                     textRange.collapse(false);
+                     textRange.select();
+                 }
+             }
+             function numberWithCommas(x) {
+                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+             }
+
+             $(function () {
+                 var form = $('#ThisForm'),
+                 isOpenChk = $('#IsOpen'),
+                 chShipBlock = $('#changeShipInputs');
+                 chShipBlock.show();
+
+                 $('rate-range').show();
+
+                 $('rate-value').hide();
+
+                 isOpenChk.on('change', function () {
+                     if ($(this).is(':checked')) {
+                         chShipBlock.hide();
+                         $("#IsOpen").val(true);
+                     } else {
+                         chShipBlock.show();
+                         $("#IsOpen").val(false);
+                     }
+                 })
+             })
+
+             var inputBox = document.getElementById("changeShipInputs");
+             //var inputBox1 = document.getElementById("RateLowerLimit");
+             //var inputBox2 = document.getElementById("RateUpperLimit");
+
+             var invalidChars = [
+               "-",
+               "+",
+               "e",
+             ];
+
+             inputBox.addEventListener("input", function () {
+                 this.value = this.value.replace(/[e\+\-]/gi, "");
+             });
+
+             inputBox.addEventListener("keydown", function (e) {
+                 if (invalidChars.includes(e.key)) {
+                     e.preventDefault();
+                 }
+             });
+      //   });
+     </script>
+     <script>
+         /**
+         * Number.prototype.format(n, x, s, c)
+         * 
+         * @param integer n: length of decimal
+         * @param integer x: length of whole part
+         * @param mixed   s: sections delimiter
+         * @param mixed   c: decimal delimiter
+         */
+         Number.prototype.format = function (n, x, s, c) {
+             var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+                 num = this.toFixed(Math.max(0, ~~n));
+
+             return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+         };
+
+         
+     </script>
+     <script>
+         $(document).ready(function () {
+            
+             var form = $('#ThisForm'),
+                isOpenChk = $('#IsOpen'),
+                chShipBlock = $('#changeShipInputs');
+             chShipBlock.show();
+
+             $('rate-range').show();
+
+             $('rate-value').hide();
+
+             isOpenChk.on('change', function () {
+                 if ($(this).is(':checked')) {
+                     chShipBlock.hide();
+                     $("#IsOpen").val(true);
+                 } else {
+                     chShipBlock.show();
+                     $("#IsOpen").val(false);
+                 }
+             })
+
+             //$.getJSON("api/ReferenceData/Get", { qualifier: "QUALIFIER_INS_BENEF_TYPE" }, function (items) {
+             //    $("select[name=Jenis]").append($("<option>", { value: "", text: "Pilih..." }));
+             //    $.each(items, function (i, item) {
+             //        $("select[name=Jenis]").append($("<option>", { value: item.Code, text: item.LocalizedName }));
+             //    });
+
+             //}).then(function () {
+
+             //    $.getJSON("/api/Asuransi/Get?documentId=" + $("#documentidasuransi").val(), null, function (data) {
+             //        var doc = data;
+             //        $("input[name=DocumentTitle]").val(doc.DocumentTitle ? doc.DocumentTitle : "");
+             //        $("select[name=Jenis]").val(doc.BenefitType);
+             //    });
+
+             //});
+
+             $.getJSON("api/ReferenceData/Get", { qualifier: "QUALIFIER_INS_BENEF_TYPE" }, function (items) {
+                 $("select[name=BenefitType]").append($("<option>", { value: "", text: "Pilih..." }));
+                 $.each(items, function (i, item) {
+                     $("select[name=BenefitType]").append($("<option>", { value: item.Code, text: item.LocalizedName }));
+                 });
+
+             })
+
+             $.getJSON("api/ReferenceData/Get", { qualifier: "QUALIFIER_INS_REGION" }, function (items) {
+                 $("select[name=RegionCode]").append($("<option>", { value: "", text: "Pilih..." }));
+                 $.each(items, function (i, item) {
+                     $("select[name=RegionCode]").append($("<option>", { value: item.Code, text: item.LocalizedName }));
+                 });
+
+             })
+
+             $.getJSON("api/ReferenceData/Get", { qualifier: "QUALIFIER_INS_BENEF_COVERAGE" }, function (items) {
+                 $("select[name=BenefitCoverage]").append($("<option>", { value: "", text: "Pilih..." }));
+                 $.each(items, function (i, item) {
+                     $("select[name=BenefitCoverage]").append($("<option>", { value: item.Code, text: item.LocalizedName }));
+                 });
+
+             })
+
+             $.getJSON("api/ReferenceData/Get", { qualifier: "QUALIFIER_INS_BENEFIT" }, function (items) {
+                 $("select[name=BenefitCode]").append($("<option>", { value: "", text: "Pilih..." }));
+                 $.each(items, function (i, item) {
+                     $("select[name=BenefitCode]").append($("<option>", { value: item.Code, text: item.LocalizedName }));
+                 });
+             })
+         });
+
+     </script>
+     
+  </body>
+</html>

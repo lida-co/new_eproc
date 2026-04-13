@@ -1,0 +1,601 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+  <head >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+
+	<link href="dist/site.css" rel="stylesheet" />
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+	<link rel="stylesheet" href="dist/app.css">
+	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+	<link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+      <link rel="stylesheet" href="dropzone.css">
+		<style type="text/css">
+		.dz-error-mark{
+			display:none !important;
+		}
+		.dropzone{
+			min-height: 50px;
+		}
+		.dropzone .dz-message {
+			margin: 0em 0;
+			text-align: center;
+		}
+		
+		.clear-margin{
+			margin:0 !important;
+			padding-top:3px;
+			padding-left:250px;
+		}
+</style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+      <div class="wrapper">
+          <div id="header">
+              <header class="main-header">
+                  <!-- Logo -->
+                  <a class="logo">
+                      <!-- mini logo for sidebar mini 50x50 pixels -->
+                      <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                      <!-- logo for regular state and mobile devices -->
+                      <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                  </a>
+                  <!-- Header Navbar: style can be found in header.less -->
+                  <nav class="navbar navbar-static-top" role="navigation">
+                      <!-- Sidebar toggle button-->
+                      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                          <span class="sr-only">Toggle navigation</span>
+                      </a>
+                      <div class="navbar-custom-menu pull-left">
+                          <ul class="nav navbar-nav">
+                              <li>	<a id="judul-page" href="#">Tambah PO</a></li>
+                          </ul>
+                      </div>
+                      <div class="navbar-custom-menu">
+                          <ul id="menu-top" class="nav navbar-nav">
+                              <li><a href="#" id="cetak-po" title="Cetak"><i class="fa fa-fw fa-print " style="font-size:20px;"></i>Cetak</a></li>
+                              <li><a title="Simpan" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                              <li><a id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                          </ul>
+                      </div>
+                  </nav>
+              </header>
+          </div>
+          <!-- Left side column. contains the logo and sidebar -->
+          <div id="menu">
+              <aside class="main-sidebar">
+                  <!-- sidebar: style can be found in sidebar.less -->
+                  <section class="sidebar">
+                      <!-- <div class="user-panel" ng-controller="user">
+                         <div class="pull-left info">
+                             <p class="title" ng-bind="user.nama"></p>
+                             <p class="deskripsi" ng-bind="user.divisi"></p>
+                         </div>
+                         <div class="pull-right image image-profile">
+                             <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                         </div>
+                     </div>-->
+                      <!-- sidebar menu: : style can be found in sidebar.less -->
+                      <ul class="sidebar-menu" ng-controller="side-menu">
+                          <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                          <li class="treeview" ng-repeat="menu in menus">
+                              <a href="{{menu.url}}">
+                                  <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                              </a>
+                          </li>
+                      </ul>
+                  </section>
+                  <!-- /.sidebar -->
+              </aside>
+          </div>
+
+
+          <!-- Content Wrapper. Contains page content -->
+          <div class="content-wrapper">
+              <section class="content" id="section-1">
+                  <!-- Default box -->
+                  <div class="row">
+                      <div class="col-md-10">
+                          <div class="box box-primary box-white">
+                              <input type="hidden" id="Id" />
+                              <div class="box-body">
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div id="notif">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <div class="panel-header-white">
+                                              <span class="title-header" id="section-6">PO</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-12">
+                                          <label class="title">Perihal:</label>
+                                          <input type="text" class="form-control" id="prihal">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <!--<div class="form-group col-md-4">
+                                        <label class="title">Vendor:</label>
+                                        <input type="text" class="form-control" id="vendor">
+                                    </div>-->
+
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Vendor:</label>
+                                          <select class="form-control select2 " name="Vendor" style="width: 100%;">
+                                              <!--<input type="hidden" id="idVendor"></input>-->
+                                              <option id="idVendor" selected disabled>--Vendor--</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">No. PO:</label>
+                                          <input type="text" id="no-po" class="form-control" disabled>
+                                          <!--   <span class="input-group-btn">
+                                               <button class="btn btn-primary ge-no-po" type="button">Generate No PO</button>
+                                           </span>-->
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Tanggal PO:</label>
+                                          <input id="tanggal-po" type="text" class="form-control input-group date">
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Nilai PO:</label>
+                                          <input id="nilai-po" class="form-control" type="text" disabled>
+                                          <input id="nilai-po-hidden" class="form-control" type="hidden">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Tanggal DO:</label>
+                                          <input id="tanggal-do" type="text" class="form-control input-group date">
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Tanggal Invoice:</label>
+                                          <input id="tanggal-invoice" class="form-control input-group date" type="text" />
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Tanggal Pengiriman Ke Finance:</label>
+                                          <input id="tanggal-kirim-finance" type="text" class="form-control input-group date">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">UP:</label>
+                                          <input id="up" class="form-control" type="text">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="panel-header-white">
+                                              <input type="checkbox" id="hide-periode" />
+                                              <span class="title-header" id="Span1">Periode Sewa</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row" id="hide-periode-sewa">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Periode Dari:</label>
+                                          <input id="periode-dari" type="text" class="form-control input-group date">
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Periode Sampai:</label>
+                                          <input id="periode-sampai" type="text" class="form-control input-group date">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="panel-header-white">
+                                              <span class="title-header" id="Span1">Cara dan Syarat Pembayaran</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Atas Nama:</label>
+                                          <input id="atas-nama" class="form-control" disabled type="text">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Bank:</label>
+                                          <select name="BankInfo.Nama" disabled class="form-control select2 required" style="width: 100%;"></select>
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                          <label class="title">No. Rekening:</label>
+                                          <input id="no-rekening" class="form-control" type="text" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="Span1">Alamat Pengiriman Barang</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-8">
+                                          <label class="title">Alamat:</label>
+                                          <textarea class="form-control" id="alamat-pengiriman-barang"></textarea>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">UP:</label>
+                                          <input id="up-pengiriman-barang" class="form-control" type="text">
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Telp:</label>
+                                          <input id="telp-pengiriman-barang" class="form-control" type="text">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="Span1">Kwitansi Atas Nama</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-8">
+                                          <label class="title">Alamat:</label>
+                                          <textarea class="form-control" id="alamat-kwitansi"></textarea>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">NPWP:</label>
+                                          <input id="npwp" class="form-control" type="text" disabled>
+                                          <!--<select class="form-control select2 " id="npwp" disabled style="width: 100%;">
+                                        </select>-->
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="Span1">Alamat Pengiriman Kwitansi</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-8">
+                                          <label class="title">Alamat:</label>
+                                          <textarea class="form-control" id="alamat-pengiriman-kwitansi"></textarea>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">UP:</label>
+                                          <input id="up-pengiriman-kwitansi" class="form-control" type="text">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="Span1">PO Item</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-4">
+                                          <button class="btn btn-primary add-item" type="button">Tambah Barang</button>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-12" style="overflow-x:auto;">
+                                          <table class="table table-bordered table-striped table-responsive" id="table-podetail" style="margin-top:20px; ">
+                                              <thead>
+                                                  <tr>
+                                                      <th class="tengah" style="vertical-align:middle;">Kode</th>
+                                                      <th class="tengah" style="vertical-align:middle;">Nama Barang</th>
+                                                      <th class="tengah" style="vertical-align:middle;">Banyak</th>
+                                                      <th class="tengah" style="vertical-align:middle;">Satuan</th>
+                                                      <th class="tengah" style="vertical-align:middle;">Harga Satuan</th>
+                                                      <th class="tengah" style="vertical-align:middle;">Jumlah</th>
+                                                      <th class="tengah" style="vertical-align:middle;">Keterangan</th>
+                                                      <th class="tengah" style="vertical-align:middle;">PPH</th>
+                                                      <th></th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody></tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Discount (%):</label>
+                                          <input id="discount" class="form-control" type="text">
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                          <label class="title">PPN (%):</label>
+                                          <input type="checkbox" id="ppn" /> 10 %
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">PPH (%):</label>
+                                          <select id="pph" class="form-control required" style="width: 100%;">
+                                              <option value=""></option>
+                                              <option value="2">2 %</option>
+                                              <option value="4">4 %</option>
+                                              <option value="6">6 %</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Tanda Tangan</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Nama Tanda Tangan Kesatu:</label>
+                                          <input id="ttd1" class="form-control" type="text">
+                                      </div>
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Nama Tanda Tangan Kedua:</label>
+                                          <input id="ttd2" class="form-control" type="text">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Nama Tanda Tangan Ketiga:</label>
+                                          <input id="ttd3" class="form-control" type="text">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">PO Dokumen</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-8">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah PO</label>
+                                                      <div id="DOKPO" attr="PKS" action="/api/PO/UploadFile" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </section><!-- /.content -->
+          </div>
+          <aside class="control-sidebar control-sidebar-light control-sidebar-open" style="display:none"></aside>
+          <div class="control-sidebar-bg" style="display:none"></div>
+      </div><!-- ./wrapper -->
+      <div class="modal" id="konfirmasiFile" role="dialog" FileId="" attr1="" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Konfirmasi</h4>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="downloadFile" class="btn btn-default">Download</button>
+                      <button type="button" id="HapusFile" class="btn btn-default">Hapus</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <div class="modal" id="item-modal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Form Tambah Barang</h4>
+                      <div class="modal-body">
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <form role="form" class="jp-form">
+                                      <input type="hidden" id="itemId" />
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="col-sm-4 control-label">Kode</label>
+                                                  <div class="col-sm-6">
+                                                      <input id="kode" type="text" class="form-control " placeholder="Kode">
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <br />
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="col-sm-4 control-label">Nama Barang</label>
+                                                  <div class="col-sm-6">
+                                                      <input id="nama-barang" type="text" class="form-control " placeholder="NamaBarang">
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <br />
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="col-sm-4 control-label">Banyak</label>
+                                                  <div class="col-sm-6">
+                                                      <input id="banyak" type="text" class="form-control " placeholder="Banyak">
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <br />
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="col-sm-4 control-label">Satuan</label>
+                                                  <div class="col-sm-6">
+                                                      <input id="satuan" type="text" class="form-control " placeholder="Satuan">
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <br />
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="col-sm-4 control-label">Harga</label>
+                                                  <div class="col-sm-6">
+                                                      <input id="harga" type="text" class="form-control " placeholder="Harga">
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <br />
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="col-sm-4 control-label">Jumlah</label>
+                                                  <div class="col-sm-6">
+                                                      <input id="jumlah" disabled type="text" class="form-control " placeholder="Jumlah">
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <br />
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="col-sm-4 control-label">Keterangan</label>
+                                                  <div class="col-sm-6">
+                                                      <textarea id="keterangan" type="text" class="form-control " placeholder="Keterangan"></textarea>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <br />
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="col-sm-4 control-label">Item Kena PPH</label>
+                                                  <div class="checkbox col-sm-6">
+                                                      <label style="color:orangered;font-size: smaller;"><input type="checkbox" name="item-pph" id="item-pph" /><b>Apabila Dipilih, Maka Jumlah Harga Item Akan Dikenakan PPH</b></label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <br />
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default save-item" data-toggle="tooltip" title="Save">Save</button>
+                      <button type="button" class="btn btn-default close-item-form" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <!--endviewr-->
+      <!-- jQuery 2.1.4 -->
+      <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+      <script src="site.js"></script>
+      <!-- Bootstrap 3.3.5 -->
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+      <!-- SlimScroll -->
+      <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+      <!-- FastClick -->
+      <script src="plugins/fastclick/fastclick.min.js"></script>
+      <script src="dist/js/purify.js"></script>
+      <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+      <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+      <!--<script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/JQueryValidation/jquery.validate.js"></script>-->
+      <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+      <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+      <script src="plugins/accounting/accounting.js"></script>
+      <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+      <script src='plugins/fullcalendar/moment.min.js'></script>
+      <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+      <script src='plugins/fullcalendar/lang/id.js'></script>
+      <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+      <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+      <script src="plugins/jQueryNumber/jquery.number.js"></script>
+      <script src="dist/site.js"></script>
+      <script src="dist/js/app.min.js"></script>
+      <!-- <script src="chatjs/chat.js"></script>-->
+      <script src="plugins/angular/angular.min.js"></script>
+      <script src="blockui/jquery.blockUI.js"></script>
+      <script src="dist/js/menu.js"></script>
+      <script src="dropzone.js"></script>
+      <script src="dist/js/create-po.js"></script>
+      <script>
+          function validateForm() {
+              $("#alert-validation-error").hide();
+              $('.form-validation-error').removeClass('form-validation-error');
+              var v = true;
+              if ($("[name='BankInfo.Nama']").val() == '') {
+                  $("[name='BankInfo.Nama']").addClass('form-validation-error');
+                  v = false;
+              }
+              if (!v) {
+                  $("form .form-validation-error").first().focus();
+                  $("#alert-validation-error").show();
+              }
+              return v;
+          }
+
+          //$('input[name=item-pph]').on("click", function () {
+          //    if ($('input[name=item-pph]').prop("checked") == true) {
+          //        $('#item-pph').val(1);
+          //    }
+          //    else if ($('input[name=item-pph]').prop("checked") == false) {
+          //        $('#item-pph').val(0);
+          //    }
+          //    //alert("valuenya " + $('#pengadaan-langsung').val());
+          //});
+
+      </script>
+  </body>
+</html>

@@ -1,0 +1,329 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Reston.Pinata.Model.Asuransi;
+
+namespace Reston.Eproc.Model.Monitoring.Model
+{
+    // membuat viewnya
+    public class ViewMonitoringSelection
+    {
+        public Guid Id { get; set; }
+        public string NoPengadaan{ get; set; }
+        public string NOSPK { get; set; }
+        public string Judul { get; set; }
+        public string Pemenang { get; set; }
+        public string Klasifikasi { get; set; }
+        public DateTime? TanggalPenentuanPemenang { get; set; }
+        public Decimal? NilaiKontrak { get; set; }
+        public String PIC{ get; set; }
+        public StatusMonitored Monitored { get; set; }
+        public StatusSeleksi Status { get; set; }
+    }
+
+    // membuat data table untuk merima data dari AJAX
+    public class DataTableViewMonitoring
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public  List<ViewMonitoringSelection> data { get; set; }
+    }
+    // ----------------------------------------------------------------------------------------------------------------------------
+    public class ViewProyekSistemMonitoring
+    {
+        public Guid id { get; set; }
+        public string NoPengadaan { get; set; }
+        public string NOSPK { get; set; }
+        public string NOPKS { get; set; }
+        public string NamaProyek { get; set; }
+        public string NamaPelaksana { get; set; }
+        public string Klasifikasi { get; set; }      
+		public decimal PersenPekerjaan { get; set; }
+        public decimal PersenPembayaran { get; set; }
+        public Nullable<DateTime> TanggalMulai { get; set; }
+        public Nullable<DateTime> TanggalSelesai { get; set; }  
+    }
+
+    public class ViewProyekSistemMonitoringPembayaran
+    {
+        public Guid ID { get; set; }
+        public string NamaPembayaran { get; set; }
+        public decimal PersenPembayaran { get; set; }
+        public decimal Total { get; set; }
+        public string Status { get; set; }
+        public string StatusProyek { get; set; }
+        public decimal TotalNilaiKontrak { get; set; }
+        public Nullable<DateTime> TanggalPembayaran { get; set; }
+
+    }
+
+    public class ViewUntukAddPenilaianVendor
+    {
+        public Guid ProyekId { get; set; }
+        public int VendorId { get; set; }
+        public string Catatan { get; set; }
+        public Guid PenilaianVendorHeaderId { get; set; }
+        public int ReferenceDataId { get; set; }
+        public int Nilai { get; set; }
+        public string Catatan_item { get; set; }
+        public DateTime CreateOn { get; set; }
+        public Guid CreateBy { get; set; }
+    }
+
+    public class DataTableViewProyekSistemMonitoring
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewProyekSistemMonitoring> data { get; set; }
+    }
+
+    public class DataTableViewProyekSistemMonitoringPembayaran
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewProyekSistemMonitoringPembayaran> data { get; set; }
+    }
+
+    // ----------------------------------------------------------------------------------------------------------------------
+
+    public class ViewMonitoringReal
+    {
+        public Guid id { get; set; }
+        public string NamaProyek { get; set; }
+        public string NamaVendor { get; set; }
+        public string Klasifikasi { get; set; }
+
+    }
+    // --------------------------------------------------------------------------------------------------------------------------
+
+    public class ViewResumeProyek
+    {
+        public int ProyekDalamPelaksanaan { get; set; }
+        public int ProyekLewatWaktuPelaksanaan { get; set; }
+        public int ProyekMendekatiWaktuPelaksanaan { get; set; }
+    }
+
+    public class ViewDetailMonitoring
+    {
+        public Guid Id { get; set; }
+        public string NamaProyek { get; set; }
+        public Nullable<DateTime> TanggalMulai { get; set; }
+        public Nullable<DateTime> TanggalSelesai { get; set; }
+        public decimal? NilaiKontrak { get; set; }
+        public string StatusProyek { get; set; }
+        public string StatusLockTahapan { get; set; }
+        public int VendorId { get; set; }
+        public Guid UserId { get; set; }
+        public string TipeUser { get; set; }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------------------
+
+    public class ViewTableDetailPekerjaan
+    {
+        public Guid Id { get; set; }
+        public string NamaPekerjaan { get; set; }
+        public decimal BobotPekerjaan { get; set; }
+        public decimal Progress { get; set; }
+        public decimal Penyelesaian { get; set; }
+        public string Status { get; set; }
+        public Nullable<DateTime> StartDate { get; set; }
+        public Nullable<DateTime> EndDate { get; set; }
+    }
+
+    public class DataTableViewProyekDetailMonitoring
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewTableDetailPekerjaan> data { get; set; }
+    }
+
+    public class VWReportMonitoring
+    {
+        public string Pengadaan {get; set;}
+        public string Vendor { get; set; }
+        public string Klasifikasi { get; set; }
+        public string TanggalMulai { get; set; }
+        public string TanggalSelesai { get; set; }
+        public decimal Progress { get; set; }
+    }
+
+    public class VWReportPekerjaan
+    {
+        public string Pengadaan { get; set; }
+        public string Tahapan { get; set; }
+        public decimal BobotPekerjaan { get; set; }
+        public decimal Progress { get; set; }
+        public decimal Penyelesaian { get; set; }
+        public string TanggalMulai { get; set; }
+        public string TanggalSelesai { get; set; }
+    }
+
+    public class VWReportPembayaran
+    {
+        public string Pengadaan { get; set; }
+        public string Tahapan { get; set; }
+        public decimal Persen { get; set; }
+        public decimal NilaiKontrak { get; set; }
+        public decimal Total { get; set; }
+        public string Status { get; set; }
+        public string TanggalPembayaran { get; set; }
+    }
+
+    public class VWReportPenilaianVendor
+    {
+        public string Vendor { get; set; }
+        public string Judul { get; set; }
+        public string Kriteria { get; set; }
+        public string Nilai { get; set; }
+        public string Catatan { get; set; }
+        public string Total { get; set; }
+        public string Ratarata { get; set; }
+    }
+
+    public class DataTableTarif
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewTarifTemplate> data { get; set; }
+    }
+
+    public class DataTableBenefit
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewBenefitRate> data { get; set; }
+    }
+
+    public class ViewTarifTemplate
+    {
+        public int Id { get; set; }
+        public Guid DocumentId { get; set; }
+        public string DocumentTitle { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedTS { get; set; }
+        public string DeletedBy { get; set; }
+        public DateTime? DeletedTS { get; set; }
+        public bool? IsDeleted { get; set; }
+        public string Owner { get; set; }
+        public string BenefitType { get; set; }
+        public string Type { get; set; }
+        public List<ViewBenefitRate> data { get; set; }
+    }
+
+    public class ViewTarifBenefit
+    {
+        public int Id { get; set; }
+        public Guid DocumentId { get; set; }
+        public int BenefitRateId { get; set; }    
+    }
+
+    public class ViewTarifBenefit2
+    {
+        public int Id { get; set; }
+        public Guid DocumentId { get; set; }
+        public BenefitRate BenefitRateId { get; set; }
+    }
+    public class ViewTarifBenefit3
+    {
+        public int Id { get; set; }
+        public Guid DocumentId { get; set; }
+        public BenefitRateTemplate BenefitRateId { get; set; }
+    }
+
+    public class ViewAsuransiVendor
+    {
+        public List<ViewBenefitRate> benefit { get; set; }
+        public List<ViewVendorNilai> vendor { get; set; }
+    }
+
+    public class ViewVendorNilai
+    {
+        public int Id { get; set; }
+        public string nama { get; set; }
+    }
+
+    public class ViewBenefitRate
+    {
+        public int Id { get; set; }
+        public string BenefitCode { get; set; }
+        public string BenefitCoverage { get; set; }
+        public string RegionCode { get; set; }
+        public bool? IsOpen { get; set; }
+        public decimal? RateUpperLimit { get; set; }
+        public decimal? RateLowerLimit { get; set; }
+        public decimal? Rate { get; set; }
+        public bool? IsRange { get; set; }
+        public bool? FlagAttr1 { get; set; }
+        public Guid HargaId { get; set; }
+    }
+    public class ViewBenefitRate2
+    {
+        public int Id { get; set; }
+        public string BenefitCode { get; set; }
+        public string BenefitCoverage { get; set; }
+        public string RegionCode { get; set; }
+        public bool? IsOpen { get; set; }
+        public decimal? RateUpperLimit { get; set; }
+        public decimal? RateLowerLimit { get; set; }
+        public decimal? Rate { get; set; }
+        public bool? IsRange { get; set; }
+        public bool? FlagAttr1 { get; set; }
+    }
+
+    public class ViewCekRKSBiasaAtauAsuransi
+    {
+        public bool RKSBiasa { get; set; }
+        public bool RKSAsuransi { get; set; }
+    }
+
+    //-----------------------------------------------
+    //public class DataTableViewDataTarif
+    //{
+    //    public int draw { get; set; }
+    //    public int recordsTotal { get; set; }
+    //    public int recordsFiltered { get; set; }
+    //    public List<ViewInsuranceTarifBenefitTemplate> Data { get; set; }
+    //}
+
+    //public class ViewInsuranceTarifBenefitTemplate
+    //{
+    //    public ViewInsuranceTarifTemplate DocumentId { get; set; }
+    //    public ViewBenefitRate BenefitRateId { get; set; }    
+    //}
+
+    //public class ViewInsuranceTarifTemplate
+    //{
+    //    public int Id { get; set; }
+    //    public Guid DocumentId { get; set; }
+    //    public string DocumentTitle { get; set; }
+    //    public string CreatedBy { get; set; }
+    //    public DateTime? CreatedTS { get; set; }
+    //    public string DeletedBy { get; set; }
+    //    public DateTime? DeletedTS { get; set; }
+    //    public bool? IsDeleted { get; set; }
+    //    public string Owner { get; set; }
+    //    public string BenefitType { get; set; }
+    //}
+
+    //public class ViewBenefitRate
+    //{
+    //    public int Id { get; set; }
+    //    public string BenefitCode { get; set; }
+    //    public string BenefitCoverage { get; set; }
+    //    public string RegionCode { get; set; }
+    //    public bool? IsOpen { get; set; }
+    //    public decimal? RateUpperLimit { get; set; }
+    //    public decimal? RateLowerLimit { get; set; }
+    //    public decimal? Rate { get; set; }
+    //    public bool? IsRange { get; set; }
+    //}
+}

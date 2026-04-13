@@ -1,0 +1,564 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+  <head >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+
+	<link href="dist/site.css" rel="stylesheet" />
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+	<link rel="stylesheet" href="dist/app.css">
+	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+	<link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+      <link rel="stylesheet" href="dropzone.css">
+		<style type="text/css">
+		.dz-error-mark{
+			display:none !important;
+		}
+		.dropzone{
+			min-height: 50px;
+		}
+		.dropzone .dz-message {
+			margin: 0em 0;
+			text-align: center;
+		}
+		
+		.clear-margin{
+			margin:0 !important;
+			padding-top:3px;
+			padding-left:250px;
+		}
+</style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+      <div class="wrapper">
+          <div id="header">
+              <header class="main-header">
+                  <!-- Logo -->
+                  <a class="logo">
+                      <!-- mini logo for sidebar mini 50x50 pixels -->
+                      <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                      <!-- logo for regular state and mobile devices -->
+                      <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                  </a>
+                  <!-- Header Navbar: style can be found in header.less -->
+                  <nav class="navbar navbar-static-top" role="navigation">
+                      <!-- Sidebar toggle button-->
+                      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                          <span class="sr-only">Toggle navigation</span>
+                      </a>
+                      <div class="navbar-custom-menu pull-left">
+                          <ul class="nav navbar-nav">
+                              <li>	<a id="judul-page" href="#">Ajukan PKS</a></li>
+                          </ul>
+                      </div>
+                      <div class="navbar-custom-menu">
+                          <ul id="menu-top" class="nav navbar-nav">
+                              <!-- <li><a title="Simpan & Setujui" href="#" class="Simpan-Setuju" ><i class="fa fa-fw fa fa-check-square-o " style="font-size:20px;"></i>Simpan & Setujui</a></li>-->
+                              <li><a title="Simpan" href="#" class="Simpan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                              <li><a title="Stop" href="#" class="Stop" style="display:none"><i class="fa fa-lock " style="font-size:20px; margin-right: 4px;"></i>Stop</a></li>
+                              <!--<li><a title="Ajukan" href="#" class="ajukan" style="display:none"><i class="fa fa-fw fa-sign-in" style="font-size:20px;"></i>Ajukan</a></li>-->
+                              <!--<li><a title="Pending" href="#" class="pending" style="display:none">Pending</a></li>-->
+                              <!--<li><a title="Setujui" href="#" class="setujui" style="display:none">Setujui</a></li>-->
+                              <li><a title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                              <!--<li><a title="Edit" href="#" class="Edit" style="display:none"><i class="fa fa-fw fa-pencil " style="font-size:20px;"></i>Edit</a></li>-->
+                              <li><a title="Done" href="#" class="done" style="display:none"><i class="fa fa-fw fa-sign-in" style="font-size:20px;"></i>Done</a></li>
+                          </ul>
+                      </div>
+                  </nav>
+              </header>
+          </div>
+          <!-- Left side column. contains the logo and sidebar -->
+          <div id="menu">
+              <aside class="main-sidebar">
+                  <!-- sidebar: style can be found in sidebar.less -->
+                  <section class="sidebar">
+                      <!-- <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.nama"></p>
+                            <p class="deskripsi" ng-bind="user.divisi"></p>
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                        </div>
+                    </div>-->
+                      <!-- sidebar menu: : style can be found in sidebar.less -->
+                      <ul class="sidebar-menu" ng-controller="side-menu">
+                          <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                          <li class="treeview" ng-repeat="menu in menus">
+                              <a href="{{menu.url}}">
+                                  <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                              </a>
+                          </li>
+                      </ul>
+                  </section>
+                  <!-- /.sidebar -->
+              </aside>
+          </div>
+
+
+          <!-- Content Wrapper. Contains page content -->
+          <div class="content-wrapper">
+              <input type="hidden" id="isStaffProc" />
+              <section class="content" id="section-1">
+                  <!-- Default box -->
+                  <div class="row">
+                      <div class="col-md-10">
+                          <div class="box box-primary box-white">
+                              <input type="hidden" id="isPIC" />
+                              <input type="hidden" id="pksId" />
+                              <input type="hidden" id="PemenangPengadaanId" />
+                              <input type="hidden" id="isOwner" />
+                              <input type="hidden" id="StatusPks" />
+                              <input type="hidden" id="Approver" />
+                              <div class="box-body">
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div id="notif">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <div class="panel-header-white">
+                                              <span class="title-header" id="section-6">
+                                                  Status PKS
+                                              </span>
+                                              <button id="Status" class="btn bg-aqua btn-flat margin"></button>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-12">
+                                          <label class="title">Judul:</label>
+                                          <div class="input-group">
+                                              <input type="text" class="form-control" id="judul" disabled>
+                                              <span class="input-group-btn">
+                                                  <button class="btn btn-info btn-flat cari-pengadaan" type="button">Cari Pengadaan</button>
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">No. Pengadaan:</label>
+                                          <input type="text" class="form-control" id="no-pengadaan" disabled>
+                                      </div>
+                                      <!--<div class="form-group col-md-4">
+                                        <label class="title">No. SPK:</label>
+                                        <input type="text" class="form-control" id="no-spk" disabled>
+                                    </div>-->
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Vendor Pemenang</label>
+                                          <input type="text" class="form-control" id="pelaksana" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">No PKS</label>
+                                          <input type="text" class="form-control" id="noPks" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-8">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Title</label>
+                                                      <input type="text" class="form-control input-pks title-pks" id="title-pks" disabled>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-8">
+                                          <div class="row">
+                                              <div class="form-group col-md-6">
+                                                  <label class="title">Tanggal Mulai:</label>
+                                                  <input id="tanggal-mulai" type="text" class="form-control input-group date tanggal-mulai input-pks" disabled>
+                                              </div>
+                                              <div class="form-group col-md-6">
+                                                  <label class="title">Tanggal Selesai:</label>
+                                                  <input id="tanggal-selesai" type="text" class="form-control input-group date tanggal-selesai input-pks" disabled>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-8">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Note</label>
+                                                      <textarea id="note" class="form-control note input-pks" disabled></textarea>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Draf PKS:</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-8">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah PKS</label>
+                                                      <div id="DraftPKS" attr="PKS" action="/api/Pks/UploadFile?tipe=DraftPKS" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div id="bingkai-upload-legal" style="display:none">
+                                      <div class="row">
+                                          <div class="col-md-10">
+                                              <div class=" panel-header-white">
+                                                  <span class="title-header" id="">Dokumen PKS Versi Final Dari Legal</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-8">
+                                              <div class="row">
+                                                  <div class="col-md-12">
+                                                      <div class="form-group">
+                                                          <label class="title">Unggah PKS Versi Final Dari Legal</label>
+                                                          <div id="FinalLegalPks" attr="PKS" action="/api/Pks/UploadFile?tipe=FinalLegalPks" class="dropzone"></div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div id="dok-assign" style="display:none">
+                                          <div class="row">
+                                              <div class="col-md-10">
+                                                  <div class=" panel-header-white">
+                                                      <span class="title-header" id="Span1">Dokumen PKS Assign</span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                              <div class="col-md-8">
+                                                  <div class="row">
+                                                      <div class="col-md-12">
+                                                          <div class="form-group">
+                                                              <label class="title">Unggah PKS Assign</label>
+                                                              <div id="AssignedPks" attr="PKS" action="/api/Pks/UploadFile?tipe=AssignedPks" class="dropzone"></div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </section><!-- /.content -->
+          </div>
+          <aside class="control-sidebar control-sidebar-light control-sidebar-open">
+              <!-- Create the tabs -->
+              <!--<ul class="nav nav-tabs nav-stacked" id="side-kanan" >
+                <li class="active"><a href="#section-1">Atas</a></li>
+                <li><a href="#section-2">Anggaran</a></li>
+                <li><a href="#section-3">Korespondensi Internal</a></li>
+                <li><a href="#section-4">Spesifikasi</a></li>
+                <li><a href="#section-5">Kandidat</a></li>
+                <li><a href="#section-6">Jadwal</a></li>
+                <li><a href="#section-7">Personil</a></li>
+            </ul>-->
+              <!-- Tab panes -->
+              <div class="box box-white">
+                  <div class="box-header with-border">
+                      <h3 class="box-title text-blue-mtf box-riwayat">Kirim Catatan</h3>
+                  </div>
+                  <div class="box-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <form class="form-horizontal">
+                                  <div class="form-group">
+                                      <div class="col-sm-12">
+                                          <textarea id="catatan" class="form-control"> </textarea>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="col-sm-12">
+                                          <button type="button" class="btn btn-default kirim-catatan">Kirim</button>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="box box-white">
+                  <div class="box-header with-border">
+                      <h3 class="box-title text-blue-mtf box-riwayat">Catatan</h3>
+                  </div>
+                  <div class="box-body">
+                      <ul class="products-list list-catatan"></ul>
+                  </div>
+              </div>
+          </aside><!-- /.control-sidebar -->
+          <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+          <div class="control-sidebar-bg"></div>
+      </div><!-- ./wrapper -->
+      <div class="modal" id="konfirmasiFile" role="dialog" FileId="" attr1="" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Konfirmasi</h4>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="downloadFile" class="btn btn-default">Download</button>
+                      <button type="button" id="HapusFile" class="btn btn-default" style="display:none">Hapus</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <!-- Modal -->
+      <div class="modal " id="pengadaan_modal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="TitleKonfirmasi">List Pengadaan</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <form class="form-horizontal label-kanan">
+                                  <div class="form-group">
+                                      <label class="col-sm-2 control-label">Judul</label>
+                                      <div class="col-sm-4">
+                                          <input id="title" type="text" class="form-control " placeholder="Judul">
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-sm-2 control-label">Klasifikasi</label>
+                                      <div class="col-sm-4">
+                                          <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                              <option selected="selected" value="">ALL</option>
+                                              <option value="Sipil">SIPIL</option>
+                                              <option value="Non Sipil">NONSIPIL</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="col-md-12">
+                                          <div class="submitgray button-row">
+                                              <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <table class="table table-bordered table-striped table-responsive" id="tbl-pengadaan" style="margin-top:20px; ">
+                                  <thead>
+                                      <tr>
+                                          <th>Nama Pekerjaan</th>
+                                          <th>HPS</th>
+                                          <th>Klasifikasi</th>
+                                          <th>Pemenang</th>
+                                          <th></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody></tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <div class="modal" id="konfirmasiPending" role="dialog" fileid="" attr1="" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Konfirmasi Pending Pks</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <label class="col-sm-2 control-label">Catatan</label>
+                              <textarea id="note-pending" class="form-control "></textarea>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="pending-pks" class="btn btn-default">Ok</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div class="modal" id="KonfirmasiSetujui" role="dialog" FileId="" attr1="" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Konfirmasi Setujui PKS</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                          <input type="hidden" id="idPksSetuju" />
+                          <div class="col-md-12">
+                              <label class=" control-label">No PKS</label>
+                              <input type="text" id="no-pks" class="form-control" />
+                          </div>
+                          <div class="col-md-12">
+                              <label class=" control-label">Catatan</label>
+                              <textarea id="note-setujui" class="form-control "></textarea>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="setujui-pks" class="btn btn-default">Ok</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div class="modal" id="KonfirmasiDone" role="dialog" FileId="" attr1="" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Konfirmasi PKS</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                          <input type="hidden" id="idPksSetuju" />
+                          <div class="col-md-12">
+                              <label class=" control-label">No PKS</label>
+                              <input type="text" id="no-pks-done" class="form-control" />
+                          </div>
+                          <div class="col-md-12">
+                              <label class=" control-label">Catatan</label>
+                              <textarea id="note-setujui-done" class="form-control "></textarea>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="done-pks" class="btn btn-default">Ok</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <!--endviewr-->
+      <!-- jQuery 2.1.4 -->
+      <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+      <script src="site.js"></script>
+      <!-- Bootstrap 3.3.5 -->
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+      <!-- SlimScroll -->
+      <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+      <!-- FastClick -->
+      <script src="plugins/fastclick/fastclick.min.js"></script>
+      <script src="dist/js/purify.js"></script>
+      <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+      <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+      
+      <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+      <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+      <script src="plugins/accounting/accounting.js"></script>
+      <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+      <script src='plugins/fullcalendar/moment.min.js'></script>
+      <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+      <script src='plugins/fullcalendar/lang/id.js'></script>
+      <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+      <script src="plugins/typeaheadjs/handlebars.js"></script>
+      <script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+      <script src="plugins/typeaheadjs/app_bs3.js"></script>
+      <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+      <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+      <script src="plugins/jQueryNumber/jquery.number.js"></script>
+      <script src="dist/site.js"></script>
+      <script src="dist/js/app.min.js"></script>
+     
+      <script src="plugins/angular/angular.min.js"></script>
+      <script src="blockui/jquery.blockUI.js"></script>
+      <script src="dist/js/menu.js"></script>
+      <script src="dropzone.js"></script>
+      <script src="dist/js/create-pks.js"></script>
+      <script>
+          $(document).ready(function () {
+              initCsrf();
+          });
+
+          function getCsrfToken() {
+              return csrfToken;
+          }
+
+
+          $(".date").datetimepicker({
+              format: "DD MMMM YYYY",
+              locale: 'id',
+              useCurrent: true
+          });
+
+          function cekisstaff() {
+              //console.log("masuk fungsi cekstaffproc");
+              $.ajax({
+                  method: "post",
+                  url: "api/Pks/cekstaffproc"
+              }).done(function (data) {
+                  //console.log("cekstaffproc: yes");
+                  $("#isStaffProc").val(data);
+                  //alert("legal is " + data);
+                  $(".ForStaf").show();
+              });
+          }
+      </script>
+  </body>
+</html>

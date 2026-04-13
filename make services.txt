@@ -1,0 +1,9 @@
+
+Go to compiler
+cd C:\Windows\Microsoft.NET\Framework\v4.0.30319
+
+Install services
+InstallUtil.exe D:\eproc-mtf\JexcelService\bin\Debug\JexcelService.exe
+
+Uninstall services
+InstallUtil.exe -u D:\eproc-mtf\JexcelService\bin\Debug\JexcelService.exe

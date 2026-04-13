@@ -1,0 +1,615 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .box-typehead {
+            background: #fff none repeat scroll 0 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 15px;
+            height: 50px;
+            width: 100%;
+        }
+
+        .box-typehead-icon {
+            background: rgba(0, 0, 0, 0.2) none repeat scroll 0 0;
+            display: block;
+            float: left;
+        }
+
+        .box-typehead-content {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-typehead-title {
+            display: block;
+            font-weight: bold;
+        }
+
+        .box-typehead-desk {
+            display: block;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>    <a id="judul-page" href="#">SPK / PO</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+
+        <aside class="main-sidebar" ng-app="app">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!--<div class="user-panel" ng-controller="user">
+                    <div class="pull-left info">
+                        <p class="title" ng-bind="user.nama"></p>
+                        <p class="deskripsi" ng-bind="user.divisi"></p>
+                    </div>
+                    <div class="pull-right image image-profile">
+                        <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                    </div>
+                </div>-->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" ng-controller="side-menu">
+                    <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                    <li class="treeview" ng-repeat="menu in menus">
+                        <a href="{{menu.url}}">
+                            <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#origin-spk" data-toggle="tab">SPK</a></li>
+                                <li><a href="#spk-non-pks" data-toggle="tab">SPK NON-PKS</a></li>
+                                <li><a href="#po" data-toggle="tab">PO</a></li>
+                            </ul>
+                            <div class="tab-content">
+                            <div class="tab-pane active" id="origin-spk">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List SPK Original</h3>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">                                        
+                                        <div class="col-md-10" style="margin-left: 60px;">
+                                            <div >
+                                                <form class="form-horizontal label-kanan">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Judul</label>
+                                                        <div class="col-sm-4">
+                                                            <input id="title" type="text" class="form-control " placeholder="Judul">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Klasifikasi</label>
+                                                        <div class="col-sm-4">
+                                                            <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                                                <option selected="selected" value="">ALL</option>
+                                                                <option value="Sipil">SIPIL</option>
+                                                                <option value="Non Sipil">NONSIPIL</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                     <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="submitgray button-row">
+                                                                <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>              
+                                                                  <a  class="btn btn-success" href="create-spk.html">Buat SPK Baru</a>                                                            
+                                                            </div>
+                                                        </div>
+                                                     </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
+                                            <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="tengah">Nama Pekerjaan</th>
+                                                        <th class="tengah">NIlai SPK</th>
+                                                        <th class="tengah">Klasifikasi</th>
+                                                        <th class="tengah">No SPK</th>
+                                                        <th class="tengah">Pemenang</th>
+                                                        <th class="tengah">Status</th>
+                                                        <th class="tengah">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                    <div class="box-footer text-center">
+                                        <!--<a id="A1" class="uppercase">Berikutnya
+                                        </a>-->
+                                    </div><!-- /.box-footer -->
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="po">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List PO</h3>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="col-md-10" style="margin-left: 60px;">
+                                            <div >
+                                                <form class="form-horizontal label-kanan">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">No.PO</label>
+                                                        <div class="col-sm-4">
+                                                            <input id="no-po" type="text" class="form-control " placeholder="No. PO">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Prihal</label>
+                                                        <div class="col-sm-4">
+                                                            <input id="prihal" type="text" class="form-control " placeholder="Prihal">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="submitgray button-row">
+                                                                <button  class="btn btn-primary cari-po" type="button">Cari</button>
+                                                                <a href="create-po.html" class="btn btn-success ">Buat PO Baru</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
+                                            <table class="table table-bordered table-striped table-responsive" id="tbl-po" style="margin-top:20px; ">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="kiri">Prihal</th>
+                                                        <th class="tengah">No. PO</th>
+                                                        <th class="tengah">Tanggal PO</th>
+                                                        <th class="tengah">Nama Vendor</th>
+                                                        <th class="tengah">PIC</th>
+                                                        <th class="tengah">Nilai PO</th>
+                                                        <th class="tengah">Action</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                    <div class="box-footer text-center">
+                                        <!--<a id="A1" class="uppercase">Berikutnya</a>-->
+                                    </div><!-- /.box-footer -->
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="spk-non-pks">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List SPK NON-PKS</h3>
+                                    </div><!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="col-md-10" style="margin-left: 60px;">
+                                            <div >
+                                                <form class="form-horizontal label-kanan">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">Judul</label>
+                                                        <div class="col-sm-4">
+                                                            <input id="title-non-pks" type="text" class="form-control " placeholder="Judul">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="display:none">
+                                                        <label class="col-sm-2 control-label">Klasifikasi</label>
+                                                        <div class="col-sm-4">
+                                                            <select id="klasifikasi-non-pks" class="form-control select2" style="width: 100%;">
+                                                                <option selected="selected" value="">ALL</option>
+                                                                <option value="Sipil">SIPIL</option>
+                                                                <option value="Non Sipil">NONSIPIL</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="submitgray button-row">
+                                                                <button id="cari-spk-non-pks" class="btn btn-primary " type="button">Cari</button>
+                                                                <a class="btn btn-success" href="create-spk-non-pks.html">Buat SPK Baru</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
+                                            <table class="table table-bordered table-striped table-responsive" id="tbl-approval-non-pks" style="margin-top:20px; ">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="tengah">Nama SPK</th>
+                                                        <th class="tengah">NIlai SPK</th>
+                                                        <!--<th class="tengah">Klasifikasi</th>-->
+                                                        <th class="tengah">No SPK</th>
+                                                        <th class="tengah">Pemenang</th>
+                                                        <th class="tengah">Status</th>
+                                                        <th class="tengah">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                    <div class="box-footer text-center">
+                                        <!--<a id="A1" class="uppercase">Berikutnya
+                                        </a>-->
+                                    </div><!-- /.box-footer -->
+                                </div>
+                            </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+        <div class="control-sidebar-bg"></div>
+
+    </div><!-- ./wrapper -->
+
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/accounting/accounting.js"></script>	
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+
+    <script>
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        });
+        var table;
+        var tablePo;
+        var user_table;
+        
+        //$("#no-po").on("change", function () {
+            //no-po prihal
+        $(function () {
+            //alert("2");
+            tablePo = $('#tbl-po').DataTable({
+                "dom": '<"toolbar">frtip',
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/PO/List',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.NoPO = $("#no-po").val();
+                        d.search = $("#prihal").val();
+                    }
+                },
+                "columns": [
+                    { "data": "Prihal" },
+                    { "data": "NoPO" },
+                    { "data": "TanggalPO" },
+                    { "data": "Vendor" },
+                    { "data": "Created" },
+                    { "data": "NilaiPO", "className": "rata_kanan" },
+                    { "data": null }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (row.TanggalPO != null)
+                                return moment(row.TanggalPO).format("DD/MM/YYYY")
+                            else return "";
+                        },
+
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return accounting.formatNumber(row.NilaiPO, { thousand: ".", decimal: ",", precision: 2 });
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a href="create-po.html?id=' + row.Id + '" class="btn btn-success btn-sm product-title "> Detail </a> ';
+                        },
+
+                        "targets": 6,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+
+            $("#no-po,#prihal").on("input propertychange paste", function () {
+                tablePo.draw();
+            });
+
+        });
+        
+        $(function () {
+            table = $('#tbl-approval').DataTable({
+                "dom": '<"toolbar">frtip',
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/Spk/ListSPK',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#title").val();
+                        d.klasifikasi = $("#klasifikasi option:selected").val();
+                    }
+                },
+                "columns": [
+                    { "data": "Judul" },
+                    { "data": "NilaiSPK", "className": "rata_kanan" },
+                    { "data": "JenisPekerjaan" },
+                    { "data": "NoSpk" },
+                    { "data": "Vendor" },
+                    { "data": "StatusSpkName" },
+                    { "data": null, "className": "rata_kanan"}
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (data != null)
+                                return accounting.formatNumber(data, { thousand: ".", decimal: ",", precision: 2 })
+                            else return "";
+                        },
+
+                        "targets": 1,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (data.NoSpk == null) {
+                                var html = '<a style="margin-left: 5px;" href="create-spk.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a>';
+                            }
+                            else {
+                                var html = '<a IdSpk="' + row.Id + '" style="margin-left: 5px;" class="btn btn-info btn-sm product-title download-spk"> Download </a>';
+                                html = html + '<a style="margin-left: 5px;" href="create-spk.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a>';
+                            }
+                            
+                            return html;
+                        },
+
+                        "targets": 6,
+                        "orderable": false
+                    }
+                ],
+                "serverSide": true,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+
+            $("#tbl-approval").on("click", ".download-spk", function () {
+                downloadFileUsingForm("Api/Spk/OpenFile?Id=" + $(this).attr("IdSpk"));
+            });
+
+
+            $("#title,#klasifikasi").on("input propertychange paste", function () {
+                table.draw();
+            });
+
+            $('#tbl-approval tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+        });
+
+        function format(d) {
+            // `d` is the original data object for the row
+            var pic = $.grep(d.PersonilPengadaans, function (e) { return e.tipe == "pic"; });
+            var vendor = "";
+            for (var i in d.KandidatPengadaans) {
+                if (i == 0) vendor = d.KandidatPengadaans[i].Nama;
+                else {
+                    vendor += ", " + d.KandidatPengadaans[i].Nama;
+                }
+            }
+
+            return '<table class="table table-bordered table-striped table-responsive">' +
+                '<tr>' +
+                    '<td>PIC</td>' +
+                    '<td>' + pic[0].Nama + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Rekanan Terdaftar</td>' +
+                    '<td>' + vendor + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Extra info:</td>' +
+                    '<td>And any further details here (images etc)...</td>' +
+                '</tr>' +
+            '</table>';
+        }
+
+        $(function () {
+            tableNonPKS = $('#tbl-approval-non-pks').DataTable({
+                "dom": '<"toolbar">frtip',
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/Spk/ListSPKNonPKS',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#title-non-pks").val();
+                        d.klasifikasi = $("#klasifikasi-non-pks option:selected").val();
+                    }
+                },
+                "columns": [
+                    { "data": "Judul" },
+                    { "data": "NilaiSPK", "className": "rata_kanan" },
+                    //{ "data": "JenisPekerjaan" },
+                    { "data": "NoSpk" },
+                    { "data": "Vendor" },
+                    { "data": "StatusSpkName" },
+                    { "data": null, "className": "rata_kanan" }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (data != null)
+                                return accounting.formatNumber(data, { thousand: ".", decimal: ",", precision: 2 })
+                            else return "";
+                        },
+
+                        "targets": 1,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (data.NoSpk == null) {
+                                var html = '<a style="margin-left: 5px;" href="create-spk-non-pks.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title " target="_blank" > Detail </a>';
+                            }
+                            else {
+                                var html = '<a IdSpk="' + row.Id + '" style="margin-left: 5px;" class="btn btn-info btn-sm product-title download-spk"> Download </a>';
+                                html = html + '<a style="margin-left: 5px;" href="create-spk-non-pks.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title " target="_blank" > Detail </a>';
+                            }
+
+                            return html;
+                        },
+
+                        "targets": 5,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+
+            $("#tbl-approval-non-pks").on("click", ".download-spk", function () {
+                downloadFileUsingForm("Api/Spk/OpenFile?Id=" + $(this).attr("IdSpk"));
+            });
+
+
+            $("#title-non-pks,#klasifikasi-non-pks").on("input propertychange paste", function () {
+                tableNonPKS.draw();
+            });
+
+            $('#tbl-approval-non-pks tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+        });
+        
+
+    </script>
+</body>
+</html>

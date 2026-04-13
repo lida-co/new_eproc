@@ -1,0 +1,657 @@
+﻿﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link href="dist/site.css" rel="stylesheet" />
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+    <link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+    <style>
+        .box-typehead {
+            background: #fff none repeat scroll 0 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 15px;
+            height: 50px;
+            width: 100%;
+        }
+
+        .box-typehead-icon {
+            background: rgba(0, 0, 0, 0.2) none repeat scroll 0 0;
+            display: block;
+            float: left;
+        }
+
+        .box-typehead-content {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-typehead-title {
+            display: block;
+            font-weight: bold;
+        }
+
+        .box-typehead-desk {
+            display: block;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Penilaian Vendor</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li><a href="#" id="report-penilaian"><i class="fa  fa-print"></i> Print</a></li>
+                            <li><a href="#" id="simpan-nilai-konfirmasi" title="simpan-nilai-konfirmasi"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar" ng-app="app">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!--<div class="user-panel" ng-controller="user">
+                    <div class="pull-left info">
+                        <p class="title" ng-bind="user.nama"></p>
+                        <p class="deskripsi" ng-bind="user.divisi"></p>
+                    </div>
+                    <div class="pull-right image image-profile">
+                        <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                    </div>
+                </div>-->
+                <!-- s
+                idebar menu: : style can be found in sidebar.less -->
+                <ul cl
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="perlu_perhatian">
+                            <div class="box box-white">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">Penilaian Vendor</h3>
+                                    <div class="box-tools pull-right">
+                                        <div class="btn-group">
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#" id="report-pekerjaan"><i class="fa  fa-print"></i>Report Pekerjaan</a></li>
+                                                <li><a href="#" id="report-pembayaran"><i class="fa  fa-print"></i>Report Pembayaran</a></li>
+                                                <li><a href="#" id="report-penilaian"><i class="fa  fa-print"></i>Report Penilaian Vendor</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="form-group col-md-12">
+                                        <label class="title"><h3 id="NamaProyek">-</h3></label>
+                                        <input type="hidden" disabled id="StatusProyek" class="form-control pull-right ">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-12" style="margin-top:10px;">
+                                            <table class="table table-bordered" id="nilai">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="tengah text-bold">Kriteria</td>
+                                                        <td class="tengah text-bold">Nilai</td>
+                                                        <td class="tengah text-bold">Catatan</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                            <div class="form-group col-md-5">
+                                                <label class="title" style="margin-top:10px;">Catatan:</label>
+                                                <textarea class="form-control catatan" rows="7"></textarea>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="title" style="margin-top:10px;">Summary:</label>
+                                                <div class="form-group">
+                                                    <label class="title col-md-6" style="color:blue">Total Nilai :</label><label id="total_nilai" class="col-md-3" style="margin-top:10px; color:blue">0</label>
+                                                </div><div class="clearfix"></div>
+                                                <div class="form-group">
+                                                    <label class="title col-md-6" style="color:blue">Rata-rata Penilaian :</label><label id="jumlah_penilaian" class="col-sm-2" style="margin-top:10px; color:blue">-</label><label id="kpi" class="col-md-3" style="margin-top:10px; color:blue">-</label>
+                                                </div><div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="title" style="margin-top:10px;">Keterangan:</label>
+                                                <div class="form-group">
+                                                    <label class="title col-md-4">> 8.5 - 10</label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">EXCELLENT</label>
+                                                </div><div class="clearfix"></div>
+                                                <div class="form-group">
+                                                    <label class="title col-md-4">> 7 - 8.5</label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">GOOD</label>
+                                                </div><div class="clearfix"></div>
+                                                <div class="form-group">
+                                                    <label class="title col-md-4">> 6 - 7</label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">FAIR</label>
+                                                </div><div class="clearfix"></div>
+                                                <div class="form-group">
+                                                    <label class="title col-md-4">> 4 - 6</label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">BAD</label>
+                                                </div><div class="clearfix"></div>
+                                                <div class="form-group">
+                                                    <label class="title col-md-4">< 4 </label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">VERY BAD</label>
+                                                </div><div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- /.box-body -->
+                                <div class="box-footer text-center">
+                                    <!--<a id="A1" class="uppercase">Berikutnya
+                                    </a>-->
+                                </div><!-- /.box-footer -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+    <input type="hidden" id="vendorid" />
+    <!-- Modal -->
+    <div id="ModalKonfirmasiFinish" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Finish</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah Seluruh Pekerjaan dan Pembayaran Sudah Diselesaikan ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toFinish();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="DeleteModalDokumen" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menghapus data ini?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Hapus" class="btn btn-default tombol-hapus" onclick="DeleteDokumen();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="DeleteModalKonfirmasiDokumen" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Dokumen</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah Anda Sudah Verifikasi Kelengkapan dan Kesesuaian Dokumen Anda ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-konfirmasi" onclick="savePembayaran();" />
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="dokumenupPekerjaan" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Upload Dokumen</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a onclick="popUpDokPekerjaan()" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Dokumen Pekerjaan</a>
+                            <input type="hidden" id="id_tahapModalPekerjaan" />
+                            <table class="table table-bordered" id="list-dokumen">
+                                <thead>
+                                    <tr>
+                                        <td class="tengah text-bold">Nama Dokumen Pekerjaan</td>
+                                        <td class="tengah text-bold">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /.Modal -->
+    <!-- Modal Pembayaran -->
+    <div class="modal" id="dokumenupPembayaran" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Upload Dokumen Pembayaran</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a onclick="popUpDokPembayaran()" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Dokumen Pembayaran</a>
+                            <input type="hidden" id="id_tahapModalPembayaran" />
+                            <table class="table table-bordered" id="list-dokumen-pembayaran">
+                                <thead>
+                                    <tr>
+                                        <td class="tengah text-bold">Nama Dokumen Pekerjaan</td>
+                                        <td class="tengah text-bold">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal Pembayaran-->
+    <!-- Modal -->
+    <div id="SimpanModalKonfirmasiDokumen" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Dokumen</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah Anda Sudah Verifikasi Kelengkapan dan Kesesuaian Dokumen Anda ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-konfirmasi" onclick="savePembayaran();" />
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="modal-nilai" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin menyimpan Penilaian Ini ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="simpan-nilai" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-danger" id="batal" data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <input type="hidden" id="vendorID">
+    <input type="hidden" id="SpkID">
+    <!-- Modal -->
+    <div class="modal" id="konfirmasi-data" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Informasi</h4>
+                </div>
+                <div class="modal-body">
+                    Catatan Wajib Diisi !
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="OK" data-dismiss="modal">OK</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="tahapanpekerjaanup" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Tahapan Pekerjaan</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form-tahapan-pekerjaan" role="form" class="jp-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <label class="title">Nama Tahapan Pekerjaan</label>
+                                    <input type="text" class="form-control" id="nama-pekerjaan">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label class="title">Tanggal Pekerjaan Mulai</label>
+                                    <input id="tanggal-pekerjaan-mulai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="title">Tanggal Pekerjaan Selesai</label>
+                                    <input id="tanggal-pekerjaan-selesai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-4">
+                                    <label class="title">Bobot Pekerjaan (%)</label>
+                                    <input type="text" class="form-control" id="bobot-pekerjaan">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="TambahTahapanPekerjaan()" id="SimpanTahapan" class="btn btn-primary ">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal" id="tahapanpembayaranup" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Tahapan Pembayaran</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form-tahapan-pembayaran" role="form" class="jp-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <label class="title">Nama Tahapan Pembayaran</label>
+                                    <input type="text" class="form-control" id="nama-pembayaran">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label class="title">Tanggal Pembayaran Mulai</label>
+                                    <input id="tanggal-pembayaran-mulai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="title">Tanggal Pembayaran Selesai</label>
+                                    <input id="tanggal-pembayaran-selesai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="TambahTahapanPembayaran()" id="SimpanTahapan" class="btn btn-primary ">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal" id="addDokPekerjaan" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Dokumen Tahapan Pekerjaan</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-8">
+                                <label class="title">Nama Dokumen Pekerjaan</label>
+                                <input type="text" class="form-control" id="nama-dokumen">
+                                <input type="hidden" id="id_tahapModalPekerjaan" />
+                                <input type="hidden" id="jenis-tahapanModalPekerjaan" value="Pekerjaan" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="simpan" class="btn btn-primary " onclick="TambahDokumenPekerjaan()">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal" id="addDokPembayaran" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Dokumen Tahapan Pembayaran</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-8">
+                                <label class="title">Nama Dokumen Pembayaran</label>
+                                <input type="text" class="form-control" id="nama-dokumen-pembayaran">
+                                <input type="hidden" id="id_tahapModalPembayaran" />
+                                <input type="hidden" id="jenis-tahapanModalPembayaran" value="Pembayaran" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="simpan" class="btn btn-primary " onclick="TambahDokumenPembayaran()">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!--Modal Disable Editing-->
+    <div id="ModalKonfirmasiDisableEditing" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Konfirmasi Disable Editing</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah anda yakin mengunci tambah tahapan di Rekanan ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toDisable();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Modal Disable Editing-->
+    <!--Modal Enable Editing-->
+    <div id="ModalKonfirmasiEnableEditing" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Konfirmasi Enable</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah anda yakin membuka tambah tahapan di Rekanan ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toEnable();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Modal Enable Editing-->
+    <!--Modal Daftar Hitam-->
+    <div id="modal-daftarhitam" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Menambahkan Rekanan ke Daftar Hitam</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menambahkan rekanan ini ke dalam DAFTAR HITAM.<br />
+                        Selanjutnya, rekanan tidak lagi diperhitungkan dalam sistem pengadaan.
+                        <br />
+                        <strong> OPERASI INI TIDAK BISA DIKEMBALIKAN.</strong>
+                    </p>
+                    <p>Tuliskan alasan penambahan daftar hitam:</p>
+                    <textarea class="form-control" id="daftar-hitam-message"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button id="v-tolak" onclick="sendDaftarHitam()" type="button" class="btn btn-success">LANJUTKAN</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">BATAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+	<script src="dist/js/purify.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <!--<script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/JQueryValidation/jquery.validate.js"></script>-->
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+    <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+    <script src="plugins/typeaheadjs/handlebars.js"></script>
+    <script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+    <script src="plugins/typeaheadjs/app_bs3.js"></script>
+    <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+    <script src="plugins/jQueryNumber/jquery.number.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <!-- <script src="chatjs/chat.js"></script>-->
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="dist/js/penilaian_vendor.js"></script>
+    <script>
+        var id = gup("Id");
+
+        $("#report-penilaian").on("click", function () {
+            downloadFileUsingForm("/api/MonitoringSelection/ReportPenilaianDirect?NoSPK=" + id);
+        });
+    </script>
+
+</body>
+</html>

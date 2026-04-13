@@ -1,0 +1,630 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .box-typehead {
+            background: #fff none repeat scroll 0 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 15px;
+            height: 50px;
+            width: 100%;
+        }
+
+        .box-typehead-icon {
+            background: rgba(0, 0, 0, 0.2) none repeat scroll 0 0;
+            display: block;
+            float: left;
+        }
+
+        .box-typehead-content {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-typehead-title {
+            display: block;
+            font-weight: bold;
+        }
+
+        .box-typehead-desk {
+            display: block;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>    <a id="judul-page" href="#">Monitoring</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li id="loader" style="display:none"> <img src="Images/ajax-loader.gif" /></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+
+        <div id="menu">
+            <aside class="main-sidebar" ng-app="app">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.FullName"></p>
+                           <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                        </div>
+                       <div class="pull-right image image-profile">
+                          <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        </div>
+                    </div>
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="perlu_perhatian">
+                            <div class="box box-white">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List To Do / Monitoring Selection</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="form-group col-md-12">
+
+                                        <div class="col-md-4" >
+                                            <div class="input-group">
+                                                <input type="text" name="q" id="txtcari" class="form-control" placeholder="Search...">
+                                                <span class="input-group-btn">
+                                                    <button type="submit" name="search-btn" id="search-btn" onclick="fungsicari()" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <!--Tab-->
+                                    <div class="col-md-12">
+                                        <div class="nav-tabs-custom">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a href="#seleksi" data-toggle="tab">Seleksi</a></li>
+                                                <li><a href="#draf" data-toggle="tab">Draf</a></li>
+                                                <li><a href="#sedang_berjalan" data-toggle="tab">Sedang Berjalan</a></li>
+                                                <li><a href="#selesai" data-toggle="tab">Selesai</a></li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <!--Tab All Klasifikasi-->
+                                                <div class="tab-pane active" id="seleksi" style="overflow-x:auto;">
+                                                    <table class="table table-bordered" id="monitoring-seleksi">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
+                                                                <td class="tengah text-bold">Nama Proyek</td>
+                                                                <td class="tengah text-bold">Pelaksana</td>
+                                                                <td class="tengah text-bold">Klasifikasi</td>
+                                                                <td class="tengah text-bold">Tanggal</td>
+                                                                <td class="tengah text-bold">Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">PIC</td>
+                                                                <td class="tengah text-bold"></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- Tab Draf-->
+                                                <div class="tab-pane" id="draf" style="overflow-x:auto;">
+                                                    <table class="table table-bordered" id="monitoring-draf">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
+                                                                <td class="tengah text-bold">Nama Proyek</td>
+                                                                <td class="tengah text-bold">Vendor Pemenang</td>
+                                                                <td class="tengah text-bold">Klasifikasi</td>
+                                                                <td class="tengah text-bold">Tanggal</td>
+                                                                <td class="tengah text-bold">Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">PIC</td>
+                                                                <td class="tengah text-bold"></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- Tab Sedang Berjalan-->
+                                                <div class="tab-pane" id="sedang_berjalan" style="overflow-x:auto;">
+                                                    <table class="table table-bordered" id="monitoring-sedang-berjalan">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
+                                                                <td class="tengah text-bold">Nama Proyek</td>
+                                                                <td class="tengah text-bold">Vendor Pemenang</td>
+                                                                <td class="tengah text-bold">Klasifikasi</td>
+                                                                <td class="tengah text-bold">Tanggal</td>
+                                                                <td class="tengah text-bold">Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">PIC</td>
+                                                                <td class="tengah text-bold"></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- Tab Selesai-->
+                                                <div class="tab-pane" id="selesai" style="overflow-x:auto;">
+                                                    <table class="table table-bordered" id="monitoring-selesai">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="tengah text-bold">No. Pengadaan</td>
+                                                                <td class="tengah text-bold">No. SPK</td>
+                                                                <td class="tengah text-bold">Nama Proyek</td>
+                                                                <td class="tengah text-bold">Vendor Pemenang</td>
+                                                                <td class="tengah text-bold">Klasifikasi</td>
+                                                                <td class="tengah text-bold">Tanggal</td>
+                                                                <td class="tengah text-bold">Nilai Kontrak</td>
+                                                                <td class="tengah text-bold">PIC</td>
+                                                                <td class="tengah text-bold"></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>  
+                                </div><!-- /.box-body -->
+                                <div class="box-footer text-center">
+                                    <!--<a id="A1" class="uppercase">Berikutnya
+                                    </a>-->
+                                </div><!-- /.box-footer -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+        <!-- <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan"> -->
+            <!-- Create the tabs -->
+            <!-- <ul class="nav nav-tabs nav-stacked">
+                <li><a href="#header">Atas</a></li>
+                <li><a href="#perlu-perhatian">Perlu Perhatian</a></li>
+                <li><a href="#section-1">Dalam Pelaksanaan</a></li>
+                <li><a href="#section-2">Belum Terjadwal</a></li>
+                <li><a href="#section-3">Arsip</a></li>
+
+            </ul> -->
+
+            <!-- Tab panes -->
+
+        <!-- </aside> --><!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+
+    </div><!-- ./wrapper -->
+
+    <!--<div id="ModalHapus" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+             Modal content
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Hapus Vendor</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Yakin Vendor ini dihapus?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="eveHapus" type="button" class="btn btn-default">Remove</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>-->
+
+    <!--
+    <div id="view-siup" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <input type="hidden" id="row_index" />
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <iframe width="100%" style="min-height: 500px" src="/ViewerJS/#../contoh.pdf" allowfullscreen webkitallowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+     
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+    <script>
+        //Date picker
+        $('#datepicker').datepicker({
+          autoclose: true
+        });
+    </script>
+    <!-- Tombol search -->
+    <!--<script>
+        $(function fungsicari(ff) {
+            console.log(ff);
+            
+            var rr = $(ff);
+            alert('Nilai =' +rr.val());
+        })
+    </script>-->
+    <!---------------------------------------------------------- Tampil Data Monitorng--------------------------------------------------->
+    <script>
+        var table_seleksi;
+        var table_draf;
+        var table_sedang_berjalan;
+        var table_selesai;
+
+        $(function () {
+            table_seleksi = $('#monitoring-seleksi').DataTable({
+                "ajax": {
+                    "url": 'api/MonitoringSelection/List',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
+                    { "data": "Klasifikasi" },
+                    { "data": "TglPenentuanPemenang" },
+                    { "data": "NilaiKontrak", "className": "rata_kanan" },
+                    { "data": "PIC" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return row.NilaiKontrak != null ? numberWithCommas(row.NilaiKontrak) : '0';
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a href="monitoring-proyek-add.html?id-pengadaan=' + row.Id + '" id="" class="btn btn-sm btn-primary "> Monitor </a> ' +
+                                 '<a idSpk="'+row.Id+'" class="btn btn-sm btn-danger tidak-monitor">Tidak</a> ';
+                        },
+                        "targets": 8,
+                        "orderable": false
+                    },
+                ],
+                "serverSide": true,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+        });
+
+        $("#monitoring-seleksi").on("click", ".tidak-monitor", function () {
+            var IDSPK = $(this).attr("idSpk");
+            //alert(IDSPK);
+            $.ajax({
+                method: "get",
+                url: "api/MonitoringSelection/TidakMonitor",
+                datatype: "json",
+                data: {
+                    Id: IDSPK
+                },
+                success: function (d) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Pekerjaan Tidak Dimonitor',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+
+                    table_seleksi.ajax.reload();
+                }
+
+            });
+        });
+
+        $(function () {
+            table_selesai = $('#monitoring-selesai').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListSelesai',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
+                    { "data": "Klasifikasi" },
+                    { "data": "TglPenentuanPemenang" },
+                    { "data": "NilaiKontrak", "className": "rata_kanan" },
+                    { "data": "PIC" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return row.NilaiKontrak != null ? numberWithCommas(row.NilaiKontrak) : '0';
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="sistem-monitoring-detail.html?Id=' + row.Id + '" id="" class="btn btn-sm btn-success "> Detail </a> ';
+                        },
+                        "targets": 8,
+                        "orderable": false
+                    },
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true
+            });
+        });
+
+        $(function () {
+            table_draf = $('#monitoring-draf').DataTable({
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListDraf',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                        d.length = 10;
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
+                    { "data": "Klasifikasi" },
+                    { "data": "TglPenentuanPemenang" },
+                    { "data": "NilaiKontrak", "className": "rata_kanan" },
+                    { "data": "PIC" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return row.NilaiKontrak != null ? numberWithCommas(row.NilaiKontrak) : '0';
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a href="monitoring-proyek-add.html?id-pengadaan=' + row.Id + '" id="" class="btn btn-sm btn-success "> Review </a> ';
+                        },
+                        "targets": 8,
+                        "orderable": false
+                    },
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true
+            });
+        });
+
+        $(function () {
+            table_sedang_berjalan = $('#monitoring-sedang-berjalan').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListSedangBerjalan',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NoPengadaan" },
+                    { "data": "NOSPK" },
+                    { "data": "Judul" },
+                    { "data": "Pemenang" },
+                    { "data": "Klasifikasi" },
+                    { "data": "TglPenentuanPemenang" },
+                    { "data": "NilaiKontrak", "className": "rata_kanan" },
+                    { "data": "PIC" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalPenentuanPemenang).format("DD/MM/YYYY");
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="sistem-monitoring-detail.html?Id=' + row.Id + '">' + row.Judul + '</a>';
+                        },
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return row.NilaiKontrak != null ? numberWithCommas(row.NilaiKontrak) : '0';
+                        },
+                        "targets": 6,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a href="sistem-monitoring-detail.html?Id=' + row.Id + '" id="" class="btn btn-sm btn-success "> Review </a> ';
+                        },
+                        "targets": 8,
+                        "orderable": false
+                    },
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true
+            });
+        });
+
+        function fungsicari(cari) {
+            table_seleksi.draw();
+            table_draf.draw();
+            table_sedang_berjalan.draw();
+            table_selesai.draw();
+        }
+
+        // Fungsi Separator Thousand
+        function numberWithCommas(x) {
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,612 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link href="dist/site.css" rel="stylesheet" />
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+    <link rel='stylesheet' href='plugins/datatables/extensions/Responsive/css/dataTables.responsive.css' />
+
+    <style type="text/css">
+        table > tbody > td {
+            border: 1px solid #bebebe !important;
+        }
+
+        form.jp-navbar-form {
+            padding-top: 3px;
+            padding-left: 50px;
+            margin: 0;
+        }
+
+        .clear-margin {
+            margin: 0 !important;
+            padding-top: 3px;
+            padding-left: 250px;
+        }
+
+
+        /* Custom Styles */
+        ul.nav-tabs {
+            width: 200px;
+            margin-top: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+        }
+
+            ul.nav-tabs li {
+                margin: 0;
+                border-top: 1px solid #ddd;
+            }
+
+                ul.nav-tabs li:first-child {
+                    border-top: none;
+                }
+
+                ul.nav-tabs li a {
+                    margin: 0;
+                    padding: 8px 16px;
+                    border-radius: 0;
+                }
+
+                ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover {
+                    color: #fff;
+                    background: #0088cc;
+                    border: 1px solid #0088cc;
+                }
+
+                ul.nav-tabs li:first-child a {
+                    border-radius: 4px 4px 0 0;
+                }
+
+                ul.nav-tabs li:last-child a {
+                    border-radius: 0 0 4px 4px;
+                }
+
+            ul.nav-tabs.affix {
+                top: 30px; /* Set the top position of pinned element */
+            }
+
+        #example1 thead tr th {
+            text-align: center;
+        }
+
+        #example1 tbody tr td, #example1 thead tr th {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Submit Penawaran </a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li><a href="#" id="cetak-rks" title="Cetak"><i class="fa fa-fw fa-print " style="font-size:20px;"></i>Cetak</a></li>
+                            <li><a id="simpankembali" attr2="save" title="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            <section class="content">
+
+                <!-- Default box -->
+                <input type="hidden" id="pengadaanId" />
+                <input type="hidden" id="region" />
+                <input type="hidden" id="aturan-pengadaan" />
+                <input type="hidden" id="tobeEdit" />
+                <input type="hidden" id="titipNilai" />
+                <div id="page-content" class="box box-primary box-white">
+                    <div class="box-body ">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div id="notif">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-11" style="margin-left:30px; margin-top:20px;">
+                            <form role="form" class="jp-form">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="form-group judul-pengadaan">
+                                            <label id="judul"></label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label id="deskripsi"> </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label id="keterangan"></label>
+                                        </div>
+                                        <!--<div class="form-group">
+                        <label id="Status"></label>
+                    </div>-->
+                                    </div>
+                                </div>
+                                <div class="row" style="display: none;">
+                                    <!--<div class="form-group col-md-6">
+                    <label style="display:block"><b>Total HPS : </b></label>
+                    <label style="display:block" id="totalRKS">0</label>
+                </div>-->
+                                </div>
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="padtop  button-row">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="display: none;">
+                                        <div class="col-md-12">
+                                            <input type="hidden" id="idRks" />
+                                            <table id="example1" class="table table-bordered table-hover" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="tengah">Nama</th>
+                                                        <th class="tengah">Item</th>
+                                                        <th class="tengah">Satuan</th>
+                                                        <th class="tengah">Jumlah</th>
+                                                        <th class="tengah">HPS Satuan</th>
+                                                        <th class="tengah">Total</th>
+                                                        <th class="tengah">Keterangan</th>
+                                                        <th class="tengah">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="hidden" id="idRks" />
+                                            <table id="example" class="table table-bordered table-hover" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="tengah text-bold">Benefit</th>
+                                                        <th class="tengah text-bold">Coverage</th>
+                                                        <th class="tengah text-bold">Region</th>
+                                                        <th colspan="2" class="tengah text-bold">Rate</th>
+                                                        <th class="tengah text-bold">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </section><!-- /.content -->
+        </div>
+
+
+        <footer class="main-footer">
+            <!-- <div class="pull-right hidden-xs">
+               <b>Version</b> 1.0.0
+             </div>
+             <strong>Pengadaan-e</strong> -->
+        </footer>
+    </div><!-- ./wrapper -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="title_1">
+                    <h3 class="modal-title">Isi Penawaran </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <input type="hidden" id="HargaId">
+                </div>
+                <div class="modal-body">
+                    <form id="addBenefitForm">
+                        <label class="control-label">Kode Benefit</label>
+                        <div>
+                            <input type="text" disabled class="form-control" id="BenefitCode">
+                        </div>
+
+                        <label class="control-label">Coverage</label>
+                        <div>
+                            <input type="text" disabled class="form-control" id="BenefitCoverage">
+                        </div>
+
+                        <label class="control-label">Region</label>
+                        <div>
+                            <input type="text" disabled class="form-control" id="RegionCode">
+                        </div>
+
+                        <div class="checkbox">
+                            <!--<input name="IsOpen" type="checkbox" class="form-check-input">-->
+                            <label><input type="checkbox" disabled id="IsOpen"> Perlu Underwriting </label>
+                        </div>
+                        <div id="changeShipInputs">
+                            <label class="control-label">Rate Value Type</label>
+                            <div>
+                                <select name="IsRange" disabled id="IsRange" class="form-control" onchange="java_script_:show(this.options[this.selectedIndex].value)">
+                                    <option value="true" selected>Rate</option>
+                                    <option value="false">Value</option>
+                                </select>
+                                <label class="control-label">Rate</label>
+                                <div id="raterange">
+                                    <input name="RateLowerLimit" id="RateLowerLimit" type="text" class="form-control "> % s.d <input name="RateUpperLimit" id="RateUpperLimit" type="text"  class="form-control ">
+                                </div>
+                                <div id="ratevalue" style="display:none">
+                                    <input name="Rate" id="Rate" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="btn_1" class="modal-footer">
+                    <button id="SimpanPenawaran" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Simpan Penawaran</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                <div id="btn_2" class="modal-footer" style="display: none;">
+                    <button id="editbenef" type="submit" onclick="//AddBenefit()" class="editbenef btn btn-primary">Edit Benefit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-simpan-ulul" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="modal-body" id="konten-simpan">
+                        <h4 class="modal-title">Konfirmasi</h4>
+                        <h4 class="modal-title"> </h4>
+                    </div>
+                    <div class="modal-body" id="konten-simpan">
+                        Data berhasil di simpan
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="kembali-ulul" class="btn btn-default" data-toggle="tooltip" title="Kembali Ke Halaman Sebelumnya">Kembali</button>
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Lanjutkan isi RKS">Lanjutkan</button>-->
+                    <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Lanjutkan Isi Penawaran">Lanjutkan</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+	<script src="dist/js/purify.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/JQueryValidation/jquery.validate.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+    <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+    <script src="plugins/typeaheadjs/handlebars.js"></script>
+    <script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+    <script src='plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js'></script>
+    <script src='plugins/PriceFormat/jquery.priceformat.js'></script>
+
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="plugins/htmltoword/FileSaver.js"></script>
+    <script src="plugins/htmltoword/jquery.wordexport.js"></script>
+    <!--<script src="dist/js/rks_asuransi.js"></script>-->
+    <script src="dist/js/menu.js"></script>
+    <script>
+
+        var table212;
+
+        $(function () {
+            $("#pengadaanId").val(window.location.hash.replace("#", ""));
+            load_table_penawaran();
+            loadData();
+        });
+
+        function loadData() {
+            $.ajax({
+                method: "POST",
+                url: ($("#pengadaanId").val() == "") ? "Api/PengadaanE/detailPengadaan?Id=" + id_rks : "Api/PengadaanE/detailPengadaan?Id=" + $("#pengadaanId").val(),
+                dataType: "json"
+            }).done(function (data) {
+                $("#judul").text(data.Judul);
+                $("#deskripsi").text(data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
+                $("#aturan-pengadaan").val(data.AturanPengadaan);
+                $("#keterangan").text(data.Keterangan);
+                $("#judul-page").html("RKS " + data.Judul);
+                // $("#idRks").val(data.RKSHeaderId);
+                if (data.isTEAM == 1 || data.isCreated == 1) {
+                    $("#simpan").show();
+                }
+                if (data.isTEAM != 1 && data.isCreated != 1) {
+                    var column = table.column(6);
+                    column.visible(false);//!column.visible()
+                    $(".simpan").remove();
+                    $(".edit").remove();
+                    $(".right").remove();
+                    $(".left").remove();
+                    $(".add").remove();
+                }
+                if (data.Status > 0) {
+                    var column = table.column(6);
+                    column.visible(false);//!column.visible()
+                    $(".simpan").remove();
+                    $(".edit").remove();
+                    $(".right").remove();
+                    $(".left").remove();
+                    $(".add").remove();
+                }
+                $("#pengadaanId").val(data.Id);
+                $("#region").val(data.Region)
+            });
+        }
+
+        // Start of Edit
+        $("#example").on("click", ".edit-item", function () {
+            EditConfirmation($(this).attr("idIsi"));
+        });
+        function EditConfirmation(ide) {
+            $("#tobeEdit").val(ide);
+            $("#exampleModal").modal('show');
+            Edit(ide);
+        }
+
+        function Edit(ide) {
+            $.ajax({
+                method: "POST",
+                url: "Api/PengadaanE/GetDetailBenef?Id=" + ide,
+                dataType: "json"
+            }).done(function (data) {
+                clear();
+                console.log("doc data:", data);
+                $('#BenefitCode').val(data.BenefitCode);
+                $('#RegionCode').val(data.RegionCode);
+                $('#BenefitCoverage').val(data.BenefitCoverage);
+                $('#RateLowerLimit').val(data.RateLowerLimit);
+                $('#RateUpperLimit').val(data.RateUpperLimit);
+                $('#Rate').val(data.Rate);
+                $('#IsRange').val(String(data.IsRange));
+                show(String(data.IsRange));
+
+                if (String(data.IsOpen) == "true") {
+                    $('#IsOpen').attr("checked", true);
+                }
+                else {
+                    $('#IsOpen').attr("checked", false);
+                }
+
+                $("#HargaId").val(data.HargaId);
+            });
+        }
+
+        function clear() {
+            //alert("ngapus kudunya");
+            document.getElementById("BenefitCode").value = "";
+            document.getElementById("RegionCode").value = "";
+            document.getElementById("BenefitCoverage").value = "";
+            document.getElementById("RateLowerLimit").value = "";
+            document.getElementById("RateUpperLimit").value = "";
+            document.getElementById("Rate").value = "";
+            document.getElementById("changeShipInputs").value = "";
+            $('#IsOpen').val();
+        }
+
+        function show(aval) {
+            if (aval == "true") {
+                raterange.style.display = 'inline';
+                ratevalue.style.display = 'none';
+                //Form.fileURL.focus();
+            }
+            else {
+                raterange.style.display = 'none';
+                ratevalue.style.display = 'inline';
+            }
+        };
+
+        function load_table_penawaran() {
+            // insert pertama kali ke table HargaRekananAsuransi
+            table212 = $('#example').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": '/Api/PengadaanE/GetListBenefitRateHargaAsuransi?PengadaanId=' + $("#pengadaanId").val(), //6298c3a9-cf12-477a-bc00-f311703b9477', //?documentId=" + $.getUrlVar("documentId")
+                    "type": 'POST',
+                    "data": function (d) {
+                        console.log("d: ", d);
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "BenefitCode" },
+                    { "data": "BenefitCoverage" },
+                    { "data": "RegionCode" },
+                    { "data": "RateLowerLimit" },
+                    { "data": "RateUpperLimit" },
+                    { "data": null },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            //var html = '<a style="margin-left: 5px;"  class="btn btn-success btn-sm product-title"><span class="fa fa-edit"></span> Edit </a>';
+                            //html = html + '<a style="margin-left: 5px;"  class="btn btn-danger remove-item btn-sm product-title"><span class="fa fa-trash-o"></span> Hapus</a>';
+                            if (data.IsOpen === true){
+                                var html = '<a style="display: none;" idIsi="' + row.Id + '" class="btn btn-danger edit-item btn-sm product-title"><span class="fa fa-file"></span> Isi Rate Benefit</a>';
+                                return html;
+                            } else {
+                                var html = '<a style="text-align:center" idIsi="' + row.Id + '" class="btn btn-danger edit-item btn-sm product-title"><span class="fa fa-file"></span> Isi Rate Benefit</a>';
+                                return html;
+                            }
+                            //var html = '<a style="text-align:center" idIsi="' + row.Id + '" class="btn btn-danger edit-item btn-sm product-title"><span class="fa fa-file"></span> Isi Rate Benefit</a>';
+                            //    return html;
+                        },
+
+                        "targets": 5,
+                        "orderable": false
+                    }
+                ],
+                "createdRow": function (row, data, dataIndex) {
+                    console.log("data: ", data);
+                    if (data.IsRange === false) {
+                        // Add COLSPAN attribute
+                        $('td:eq(3)', row).attr('colspan', 2);
+
+                        // Center horizontally
+                        $('td:eq(3)', row).attr('align', 'center');
+
+                        // Hide required number of columns
+                        // next to the cell with COLSPAN attribute
+                        $('td:eq(4)', row).css('display', 'none');
+                        //$('td:eq(3)', row).css('display', 'none');
+
+                        // Update cell data
+                        this.api().cell($('td:eq(3)', row)).data(data.Rate);
+                    }
+                    //alert(data.IsOpen);
+                    if (data.IsOpen === true) {
+                        // Add COLSPAN attribute
+                        $('td:eq(3)', row).attr('colspan', 2);
+
+                        // Center horizontally
+                        $('td:eq(3)', row).attr('align', 'center');
+
+                        // Hide required number of columns
+                        // next to the cell with COLSPAN attribute
+                        $('td:eq(4)', row).css('display', 'none');
+                        //$('td:eq(3)', row).css('display', 'none');
+
+                        // Update cell data
+                        this.api().cell($('td:eq(3)', row)).data('Perlu Underwriting');
+                    }
+                },
+                "paging": false,
+                "lengthChange": false,
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        }
+
+        $("#SimpanPenawaran").on("click", function () {
+            var arrData = {
+                HargaId : $("#HargaId").val(),
+                Rate : $("#Rate").val(),
+                RateLowerLimit : $("#RateLowerLimit").val(),
+                RateUpperLimit : $("#RateUpperLimit").val()
+            };
+
+            console.log(arrData);
+
+            $.ajax({
+                method: "POST",
+                url: "Api/Asuransi/savePenawaranAsuransi",
+                data: JSON.stringify(arrData),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $("#exampleModal").modal('hide');
+                    table212.ajax.reload();
+                }
+            });
+        });
+        // end of Edit
+
+        $("#simpankembali").on("click", function () {
+            $("#modal-simpan-ulul").modal('show');
+        });
+
+        $("#kembali-ulul").on("click", function () {
+            window.location.replace(HOME_PAGE + "/rekanan-side-detail-pengadaan.html#" + parseInt(("#pengadaanId").val()));
+        });
+
+        $(".refresh").on("click", function () {
+            window.location.reload();
+        });
+
+    </script>
+</body>
+</html>

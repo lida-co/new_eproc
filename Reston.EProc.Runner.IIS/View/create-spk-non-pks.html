@@ -1,0 +1,661 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+  <head >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="plugins/select2/select2.min.css">
+	
+	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+
+	<link href="dist/site.css" rel="stylesheet" />
+	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+	<link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+	<link rel="stylesheet" href="dist/app.css">
+	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+	<link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+      <link rel="stylesheet" href="dropzone.css">
+		<style type="text/css">
+		.dz-error-mark{
+			display:none !important;
+		}
+		.dropzone{
+			min-height: 50px;
+		}
+		.dropzone .dz-message {
+			margin: 0em 0;
+			text-align: center;
+		}
+		
+		.clear-margin{
+			margin:0 !important;
+			padding-top:3px;
+			padding-left:250px;
+		}
+</style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+      <div class="wrapper">
+          <div id="header">
+              <header class="main-header">
+                  <!-- Logo -->
+                  <a class="logo">
+                      <!-- mini logo for sidebar mini 50x50 pixels -->
+                      <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                      <!-- logo for regular state and mobile devices -->
+                      <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                  </a>
+                  <!-- Header Navbar: style can be found in header.less -->
+                  <nav class="navbar navbar-static-top" role="navigation">
+                      <!-- Sidebar toggle button-->
+                      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                          <span class="sr-only">Toggle navigation</span>
+                      </a>
+                      <div class="navbar-custom-menu pull-left">
+                          <ul class="nav navbar-nav">
+                              <li>	<a id="judul-page" href="#">SPK NON-PKS</a></li>
+                          </ul>
+                      </div>
+                      <div class="navbar-custom-menu">
+                          <ul id="menu-top" class="nav navbar-nav">
+                              <li><a title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                              <!--<li><a title="Simpan" href="#" id="cek"><i class="fa fa-fw fa-angle-left " style="font-size:20px;"></i>Cek</a></li>-->
+                              <li><a id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                          </ul>
+                      </div>
+                  </nav>
+              </header>
+          </div>
+          <!-- Left side column. contains the logo and sidebar -->
+          <div id="menu">
+              <aside class="main-sidebar">
+                  <!-- sidebar: style can be found in sidebar.less -->
+                  <section class="sidebar">
+                      <!-- <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.nama"></p>
+                            <p class="deskripsi" ng-bind="user.divisi"></p>
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                        </div>
+                    </div>-->
+                      <!-- sidebar menu: : style can be found in sidebar.less -->
+                      <ul class="sidebar-menu" ng-controller="side-menu">
+                          <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                          <li class="treeview" ng-repeat="menu in menus">
+                              <a href="{{menu.url}}">
+                                  <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                              </a>
+                          </li>
+                      </ul>
+                  </section>
+                  <!-- /.sidebar -->
+              </aside>
+          </div>
+
+
+          <!-- Content Wrapper. Contains page content -->
+          <div class="content-wrapper">
+              <section class="content" id="section-1">
+                  <!-- Default box -->
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="box box-primary box-white">
+                              <input type="hidden" id="spkId" />
+                              <input type="hidden" id="pksId" />
+                              <input type="hidden" id="isOwner" />
+                              <input type="hidden" id="StatusSpk" />
+                              <div class="box-body">
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div id="notif">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <div class="panel-header-white">
+                                              <span class="title-header" id="section-6">Status Spk</span>
+                                              <button id="Status" class="btn bg-aqua btn-flat margin">Draft</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-8">
+                                          <label class="title">Judul:</label>
+                                          <input type="text" class="form-control" id="judul">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-4">
+                                          <label class="title">Vendor:</label>
+                                          <select class="form-control select2 " name="Vendor" style="width: 100%;">
+                                              <input type="hidden" id="idVendor" class="namaVendor"></input>
+                                              <!--<option value="0"> Rekanan Tidak Terdaftar </option>-->
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <!--<div class="row tidak-terdaftar" style="display:none">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">Nama Vendor:</label>
+                                        <input type="text" class="form-control" id="VendorNonReg">
+                                    </div>
+                                </div>
+                                <div class="row npwp-tidak-terdaftar" style="display:none">
+                                    <div class="form-group col-md-4">
+                                        <label class="title">No. NPWP:</label>
+                                        <input type="text" class="form-control" id="VendorNPWPNonReg">
+                                    </div>
+                                </div>-->
+                                  <div class="row">
+                                      <div class="form-group col-md-12">
+                                          <label class="title">Status:</label>
+                                          <div class="radio col-md-4">
+                                              <label>
+                                                  <input type="radio" class="input-spk" name="status" value="0" checked="checked" />Draf
+                                              </label>
+                                              <label>
+                                                  <input type="radio" class="input-spk" name="status" value="1" />Aktif
+                                              </label>
+                                              <label>
+                                                  <input type="radio" class="input-spk" name="status" value="2" />Batal
+                                              </label>
+                                          </div>
+                                          <div class="form-group">
+                                              <label class="title">
+                                                  Unduh Template SPK Non PKS
+                                                  <a class="download-dokumen download-berkas input-spk" id="template-spk" attr1="berkas-buka-amplop"><i class="fa fa-fw fa-download template-spk"></i></a>
+                                              </label>
+                                          </div>
+                                      </div>
+
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">SPK</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">No. SPK</label>
+                                          <input class="form-control" type="text" id="no-spk" disabled>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Tanggal SPK:</label>
+                                          <input id="tanggal-spk" type="text" class="tanggal-tahapan form-control input-spk input-group date">
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nilai SPK</label>
+                                          <input id="nilai-spk" type="text" class="input-spk  form-control input-group dateJadwal">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah SPK</label>
+                                                      <div id="dokspk" action="/api/SPk/UploadFileSPKnonPKS" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Nota/Memo</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nomor</label>
+                                          <input class="form-control" type="text" id="no-memo" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah Dokumen Nota/Memo</label>
+                                                      <div id="dokMemo" attr="Memo" action="/api/Spk/UploadFileNonPks?klasifikasi=Memo" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">AANWIJZING</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nomor</label>
+                                          <input class="form-control" type="text" id="no-aanwijzing" disabled>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Tanggal AANWIJZING</label>
+                                          <input id="tanggal-aanwijzing" type="text" class="form-control input-group date" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah Dokumen Aanwijzing</label>
+                                                      <div id="dokaanwijzing" attr="Aanwijzing" action="/api/Spk/UploadFileNonPks?klasifikasi=Aanwijzing" class="dropzone"></div>
+                                                      <!--<div id="BeritaAcaraAanwijzing" attr="BeritaAcaraAanwijzing" action="/api/PengadaanE/UploadFile?tipe=BeritaAcaraAanwijzing" class="dropzone"></div>-->
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Submit Penawaran</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nomor</label>
+                                          <input class="form-control" type="text" id="no-submit" disabled>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Tanggal Submit Penawaran</label>
+                                          <input id="tanggal-submit" type="text" class="form-control input-group date" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah Dokumen Submit Penawaran</label>
+                                                      <div id="dokSubmitPenawaran" attr="SubmitPenawaran" action="/api/Spk/UploadFileNonPks?klasifikasi=SubmitPenawaran" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Klarifikasi dan Negosiasi</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nomor</label>
+                                          <input class="form-control" type="text" id="no-klarifikasi" disabled>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Tanggal Klarifikasi dan Negosiasi</label>
+                                          <input id="tanggal-klarifikasi" type="text" class="form-control input-group date" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah Dokumen Klarifikasi dan Negosiasi</label>
+                                                      <div id="dokKlarifikasi" attr="Klarifikasi" action="/api/Spk/UploadFileNonPks?klasifikasi=Klarifikasi" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Klarifikasi dan Negosiasi Lanjutan</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nomor</label>
+                                          <input class="form-control" type="text" id="no-klarifikasianjutan" disabled>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Tanggal Klarifikasi dan Negosiasi Lanjutan</label>
+                                          <input id="tanggal-klarifikasianjutan" type="text" class="form-control input-group date" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah Dokumen Klarifikasi dan Negosiasi Lanjutan</label>
+                                                      <div id="dokKlarifikasiLanjutan" attr="KlarifikasiLanjutan" action="/api/Spk/UploadFileNonPks?klasifikasi=KlarifikasiLanjutan" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Penilaian</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nomor</label>
+                                          <input class="form-control" type="text" id="no-penilaian" disabled>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Tanggal Penilaian</label>
+                                          <input id="tanggal-penilaian" type="text" class="form-control input-group date" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah Dokumen Penilaian</label>
+                                                      <div id="dokPenilaian" attr="Penilaian" action="/api/Spk/UploadFileNonPks?klasifikasi=Penilaian" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Usulan Pemenang</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nomor</label>
+                                          <input class="form-control" type="text" id="no-usulanpemenang" disabled>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Tanggal Usulan Pemenang</label>
+                                          <input id="tanggal-usulanpemenang" type="text" class="form-control input-group date" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah Dokumen Usulan Pemenang</label>
+                                                      <div id="dokUsulanPemenang" attr="UsulanPemenang" action="/api/Spk/UploadFileNonPks?klasifikasi=UsulanPemenang" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class=" panel-header-white">
+                                              <span class="title-header" id="section-3">Dokumen Lainnya</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Nomor</label>
+                                          <input class="form-control" type="text" id="no-dokumenlain" disabled>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label class="title">Tanggal</label>
+                                          <input id="tanggal-dokumenlain" type="text" class="form-control input-group date" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-9">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label class="title">Unggah Dokumen Lainnya</label>
+                                                      <div id="dokDokumenLain" attr="DokumenLain" action="/api/Spk/UploadFileNonPks?klasifikasi=DokumenLain" class="dropzone"></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </section><!-- /.content -->
+              <section class="content" id="section-1"></section>
+          </div>
+          <!--<aside class="control-sidebar control-sidebar-light control-sidebar-open">-->
+          <!-- Create the tabs -->
+          <!--<ul class="nav nav-tabs nav-stacked" id="side-kanan" >
+            <li class="active"><a href="#section-1">Atas</a></li>
+            <li><a href="#section-2">Anggaran</a></li>
+            <li><a href="#section-3">Korespondensi Internal</a></li>
+            <li><a href="#section-4">Spesifikasi</a></li>
+            <li><a href="#section-5">Kandidat</a></li>
+            <li><a href="#section-6">Jadwal</a></li>
+            <li><a href="#section-7">Personil</a></li>
+        </ul>-->
+          <!-- Tab panes -->
+          <!--</aside>--><!-- /.control-sidebar -->
+          <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+          <!--<div class="control-sidebar-bg"></div>-->
+      </div><!-- ./wrapper -->
+
+      <div class="modal" id="konfirmasiFile" role="dialog" FileId="" attr1="" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Konfirmasi</h4>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="downloadFile" class="btn btn-default">Download</button>
+                      <button type="button" id="HapusFile" class="btn btn-default">Hapus</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="modal" id="konfirmasiFileNonPks" role="dialog" FileId="" attr1="" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Konfirmasi</h4>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="downloadFileNonPks" class="btn btn-default">Download</button>
+                      <button type="button" id="HapusFileNonPks" class="btn btn-default">Hapus</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <div class="modal" id="addatribut" role="dialog" FileId="" attr1="" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-body" id="konten">
+                      <input type="hidden" id="IdforAttribut" />
+                      <input type="hidden" id="KlasifikasiforAttribut" />
+                      <div class="modal-header">
+                          <h3 class="modal-title">Informasi Dokumen</h3>
+                      </div>
+                      <div class="modal-body">
+                          <form id="dokattribut">
+                              <div>
+                                  <label class="control-label">Nomor Dokumen</label>
+                                  <input id="nomor-dokumen" type="text" class="form-control " placeholder="Nomor Dokumen">
+                              </div>
+                              <label class="control-label">Tanggal Dokumen</label>
+                              <div>
+                                  <input id="tanggal-dokumen" type="text" class="form-control date">
+                              </div>
+                          </form>
+                          <div>
+                              <div id="btn_1" class="modal-footer">
+                                  <button id="adddokattribut" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Simpan Atribut</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal " id="pks_modal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="TitleKonfirmasi">List PKS</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <form class="form-horizontal label-kanan">
+                                  <div class="form-group">
+                                      <label class="col-sm-2 control-label">Judul</label>
+                                      <div class="col-sm-4">
+                                          <input id="title" type="text" class="form-control " placeholder="Judul">
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-sm-2 control-label">Klasifikasi</label>
+                                      <div class="col-sm-4">
+                                          <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                              <option selected="selected" value="">ALL</option>
+                                              <option value="Sipil">SIPIL</option>
+                                              <option value="Non Sipil">NONSIPIL</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="col-md-12">
+                                          <div class="submitgray button-row">
+                                              <button id="cari-pks" class="btn btn-primary " type="button">Cari</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <table class="table table-bordered table-striped table-responsive" id="tbl-PKS" style="margin-top:20px; ">
+                                  <thead>
+                                      <tr>
+                                          <th>Nama Pekerjaan</th>
+                                          <th>No PKS</th>
+                                          <th>No Pengadaan</th>
+                                          <th>Klasifikasi</th>
+                                          <th>Pemenang</th>
+                                          <th></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody></tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <!--endviewr-->
+      <!-- jQuery 2.1.4 -->
+      <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+      <script src="site.js"></script>
+      <!-- Bootstrap 3.3.5 -->
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+      <!-- SlimScroll -->
+      <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+      <!-- FastClick -->
+	  <script src="dist/js/purify.js"></script>
+      <script src="plugins/fastclick/fastclick.min.js"></script>
+      <script src="dist/js/purify.js"></script>
+      <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+      <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+      <!--<script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/JQueryValidation/jquery.validate.js"></script>-->
+      <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+      <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+      <script src="plugins/accounting/accounting.js"></script>
+      <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+      <script src='plugins/fullcalendar/moment.min.js'></script>
+      <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+      <script src='plugins/fullcalendar/lang/id.js'></script>
+      <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+      <script src="plugins/typeaheadjs/handlebars.js"></script>
+      <script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+      <script src="plugins/typeaheadjs/app_bs3.js"></script>
+      <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+      <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+      <script src="plugins/jQueryNumber/jquery.number.js"></script>
+      <script src="dist/site.js"></script>
+      <script src="dist/js/app.min.js"></script>
+      <!-- <script src="chatjs/chat.js"></script>-->
+      <script src="plugins/angular/angular.min.js"></script>
+      <script src="blockui/jquery.blockUI.js"></script>
+      <script src="dist/js/menu.js"></script>
+      <script src="dropzone.js"></script>
+      <script src="dist/js/create-spk-non-pks.js"></script>
+      <script>
+
+      </script>
+  </body>
+</html>

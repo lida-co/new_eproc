@@ -1,0 +1,554 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .box-c:hover {
+            cursor: pointer;
+            background: #B3EEFB;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Report</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li>
+                                <div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
+                                    <form action="" class="search-form">
+                                        <div class="form-group has-feedback">
+                                            <label for="search" class="sr-only">Search</label>
+                                            <input type="text" class="form-control" name="search" id="search">
+                                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li><a title="Tambah" href="registrasibystaff.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar" ng-app="app">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.FullName"></p>
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        </div>
+                    </div>
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" id="section-1">
+
+
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="report-pengadaan">
+                            <div class="box box-primary box-white">
+                                <div class="box-body form-horizontal">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf">Report Pengadaan</h3>
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">From</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_dari" type="text" class="form-control date" placeholder="Dari">
+                                                            </div>
+                                                            <label class="col-sm-1 control-label"></label>
+                                                            <label class="col-sm-2 control-label">To</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_sampai" type="text" class="form-control date" placeholder="Sampai">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">Divisi</label>
+                                                            <div class="col-sm-3">
+                                                                <select id="DivisiPengadaan" class="form-control select2" style="width: 100%;">
+                                                                    <option selected="selected" value="0">All</option>
+                                                                </select>
+                                                            </div>
+                                                            <label class="col-sm-1 control-label"></label>
+                                                            <label class="col-sm-2 control-label">Tahapan Terakhir</label>
+                                                            <div class="col-sm-3">
+                                                                <select class="form-control select2" id="Tahapan" style="width: 100%;">
+                                                                    <option value="0">All</option>
+                                                                    <option value="3">Aanwijzing</option>
+                                                                    <option value="2">Submit Penawaran</option>
+                                                                    <option value="7">Buka Amplop</option>
+                                                                    <option value="4">Klarifikasi & Negosiasi</option>
+                                                                    <option value="5">Penilaian Kandidat</option>
+                                                                    <option value="6">Penentuan Pemenang</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="report" type="button" class="pull-middle btn btn-primary btn-lmedia">Download Xls</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="section-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-pks">
+                            <div class="box box-primary box-white">
+                                <div class="box-body form-horizontal">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf">Report PKS</h3>
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">From</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_pks_dari" type="text" class="form-control date" placeholder="Dari">
+                                                            </div>
+                                                            <label class="col-sm-1 control-label"></label>
+                                                            <label class="col-sm-2 control-label">To</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_pks_sampai" type="text" class="form-control date" placeholder="Sampai">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="report_pks" type="button" class="pull-middle btn btn-primary btn-lmedia">Download Xls</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="section-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-spk">
+                            <div class="box box-primary box-white">
+                                <div class="box-body form-horizontal">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf">Report SPK</h3>
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">From</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_spk_dari" type="text" class="form-control date" placeholder="Dari">
+                                                            </div>
+                                                            <label class="col-sm-1 control-label"></label>
+                                                            <label class="col-sm-2 control-label">To</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_spk_sampai" type="text" class="form-control date" placeholder="Sampai">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">Divisi</label>
+                                                            <div class="col-sm-3">
+                                                                <select id="DivisiSPK" class="form-control select2" style="width: 100%;">
+                                                                    <option selected="selected" value="">All</option>
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="report_spk" type="button" class="pull-middle btn btn-primary btn-lmedia">Download Xls</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="section-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-spk-non-pks">
+                            <div class="box box-primary box-white">
+                                <div class="box-body form-horizontal">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf">Report SPK NON PKS</h3>
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">From</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_spk_non_pks_dari" type="text" class="form-control date" placeholder="Dari">
+                                                            </div>
+                                                            <label class="col-sm-1 control-label"></label>
+                                                            <label class="col-sm-2 control-label">To</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_spk_non_pks_sampai" type="text" class="form-control date" placeholder="Sampai">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">Divisi</label>
+                                                            <div class="col-sm-3">
+                                                                <select id="DivisiSPKNONPKS" class="form-control select2" style="width: 100%;">
+                                                                    <option selected="selected" value="">All</option>
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="report_spk_non_pks" type="button" class="pull-middle btn btn-primary btn-lmedia">Download Xls</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="section-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-po">
+                            <div class="box box-primary box-white">
+                                <div class="box-body form-horizontal">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf">Report PO</h3>
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">From</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_po_dari" type="text" class="form-control date" placeholder="Dari">
+                                                            </div>
+                                                            <label class="col-sm-1 control-label"></label>
+                                                            <label class="col-sm-2 control-label">To</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_po_sampai" type="text" class="form-control date" placeholder="Sampai">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">Search By</label>
+                                                            <div class="col-sm-3">
+                                                                <select class="form-control select2" id="SearchBy" style="width: 100%;">
+                                                                    <option selected>Tanggal PO</option>
+                                                                    <option>Tanggal DO</option>
+                                                                    <option>Tanggal Invoice</option>
+                                                                    <option>Tanggal Finance</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="report_po" type="button" class="pull-middle btn btn-primary btn-lmedia">Download Xls</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="section-5"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-monitoring">
+                            <div class="box box-primary box-white">
+                                <div class="box-body form-horizontal">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf">Report Monitoring</h3>
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">From</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_monitoring_dari" type="text" class="form-control date" placeholder="Dari">
+                                                            </div>
+                                                            <label class="col-sm-1 control-label"></label>
+                                                            <label class="col-sm-2 control-label">To</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report_monitoring_sampai" type="text" class="form-control date" placeholder="Sampai">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="report_monitoring" type="button" class="pull-middle btn btn-primary btn-lmedia">Download Xls</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="section-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-vendor">
+                            <div class="box box-primary box-white">
+                                <div class="box-body form-horizontal">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf">Report Vendor</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+
+                                            <div class="row ">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="report-vendor" type="button" class="pull-middle btn btn-primary btn-lmedia">Download Xls</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="section-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="report-penilaian-vendor">
+                            <div class="box box-primary box-white">
+                                <div class="box-body form-horizontal">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf">Report Penilaian Vendor</h3>
+                                            <div class="box-tools pull-right">
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <p align="left"><i><b><font color="red"> *NOTE : </font></b></i><i>Tanggal terpilih merupakan tanggal berlaku SPK</i></p>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">From</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report-penilaian-vendor_dari" type="text" class="form-control date" placeholder="Dari">
+                                                            </div>
+                                                            <label class="col-sm-1 control-label"></label>
+                                                            <label class="col-sm-2 control-label">To</label>
+                                                            <div class="col-sm-3">
+                                                                <input id="report-penilaian-vendor_sampai" type="text" class="form-control date" placeholder="Sampai">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-md-12">
+                                                    <div class="submitgray button-row">
+                                                        <button id="report-penilaian-vendor" type="button" class="pull-middle btn btn-primary btn-lmedia">Download Xls</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="section-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+
+        </div><!-- /.content-wrapper -->
+        <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan">
+            <ul class="nav nav-tabs nav-stacked">
+                <li><a href="#section-1">Report Pengadaan</a></li>
+                <li><a href="#section-2">Report PKS</a></li>
+                <li><a href="#section-3">Report SPK</a></li>
+                <li><a href="#section-4">Report PO</a></li>
+                <li><a href="#section-5">Report Monitoring</a></li>
+            </ul>
+        </aside>
+        <div class="control-sidebar-bg"></div>
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <!--<b>Version</b> 1.0.0-->
+            </div>
+            <!--<strong>Supplier Relation Management</strong> -->
+        </footer>
+    </div><!-- ./wrapper -->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+	<script src="dist/js/purify.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="dist/js/report.js"></script>
+    <script>
+
+    </script>
+    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
+</body>
+</html>

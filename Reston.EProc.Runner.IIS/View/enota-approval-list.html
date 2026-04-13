@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>    <a id="judul-page" href="#">E-Nota Approval</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+
+        <aside class="main-sidebar" ng-app="app">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!--<div class="user-panel" ng-controller="user">
+                    <div class="pull-left info">
+                        <p class="title" ng-bind="user.nama"></p>
+                        <p class="deskripsi" ng-bind="user.divisi"></p>
+                    </div>
+                    <div class="pull-right image image-profile">
+                        <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                    </div>
+                </div>-->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" ng-controller="side-menu">
+                    <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                    <li class="treeview" ng-repeat="menu in menus">
+                        <a href="{{menu.url}}">
+                            <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="nav-tabs-custom">
+                            <div class="tab-content">
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">My E-Nota</h3>
+                                        <ul class="messages list-unstyled" style="margin-top:5px;">
+                                        </ul>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="filter-container container">
+                                            <form>
+                                                <div class="row">
+                                                    <h4>Filter</h4>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="subject">Perihal</label>
+                                                        <input type="text" name="Subject" id="subject" class="form-control" />
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="document-no">Nomor Dokumen eNota</label>
+                                                        <input type="text" name="DocumentNo" id="document-no" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="internal-reff-no">Nomor Referensi Internal</label>
+                                                        <input type="text" name="InternalReffNo" id="internal-reff-no" class="form-control" />
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="document-status">Status</label>
+                                                        <select name="DocumentStatus" id="document-status" class="form-control">
+                                                            <option selected="selected" value="">ALL</option>
+                                                            <option value="0">Draft</option>
+                                                            <option value="1">Validasi</option>
+                                                            <option value="2">Validasi Ditolak</option>
+                                                            <option value="3">Approval Request</option>
+                                                            <option value="4">Approval Reject</option>
+                                                            <option value="5">Approved</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-toolbar">
+                                                            <button type="button" id="btn-apply-filter" class="btn btn-primary">Apply</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <hr />
+                                        <div class="container">
+                                            <div class="row table-responsive">
+                                                <table class="table table-bordered tbl-result">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="tengah">Perihal</th>
+                                                            <th class="tengah">Dari</th>
+                                                            <th class="tengah">Unit Kerja</th>
+                                                            <th class="tengah">Tanggal Terima</th>
+                                                            <th class="tengah">Status</th>
+                                                            <th class="tengah">Tindakan</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="box-footer text-center">
+                                    </div><!-- /.box-footer -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+        <div class="control-sidebar-bg"></div>
+
+    </div><!-- ./wrapper -->
+    <!-- .interaction-blocker-modal -->
+    <div class="modal interaction-blocker-modal" id="interactionBlockerModal" role="dialog" aria-hidden="true" data-list-target-id="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sedang memuat...</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /.interaction-blocker-modal -->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/accounting/accounting.js"></script>
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+
+    <script>
+        const ENOTA_APPROVAL_WORKFLOW_DETAIL_SEARCH_URL = 'api/ENota/SearchApprovalWorkflowDetails';
+        const ENOTA_APPROVAL_WORKFLOW_DETAIL_GET_URL = 'enota-approval-detail.html';
+
+        var dataTable;
+        showProgressBar('#interactionBlockerModal');
+
+        $(document).ready(function () {
+
+            new Promise(function (resolve, reject) {
+                dataTable = $('.tbl-result').DataTable({
+                    serverSide: true,
+                    searching: false,
+                    lengthChange: false,
+                    drawCallback: resolve,
+                    ajax: {
+                        method: 'post',
+                        url: ENOTA_APPROVAL_WORKFLOW_DETAIL_SEARCH_URL,
+                        contentType: 'application/json',
+                        data: function (data, settings) {
+                            return JSON.stringify({
+                                Header: {},
+                                Filter: {
+                                    //Subject: $('#subject').val().trim(),
+                                    //DocumentNo: $('#document-no').val().trim(),
+                                    //InternalRefNo: $('#internal-reff-no').val().trim(),
+                                    //StatusCode: $('#document-status').val().trim(),
+                                    Offset: data.start,
+                                    PageLength: data.length,
+                                    DrawCount: data.draw,
+                                }
+                            });
+                        },
+                        error: function (jqXHR, err, data) {
+                            reject(jqXHR, err, data);
+                        },
+                        dataFilter: function (response) {
+                            const data = JSON.parse(response);
+                            console.log(data);
+                            return JSON.stringify({
+                                draw: data.Filter.DrawCount,
+                                recordsTotal: data.Filter.TotalRecordsCount,
+                                recordsFiltered: data.Filter.FilteredRecordsCount,
+                                data: data.Details
+                            });
+                        },
+                    },
+                    columns: [
+                        // Perihal
+                        {
+                            orderable: false,
+                            data: function (data) {
+                                return data.Subject;
+                            }
+                        },
+                        // Dari
+                        {
+                            orderable: false,
+                            data: function (data) {
+                                return data.RequesterPersonelName;
+                            }
+                        },
+                        // Unit Kerja
+                        {
+                            orderable: false,
+                            data: function (data) {
+                                return data.WorkUnitName;
+                            }
+                        },
+                        // Tanggal Terima
+                        {
+                            orderable: false,
+                            data: function (data) {
+                                return formatISODate(data.RequestDate);
+                            }
+                        },
+                        // Status
+                        {
+                            orderable: false,
+                            data: function (data) {
+                                var status = '';
+                                if (data.WorkflowState && data.WorkflowState == 7) {
+                                    status = 'Dibatalkan';
+                                } else {
+                                    if (isNullOrEmpty(data.ApprovalDecission)) {
+                                        status = '<b class="text-danger">Perlu tanggapan</b>';
+                                    } else if (data.ApprovalDecission == 0) {
+                                        status = 'Disetujui';
+                                    } else if (data.ApprovalDecission == 1) {
+                                        status = 'Ditolak';
+                                    } else if (data.ApprovalDecission == 2) {
+                                        status = 'Disetujui dengan catatan';
+                                    }
+                                }
+                                return status;
+                            }
+                        },
+                        // Tindakan
+                        {
+                            orderable: false,
+                            data: function (data) {
+                                const elem = '<div class="btn-group">'
+                                    + (data.IsDraft ? EditButton('Edit', 'btn-edit', 'btn-edit btn-default') : '')
+                                    + ViewButton('Open', 'btn-open', 'btn-open btn-default', ENOTA_APPROVAL_WORKFLOW_DETAIL_GET_URL + '?docId=' + data.Id)
+                                    + '</div>'
+                                return elem;
+                            }
+                        },
+
+                    ]
+                });
+            }).catch(function () {
+                showMessage('error', 'Gagal mengambil data.', true, '.messages');
+            }).finally(function () {
+                hideProgressBar('#interactionBlockerModal');
+            });
+
+
+
+            $('#btn-apply-filter').on('click', function (e) {
+
+                dataTable.draw();
+
+            });
+        });
+
+        // Utility Function
+        function isNullOrEmpty(value) {
+            return value === null || // Check for null
+                (typeof value === 'object' && Object.keys(value).length === 0) || // Check for an empty object
+                (typeof value === 'string' && value.trim().length === 0); // Check for an empty string
+        }
+
+        // UI Utility Function
+        function showMessage(msgType, msg, clear, selector) {
+            let className = '';
+            switch (msgType) {
+                case 'success':
+                    className = 'alert-success';
+                    break;
+                case 'info':
+                    className = 'alert-info';
+                    break;
+                case 'warning':
+                    className = 'alert-warning';
+                    break;
+                case 'danger':
+                case 'error':
+                    className = 'alert-danger';
+                    break;
+                default:
+                    className = 'alert-success';
+
+            }
+
+            let msgEl = $('<li><div class="alert alert-dismissible ' + className + '">'
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+                + msg
+                + '</div></li>');
+
+            if (clear) {
+                $(selector).empty();
+            }
+            $(selector).append(msgEl);
+
+        }
+
+        // UI Utility Function
+        function showProgressBar(selector) {
+            $(selector).modal({
+                backdrop: 'static', // Prevent closing on outside click
+                keyboard: false // Prevent closing with keyboard
+            });
+        }
+
+        // UI Utility Function
+        function hideProgressBar(selector) {
+            $(selector).modal('hide');
+        }
+
+        // UI Component
+        function EditButton(label, id, classNames, actionUrl) {
+            return '<button id="' + id + '"type="button" class="btn "' + classNames + '><i class="fa fa-fw fa-edit"></i>' + (label ? label : 'Edit') + '</button>';
+        }
+
+        // UI Component
+        function ViewButton(label, id, classNames, actionUrl) {
+            return '<a id="' + id + '"type="button" class="btn "' + classNames + ' href="' + actionUrl + '"><i class="fa fa-fw fa-file"></i>' + (label ? label : 'View') + '</a>';
+        }
+
+        function formatISODate(inputISODate) {
+            if (!inputISODate) return '';
+
+            const date = new Date(inputISODate);
+            const currentDate = new Date();
+
+            // Get date components
+            const year = date.getFullYear().toString().slice(-4); // Get last two digits of the year
+            const monthNameShort = date.toLocaleString('default', { month: 'short' }); // Get local month name
+            const month = ('0' + (date.getMonth() + 1)).slice(-2); // Get two-digit month
+            //const day = ('0' + date.getDate()).slice(-2); // Get two-digit day
+            const day = ('0' + date.getDate()).slice(-2); // Get two-digit day
+            const hour = ('0' + date.getHours()).slice(-2); // Get two-digit hours
+            const minute = ('0' + date.getMinutes()).slice(-2); // Get two-digit minutes
+
+
+            // Format as 'YY-MM-DD'
+            //const formattedDate = `${day}-${monthNameShort}-${year} ${hour}:${minute}`;
+            const formattedDate = `${day ? ` ${day} ${monthNameShort}` : ''}${year ? ` ${year}` : ''} ${hour}:${minute}`;
+
+            return formattedDate;
+        }
+
+    </script>
+</body>
+</html>

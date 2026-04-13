@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .box-typehead {
+            background: #fff none repeat scroll 0 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 15px;
+            height: 50px;
+            width: 100%;
+        }
+
+        .box-typehead-icon {
+            background: rgba(0, 0, 0, 0.2) none repeat scroll 0 0;
+            display: block;
+            float: left;
+        }
+
+        .box-typehead-content {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-typehead-title {
+            display: block;
+            font-weight: bold;
+        }
+
+        .box-typehead-desk {
+            display: block;
+        }
+
+        @media screen and (max-width: 600px) {
+            #side-kanan, .control-sidebar, .control-sidebar-light, .control-sidebar-open, .control-sidebar-bg {
+                visibility: hidden;
+                clear: both;
+                float: left;
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+
+
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Penilaian</a></li>
+                        </ul>
+                    </div>
+                    
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+
+        <div id="menu">
+            <aside class="main-sidebar" ng-app="app">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.FullName"></p>
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        </div>
+                    </div>
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div>
+                            <!--<div id="forMasterUser" style="display:none;"> -->
+                            <div class="box box-white">
+
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Penilaian Rekanan</h3>
+                                    <div class="box-tools pull-right">
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form class="form-horizontal label-kanan">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Cari</label>
+                                                    <div class="col-sm-4">
+                                                        <input id="txtcari" type="text" class="form-control " placeholder="Nomor / Nama / Pemenang / PIC Pengadaan">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div id="btn_1" class="row ">
+                                        <div class="col-md-12">
+                                            <div class="submitgray button-row">
+                                                <button type="submit" name="search-btn" id="search-btn" onclick="fungsicari()" class="btn btn-primary"><i class="fa fa-search"></i> Cari</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="tab-pic" style="overflow-x:auto;">
+                                        <table class="table table-bordered" id="table-rubah-pic">
+                                            <thead>
+                                                <tr>
+                                                    <td class="tengah text-bold">Nama Pengadaan</td>
+                                                    <td class="tengah text-bold">Nomor SPK</td>
+                                                    <td class="tengah text-bold">Pemenang Pengadaan</td>
+                                                    <td class="tengah text-bold">PIC</td>
+                                                    <td class="tengah text-bold"></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+
+    </div><!-- ./wrapper -->
+
+    <!--
+    <div id="view-siup" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <input type="hidden" id="row_index" />
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <iframe width="100%" style="min-height: 500px" src="/ViewerJS/#../contoh.pdf" allowfullscreen webkitallowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+	<script src="dist/js/purify.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="dist/js/pengadaan-list.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+    <script>
+        //$(function () {
+        //    console.log("masuk fungsi cekmasteruser");
+        //    $.ajax({
+        //        method: "post",
+        //        url: "api/pengadaane/cekmasteruser?PengadaanId=" + $("#pengadaanId").val()
+        //    }).done(function (data) {
+        //        console.log("cekmasteruser: yes");
+        //        $("#isMasterUser").val(1);
+        //        $("#forMasterUser").show();
+        //        $("#navMasterUser").show();
+        //        //alert("master user? " + $("#isMasterUser").val());
+        //    });
+        //});
+
+        $(function () {
+            table_list = $('#table-rubah-pic').DataTable({
+                "ajax": {
+                    "url": 'api/NilaiVendor/ListPemenangPengadaanNilaiVendorAssesment',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "JudulPengadaan" },
+                    { "data": "NoPengadaan" },
+                    { "data": "NamaVendor" },
+                    { "data": "PIC" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+
+                            return '<a href="pengadaan-detail.html#' + row.Id + '" target="_blank" id="" ">' + data + '</a>';
+                        },
+                        "targets": 0,
+                        //"orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            //return '<a class="btn btn-sm btn-warning" id="" onclick="create(\'' + row.Id + '\')">Buat</a>';
+                            if (row.SudahNilai == "belum") {
+                                return '<a href="penilaian-detail-assesment.html?Id=' + row.NoPengadaan + '" target="_blank" id="" class="btn btn-sm btn-primary "> Nilai </a>';
+                            } else if (row.SudahNilai == "sudah") {
+                                return '<a href="penilaian-detail-assesment.html?Id=' + row.NoPengadaan + '" target="_blank" id="" class="btn btn-sm btn-success "> Lihat </a>';
+                            }
+                        },
+                        "targets": 4,
+                        //"orderable": false
+                    },
+                ],
+                "serverSide": true,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+        });
+
+        function fungsicari() {
+            table_list.draw();
+        }
+
+        //function create(data) {
+        //    var pengadaanid = data;
+        //    //var element = document.getElementById("modal-create-pertanyaan");
+        //    //element.classList.remove("delete");
+        //    //$(".nama-pengadaan").empty();
+        //    //$(".pp").empty();
+        //    //$(".vp").empty();
+        //    //$(".entry").empty();
+        //    //$("div").removeClass("delete");
+        //    //$(".delete").remove();
+        //    //var dada = data1;
+        //    //alert(idPeng + " ----- " + dada);
+        //    $.ajax({
+        //        method: "POST",
+        //        url: "Api/PengadaanE/CekCreatePertanyaan?Id=" + pengadaanid
+        //    }).done(function (data) {
+        //        rendercekcreate(data, pengadaanid);
+        //    });
+        //}
+
+    </script>
+    <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
+</body>
+</html>

@@ -1,0 +1,460 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	
+	<link rel="stylesheet" href="dist/site.css">
+	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+	<link rel="stylesheet" href="dropzone.css">
+	<style>
+		.dz-error-mark{
+			/*display:none !important;*/
+		}
+		.dropzone{
+			height: 80%;
+		}
+        
+        .form-validation-error {
+            border: 1px solid #d85b5b;
+            /*border-radius: 7px;*/
+        }
+
+        .form-validation-error:focus { 
+            outline: none;
+            border-color: #f52424;
+            box-shadow: 0 0 5px #f52424;
+        }
+        h3{
+            font-size: 18px;
+        }
+
+        .displaynone {
+            /*display:none;*/
+        }
+        .p3 {
+            display:none
+        }
+        .req {
+            color: red
+        }
+        .p2-ukm {
+            display:none
+        }
+        .p2-nukm{
+            display:none
+        }
+        .pengajuan-info-lanjutan {
+            display:none
+        }
+	</style>
+  </head>
+  <body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+      <div class="wrapper">
+
+
+          <div id="header">
+              <header class="main-header">
+                  <!-- Logo -->
+                  <a class="logo">
+                      <!-- mini logo for sidebar mini 50x50 pixels -->
+                      <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                      <!-- logo for regular state and mobile devices -->
+                      <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                  </a>
+                  <!-- Header Navbar: style can be found in header.less -->
+                  <nav class="navbar navbar-static-top" role="navigation">
+                      <!-- Sidebar toggle button-->
+                      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                          <span class="sr-only">Toggle navigation</span>
+                      </a>
+                      <div class="navbar-custom-menu pull-left">
+                          <ul class="nav navbar-nav"  id="isMasterUser">
+                              <li>	<a id="judul-page" href="#">Pendaftaran Rekanan Non Registrasi</a></li>
+                          </ul>
+                      </div>
+                  </nav>
+              </header>
+          </div>
+          <!-- Left side column. contains the logo and sidebar -->
+          <div id="menu">
+              <aside class="main-sidebar" ng-app="app">
+                  <!-- sidebar: style can be found in sidebar.less -->
+                  <section class="sidebar">
+                      <!--<div class="user-panel" ng-controller="user">
+                        <div class="pull-left info">
+                            <p class="title" ng-bind="user.nama"></p>
+                            <p class="deskripsi" ng-bind="user.divisi"></p>
+                        </div>
+                        <div class="pull-right image image-profile">
+                            <img alt="User Image" class="img-circle" src="{{user.logo}}">
+                        </div>
+                    </div>-->
+                      <!-- sidebar menu: : style can be found in sidebar.less -->
+                      <ul class="sidebar-menu" ng-controller="side-menu">
+                          <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                          <li class="treeview" ng-repeat="menu in menus">
+                              <a href="{{menu.url}}">
+                                  <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                              </a>
+                          </li>
+                      </ul>
+                  </section>
+                  <!-- /.sidebar -->
+              </aside>
+          </div>
+
+          <!-- Content Wrapper. Contains page content -->
+          <div class="content-wrapper">
+
+
+              <section class="content">
+
+                  <div class="box box-primary box-white">
+
+                      <div class="box-body">
+                          <div class="col-md-offset-1 col-md-10">
+                              <div class="row p3">
+                                  <div class="box box-mtf">
+                                      <div class="box-header with-border">
+                                          <h3 class="box-title" id="section-0">Pengajuan Rekanan</h3>
+                                          <div class="box-tools pull-right">
+
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <form id="formVendor" action="/Api/Vendor/AddVendorNonRegistrasi" method="post">
+                                  <input type="hidden" name="id" />
+                                  <input type="hidden" name="gCaptchaResponse" />
+
+                                  <div class="row">
+                                      <div class="box box-title">
+                                          <div class="box-header with-border">
+                                              <h3 class="box-title" id="section-1"><span class="non-registrasi">Informasi Perusahaan</span></h3>
+                                              <div class="box-tools pull-right">
+
+                                              </div>
+                                          </div><!-- /.box-header -->
+                                          <div class="box-body">
+
+                                              <div class="row">
+                                                  <div class="col-md-12" style="display:none" id="alert-validation-error">
+                                                      <div class="alert alert-danger alert-dismissible" role="alert">
+                                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                          <strong>Kesalahan!</strong> Field wajib (bertanda *) harus diisi lengkap.
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-12 form-horizontal">
+                                                      <div class="form-group">
+                                                          <label class="col-sm-2 control-label"><span class="p2-ukm p2-nukm">Nama Perusahaan</span><span class="p2-perorangan">Nama</span><span class="req">*</span></label>
+                                                          <div class="col-sm-10">
+                                                              <input name="Nama" type="text" maxlength="255" class="form-control required" placeholder="Nama Perusahaan">
+                                                          </div>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label class="col-sm-2 control-label">Alamat <span class="req">*</span></label>
+                                                          <div class="col-sm-10">
+                                                              <input name="Alamat" type="text" maxlength="1000" class="form-control required" placeholder="Alamat Lengkap">
+                                                          </div>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label class="col-sm-2 control-label">Provinsi <span class="req">*</span></label>
+                                                          <div class="col-sm-4">
+                                                              <select id="listProvinsi" name="Provinsi" class="form-control select2 required" style="width: 100%;"></select>
+                                                          </div>
+                                                          <label class="col-sm-2 control-label">Kabupaten/Kota <span class="req">*</span></label>
+                                                          <div class="col-sm-4">
+                                                              <input name="Kota" type="text" maxlength="100" class="form-control" placeholder="Kota">
+                                                          </div>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label class="col-sm-2 control-label">Kode Pos <span class="req">*</span></label>
+                                                          <div class="col-sm-4">
+                                                              <input name="KodePos" type="text" maxlength="6" class="form-control" placeholder="Kode Pos">
+                                                          </div>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label class="col-sm-2 control-label">Website</label>
+                                                          <div class="col-sm-4">
+                                                              <input name="Website" type="text" maxlength="100" class="form-control" placeholder="website.com">
+                                                          </div>
+                                                          <label class="col-sm-2 control-label">Email <span class="req">*</span></label>
+                                                          <div class="col-sm-4">
+                                                              <input name="Email" type="text" maxlength="150" class="form-control" placeholder="vendor@website.com">
+                                                          </div>
+                                                      </div>
+                                                      <div class="form-group">
+                                                          <label class="col-sm-2 control-label">Telepon <span class="req">*</span></label>
+                                                          <div class="col-sm-4">
+                                                              <input name="Telepon" type="text" maxlength="20" class="form-control" placeholder="(021) 322 454">
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                          </div><!-- /.box-body -->
+
+                                      </div>
+                                  </div>
+                                  <div class="row p2">
+                                      <div class="col-md-1">
+                                          <button class="btn btn-lg btn-success" type="submit" id="submit-form-add-vendor">Submit</button>
+                                          <button class="btn btn-lg btn-success" type="submit" id="submit-form-edit-vendor" style="display:none;">Submit Edit</button>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+
+
+                      </div>
+                  </div>
+
+              </section><!-- /.content -->
+
+          </div><!-- /.content-wrapper -->
+
+          <footer class="main-footer"></footer>
+      </div><!-- ./wrapper -->
+
+      <div id="view-doc-modal" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
+              <input type="hidden" id="row_index" />
+              <!-- Modal content-->
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                      <div>
+                          <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!--chat-->
+      <!--<div id="chat"></div>
+    -->
+      <!-- jQuery 2.1.4 -->
+      <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+      <!-- Bootstrap 3.3.5 -->
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+      <!-- SlimScroll -->
+      <script src="dropzone.js"></script>
+
+      <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+	  <script src="dist/js/purify.js"></script>
+      <script src="plugins/angular/angular.min.js"></script>
+      <script src="site.js"></script>
+      <script src="dist/js/menu.js"></script>
+
+
+      <script>
+          var personArray = [];
+          var no = getParameterByName("no");
+          //var VendorId = gup("id");
+
+          var id = getParameterByName('id', DOMPurify.sanitize(window.location.href, { ALLOWED_URI_REGEXP: /^(?:(?:https?|ftp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i }));
+
+
+
+          function getParameterByName(name, url) {
+              if (!url) url = HOME_PAGE;
+              name = name.replace(/[\[\]]/g, "\\$&");
+              var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                  results = regex.exec(url);
+              if (!results) return null;
+              if (!results[2]) return '';
+              return decodeURIComponent(results[2].replace(/\+/g, " "));
+          }
+
+          $(function () {
+              console.log(DOMPurify.sanitize(id));
+              SetListProvinsi();
+              SetListBank();
+
+//<<<<<<<.mine
+              if (DOMPurify.sanitize(id) != null) { loadDetail(DOMPurify.sanitize(id)); $("[name=id]").val(DOMPurify.sanitize(id));}
+//=======
+              //if (id != null) { loadDetail(id); $("#submit-form-add-vendor").remove(); }
+//>>>>>>>.theirs
+
+          });
+
+          function cekmasteruser() {
+              console.log("masuk fungsi cekmasteruser");
+              $.ajax({
+                  method: "post",
+                  url: "api/pengadaane/cekmasteruser?PengadaanId=" + $("#pengadaanId").val()
+              }).done(function (data) {
+					//data = DOMPurify.sanitize(data);
+                  console.log("cekmasteruser: yes");
+                  $("#isMasterUser").val(1);
+                  $("#forMasterUser").show();
+                  $("#navMasterUser").show();
+                  //alert("master user? " + $("#isMasterUser").val());
+              });
+          }
+
+          function loadDetail(id) {
+              cekmasteruser();
+              $("#submit-form-add-vendor").remove(); 
+              $.ajax({
+                  url: "Api/Vendor/GetVendorDetail?id=" + DOMPurify.sanitize(id)
+              }).done(function (data) {
+                  console.log(data);
+			  //data = DOMPurify.sanitize(data);
+                  $("[name=Nama]").val(DOMPurify.sanitize(data.Nama));
+                  $("[name=Alamat]").val(DOMPurify.sanitize(data.Alamat));
+                  $("[name=Kota]").val(DOMPurify.sanitize(data.Kota));
+                  $("[name=KodePos]").val(DOMPurify.sanitize(data.KodePos));
+                  $("[name=Email]").val(DOMPurify.sanitize(data.Email));
+                  $("[name=Telepon]").val(DOMPurify.sanitize(data.Telepon));
+                  $("[name=Website]").val(DOMPurify.sanitize(data.Website));
+                  $("#listProvinsi").val(DOMPurify.sanitize(data.Provinsi)).prop('checked', true);
+                  if ($("#isMasterUser").val() == 1) {
+                      $("[name=Nama]").attr("disabled", false);
+                      $("[name=Alamat]").attr("disabled", false);
+                      $("[name=Kota]").attr("disabled", false);
+                      $("[name=KodePos]").attr("disabled", false);
+                      $("[name=Email]").attr("disabled", false);
+                      $("[name=Telepon]").attr("disabled", false);
+                      $("[name=Website]").attr("disabled", false);
+                      $("#listProvinsi").attr("disabled", false);
+                      $("#submit-form-edit-vendor").show(); 
+                  } 
+                  else {
+                      $("[name=Nama]").attr("disabled", true);
+                      $("[name=Alamat]").attr("disabled", true);
+                      $("[name=Kota]").attr("disabled", true);
+                      $("[name=KodePos]").attr("disabled", true);
+                      $("[name=Email]").attr("disabled", true);
+                      $("[name=Telepon]").attr("disabled", true);
+                      $("[name=Website]").attr("disabled", true);
+                      $("#listProvinsi").attr("disabled", true);
+                  }
+              });
+
+          }
+
+
+
+          function SetListProvinsi() {
+              $.ajax({
+                  url: "/api/ReferenceData/GetAllProvinsi",
+                  success: function (data) {
+				  //data = DOMPurify.sanitize(data);
+				  if(data){
+                      for (var i in data) {
+                          $("#listProvinsi").append("<option value='" + DOMPurify.sanitize(data[i].Name) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                      }
+                  }
+                  }
+              });
+          }
+
+          function SetListBank() {
+              $.ajax({
+                  url: "/api/ReferenceData/GetAllBank",
+                  success: function (data) {
+				  //data = DOMPurify.sanitize(data);
+				  if(data){
+                      for (var i in data) {
+                          $("[name='BankInfo.Nama']").append("<option value='" + DOMPurify.sanitize(data[i].Name) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                      }
+                  }
+                  }
+              });
+          }
+
+          var frm = $('#formVendor');
+          frm.submit(function (ev) {
+              var v = validateForm();
+              if (v) {
+                  console.log("sending");
+                  $.ajax({
+                      type: frm.attr('method'),
+                      url: frm.attr('action'),
+                      data: frm.serialize(),
+                      beforeSend: function () {
+                          $("#submit-form-add-vendor").prop('disabled', true);
+                          $("#submit-form-edit-vendor").prop('disabled', true);
+                      },
+                      success: function (data) {
+					  //data = DOMPurify.sanitize(data);
+                          //alert('data' + data);
+                          $("#submit-form-add-vendor").prop('disabled', false);
+                          $("#submit-form-edit-vendor").prop('disabled', false);
+                          window.location.href = "rekanan.html";
+                      }
+                  });
+              }
+              ev.preventDefault();
+          });
+
+          function validateForm() {
+              //$("#alert-validation-error").show();
+              //$('.form-validation-error').removeClass('form-validation-error');
+              var v = true;
+
+              if ($("[name='Nama']").val() == '') {
+                  $("[name='Nama']").addClass('form-validation-error');
+                  $("#alert-validation-error").show();
+                  v = false;
+              }
+              if ($("[name='Alamat']").val() == '') {
+                  $("[name='Alamat']").addClass('form-validation-error');
+                  $("#alert-validation-error").show();
+                  v = false;
+              }
+              if ($("[name='Provinsi']").val() == '') {
+                  $("[name='Provinsi']").addClass('form-validation-error');
+                  $("#alert-validation-error").show();
+                  v = false;
+              }
+              if ($("[name='Kota']").val() == '') {
+                  $("[name='Kota']").addClass('form-validation-error');
+                  $("#alert-validation-error").show();
+                  v = false;
+              }
+              if ($("[name='KodePos']").val() == '') {
+                  $("[name='KodePos']").addClass('form-validation-error');
+                  $("#alert-validation-error").show();
+                  v = false;
+              }
+              if ($("[name='Telepon']").val() == '') {
+                  $("[name='Telepon']").addClass('form-validation-error');
+                  $("#alert-validation-error").show();
+                  v = false;
+              }
+              if ($("[name='Email']").val() == '') {
+                  $("[name='Email']").addClass('form-validation-error');
+                  $("#alert-validation-error").show();
+                  v = false;
+              }
+              if (!v) $("form .form-validation-error").first().focus();
+              return v;
+          }
+
+      </script>
+      <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
+  </body>
+</html>
+

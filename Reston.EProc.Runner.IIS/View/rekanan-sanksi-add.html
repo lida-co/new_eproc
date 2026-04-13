@@ -1,0 +1,564 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        
+        
+    <![endif]-->
+
+
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+    <link href="dist/site.css" rel="stylesheet" />
+    <link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel="stylesheet" href="dropzone.css">
+    <style type="text/css">
+        .dz-error-mark {
+            display: none !important;
+        }
+
+        .dropzone {
+            min-height: 50px;
+        }
+
+            .dropzone .dz-message {
+                margin: 0em 0;
+                text-align: center;
+            }
+
+        form.jp-navbar-form {
+            padding-top: 3px;
+            padding-left: 50px;
+            margin: 0;
+        }
+
+        .clear-margin {
+            margin: 0 !important;
+            padding-top: 3px;
+            padding-left: 250px;
+        }
+
+        .bootstrap-datetimepicker-widget {
+            z-index: 100000000000000000000000000000 !important;
+        }
+
+        hr {
+            margin-top: 0;
+        }
+    </style>
+    <style>
+        #det {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #det td, #det th {
+                border: 1px solid #08205c;
+                padding: 8px;
+            }
+
+            #det tr:nth-child(odd) {
+                background-color: #f2f2f2;
+            }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper" id="section-1">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Pemberian Sanksi Vendor</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+        <div id="menu">
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- <div class="user-panel" ng-controller="user">
+                         <div class="pull-left info">
+                             <p class="title" ng-bind="user.nama"></p>
+                             <p class="deskripsi" ng-bind="user.divisi"></p>
+                         </div>
+                         <div class="pull-right image image-profile">
+                             <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                         </div>
+                     </div>-->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu" ng-controller="side-menu">
+                        <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                        <li class="treeview" ng-repeat="menu in menus">
+                            <a href="{{menu.url}}">
+                                <i class="{{menu.css}}"></i> <span ng-bind="menu.menu"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <input type="hidden" id="spkId" />
+            <input type="hidden" id="pengadaanId" />
+            <input type="hidden" id="isPIC" />
+            <input type="hidden" id="isTEAM" />
+            <input type="hidden" id="isPersonil" />
+            <input type="hidden" id="State" />
+            <input type="hidden" id="StatusName" />
+            <input type="hidden" id="StatusTahapan" value="0" />
+            <input type="hidden" id="AturanPengadaan" />
+            <input type="hidden" id="AturanPenawaran" />
+            <input type="hidden" id="Pemenang" />
+            <input type="hidden" id="isPemenangApproved" />
+            <input type="hidden" id="CekAsuransi">
+            <input type="hidden" class="isinputpenawaran">
+            <input type="hidden" class="isinputklarifikasipenawaran">
+
+            <section class="content">
+                <!-- Default box -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-primary box-white">
+                            <div class="box-body ">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <th style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;"> .</th>
+                                                <th style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">Sanksi Vendor</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12" style="margin-left:5px;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="col-lg-3" style="float:left">
+                                                    <h4 class="modal-title">Sanksi Vendor</h4>
+                                                </div>
+                                                <div class="col-lg-3 dropdown-penilai" style="float:right">
+                                                </div>
+                                                <div class="nilaiiii"></div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="modal-body" style="padding-top: 25px;">
+                                                <div class="container-fluid">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <label for="recipient-name" class="col-form-label">Vendor yang dipilih:</label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <div class="form-group vendor-nama">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <label for="recipient-name" class="col-form-label">Jenis Sanksi:</label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <select id="code-sanksi" class="form-control " style="width: 100%;">
+                                                                        <option value="SV01" selected>No Warning</option>
+                                                                        <option value="SV02">Warning</option>
+                                                                        <option value="SV04">Penalti</option>
+                                                                        <option value="SV03">BlackList</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <label for="recipient-name" class="col-form-label">Deskripsi:</label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" class="form-control" id="deskripsi">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <label for="recipient-name" class="col-form-label">Tanggal Berlaku:</label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <input id="berlaku" name="" attr1="dari" attr2="" attr3="" type="text" class="form-control datepicker dateJadwal">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <label for="recipient-name" class="col-form-label">Tanggal Kadaluarsa:</label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <input id="kadaluarsa" name="" attr1="dari" attr2="" attr3="" type="text" class="form-control datepicker dateJadwal">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="sanksi" class="btn btn-warning">Sanksi Vendor</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                     
+                            </div>
+                        </div>
+
+                        <div class="box box-primary box-white">
+                            <div class="box-body ">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <th style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;"> .</th>
+                                                <th style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">Riwayat Sanksi Vendor</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="" id="txtcari" style="overflow-x:auto;">
+                                            <table class="table table-bordered" id="table-riwayat-sanksi">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="tengah text-bold">Status Sanksi</td>
+                                                        <td class="tengah text-bold">Tgl Terbit</td>
+                                                        <td class="tengah text-bold">Tgl Kadaluarsa</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="box box-primary box-white">
+                            <div class="box-body ">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <th style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;"> .</th>
+                                                <th style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;"> Riwayat Penilaian Vendor</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="" id="" style="overflow-x:auto;">
+                                            <table class="table table-bordered" id="table-riwayat-penilaian">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="tengah text-bold">Judul Pengadaan</td>
+                                                        <td class="tengah text-bold">Nomor SPK</td>
+                                                        <td class="tengah text-bold">Tgl Dinilai</td>
+                                                        <td class="tengah text-bold">Total Nilai</td>
+                                                        <td class="tengah text-bold">Rata-Rata Nilai</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </section><!-- /.content -->
+        </div>
+
+
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+    
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/JQueryValidation/jquery.validate.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+
+    <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
+    <script src="dist/site.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+    <!--<script src="plugins/datepicker/bootstrap-datepicker.js"></script>-->
+    <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <!--<script src="chatjs/chat.js"></script>-->
+    <script src="site.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script src="dist/js/workflow.js"></script>
+
+    <script>
+        cekLogin(0)
+
+        $(function () {
+
+            $(".dateJadwal").datetimepicker({
+                format: "YYYY-MM-DD HH:mm:ss",
+                //format: "DD MMMM YYYY HH:mm",
+                locale: 'id',
+                useCurrent: false,
+                minDate: Date.now()
+
+            });
+
+            var vendorId = "";
+
+            function gup(name, url) {
+                if (!url) url = location.href;
+                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                var regexS = "[\\?&]" + name + "=([^&#]*)";
+                var regex = new RegExp(regexS);
+                var results = regex.exec(url);
+                return results == null ? null : results[1];
+            }
+
+
+            $.ajax({
+                method: "POST",
+                url: "Api/NilaiVendor/detailSanksiVendor?VendorId=" + gup("Id"),
+                dataType: "json"
+            }).done(function (data) {
+                console.log(data);
+                if (data.DalamMasaSanksi == 'masih') {
+                    $("#sanksi").hide();
+                }
+            });
+
+            $.ajax({
+                method: "POST",
+                url: "Api/NilaiVendor/CekVendorSanksi?VendorId=" + gup("Id"),
+                dataType: "json"
+            }).done(function (data) {
+                var html = '';
+                html = html + '<input type="text" class="form-control" id="NamaVendor" style="margin-bottom:7px;" value="' + data.NamaVendor + '" disabled>';
+                $(".vendor-nama").append(html);
+                //pengadaanid = data.pengadaanId;
+                });
+
+            $("#sanksi").on("click", function () {
+                var e = document.getElementById("code-sanksi");
+                var data = {};
+                data.VendorId = gup("Id");
+                data.DecisionDescription = $("#deskripsi").val();
+                data.DecisionTypeCode = e.value;
+                data.DecisionValidFrom = $("#berlaku").val();
+                data.DecisionValidUntil = $("#kadaluarsa").val();
+                console.log(data);
+
+                $.ajax({
+                    url: "Api/NilaiVendor/VendorSanksi",
+                    method: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (d) {
+                        alert("Data Berhasil Disimpan");
+                        window.location.reload();
+                    },
+                    error: function (errormessage) {
+
+                    }
+                });
+
+            });
+
+            table_list = $('#table-riwayat-sanksi').DataTable({
+                "ajax": {
+                    "url": 'api/NilaiVendor/ListRiwayatSanksi?VendorId=' + gup("Id"),
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "DecisionTypeCode" },
+                    { "data": "DecisionValidFrom" },
+                    { "data": "DecisionValidUntil" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (row.DecisionTypeCode == "SV01") {
+                                return '<span class="label label-success" style="font-size:small;">No Warning</span>';
+                            }
+                            else if (row.DecisionTypeCode == "SV02") {
+                                return '<span class="label label-warning" style="font-size:small;">Warning</span>';
+                            }
+                            else if (row.DecisionTypeCode == "SV03") {
+                                return '<span class="label label-default" style="font-size:small;">Blacklist</span>';
+                            }
+                            else if (row.DecisionTypeCode == "SV04") {
+                                return '<span class="label label-danger" style="font-size:small;">Penalty</span>';
+                            }
+                        },
+                        "targets": 0,
+                        //"orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.DecisionValidFrom).format("DD-MM-YYYY").toString();
+                        },
+                        "targets": 1,
+                        //"orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.DecisionValidUntil).format("DD-MM-YYYY").toString();
+                        },
+                        "targets": 2,
+                        //"orderable": false
+                    },
+                ],
+                "serverSide": true,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+            
+            table_list2 = $('#table-riwayat-penilaian').DataTable({
+                "ajax": {
+                    "url": 'api/NilaiVendor/ListRiwayatPenilaian?VendorId=' + gup("Id"),
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = $("#txtcari").val();
+                        d.status = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "JudulPengadaan" },
+                    { "data": "NoPengadaan" },
+                    { "data": "created" },
+                    { "data": "CurrentTotal" },
+                    { "data": "CurrentAverage" },
+                ],
+                //"columnDefs": [
+                //    {
+                //        "render": function (data, type, row) {
+                //            if (row.DecisionTypeCode == "SV01") {
+                //                return '<span class="label label-success" style="font-size:small;">No Warning</span>';
+                //            }
+                //            else if (row.DecisionTypeCode == "SV02") {
+                //                return '<span class="label label-warning" style="font-size:small;">Warning</span>';
+                //            }
+                //            else if (row.DecisionTypeCode == "SV03") {
+                //                return '<span class="label label-default" style="font-size:small;">Blacklist</span>';
+                //            }
+                //        },
+                //        "targets": 0,
+                //        //"orderable": false
+                //    },
+                //],
+                "serverSide": true,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            });
+
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,3126 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link href="dist/site.css" rel="stylesheet" />
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+    <link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+    <style>
+        .box-typehead {
+            background: #fff none repeat scroll 0 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 15px;
+            height: 50px;
+            width: 100%;
+        }
+
+        .box-typehead-icon {
+            background: rgba(0, 0, 0, 0.2) none repeat scroll 0 0;
+            display: block;
+            float: left;
+        }
+
+        .box-typehead-content {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-typehead-title {
+            display: block;
+            font-weight: bold;
+        }
+
+        .box-typehead-desk {
+            display: block;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <div class="wrapper">
+        <div id="header">
+            <header class="main-header">
+                <!-- Logo -->
+                <a class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-left">
+                        <ul class="nav navbar-nav">
+                            <li>	<a id="judul-page" href="#">Sistem Monitoring Pelaksanaan Pekerjaan</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul id="menu-top" class="nav navbar-nav">
+                            <li><a href="#" id="blacklist" title="Blacklist"><i class="fa fa-fw  fa-ban " style="font-size:20px;"></i>Blacklist</a></li>
+                            <li><a href="#" id="finish" title="Finish Pekerjaan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Finish Pekerjaan</a></li>
+                            <li><a href="#" id="finish_pembayaran" title="Finish Pembayaran"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Finish Pembayaran</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        <!-- Left side column. contains the logo and sidebar -->
+
+        <aside class="main-sidebar" ng-app="app">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!--<div class="user-panel" ng-controller="user">
+                    <div class="pull-left info">
+                        <p class="title" ng-bind="user.nama"></p>
+                        <p class="deskripsi" ng-bind="user.divisi"></p>
+                    </div>
+                    <div class="pull-right image image-profile">
+                        <img alt="User Image" class="img-circle" src="{{user.logo}}" >
+                    </div>
+                </div>-->
+                <!-- s
+                idebar menu: : style can be found in sidebar.less -->
+                <ul cl
+                <ul class="sidebar-menu" ng-controller="side-menu">
+                    <!-- <li class="header">MAIN NAVIGATION</li>-->
+
+                    <li class="treeview" ng-repeat="menu in menus">
+                        <a href="{{menu.url}}">
+                            <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="perlu_perhatian">
+                            <div class="box box-white">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">Sistem Monitoring</h3>
+                                    <div class="box-tools pull-right">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-social btn-bitbucket dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa  fa-print"></i>Cetak
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#" id="report-pekerjaan"><i class="fa  fa-print"></i>Report Pekerjaan</a></li>
+                                                <li><a href="#" id="report-pembayaran"><i class="fa  fa-print"></i>Report Pembayaran</a></li>
+                                                <li><a href="#" id="report-penilaian"><i class="fa  fa-print"></i>Report Penilaian Vendor</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+									<div class="form-group col-md-12">
+										<label class="title"><h3 id="NamaProyek">-</h3></label>
+                                        <input type="hidden" disabled id="StatusProyek" class="form-control pull-right ">
+									</div>
+                                    <div class="form-group col-md-12">
+                                        <div role="form" class="jp-form row">
+                                            <div class="form-group col-md-2">
+                                                <label>Tanggal Mulai</label>
+                                                <div class="input-group date">
+                                                    <input type="text" disabled id="TanggalMulai" class="form-control pull-right ">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label>Tanggal Selesai</label>
+                                                <div class="input-group date">
+                                                    <input type="text" disabled id="TanggalSelesai" class="form-control pull-right ">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div role="form" class="jp-form row">
+                                            <div class="col-md-6">
+                                                <div class="col-md-4">
+                                                    <label class="title"><h5>% Waktu</h5></label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="title"><h5 class="text-bold" name="waktu-persen" id="waktu-persen">84%</h5></label>
+                                                    <input type="hidden" name="waktu-persen-real">
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="title"><h5 name="sisa-hari-text">Sisa Hari</h5></label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="title"><h5 name="sisa-hari" id="sisa-hari" class="text-bold">--</h5></label>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="col-md-4">
+                                                    <label class="title"><h5>% Penyelesaian</h5></label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="title"><h5 name="persen-selesai" class="text-bold">--</h5></label>
+                                                    <input type="hidden" name="persen-selesai-real">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-6">
+                                                    <label class="title"><h5>Status Progres Penyelesaian / Waktu</h5></label>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input type="hidden" name="persen-selesai-perwaktu">
+                                                </div>
+                                                <div class="clear"></div>
+                                                <div class="col-md-1">
+                                                    <input type="text" disabled name="input-persen-selesai-perwaktu" id="input-persen-selesai-perwaktu" style="background-color:green; width: 100%; height:20px;">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="penjelasan-status" id="penjelasan-status"><h5 class="col-md-5">-</h5></label>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                    <div class="col-md-12" style="margin-top:10px;">
+                                        <div class="nav-tabs-custom">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a href="#pekerjaan" data-toggle="tab">Pekerjaan</a></li>
+                                                <li><a href="#pembayaran" data-toggle="tab">Pembayaran</a></li>
+                                                <li><a href="#documents" data-toggle="tab">Dokumen Lampiran</a></li>
+                                                <li><a href="#penilaian" data-toggle="tab">Penilaian Vendor</a></li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="pekerjaan">
+                                                    <a onclick="tahapanpekerjaanup()"id="Tambah-Pekerjaan" style="margin-top:10px;margin-bottom:10px; float:left;" class="btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-plus"></i>
+                                                        Tambah Tahapan Pekerjaan
+                                                    </a>
+                                                    <a id="disable-tahapan" onclick="" style="margin-top:10px;margin-bottom:10px; margin-left:10px; float:left;" class="btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-ban"></i>
+                                                        Disable Editing
+                                                    </a>
+                                                    <a id="enable-tahapan" onclick="" style="margin-top:10px;margin-bottom:10px; margin-left:10px; float:left;" class="btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        Enable Editing
+                                                    </a>
+                                                    <a id="Simpan" style="margin-top:10px;margin-bottom:10px; float:right;" class="btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-save"></i>
+                                                        Update Progres Pekerjaan
+                                                    </a>
+                                                    <table class="table table-bordered" id="example1">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="tengah text-bold">Nama Pekerjaan</td>
+                                                                <td class="tengah text-bold">% Bobot Pekerjaan</td>
+                                                                <td class="tengah text-bold">% Progres</td>
+                                                                <td class="tengah text-bold">% Penyelesaian</td>
+                                                                <td class="tengah text-bold">Tanggal Mulai</td>
+                                                                <td class="tengah text-bold">Tanggal Selesai</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane" id="pembayaran">
+                                                    <div class="form-group col-md-12">
+                                                        <label style="color:blue;" name="nilai-kontrak">Total Nilai Kontrak : 1.000.000.000</label>
+                                                        <input type="hidden" name="nilai-kontrak2">
+                                                        <br />
+                                                        <a onclick="tahapanpembayaranup()" id="Tambah-Pembayaran" style="margin-top:10px;margin-bottom:10px; float:left;" class="btn btn-sm btn-social btn-bitbucket">
+                                                            <i class="fa fa-plus"></i>
+                                                            Tambah Tahapan Pembayaran
+                                                        </a>
+                                                        <a id="simpan-pembayaran" style="margin-top:10px;margin-bottom:10px; float:right;" class="btn btn-sm btn-social btn-bitbucket">
+                                                            <i class="fa fa-save"></i>
+                                                            Update Pembayaran
+                                                        </a>
+                                                         
+                                                    </div>
+                                                    <table class="table table-bordered" id="example2">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="kiri" style="font-weight:bold;">Keterangan Pembayaran</td>
+                                                                <td class="tengah" style="font-weight:bold;">( % )</td>
+                                                                <td class="tengah" style="font-weight:bold;">Total</td>
+                                                                <td class="tengah" style="font-weight:bold;">Status</td>
+                                                                <td class="tengah" style="font-weight:bold;">Tanggal Pembayaran</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane" id="documents">
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active"><a href="#dok-pekerjaan" data-toggle="tab">Pekerjaan</a></li>
+                                                        <li><a href="#dok-pembayaran" data-toggle="tab">Pembayaran</a></li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="dok-pekerjaan">
+                                                            <table class="table table-bordered" style="margin-top:30px;" id="tampil-tahapan-pekerjaan">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td class="tengah" style="font-weight:bold;">Nama Pekerjaan</td>
+                                                                        <td class="kiri" style="font-weight:bold;">Tanggal Mulai</td>
+                                                                        <td class="tengah" style="font-weight:bold;">Tanggal Selesai</td>
+                                                                        <td class="tengah" style="font-weight:bold;">Action</td>
+                                                                    </tr>
+                                                                <thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="tab-pane" id="dok-pembayaran">
+                                                            <table class="table table-bordered" style="margin-top:30px;" id="tampil-tahapan-pembayaran">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td class="tengah" style="font-weight:bold;">Pembayaran</td>
+                                                                        <td class="kiri" style="font-weight:bold;">Tanggal Mulai</td>
+                                                                        <td class="tengah" style="font-weight:bold;">Tanggal Selesai</td>
+                                                                        <td class="tengah" style="font-weight:bold;">Action</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="penilaian">
+                                                    <input type="hidden" id="url-h">
+                                                    <a id="simpan-nilai-konfirmasi" style="margin-top:10px;margin-bottom:10px; float:right;" class="btn btn-sm btn-social btn-bitbucket">
+                                                        <i class="fa fa-save"></i>
+                                                        Simpan
+                                                    </a>
+                                                    <table class="table table-bordered" id="nilai">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="tengah text-bold">Kriteria</td>
+                                                                <td class="tengah text-bold">Nilai</td>
+                                                                <td class="tengah text-bold">Catatan</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    <div class="form-group col-md-5">
+                                                        <label class="title" style="margin-top:10px;">Catatan:</label>
+                                                        <textarea class="form-control catatan" rows="7"></textarea>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="title" style="margin-top:10px;">Summary:</label>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-6" style="color:blue">Total Nilai :</label><label id="total_nilai" class="col-md-3" style="margin-top:10px; color:blue">0</label>
+                                                        </div><div class="clearfix"></div>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-6" style="color:blue">Rata-rata Penilaian :</label><label id="jumlah_penilaian" class="col-sm-2" style="margin-top:10px; color:blue">-</label><label id="kpi" class="col-md-3" style="margin-top:10px; color:blue">-</label>
+                                                        </div><div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="title" style="margin-top:10px;">Keterangan:</label>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-4" >> 8.5 - 10</label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">EXCELLENT</label>
+                                                        </div><div class="clearfix"></div>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-4" >> 7 - 8.5</label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">GOOD</label>
+                                                        </div><div class="clearfix"></div>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-4" >> 6 - 7</label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">FAIR</label>
+                                                        </div><div class="clearfix"></div>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-4" >> 4 - 6</label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">BAD</label>
+                                                        </div><div class="clearfix"></div>
+                                                        <div class="form-group">
+                                                            <label class="title col-md-4" >< 4 </label><label class="col-md-1" style="margin-top:8px;">:</label><label class="col-md-6" style="margin-top:8px;">VERY BAD</label>
+                                                        </div><div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.box-body -->
+                            <div class="box-footer text-center">
+                                <!--<a id="A1" class="uppercase">Berikutnya
+                                </a>-->
+                            </div><!-- /.box-footer -->
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+    <div class="control-sidebar-bg"></div>
+
+    </div><!-- ./wrapper -->
+
+    <input type="hidden" id="vendorid" />
+
+    <!-- Modal -->
+
+    <div id="ModalKonfirmasiFinish" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Finish</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah Seluruh Pekerjaan Sudah Diselesaikan ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toFinish('selesai_pekerjaan');">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+
+    <div id="ModalKonfirmasiFinishPembayaran" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Finish</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah Seluruh Pembayaran Sudah Diselesaikan ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toFinish('selesai_pembayaran');">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    
+    <!-- Modal -->
+
+    <div id="DeleteModalDokumen" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menghapus data ini?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Hapus" class="btn btn-default tombol-hapus" onclick="DeleteDokumen();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="DeleteModalKonfirmasiDokumen" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Dokumen</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah Anda Sudah Verifikasi Kelengkapan dan Kesesuaian Dokumen Anda ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-konfirmasi" onclick="savePembayaran();"/>
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="dokumenupPekerjaan" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Upload Dokumen</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a onclick="popUpDokPekerjaan()" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Dokumen Pekerjaan</a>
+                            <input type="hidden" id="id_tahapModalPekerjaan" />
+                            <table class="table table-bordered" id="list-dokumen">
+                                <thead>
+                                    <tr>
+                                        <td class="tengah text-bold">Nama Dokumen Pekerjaan</td>
+                                        <td class="tengah text-bold">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <!-- /.Modal -->
+    <!-- Modal Pembayaran -->
+    <div class="modal" id="dokumenupPembayaran" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Upload Dokumen Pembayaran</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a onclick="popUpDokPembayaran()" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Dokumen Pembayaran</a>
+                            <input type="hidden" id="id_tahapModalPembayaran" />
+                            <table class="table table-bordered" id="list-dokumen-pembayaran">
+                                <thead>
+                                    <tr>
+                                        <td class="tengah text-bold">Nama Dokumen Pekerjaan</td>
+                                        <td class="tengah text-bold">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal Pembayaran-->
+
+    <!-- Modal -->
+    <div id="SimpanModalKonfirmasiDokumen" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input type="hidden" id="DokumenId" />
+                    <input type="hidden" id="NamaDokumen" />
+                    <h4 class="modal-title">Konfirmasi Dokumen</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah Anda Sudah Verifikasi Kelengkapan dan Kesesuaian Dokumen Anda ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-konfirmasi" onclick="savePembayaran();" />
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal-nilai" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Konfirmasi</h4>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin menyimpan Penilaian Ini ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="simpan-nilai" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-danger" id="batal" data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="konfirmasi-data" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Informasi</h4>
+                </div>
+                <div class="modal-body">
+                    Catatan Wajib Diisi !
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="OK" data-dismiss="modal">OK</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="tahapanpekerjaanup" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Tahapan Pekerjaan</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form-tahapan-pekerjaan" role="form" class="jp-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <label class="title">Nama Tahapan Pekerjaan</label>
+                                    <input type="text" class="form-control" id="nama-pekerjaan">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label class="title">Tanggal Pekerjaan Mulai</label>
+                                    <input id="tanggal-pekerjaan-mulai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="title">Tanggal Pekerjaan Selesai</label>
+                                    <input id="tanggal-pekerjaan-selesai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-4">
+                                    <label class="title">Bobot Pekerjaan (%)</label>
+                                    <input type="text" class="form-control" id="bobot-pekerjaan">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="TambahTahapanPekerjaan()" id="SimpanTahapan" class="btn btn-primary ">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal" id="tahapanpembayaranup" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Tahapan Pembayaran</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form-tahapan-pembayaran" role="form" class="jp-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <label class="title">Nama Tahapan Pembayaran</label>
+                                    <input type="text" class="form-control" id="nama-pembayaran">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label class="title">Tanggal Pembayaran Mulai</label>
+                                    <input id="tanggal-pembayaran-mulai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="title">Tanggal Pembayaran Selesai</label>
+                                    <input id="tanggal-pembayaran-selesai" type="text" class="tanggal-tahapan form-control input-group dateJadwal">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="TambahTahapanPembayaran()" id="SimpanTahapan" class="btn btn-primary ">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal" id="addDokPekerjaan" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Dokumen Tahapan Pekerjaan</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-8">
+                                <label class="title">Nama Dokumen Pekerjaan</label>
+                                <input type="text" class="form-control" id="nama-dokumen">
+                                <input type="hidden" id="id_tahapModalPekerjaan" />
+                                <input type="hidden" id="jenis-tahapanModalPekerjaan" value="Pekerjaan" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="simpan" class="btn btn-primary " onclick="TambahDokumenPekerjaan()">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal" id="addDokPembayaran" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Dokumen Tahapan Pembayaran</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-8">
+                                <label class="title">Nama Dokumen Pembayaran</label>
+                                <input type="text" class="form-control" id="nama-dokumen-pembayaran">
+                                <input type="hidden" id="id_tahapModalPembayaran" />
+                                <input type="hidden" id="jenis-tahapanModalPembayaran" value="Pembayaran" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="simpan" class="btn btn-primary " onclick="TambahDokumenPembayaran()">Simpan</button>
+                    <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!--Modal Disable Editing-->
+    <div id="ModalKonfirmasiDisableEditing" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Konfirmasi Disable Editing</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah anda yakin mengunci tambah tahapan di Rekanan ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toDisable();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Modal Disable Editing-->
+    <!--Modal Enable Editing-->
+    <div id="ModalKonfirmasiEnableEditing" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Konfirmasi Enable</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Apakah anda yakin membuka tambah tahapan di Rekanan ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="Lanjutkan" class="btn btn-default tombol-hapus" onclick="toEnable();">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Modal Enable Editing-->
+
+    <!--Modal Daftar Hitam-->
+    <div id="modal-daftarhitam" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <input type="hidden" id="row_index" />
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Menambahkan Rekanan ke Daftar Hitam</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Anda akan menambahkan rekanan ini ke dalam DAFTAR HITAM.<br />
+                        Selanjutnya, rekanan tidak lagi diperhitungkan dalam sistem pengadaan.
+                        <br />
+                        <strong> OPERASI INI TIDAK BISA DIKEMBALIKAN.</strong>
+                    </p>
+                    <p>Tuliskan alasan penambahan daftar hitam:</p>
+                    <textarea class="form-control" id="daftar-hitam-message"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button id="v-tolak" onclick="sendDaftarHitam()" type="button" class="btn btn-success">LANJUTKAN</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">BATAL</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="site.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+	<script src="dist/js/purify.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <!--<script src="plugins/jQueryUItotop/easing.js"></script>
+    <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+    <script src="plugins/JQueryValidation/jquery.validate.js"></script>-->
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="plugins/jQueryUI/jquery-ui-autocomplete.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
+    <script src="plugins/bootstrap-dialog/bootstrap-dialog.min.js"></script>
+    <script src='plugins/fullcalendar/moment.min.js'></script>
+    <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+    <script src='plugins/fullcalendar/lang/id.js'></script>
+    <script src="plugins/typeaheadjs/typeahead.bundle.min.js"></script>
+    <script src="plugins/typeaheadjs/handlebars.js"></script>
+    <script src="plugins/typeaheadjs/bootstrap-tagsinput.js"></script>
+    <script src="plugins/typeaheadjs/app_bs3.js"></script>
+    <script src="datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="datetimepicker/locales/bootstrap-datetimepicker.id.js"></script>
+    <script src="plugins/jQueryNumber/jquery.number.js"></script>
+    <script src="dist/site.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <!-- <script src="chatjs/chat.js"></script>-->
+    <script src="plugins/angular/angular.min.js"></script>
+    <script src="blockui/jquery.blockUI.js"></script>
+    <script src="dist/js/menu.js"></script>
+    <script>
+        var table_tahapan_pekerjaan;
+        var table_tahapan_pembayaran;
+        var table_dokumen_pekerjaan;
+        var table_dokumen_pembayaran;
+
+        function Kriteria(url2) {
+            var ProyekId = new URLSearchParams(window.location.search).get("Id")?.trim();
+
+            //console.log("KIRIM ID:", ProyekId);
+
+            if (!ProyekId) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: url2,
+                data: {
+                    Id: ProyekId
+                },
+                dataType: "json",
+
+                success: function (res) {
+                    console.log("RESPONSE:", res);
+
+                    if (!res.success) {
+                        console.error(res.message);
+                        alert(res.message);
+                        return;
+                    }
+
+                    var d = res.data;
+
+                    var totalNilai = parseFloat(d.Total_nilai) || 0;
+                    var jumlahPenilaian = parseFloat(d.Jumlah_penilaian) || 0;
+
+                    var rata = (jumlahPenilaian === 0) ? 0 : totalNilai / jumlahPenilaian;
+
+                    $(".catatan").val(d.Catatan || "");
+                    $("#total_nilai").text(totalNilai);
+                    $("#jumlah_penilaian").text(rata.toFixed(2));
+
+                    if (rata > 8.5) {
+                        $("#kpi").text("EXCELLENT");
+                    } else if (rata > 7) {
+                        $("#kpi").text("GOOD");
+                    } else if (rata > 6) {
+                        $("#kpi").text("FAIR");
+                    } else if (rata > 4) {
+                        $("#kpi").text("BAD");
+                    } else {
+                        $("#kpi").text("VERY BAD");
+                    }
+                },
+
+                error: function (xhr, status, error) {
+                    console.error("ERROR AJAX:");
+                    console.error("Status:", status);
+                    console.error("Error:", error);
+                    console.error("Response:", xhr.responseText);
+
+                    alert("Terjadi error saat mengambil data");
+                }
+            });
+        }
+
+        // Tampil Data
+        function gup(name, url) {
+            if (!url) url = HOME_PAGE;
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(url);
+            return results == null ? null : results[1];
+        }
+        //
+
+        function toWanprestasi()
+        {
+            var nStatus = "WANPRESTASI"
+            var ID =  new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+
+            $.ajax({
+                method: "post",
+                url: "api/MonitoringSelection/ToFinish",
+                datatype: "json",
+                data: {
+                    aIdProyek: ID,
+                    aStatus: nStatus
+                },
+                success: function (d) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: d.message,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+
+                    $("#ModalKonfirmasiWanprestasi").modal('hide');
+
+                    //window.location.replace("");
+                }
+            })
+        }
+
+        function toFinish(status)
+        {
+            var nStatus = status;
+
+            if ($("#StatusProyek").val() == "selesai_pekerjaan" || $("#StatusProyek").val() == "selesai_pembayaran")
+            {
+                nStatus = "SELESAI";
+            }
+
+            var ID =  new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+
+            $.ajax({
+                method: "post",
+                url: "api/MonitoringSelection/ToFinish",
+                datatype: "json",
+                data: {
+                    aIdProyek:ID,
+                    aStatus: nStatus
+                },
+                success: function (d) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: d.message,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                                window.location.reload();
+                            }
+                        }]
+                    });
+                    $("#ModalKonfirmasiFinish").modal('hide');
+                }
+            })
+        }
+
+        // load awal init
+        $(function () {
+
+            var ID = new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+
+            $("#ProyekId").val(ID);
+
+            $.ajax({
+                method: "post",
+                url: "api/MonitoringSelection/TampilJudulDetail?Id=" + ID,
+                success: function (d) {
+                    // Pengecekan untuk Aksi
+                    if (d.TipeUser != "pic")
+                    {
+                        //alert("pic");
+                        if (d.TipeUser != "controller")
+                        {
+                            //alert("controller");
+                            if (d.TipeUser != "staff")
+                            {
+                                //alert("hhhhhhh");
+                                $("#Tambah-Pekerjaan").hide();
+                                $("#disable-tahapan").hide();
+                                $("#Simpan").hide();
+                                $("#Tambah-Pembayaran").hide();
+                                $("#simpan-pembayaran").hide();
+                                $("#simpan-nilai-konfirmasi").hide();
+                                $("#finish").hide();
+                                $("#blacklist").hide();
+                            }
+                        }
+                    }
+
+                    // Tampil
+                    $("#NamaProyek").text(d.NamaProyek);
+                    $("#TanggalMulai").val(moment(d.TanggalMulai).format("DD MMMM YYYY"));
+                    $("#TanggalSelesai").val(moment(d.TanggalSelesai).format("DD MMMM YYYY"));
+                    $("[name=nilai-kontrak]").text("Total Nilai Kontrak : Rp. " + numberWithCommas(d.NilaiKontrak));
+                    $("[name=nilai-kontrak2]").val(d.NilaiKontrak);
+                    $("#StatusProyek").val(d.StatusProyek);
+                    $("#vendorid").val(d.VendorId);
+
+                    if (d.StatusLockTahapan == "DIBUKA") {
+                        $("#enable-tahapan").hide();
+                    }
+
+                    if (d.StatusLockTahapan == "DITUTUP") {
+                        $("#disable-tahapan").hide();
+                    }
+
+                    if (d.StatusProyek == "SELESAI") {
+                        $("#Simpan").hide();
+                        $("#simpan-pembayaran").hide();
+                        $("#finish").hide();
+                        $("#finish_pembayaran").hide();
+                        $("#wanprestasi").hide();
+                        $("#disable-tahapan").hide();
+                        $("#enable-tahapan").hide();
+                        $("#Tambah-Pekerjaan").hide();
+                        $("#Tambah-Pembayaran").hide();
+
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "PROYEK INI TELAH SELESAI",
+                            buttons: [{
+                                label: 'Lihat',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+
+                    if (d.StatusProyek == "selesai_pekerjaan") {
+                        $("#Tambah-Pekerjaan").hide();
+                        $("#enable-tahapan").hide();
+                        $("#Simpan").hide();
+                        $("#finish").hide();
+                        $("#wanprestasi").hide();
+                        $("#example1").prop("disabled", true);
+                        $("#disable-tahapan").hide();
+                        $("#enable-tahapan").hide();
+
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "PEKERJAAN PROYEK INI TELAH SELESAI",
+                            buttons: [{
+                                label: 'Lihat',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+
+                    if (d.StatusProyek == "selesai_pembayaran") {
+                        $("#Tambah-Pembayaran").hide();
+                        $("#enable-tahapan").hide();
+                        $("#simpan-pembayaran").hide();
+                        $("#finish_pembayaran").hide();
+                        $("#wanprestasi").hide();
+                        $("#example2").prop("disabled", true);
+
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "PEMBAYARAN PROYEK INI TELAH SELESAI",
+                            buttons: [{
+                                label: 'Lihat',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+
+                    if (d.StatusProyek == "WANPRESTASI") {
+                        $("#Simpan").hide();
+                        $("#simpan-pembayaran").hide();
+                        $("#finish").hide();
+                        $("#wanprestasi").hide();
+
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "PROYEK INI WANPRESTASI",
+                            buttons: [{
+                                label: 'Lihat',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    }
+
+                    // Hitung Sisa Waktu
+                    var date1 = moment(d.TanggalMulai).format("MM/DD/YYYY").toString();
+                    var date2 = moment(d.TanggalSelesai).format("MM/DD/YYYY").toString();
+                    var curdate1 = new Date(date1);
+                    var curdate2 = new Date(date2);
+
+                    var timeDiff = Math.ceil(curdate2.getTime() - curdate1.getTime());
+                    var TotalWaktuDisediakan = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                    var today = new Date();
+
+                    var timeDiff2 = Math.ceil(curdate2.getTime() - today.getTime());
+                    var TotalWaktuTersedia = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+                    var PersentaseWaktu = (TotalWaktuTersedia / TotalWaktuDisediakan) * 100;
+
+                    var x = parseFloat(100 - PersentaseWaktu).toFixed(2);
+                    $("[name=waktu-persen]").text(x + "%");
+                    $("[name=sisa-hari]").text(TotalWaktuTersedia);
+                    $("[name=waktu-persen-real]").val(x);
+
+                    // Cek Belum Mulai
+                    if (x <= 0) {
+                        $("[name=waktu-persen]").text("0 %");
+                        $("[name=sisa-hari]").text("-");
+                    }
+
+                    // Cek terlambat
+                    if (x > 100) {
+                        $("[name=waktu-persen]").text("Sudah Terlambat");
+                        $("[name=sisa-hari-text]").text("Hari Keterlambatan");
+                    }
+
+                    // Warna Warni
+                    if (TotalWaktuTersedia < 0 && TotalWaktuTersedia > -6) {
+                        document.getElementById("waktu-persen").style.color = "yellow";
+                        document.getElementById("sisa-hari").style.color = "yellow";
+                    }
+                    else if (TotalWaktuTersedia < -5 && TotalWaktuTersedia > -10) {
+                        document.getElementById("waktu-persen").style.color = "#A52A2A";
+                        document.getElementById("sisa-hari").style.color = "#A52A2A";
+                    }
+                    else if (TotalWaktuTersedia < -10) {
+                        document.getElementById("waktu-persen").style.color = "red";
+                        document.getElementById("sisa-hari").style.color = "red";
+                    }
+                    else {
+                        document.getElementById("waktu-persen").style.color = "green";
+                        document.getElementById("sisa-hari").style.color = "green";
+                    }
+
+                    hitung();
+                }
+            })
+        });
+
+        function numberWithCommas(x) {
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
+
+        $("#simpan-pembayaran").on("click", function () {
+            $("#SimpanModalKonfirmasiDokumen").modal('show');
+        });
+
+        $("#finish").on("click", function () {
+            $("#ModalKonfirmasiFinish").modal('show');
+        });
+
+        $("#finish_pembayaran").on("click", function () {
+            $("#ModalKonfirmasiFinishPembayaran").modal('show');
+        });
+
+        $("#disable-tahapan").on("click", function () {
+            $("#ModalKonfirmasiDisableEditing").modal('show');
+        });
+
+        $("#enable-tahapan").on("click", function () {
+            $("#ModalKonfirmasiEnableEditing").modal('show');
+        });
+
+        // Fungsi Table Tahapan Pekerjaan
+        $(function () {
+            var ID = new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+            $("#ProyekId").val(ID);
+            table_tahapan_pekerjaan = $('#example1').DataTable({
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListProyekDetailMonitoring',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = "";
+                        d.klasifikasi = "";
+                        d.Id = ID;
+                    }
+                },
+                "columns": [
+                    { "data": "NamaPekerjaan" },
+                    { "data": "BobotPekerjaan" },
+                    { "data": "null" },
+                    { "data": "Progress" },
+                    { "data": "null" },
+                    { "data": "null" },
+                ],
+                "initComplete": function (settings, json) {
+                    $(document).ready(function () {
+                        $("#progres").keydown(function (e) {
+                            // Allow: backspace, delete, tab, escape, enter and .
+                            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                                // Allow: Ctrl+A, Command+A
+                                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                                // Allow: home, end, left, right, down, up
+                                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                                // let it happen, don't do anything
+                                return;
+                            }
+                            // Ensure that it is a number and stop the keypress
+                            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                                e.preventDefault();
+                            }
+                        });
+                    });
+                    hitung();
+
+                    
+                },
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<label class=" nama-tahapan-pekerjaan" id="nama-tahapan-pekerjaan" >' + row.NamaPekerjaan + '</label>';
+                        },
+                        "targets": 0,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (row.BobotPekerjaan == 0) {
+                                return '<input type="text" class="form-control bobot_pekerjaan"  value="' + row.BobotPekerjaan + '">';
+                            }
+                            else {
+                                return '<input disabled type="text" class="form-control bobot_pekerjaan"  value="' + row.BobotPekerjaan + '">';
+                            };
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (row.Status == "SELESAI" || row.Status == 'selesai_pekerjaan') {
+                                var html = '<input type="number" disabled class="form-control progres" id="progres" name="progres" value="' + row.Progress + '">';
+                            }
+                            else {
+                                var html = '<input type="number" class="form-control progres" id="progres" name="progres" value="' + row.Progress + '">';
+                            }
+                            return html;
+                        },
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<input type="text" disabled class="form-control penyelesaian"  value="">' +
+                                '<input type="hidden" value="' + row.Id + '" class="id-tahapan22">';
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (row.Status == "SELESAI" || row.Status == 'selesai_pekerjaan') {
+                                var html = '<div class="input-group date">';
+                                html = html + '<div class="input-group-addon">';
+                                html = html + '<i class="fa fa-calendar"></i>';
+                                html = html + '</div>';
+                                html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-mulai-tahapan" value="' + moment(row.StartDate).format("MM/DD/YYYY") + '">';
+                                html = html + '</div>';
+                            }
+                            else {
+                                var html = '<div class="input-group date">';
+                                html = html + '<div class="input-group-addon">';
+                                html = html + '<i class="fa fa-calendar"></i>';
+                                html = html + '</div>';
+                                html = html + '<input type="text" class="form-control pull-right datepicker tanggal-mulai-tahapan" value="' + moment(row.StartDate).format("MM/DD/YYYY") + '">';
+                                html = html + '</div>';
+                            }
+                            return html;
+                        },
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (row.Status == "SELESAI" || row.Status == 'selesai_pekerjaan') {
+                                var html = '<div class="input-group date">';
+                                html = html + '<div class="input-group-addon">';
+                                html = html + '<i class="fa fa-calendar"></i>';
+                                html = html + '</div>';
+                                html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-selesai-tahapan" value="' + moment(row.EndDate).format("MM/DD/YYYY") + '">';
+                                html = html + '</div>';
+                            }
+                            else {
+                                var html = '<div class="input-group date">';
+                                html = html + '<div class="input-group-addon">';
+                                html = html + '<i class="fa fa-calendar"></i>';
+                                html = html + '</div>';
+                                html = html + '<input type="text" class="form-control pull-right datepicker tanggal-selesai-tahapan" value="' + moment(row.EndDate).format("MM/DD/YYYY") + '">';
+                                html = html + '</div>';
+                            }
+                            return html;
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+
+        // Fungsi Hitung Pekerjaan
+        $("#example1").on("change input propertychange", ".bobot_pekerjaan", function () {
+            var elRow = $(this).parent().closest("tr");
+            var oldRowData = table.row(elRow.index()).data();
+            hitung();
+        });
+
+        function hitung() {
+            //hitung();
+            //hitung_pembayaran();
+            var totalBobot = 0;
+            var totalSelesai = 0;
+            $("#example1 tbody tr").each(function () {
+
+                totalBobot += parseFloat($(this).find(".bobot_pekerjaan").val());
+                if (totalBobot > 100) {
+                    $(this).find(".bobot_pekerjaan").val(0);
+                    return false;
+                }
+                if (parseFloat($(this).find(".progres").val()) > 100) $(this).find(".progres").val(0);
+                var penyelesaian = (parseFloat($(this).find(".bobot_pekerjaan").val()) * parseFloat($(this).find(".progres").val())) / 100;
+                if (penyelesaian >= 0) {
+                    $(this).find(".penyelesaian").val(penyelesaian);
+
+                    // perhitungan tanggal per tahapan
+                    TanggalEnd = $(this).find(".tanggal-selesai-tahapan").val();
+                    TanggalSekarang = new Date();
+
+                    curedate1 = new Date(TanggalEnd);
+
+                    timediff = Math.ceil(curedate1.getTime() - TanggalSekarang.getTime());
+                    xTotalWaktuTersedia = Math.ceil(timediff / (1000 * 3600 * 24));
+
+                    xa = $(this).find(".progres").val();
+                    if (xa == 100) {
+                        $(this).find(".nama-tahapan-pekerjaan").parent().parent().css("background-color", "green").css("color", "white");
+                    }
+                    else {
+                        if (xTotalWaktuTersedia >= 0) {
+                            $(this).find(".nama-tahapan-pekerjaan").parent().parent().css("background-color", "green").css("color", "white");
+                        }
+                        else if (xTotalWaktuTersedia < 0 && xTotalWaktuTersedia >= -5) {
+                            $(this).find(".nama-tahapan-pekerjaan").parent().parent().css("background-color", "yellow").css("color", "black");
+                        }
+                        else if (xTotalWaktuTersedia < -5 && xTotalWaktuTersedia >= -10) {
+                            $(this).find(".nama-tahapan-pekerjaan").parent().parent().css("background-color", "brown").css("color", "white");
+                        }
+                        else {
+                            $(this).find(".nama-tahapan-pekerjaan").parent().parent().css("background-color", "red").css("color", "white");
+                        }
+                    }
+                }
+                else {
+                    $(this).find(".penyelesaian").val(0);
+                }
+                totalSelesai += parseFloat($(this).find(".penyelesaian").val());
+
+            });
+            $("[name=persen-selesai]").text(totalSelesai + "%");
+            $("[name=persen-selesai-real]").val(totalSelesai);
+
+            var persenSelesai = parseFloat($("[name=persen-selesai-real]").val());
+            var persenWaktu = parseFloat($("[name=waktu-persen-real]").val());
+
+            var total = persenSelesai / persenWaktu;
+            $("[name=persen-selesai-perwaktu]").val(total);
+
+            var cektotal = total * 100;
+
+            if (cektotal >= 100) {
+                document.getElementById("input-persen-selesai-perwaktu").style.backgroundColor = "green";
+                $("[id=penjelasan-status]").text("Progres Pekerjaan Masih Bisa Di toleril");
+                if (cektotal >= 100 && $("#StatusProyek").val() == "selesai_pekerjaan") {
+                    $("[id=penjelasan-status]").text("Pekerjaan Sudah Selesai (On Schedule)");
+                }
+                //$("[id=input-persen-selesai-perwaktu]").blink();
+            }
+            if (cektotal < 100 && cektotal >= 50) {
+                document.getElementById("input-persen-selesai-perwaktu").style.backgroundColor = "yellow";
+                $("[id=penjelasan-status]").text("Progres Pekerjaan Mohon Diperhatikan");
+                //$("[id=input-persen-selesai-perwaktu]").blink();
+            }
+            if (cektotal < 50) {
+                document.getElementById("input-persen-selesai-perwaktu").style.backgroundColor = "red";
+                $("[id=penjelasan-status]").text("Progres Pekerjaan Sangat Lambat");
+                if (cektotal < 50 && $("#StatusProyek").val() == "selesai_pekerjaan") {
+                    $("[id=penjelasan-status]").text("Pekerjaan Sudah Selesai (Terlambat)");
+                }
+                //$("[id=input-persen-selesai-perwaktu]").blink();
+            }
+        }
+
+         //Blink
+        $('#input-persen-selesai-perwaktu').each(function () {
+            var elem = $(this);
+            setInterval(function () {
+                if (elem.css('visibility') == 'hidden') {
+                    elem.css('visibility', 'visible');
+                } else {
+                    elem.css('visibility', 'hidden');
+                }
+            }, 500);
+        });
+
+         //Blink
+        $('#penjelasan-status').each(function () {
+            var elem = $(this);
+            setInterval(function () {
+                if (elem.css('visibility') == 'hidden') {
+                    elem.css('visibility', 'visible');
+                } else {
+                    elem.css('visibility', 'hidden');
+                }
+            }, 500);
+        });
+
+        $("#example1").on("change input propertychange", ".penyelesaian", function () {
+            hitung();
+        });
+
+        $("#example1").on("change input propertychange", ".progres", function () {
+            var elRow = $(this).parent().closest("tr");
+            var oldRowData = table_tahapan_pekerjaan.row(elRow.index()).data();
+            hitung();
+        });
+
+        //------------------------------------------------- Start of Dokuman Lampiran tab Pembayaran
+        var table4;
+        $(function () {
+            var ID = new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+            $("#ProyekId").val(ID);
+
+            table4 = $('#tampil-tahapan-pembayaran').DataTable({
+                "serverSide": false,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/Proyek/TampilTahapanPembayaran?Id=' + ID,
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = "";
+                        d.klasifikasi = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    $('.datepicker').datepicker({
+                        autoclose: true
+                    });
+                },
+                "columns": [
+                    { "data": "NamaTahapan" },
+                    { "data": "TanggalMulai" },
+                    { "data": "TanggalSelesai" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalMulai).format("DD MMMM YYYY");
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalSelesai).format("DD MMMM YYYY");
+                        },
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a  tahapId="' + row.Id + '"  class="btn btn-xs btn-info tambah-dokumen-pembayaran" title="Dokumen Pembayaran"><span class="fa fa-cloud-upload"></span> Dokumen </a> ';
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    },
+                ],
+                "pageLength": 5,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+
+        $("#tampil-tahapan-pembayaran").on("click", ".tambah-dokumen-pembayaran", function () {
+            TampilModalDokumenPembayaran($(this).attr("tahapId"));
+        });
+
+        function TampilModalDokumenPembayaran(id_tahapan) {
+            $("#id_tahapModalPembayaran").val(id_tahapan);
+            $("#dokumenupPembayaran").modal('show');
+            TampilDokumenPembayaran();
+        }
+
+        function TampilDokumenPembayaran() {
+            var id_tahapan = $('#id_tahapModalPembayaran').val();
+            table_dokumen_pembayaran = $('#list-dokumen-pembayaran').DataTable({
+                "serverSide": true,
+                "searching": false,
+                "ajax": {
+                    "url": 'api/Proyek/TampilDokumenPembayaran?Id=' + id_tahapan,
+                    "type": 'POST',
+                    "data": function (d) {
+                        Id = d.Id;
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+
+                    { "data": "NamaDokumen" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (row.URL != null && row.URL != "") {
+                                var url = "api/MonitoringSelection/OpenFile?Id=" + row.Id;
+                                var html = '<div class="btn-group" style="margin-right:5px;">';
+                                html = html + ' <a class="btn btn-sm btn-block btn-primary" href="' + url + '"> Download </a> ';
+                                html = html + '<input type="hidden" class="NamaDokumen" value="' + row.NamaDokumen + '" >';
+                                html = html + '</div>';
+                                html = html + '<div class="btn-group">';
+                                html = html + ' <a  class="btn btn-sm  btn-block btn-danger hapus-dokumen" dokumenId="' + row.Id + '" NamaDokumen="' + row.NamaDokumen + '"> Hapus </a> ';
+                                html = html + '<input type="hidden"  class="dokumenId" value="' + row.Id + '">';
+                                html = html + '</div>';
+                            }
+                            else {
+                                var html = '<input type="file" id="txtUploadFilePembayaran" class="txtUploadFilePembayaran">';
+                                html = html + '<input type="hidden"  class="dokumenId" value="' + row.Id + '">';
+                                html = html + '<input type="hidden" class="NamaDokumen" value="' + row.NamaDokumen + '" >';
+                            }
+                            return html;
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true
+            })
+        }
+        //------------------------------------------------- End of Dokuman Lampiran tab Pekerjaan
+
+        //------------------------------------------------- Start of Dokuman Lampiran tab Pekerjaan
+        // Table 3
+        var table3;
+
+        $(function () {
+            var ID = new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+            $("#ProyekId").val(ID);
+
+            table3 = $('#tampil-tahapan-pekerjaan').DataTable({
+                "ajax": {
+                    "url": 'api/Proyek/TampilTahapanPekerjaan?Id=' + ID,
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = "";
+                        d.klasifikasi = "";
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    $('.datepicker').datepicker({
+                        autoclose: true
+                    });
+                },
+                "columns": [
+                    { "data": "NamaTahapan" },
+                    { "data": "TanggalMulai" },
+                    { "data": "TanggalSelesai" },
+                    { "data": "null" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalMulai).format("DD MMMM YYYY");
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return moment(row.TanggalSelesai).format("DD MMMM YYYY");
+                        },
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return ' <a  tahapId="' + row.Id + '"  class="btn btn-xs btn-info tambah-dokumen-pekerjaan" title="Dokumen Pekerjaan"><span class="fa fa-cloud-upload"></span> Dokumen </a> ';
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    },
+                ],
+                "pageLength": 5,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+
+        $("#tampil-tahapan-pekerjaan").on("click", ".tambah-dokumen-pekerjaan", function () {
+            TampilModalDokumen($(this).attr("tahapId"));
+            //alert($(this).attr("tahapId"))
+        });
+
+        $('#list-dokumen').on('change', '.txtUploadFile',function (e) {
+            upload(e);
+        });
+
+        $('#list-dokumen-pembayaran').on('change', '.txtUploadFilePembayaran', function (e) {
+            uploadPembayaran(e);
+        });
+
+        function TampilModalDokumen(id_tahapan) {
+            $("#id_tahapModalPekerjaan").val(id_tahapan);
+            //alert($("#id_tahapModalPekerjaan").val());
+            $("#dokumenupPekerjaan").modal('show');
+            TampilDokumenPekerjaan();
+        }
+
+        function TampilDokumenPekerjaan() {
+            var id_tahapan = $('#id_tahapModalPekerjaan').val();
+            table_dokumen_pekerjaan = $('#list-dokumen').DataTable({
+                "ajax": {
+                    "url": 'api/Proyek/TampilDokumenPekerjaan?Id=' + id_tahapan,
+                    "type": 'POST',
+                    "data": function (d) {
+                        Id = d.Id;
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "columns": [
+                    { "data": "NamaDokumen" },
+                    { "data": "null", },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (row.URL != null && row.URL != "") {
+                                var url = "api/MonitoringSelection/OpenFile?Id=" + row.Id;
+                                var html = '<div class="btn-group" style="margin-right:5px;">';
+                                html = html + ' <a class="btn btn-sm btn-block btn-primary" href="' + url + '"> Download </a> ';
+                                html = html + '<input type="hidden" class="NamaDokumen" value="' + row.NamaDokumen + '" >';
+                                html = html + '</div>';
+                                html = html + '<div class="btn-group">';
+                                html = html + ' <a  class="btn btn-sm  btn-block btn-danger hapus-dokumen" dokumenId="' + row.Id + '" NamaDokumen="'+row.NamaDokumen+'"> Hapus </a> ';
+                                html = html + '<input type="hidden"  class="dokumenId" value="' + row.Id + '">';
+                                html = html + '</div>';
+                            }
+                            else {
+                                var html = '<input type="file" id="txtUploadFile" class="txtUploadFile">';
+                                html = html + '<input type="hidden"  class="dokumenId" value="' + row.Id + '">';
+                                html = html + '<input type="hidden" class="NamaDokumen" value="' + row.NamaDokumen + '" >';
+                            }
+                            return html;
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+                ],
+                "pageLength": 5,
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "destroy": true,
+            })
+        }
+
+        function uploadPembayaran(e) {
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $(e.target).closest('td').find(".txtUploadFile").get(0);
+                var dokumenid = $(e.target).closest('td').find(".dokumenId").val()?.trim();
+                var namaDokumen = $(e.target).closest('td').find(".NamaDokumen").val()?.trim();
+
+                //console.log("ID:", dokumenid);
+                //console.log("NamaDokumen:", namaDokumen);
+
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                // file
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append("files", files[i]); // 🔥 pakai key fix
+                }
+
+                // parameter tambahan
+                fileData.append("Id", dokumenid);
+                fileData.append("NamaDokumen", namaDokumen);
+
+                $.ajax({
+                    url: 'Api/MonitoringSelection/UploadFile',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+
+                    success: function (result) {
+                        //console.log("SUCCESS:", result);
+
+                        table_dokumen_pekerjaan.ajax.reload();
+
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "Upload berhasil",
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    },
+
+                    error: function (err) {
+                        //console.error("ERROR:", err);
+                        alert(err.responseText || err.statusText);
+                    }
+                });
+
+            } else {
+                alert("FormData is not supported.");
+            }
+        }
+
+        // Fungsi Ajax  Upload
+        function upload(e) {
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $(e.target).closest('td').find(".txtUploadFile").get(0);
+                var dokumenid = $(e.target).closest('td').find(".dokumenId").val()?.trim();
+                var namaDokumen = $(e.target).closest('td').find(".NamaDokumen").val()?.trim();
+
+                //console.log("ID:", dokumenid);
+                //console.log("NamaDokumen:", namaDokumen);
+
+                var files = fileUpload.files;
+
+                var fileData = new FormData();
+
+                // file
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append("files", files[i]); // 🔥 pakai key fix
+                }
+
+                // parameter tambahan
+                fileData.append("Id", dokumenid);
+                fileData.append("NamaDokumen", namaDokumen);
+
+                $.ajax({
+                    url: 'Api/MonitoringSelection/UploadFile',
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+
+                    success: function (result) {
+                        //console.log("SUCCESS:", result);
+
+                        table_dokumen_pekerjaan.ajax.reload();
+
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: "Upload berhasil",
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                    },
+
+                    error: function (err) {
+                        //console.error("ERROR:", err);
+                        alert(err.responseText || err.statusText);
+                    }
+                });
+
+            } else {
+                alert("FormData is not supported.");
+            }
+        }
+        // End of Dokumen lampiran tab Pekerjaan
+
+
+        // Start of tab Pembayaran
+        $(function () {
+            var ID = new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+            $("#ProyekId").val(ID);
+            table_tahapan_pembayaran = $('#example2').DataTable({
+                "ajax": {
+                    "url": 'api/MonitoringSelection/ListProyekDetailMonitoringPembayaran',
+                    "type": 'POST',
+                    "data": function (d) {
+                        d.search = "";
+                        d.klasifikasi = "";
+                        d.Id = ID;
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    $('.datepicker').datepicker({
+                        autoclose: true
+                    });
+                },
+                "columns": [
+                    { "data": "NamaPembayaran" },
+                    { "data": "PersenPembayaran" },
+                    { "data": "null" },
+                    { "data": "Status" },
+                    { "data": "TanggalPembayaran" },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            if (row.StatusProyek == "SELESAI" || row.Status == 'selesai-pembayaran')
+                            {
+                                if (row.Status == "Sudah Dibayar")
+                                {
+                                    var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" disabled value="' + row.PersenPembayaran + '">';
+                                    html = html + '<input type="hidden" class="id_tahapan_pembayaran" style="width:100%;" value = "' + row.ID + '">';
+                                    return html;
+                                }
+                                else
+                                {
+                                    var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" disabled value="' + row.PersenPembayaran + '">';
+                                    html = html + '<input type="hidden" class="id_tahapan_pembayaran" value = "' + row.ID + '">';
+                                    return html;
+                                }
+                            }
+                            else {
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" disabled value="' + row.PersenPembayaran + '">';
+                                    html = html + '<input type="hidden" class="id_tahapan_pembayaran" style="width:100%;" value = "' + row.ID + '">';
+                                    return html;
+                                }
+                                else {
+                                    var html = '<input type="text" class="form-control persen_pembayaran" style="width:100%;" value="' + row.PersenPembayaran + '">';
+                                    html = html + '<input type="hidden" class="id_tahapan_pembayaran" value = "' + row.ID + '">';
+                                    return html;
+                                }
+                            }
+                        },
+                        "targets": 1,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (row.StatusProyek == "SELESAI")
+                            {
+                                if (row.PersenPembayaran > 0) {
+                                    var a = (parseFloat($("[name=nilai-kontrak2]").val()) * row.PersenPembayaran) / 100;
+                                    var html = '<label style="float:right;" disabled name="total_pembayaran">Rp. ' + numberWithCommas(a) + '</label>';
+                                }
+                                else return "-";
+                            }
+                            else
+                            {
+                                if (row.PersenPembayaran > 0) {
+                                    var a = (parseFloat($("[name=nilai-kontrak2]").val()) * row.PersenPembayaran) / 100;
+                                    var html = '<label style="float:right;" disabled name="total_pembayaran">Rp. ' + numberWithCommas(a) + '</label>';
+                                }
+                                else return "-";
+                            }
+                            return html;
+                        },
+                        "targets": 2,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (row.StatusProyek == "SELESAI")
+                            {
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<div class="form-group col-md-12">';
+                                    html = html + '<select id="StatusPembayaran" disabled class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
+                                    html = html + '<option value="Belum Dibayar" >Belum Dibayar</option>';
+                                    html = html + '<option value="Sudah Dibayar" selected >Sudah Dibayar </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+
+                                    return html;
+                                }
+                                else {
+                                    var html = '<div class="form-group col-md-12">';
+                                    html = html + '<select id="StatusPembayaran" disabled  class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
+                                    html = html + '<option value="Belum Dibayar" selected>Belum Dibayar</option>';
+                                    html = html + '<option value="Sudah Dibayar">Sudah Dibayar </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+
+                                    return html;
+                                }
+                            }
+                            else
+                            {
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<div class="form-group col-md-12">';
+                                    html = html + '<select id="StatusPembayaran" disabled class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
+                                    html = html + '<option value="Belum Dibayar" >Belum Dibayar</option>';
+                                    html = html + '<option value="Sudah Dibayar" selected >Sudah Dibayar </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+
+
+                                    return html;
+                                }
+                                else {
+                                    var html = '<div class="form-group col-md-12">';
+                                    html = html + '<select id="StatusPembayaran"  class="form-control select2 status-pembayaran" style="width:100%;" name="StatusPembayaran" >';
+                                    html = html + '<option value="Belum Dibayar" selected>Belum Dibayar</option>';
+                                    html = html + '<option value="Sudah Dibayar">Sudah Dibayar </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+
+
+                                    return html;
+                                }
+                            }
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (row.StatusProyek == "SELESAI")
+                            {
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<div class="input-group date" style="width:100%;">';
+                                    html = html + '<div class="input-group-addon">';
+                                    html = html + '<i class="fa fa-calendar"></i>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    html = html + '</div>';
+                                    return html;
+                                }
+                                else {
+                                    var html = '<div class="input-group date" style="width:100%;">';
+                                    html = html + '<div class="input-group-addon">';
+                                    html = html + '<i class="fa fa-calendar"></i>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="text" disabled class="form-control disabled pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+
+                                    html = html + '</div>';
+                                    return html;
+                                }
+                            }
+                            else {
+                                if (row.Status == "Sudah Dibayar") {
+                                    var html = '<div class="input-group date" style="width:100%;">';
+                                    html = html + '<div class="input-group-addon">';
+                                    html = html + '<i class="fa fa-calendar"></i>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="text" disabled class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    html = html + '</div>';
+                                    return html;
+                                }
+                                else {
+                                    var html = '<div class="input-group date" style="width:100%;">';
+                                    html = html + '<div class="input-group-addon">';
+                                    html = html + '<i class="fa fa-calendar"></i>';
+                                    html = html + '</div>';
+                                    //html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    if (row.TanggalPembayaran == null) {
+                                        var harini = new Date();
+                                        //$(".tanggal-pembayaran").val(moment(harini).format("MM/DD/YYYY"));
+                                        html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(harini).format("MM/DD/YYYY") + '">';
+                                    }
+                                    else {
+                                        html = html + '<input type="text" class="form-control pull-right datepicker tanggal-pembayaran" style="width:100%;" value="' + moment(row.TanggalPembayaran).format("MM/DD/YYYY") + '">';
+                                    }
+                                    html = html + '</div>';
+                                    return html;
+                                }
+                            }
+                        },
+                        "targets": 4,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var html = "<input type='hidden' name='total-nilai-kontrak-table' id='total-nilai-kontrak-table' class='total-nilai-kontrak-table' value='"+row.TotalNilaiKontrak+"'>";
+                            return html;
+                        },
+                        "targets": 5,
+                        "orderable": false
+                    },
+                ],
+                "pageLength": 5,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "rowCallback": function (row, data, index) {
+                    hitung_pembayaran();
+                }
+            });
+        });
+
+        $("#example2").on("change input propertychange", ".total_pembayaran", function () {
+            hitung_pembayaran();
+            savePembayaran();
+        });
+
+        function addNewData(table, baris, newdata)
+        {
+            $.extend(table.row(baris).data(), newdata);
+            table.row(baris).invalidate();
+        }
+
+        // Fungsi Hitung Pembayaran
+        $("#example2").on("change ", ".persen_pembayaran", function () {
+            var elRow = $(this).parent().closest("tr");
+            var oldRowData = table_tahapan_pembayaran.row(elRow.index()).data();
+            var totalPersen = 0;
+            var persen = parseFloat($(this).val());
+            table_tahapan_pembayaran.rows().every(function () {
+                var odata = this.data();
+                totalPersen = totalPersen + odata.PersenPembayaran;
+            });
+            
+            totalPersen = (totalPersen - oldRowData.PersenPembayaran) + persen;
+
+            if (totalPersen <= 100 && totalPersen >= 0) {
+
+                oldRowData.PersenPembayaran = persen;
+
+            }
+            else {
+                $(this).val(0);
+                oldRowData.PersenPembayaran = 0;
+            }
+            addNewData(table_tahapan_pembayaran, elRow.index(), oldRowData);
+            savePembayaran();
+        });
+
+        function hitung_pembayaran() {
+            var totalPersen = 0;
+            //var totalKontrak = parseFloat($("[name=nilai-kontrak2]").val());
+            var index = 0;
+            
+            $("#example2 tbody tr").each(function () {
+                totalPersen += parseFloat($(this).find(".persen_pembayaran").val());
+                //console.log(totalPersen);
+                //console.log(totalKontrak);
+                if (totalPersen > 100) {
+                    $(this).find(".persen_pembayaran").val(0);
+                    $(this).find(".total_pembayaran").text("0");
+                    return false;
+                }
+                var hasil = (parseFloat($(this).find(".persen_pembayaran").val()) / 100) * parseFloat($(this).find(".total-nilai-kotrak-table").val());
+                if (hasil > 0)
+                    $(this).find(".total_pembayaran").text("Rp. " + numberWithCommas(hasil));
+                else $(this).find(".total_pembayaran").text(0);
+
+            });
+        }
+        //------- End of tab pembayaran
+
+        //Date picker
+        $('.datepicker').datepicker({
+            autoclose: true
+        });
+		function addNewData(table, baris, newdata) {
+		    $.extend(table.row(baris).data(), newdata);
+		    table.row(baris).invalidate();
+		}
+
+		// save DataTable
+        var ID = new URLSearchParams(window.location.search).get("Id");
+
+        if (!ID) {
+            console.error("Id tidak ditemukan di URL");
+        }
+
+        $("#ProyekId").val(ID);
+
+        $("#simpan-nilai").on("click", function () {
+            $("#modal-nilai").hide();
+
+            var objPenilaianHeader = {};
+            var arrobjPenilaian = [];
+            var VendorId;
+            var Jumlah_penilaian = $('#nilai tbody tr').length;
+            var Total_nilai = 0;
+
+            $("#nilai tbody tr").each(function () {
+                var objPenilaian = {};
+                objPenilaian.proyekid = ID;
+                objPenilaian.VendorId = $(this).find(".vendorid").val();
+                objPenilaian.referencedataid = $(this).find(".referencedataid").val();
+                objPenilaian.Nilai = $(this).find(".hasil_penilaian").val();
+                objPenilaian.Catatan_item = $(this).find(".catatan_item").val();
+
+                VendorId = $(this).find(".vendorid").val();
+                arrobjPenilaian.push(objPenilaian);
+
+                Total_nilai += parseInt($(this).find('.hasil_penilaian').val()) || 0;
+            });
+
+            objPenilaianHeader.proyekid = ID;
+            objPenilaianHeader.VendorId = VendorId;
+            objPenilaianHeader.Catatan = $(".catatan").val();
+            objPenilaianHeader.Jumlah_penilaian = Jumlah_penilaian;
+            objPenilaianHeader.Total_nilai = Total_nilai;
+            objPenilaianHeader.PenilaianVendorDetails = arrobjPenilaian;
+
+            $.ajax({
+                method: "POST",
+                url: "Api/Proyek/SimpanNilai",
+                data: objPenilaianHeader,
+                success: function (data) {
+
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Data Berhasil di Simpan',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+
+                    // ✅ FIX DI SINI
+                    if (typeof table_nilai !== "undefined") {
+                        table_nilai.ajax.reload();
+                    }
+
+                    Kriteria();
+                }
+            });
+        });
+
+		function datatableToJson(table) {
+		    var data = [];
+		    var beforeJudul = "";
+		    table.rows().every(function () {
+		        data.push(this.data());
+		    });
+		    //console.log(JSON.stringify(data));
+		    return data;
+		}
+
+		// save DataTable
+		$("#Simpan").on("click", function () {
+		    var arrobjMonitor = [];
+		    $("#example1 tbody tr").each(function () {
+		        var objMonitor = {};
+		        objMonitor.Progress = $(this).find(".progres").val();
+		        objMonitor.Id = $(this).find(".id-tahapan22").val();
+		        objMonitor.BobotPekerjaan = $(this).find(".bobot_pekerjaan").val();
+		        objMonitor.TanggalMulai = $(this).find(".tanggal-mulai-tahapan").val();
+		        objMonitor.TanggalSelesai = $(this).find(".tanggal-selesai-tahapan").val();
+		        arrobjMonitor.push(objMonitor);
+		    });
+		    waitingDialog.showloading("Proses Harap Tunggu");
+		    $.ajax({
+		        method: "POST",
+		        url: "Api/MonitoringSelection/UpdateProgressPekerjaan",
+		        dataType: "json",
+		        data: JSON.stringify(arrobjMonitor),
+		        contentType: 'application/json; charset=utf-8',
+		        success: function (data) {
+		            waitingDialog.hideloading();
+		            BootstrapDialog.show({
+		                title: 'Konfirmasi',
+		                message: data.message,
+		                buttons: [{
+		                    label: 'Close',
+		                    action: function (dialog) {
+		                        window.location.reload();
+		                    }
+		                }]
+		            });
+		        },
+		    });
+		});
+
+        $("#simpan-nilai-konfirmasi").on("click", function () {
+            var Catatan = $(".catatan").val();
+            if (Catatan == "") {
+                $("#konfirmasi-data").show();
+            }
+            else {
+                $("#modal-nilai").show();
+            }
+        });
+
+        $("#batal").on("click", function () {
+            $("#modal-nilai").hide();
+        });
+
+        $("#OK").on("click", function () {
+            $("#konfirmasi-data").hide();
+        });
+
+        $("#refresh").on("click", function () {
+            Catatan = $(".catatan").val("");
+            Nilai = $(".hasil_penilaian").val("");
+        });
+               
+        var url;
+        var ID = new URLSearchParams(window.location.search).get("Id");
+
+        if (!ID) {
+            console.error("Id tidak ditemukan di URL");
+            /*return;*/
+        }
+
+        $.ajax({
+            method: "post",
+            url: "api/Proyek/CekLihatNilai?Id=" + ID,
+            success: function (d) {
+                if (d.isSudahDinilaiFromSPK == 1) {
+                    $("#simpan-nilai-konfirmasi").remove();
+                    $("#simpan-nilai-konfirmasi").hide();
+                    $("#simpan-nilai-konfirmasi").attr("disabled", "disabled");
+                    //alert("masuk if");
+                    url = 'api/PenilaianVendor/TampilPenilaian?Id=' + d.NomorSPK;
+                    url2 = "api/PenilaianVendor/TampilNilai?Id=" + d.NomorSPK;
+                    tampil_table_nilai(url);
+                    Kriteria(url2);
+                }
+                
+                else {
+                    if (d.isSudahDinilaiFromProyek ==1) {
+                        $("#simpan-nilai-konfirmasi").remove();
+                        $("#simpan-nilai-konfirmasi").hide();
+                        $("#simpan-nilai-konfirmasi").attr("disabled", "disabled");
+                    }
+
+                    url = 'api/Proyek/TampilPenilaian?Id=' + ID;
+                    url2 = 'api/Proyek/TampilNilai?Id=' + ID;
+                    tampil_table_nilai(url);
+                    Kriteria(url2);
+                }
+            },
+        })
+
+        var table_nilai;
+
+        function tampil_table_nilai(url) {
+            // Tampil Tabel Penilaian
+            
+            var ID = new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+            table_nilai = $('#nilai').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": false,
+                "autoWidth": true,
+                "ajax": {
+                    "url": url,
+                    "type": 'POST',
+                },
+                "columns": [
+                        { "data": "NamaPenilaian" },
+                        { "data": "Nilai" },
+                        { "data": "Catatan_item" },
+                ],
+                "columnDefs": [
+                        {
+                            "render": function (data, type, row) {
+                                var html = '<textarea class="form-group col-md-12 catatan_item" rows="3"> ' + row.Catatan_item + '</textarea>';
+                                return html;
+                            },
+                            "targets": 2,
+                            "orderable": false
+                        },
+                        {
+                            "render": function (data, type, row) {
+                                if (row.Nilai == 0) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00" selected> Tidak Ada Pemilihan Kriteria Ini</option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 1) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pemilihan Kriteria Ini</option>';
+                                    html = html + '<option value="01" selected> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 2) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pilihan </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02" selected> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 3) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pilihan </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03" selected> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 4) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pilihan </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04" selected> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 5) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pilihan </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05" selected> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 6) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pilihan </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06" selected> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 7) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pilihan </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07" selected> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 8) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pilihan </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08" selected> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 9) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pilihan </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09" selected> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else if (row.Nilai == 10) {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value="00"> Tidak Ada Pemilihan Kriteria Ini </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10" selected> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                else {
+                                    var html = '<div class="form-group col-md-8">';
+                                    html = html + '<select class="form-control hasil_penilaian" style="width:100px">';
+                                    html = html + '<option value=""> Pilih </option>';
+                                    html = html + '<option value="00"> Tidak Ada Pemilihan Kriteria Ini </option>';
+                                    html = html + '<option value="01"> 01 </option>';
+                                    html = html + '<option value="02"> 02 </option>';
+                                    html = html + '<option value="03"> 03 </option>';
+                                    html = html + '<option value="04"> 04 </option>';
+                                    html = html + '<option value="05"> 05 </option>';
+                                    html = html + '<option value="06"> 06 </option>';
+                                    html = html + '<option value="07"> 07 </option>';
+                                    html = html + '<option value="08"> 08 </option>';
+                                    html = html + '<option value="09"> 09 </option>';
+                                    html = html + '<option value="10"> 10 </option>';
+                                    html = html + '</select>';
+                                    html = html + '</div>';
+                                    html = html + '<input type="hidden" class="referencedataid" value="' + row.Id + '">';
+                                    html = html + '<input type="hidden" class="vendorid" value="' + row.VendorId + '">';
+                                }
+                                return html;
+                            },
+                            "targets": 1,
+                            "orderable": false
+                        },
+                ],
+            });
+
+        }
+
+        // -- hapus dokumen
+		$("#list-dokumen").on("click", ".hapus-dokumen", function () {
+		    showDeleteConfirmationDokumen($(this).attr("dokumenId"), $(this).attr("NamaDokumen"));
+		});
+		$("#list-dokumen-pembayaran").on("click", ".hapus-dokumen", function () {
+		    showDeleteConfirmationDokumen($(this).attr("dokumenId"), $(this).attr("NamaDokumen"));
+		});
+
+		function showDeleteConfirmationDokumen(idd, NamaDokumen) {
+		    $("#DokumenId").val(idd);
+		    $("#NamaDokumen").val(NamaDokumen);
+		    $("#DeleteModalDokumen").modal('show');
+		}
+
+		$(document).on('show.bs.modal', '.modal', function () {
+		    var zIndex = 1040 + (10 * $('.modal:visible').length);
+		    $(this).css('z-index', zIndex);
+		    setTimeout(function () {
+		        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+		    }, 0);
+		});
+
+		function DeleteDokumen(idd) {
+		    $("#DeleteModalDokumen").modal('hide');
+		    var v = 0;
+		    if (!idd) {
+		        v = parseInt($("#DokumenId").val());
+		        nama = $("#NamaDokumen").val();
+		    }
+		    else v = idd
+		    $.ajax({
+		        url: "/api/MonitoringSelection/deletedokumen?id=" + v,
+		        success: function (data) {
+		            BootstrapDialog.show({
+		                title: 'Konfirmasi',
+		                message: 'Dokumen Berhasil di Hapus',
+		                buttons: [{
+		                    label: 'Close',
+		                    action: function (dialog) {
+		                        dialog.close();
+		                    }
+		                }]
+		            });
+		            table_dokumen_pekerjaan.ajax.reload();
+		            table_dokumen_pembayaran.ajax.reload();
+		        },
+		        complete: function (xhr, textStatus) {
+		            ajaxCompleteProcess(xhr);
+		        }
+		    });
+		}
+
+		function savePembayaran() {
+            var arrobjPembayaran = [];
+            $("#example2 tbody tr").each(function () {
+                var objPembayaran = {};
+                objPembayaran.PersenPembayaran = $(this).find(".persen_pembayaran").val();
+                objPembayaran.Id = $(this).find(".id_tahapan_pembayaran").val();
+                objPembayaran.StatusPembayaran = $(this).find(".status-pembayaran").val();
+                objPembayaran.TanggalPembayaran = $(this).find(".tanggal-pembayaran").val();
+                arrobjPembayaran.push(objPembayaran);
+            });
+		    //waitingDialog.showloading("Proses Harap Tunggu");
+            waitingDialog.showloading("Proses Harap Tunggu");
+            $.ajax({
+                method: "POST",
+                url: "Api/MonitoringSelection/UpdateProgressPembayaran",
+                dataType: "json",
+                data: JSON.stringify(arrobjPembayaran),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    waitingDialog.hideloading();
+                    table_tahapan_pembayaran.draw();
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: data.message,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    table_tahapan_pembayaran.ajax.reload();
+                    $("#SimpanModalKonfirmasiDokumen").modal('hide');
+                    window.location.reload();
+                },
+            });
+        }
+
+        // pop up tahapan pekerjaan
+        function tahapanpekerjaanup() {
+            $("#tahapanpekerjaanup").modal("show");
+        }
+
+        // pop up tahapan pembayaran
+        function tahapanpembayaranup() {
+            $("#tahapanpembayaranup").modal("show");
+        }
+
+        // Tambah Tahapan Pekerjaan
+        function TambahTahapanPekerjaan() {
+            var nProyekId = new URLSearchParams(window.location.search).get("Id");
+
+            if (!nProyekId) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+            var nNamaTahapanPekerjaan = $("#nama-pekerjaan").val();
+            var nTanggalMulai = moment($("#tanggal-pekerjaan-mulai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+            var nTanggalSelesai = moment($("#tanggal-pekerjaan-selesai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+            var nBobotPekerjaan = $("#bobot-pekerjaan").val();
+            var nJenisTahapan = 'Pekerjaan';
+            $.ajax({
+                method: "post",
+                url: "api/Proyek/SimpanTahapanPekerjaanRekanan",
+                datatype: "json",
+                data: {
+                    aProyekId: nProyekId,
+                    aNamaTahapanPekerjaan: nNamaTahapanPekerjaan,
+                    aTanggalMulai: nTanggalMulai,
+                    aTanggalSelesai: nTanggalSelesai,
+                    aBobotPekerjaan: nBobotPekerjaan,
+                    aJenisTahapan: nJenisTahapan
+                },
+                success: function (d) {
+
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: d.message,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                window.location.reload();
+                            }
+                        }]
+                    });
+
+                }
+            })
+        }
+
+        $(".dateJadwal").datetimepicker({
+            format: "DD MMMM YYYY HH:mm",
+            locale: 'id',
+            useCurrent: false,
+            minDate: Date.now()
+
+        }).on('dp.change', function (e) {
+            var jadwal = $(this).attr("name");
+            var nextJadwal = $(this).attr("nextJadwal");
+            var beforeJadwal = $(this).attr("beforeJadwal");
+            var thisJadwal = moment($(this).val(), ["D MMMM YYYY HH:mm"], "id");
+            if (nextJadwal != "") {
+                var jadwalNext = moment($(nextJadwal).val(), ["D MMMM YYYY HH:mm"], "id");//.format("DD/MM/YYYY HH:mm");
+                $(nextJadwal).data("DateTimePicker").minDate(e.date);
+                $(nextJadwal).removeAttr("disabled");
+
+                var jadwalNext = moment($(nextJadwal).val(), ["D MMMM YYYY HH:mm"], "id");
+                var diff = thisJadwal.diff(jadwalNext);
+
+                if ($(nextJadwal).val() != "")
+                    if (diff >= 0) {
+                        BootstrapDialog.show({
+                            title: 'Konfirmasi',
+                            message: 'Jadwal Tidak Boleh Lebih Besar dari Jadwal Berikutnya!',
+                            buttons: [{
+                                label: 'Close',
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }]
+                        });
+                        $(this).val("");
+                    }
+
+            }
+            if (beforeJadwal != "") {
+                var jadwalBefore = moment($(beforeJadwal).val(), ["D MMMM YYYY HH:mm"], "id");
+                var diff = thisJadwal.diff(jadwalBefore);
+
+                if (diff <= 0) {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Jadwal Tidak Boleh Lebih Kecil!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    $(this).val("");
+                }
+
+                if ($(beforeJadwal).val() == "") {
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Isi Jadwal Sesuai Urutan!',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    $(this).val("");
+                }
+            }
+        });
+
+        // Tambah Tahapan Pembayaran
+        function TambahTahapanPembayaran() {
+            var nProyekId = new URLSearchParams(window.location.search).get("Id");
+
+            if (!nProyekId) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+            var nNamaTahapanPekerjaan = $("#nama-pembayaran").val();
+            var nTanggalMulai = moment($("#tanggal-pembayaran-mulai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+            var nTanggalSelesai = moment($("#tanggal-pembayaran-selesai").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+            var nBobotPekerjaan = 0;
+            var nJenisTahapan = 'Pembayaran';
+            $.ajax({
+                method: "post",
+                url: "api/Proyek/SimpanTahapanPekerjaanRekanan",
+                datatype: "json",
+                data: {
+                    aProyekId: nProyekId,
+                    aNamaTahapanPekerjaan: nNamaTahapanPekerjaan,
+                    aTanggalMulai: nTanggalMulai,
+                    aTanggalSelesai: nTanggalSelesai,
+                    aBobotPekerjaan: nBobotPekerjaan,
+                    aJenisTahapan: nJenisTahapan
+                },
+                success: function (d) {
+                    $("#tahapanpembayaranup").modal("hide");
+                    $("#nama-tahapan-pembayaran").val("");
+                    $("#tanggal-pembayaran-mulai").val("");
+                    $("#tanggal-pembayaran-selesai").val("");
+                    $("#bobot-pekerjaan").val("");
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: d.message,
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+                    table_tahapan_pembayaran.ajax.reload();
+                }
+            })
+        }
+
+        // JS untuk ambil id proyek
+        //$(function () {
+        //    Kriteria();
+        //})
+
+		$("#wanprestasi").on("click", function () {
+		    $("#ModalKonfirmasiWanprestasi").modal('show');
+		});
+
+		// pop up tahapan pekerjaan
+		function popUpDokPekerjaan() {
+		    $("#addDokPekerjaan").modal("show");
+		}
+
+		// pop up tahapan pekerjaan
+		function popUpDokPembayaran() {
+		    $("#addDokPembayaran").modal("show");
+		}
+
+		// Fungsi Tambah Dokumen Tahapan Pekerjaan
+		function TambahDokumenPekerjaan(id_tahapan) {
+		    var id_tahapan = 0;
+		    Id_Tahapan = $("#id_tahapModalPekerjaan").val();
+		    Jenis_Dokumen = $("#jenis-tahapanModalPekerjaan").val();
+		    Nama_Dokumen = $("#nama-dokumen").val();
+
+		    $.ajax({
+		        method: "post",
+		        url: "api/Proyek/SimpanTahapanPekerjaanDokumen",
+		        datatype: "json",
+		        data: {
+		            aId_Tahapan: Id_Tahapan,
+		            aJenis_Tahapan: Jenis_Dokumen,
+		            aNama_Dokumen: Nama_Dokumen
+		        },
+		        success: function (d) {
+		            $("#list-dokumen-pekerjaan").modal("hide");
+		            BootstrapDialog.show({
+		                title: 'Konfirmasi',
+		                message: 'Data Berhasil di Simpan',
+		                buttons: [{
+		                    label: 'Close',
+		                    action: function (dialog) {
+		                        dialog.close();
+		                        $("#addDokPekerjaan").modal("hide");
+		                        $("#nama-dokumen").val("");
+		                        table_dokumen_pekerjaan.ajax.reload();
+		                    }
+		                }]
+		            });
+		        }
+		    })
+		}
+
+		// Fungsi Tambah Dokumen Tahapan Pembayaran
+		function TambahDokumenPembayaran(id_tahapan) {
+		    var id_tahapan = 0;
+		    Id_Tahapan = $("#id_tahapModalPembayaran").val();
+		    Jenis_Dokumen = $("#jenis-tahapanModalPembayaran").val();
+		    Nama_Dokumen = $("#nama-dokumen-pembayaran").val();
+
+		    $.ajax({
+		        method: "post",
+		        url: "api/Proyek/SimpanTahapanPekerjaanDokumen",
+		        datatype: "json",
+		        data: {
+		            aId_Tahapan: Id_Tahapan,
+		            aJenis_Tahapan: Jenis_Dokumen,
+		            aNama_Dokumen: Nama_Dokumen
+		        },
+		        success: function (d) {
+		            $("#list-dokumen-pembayaran").modal("hide");
+		            BootstrapDialog.show({
+		                title: 'Konfirmasi',
+		                message: 'Data Berhasil di Simpan',
+		                buttons: [{
+		                    label: 'Close',
+		                    action: function (dialog) {
+		                        dialog.close();
+		                        $("#addDokPembayaran").modal("hide");
+		                        $("#nama-dokumen-pembayaran").val("");
+		                        table_dokumen_pembayaran.ajax.reload();
+		                    }
+		                }]
+		            });
+		        }
+		    })
+		}
+
+		function toDisable() {
+		    var nStatus = "DITUTUP";
+            var ID = new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+		    $.ajax({
+		        method: "post",
+		        url: "api/MonitoringSelection/toDisable",
+		        datatype: "json",
+		        data: {
+		            aIdProyek: ID,
+		            aStatus: nStatus
+		        },
+		        success: function (d) {
+		            BootstrapDialog.show({
+		                title: 'Konfirmasi',
+		                message: d.message,
+		                buttons: [{
+		                    label: 'Close',
+		                    action: function (dialog) {
+		                        dialog.close();
+		                    }
+		                }]
+		            });
+                    $("#ModalKonfirmasiDisableEditing").modal('hide');
+                    $("#Tambah-Pekerjaan").hide();
+		            $("#enable-tahapan").show(); //30032026
+		            $("#disable-tahapan").hide();
+		        }
+		    })
+		}
+
+		function toEnable() {
+		    var nStatus = "DIBUKA";
+            var ID = new URLSearchParams(window.location.search).get("Id");
+
+            if (!ID) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+		    $.ajax({
+		        method: "post",
+		        url: "api/MonitoringSelection/toEnable",
+		        datatype: "json",
+		        data: {
+		            aIdProyek: ID,
+		            aStatus: nStatus
+		        },
+		        success: function (d) {
+		            BootstrapDialog.show({
+		                title: 'Konfirmasi',
+		                message: d.message,
+		                buttons: [{
+		                    label: 'Close',
+		                    action: function (dialog) {
+		                        dialog.close();
+		                    }
+		                }]
+		            });
+                    $("#ModalKonfirmasiEnableEditing").modal('hide');
+                    $("#Tambah-Pekerjaan").show();
+		            $("#enable-tahapan").hide();
+		            $("#disable-tahapan").show();
+		        }
+		    })
+		}
+
+		$("#blacklist").on("click", function () {
+		    var vendorid = $("#vendorid").val();
+		    $("#modal-daftarhitam").modal('show');
+		});
+
+		function sendDaftarHitam() {
+		    var vendorid = parseInt($("#vendorid").val());
+		    var msg = DOMPurify.sanitize($("#daftar-hitam-message").val());
+		    $.ajax({
+                url: HOME_PAGE + "/api/Vendor/DaftarHitam?id=" + vendorid + "&msg=" + msg,
+		        success: function () {
+		            window.location.reload();
+		        },
+		        complete: function (xhr, textStatus) {
+		            ajaxCompleteProcess(xhr);
+		        }
+		    });
+		}
+
+		$(function () {
+            var id  = new URLSearchParams(window.location.search).get("Id");
+
+            if (!id) {
+                console.error("Id tidak ditemukan di URL");
+                return;
+            }
+
+		    $("#report-pekerjaan").on("click", function () {
+		        downloadFileUsingForm("/api/MonitoringSelection/ReportPekerjaan?Id="+id);
+		    });
+
+		    $("#report-pembayaran").on("click", function () {
+		        downloadFileUsingForm("/api/MonitoringSelection/ReportPembayaran?Id=" + id);
+		    });
+
+		    $("#report-penilaian").on("click", function () {
+		        downloadFileUsingForm("/api/MonitoringSelection/ReportPenilaian?Id=" + id);
+		    });
+		});
+
+    </script>
+</body>
+
+</html>

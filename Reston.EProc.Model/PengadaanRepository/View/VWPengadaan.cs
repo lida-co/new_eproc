@@ -1,0 +1,623 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Reston.Pinata.Model.JimbisModel;
+
+namespace Reston.Pinata.Model.PengadaanRepository.View
+{
+    public class VWPengadaan
+    {
+        public Pengadaan Pengadaan { get; set; }
+        public List<Jadwal> Jadwal { get; set; }
+    }
+
+    public class VWTenderScoringHeader
+    {
+        public Guid Id { get; set; }
+        public Guid PengadaanId { get; set; }
+        public virtual ICollection<VWVendor> VendorId { get; set; }
+        public decimal? Total { get; set; }
+        public decimal? Averages { get; set; }
+        public virtual ICollection<VWTenderScoringDetails> TenderScoringDetails { get; set; }
+        public Guid header { get; set;}
+        public virtual ICollection<VWTenderScoringBobot> TenderScoringBobot { get; set; }
+    }
+
+    public class VWTenderScoringBobot
+    {
+        public Guid Id { get; set; }
+        public Guid PengadaanId { get; set; }
+        public string Code { get; set; }
+        public int Bobot { get; set; }
+    }
+
+    public class VWTenderScoringDetails
+    {
+        public Guid Id { get; set; }
+        public VWTenderScoringHeader VWTenderScoringHeaderId { get; set; }
+        public Guid TenderScoringHeaderId { get; set; }
+        public string Code { get; set; }
+        public decimal? Total_All_User { get; set; }
+        public decimal? Averages_All_User { get; set; }
+		public virtual ICollection<VWTenderScoringUser> TenderScoringUser { get; set; } 
+        public int? VendorId { get; set; }
+        public string pertanyaan { get; set; }
+        public string namasivendor { get; set; }
+        public int Bobot { get; set; }
+    }
+
+    public class VWTenderScoringUser {
+        public Guid Id { get; set; }
+        public Guid VWTenderScoringDetailId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid PengadaanId { get; set; }
+        public int? Score { get; set; }
+        public int? Bobot { get; set; }
+        public string NamaUser { get; set; }
+        public string Pertanyaan { get; set; }
+        public string NamaVendor { get; set; }
+        public int? VendorId { get; set; }
+        public string code { get; set; }
+        public decimal? subtotal { get; set; }
+        public decimal? Bobotdecimal { get; set; }
+    }
+
+    public class VWTenderScoring
+    {
+        public Guid PengadaanId { get; set; }
+        public Guid TenderScoringDetailId { get; set; }
+        public int VendorId { get; set; }
+        public string Code { get; set; }
+        public string LocalizedName { get; set; }
+        public Guid UserId { get; set; }
+        public decimal? Score { get; set; }
+        public decimal? Total { get; set; }
+        public int Bobot { get; set; }
+    }
+
+    public class Userx
+    {
+        public string PersonilId { get; set; }
+        public string Nama { get; set; }
+        public string FullName { get; set; }
+        public string jabatan { get; set; }
+        public string Email { get; set; }
+        public string tlp { get; set; }
+    }
+
+    public class DataPageUsers
+    {
+        public int? totalRecord { get; set; }
+        public List<Userx> Users { get; set; }
+    }
+
+    public class Jadwal
+    {
+        public string Mulai { get; set; }
+        public string Sampai { get; set; }
+        public string tipe { get; set; }
+    }
+
+    public class StateJadwalPengadaan
+    {
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string tipe { get; set; }
+        public Nullable<DateTime> Mulai { get; set; }
+        public Nullable<DateTime> Sampai { get; set; }
+        public EStatusPengadaan status { get; set; }
+    }
+
+    public class ViewPertanyaan
+    {
+        public int Id { get; set; }
+        public string Code { get; set; }
+        public string LocalizedName { get; set; }
+    }
+
+    public class VWASPNetUser
+    {
+        public Guid Id { get; set; }
+        public string DisplayName { get; set; }
+        public string Position { get; set; }
+    }
+
+    public class ViewPengadaan
+    {
+        public Guid Id { get; set; }
+        public Guid? IdPersetujuanPemanang { get; set; }
+        public string Judul { get; set; }
+        public string Keterangan { get; set; }
+        public string AturanPengadaan { get; set; }
+        public string AturanBerkas { get; set; }
+        public string AturanPenawaran { get; set; }
+        public Nullable<int> StatusBintang { get; set; }
+        public string MataUang { get; set; }
+        public string NoCOA { get; set; }
+        public decimal? Pagu { get; set; }
+        public string PeriodeAnggaran { get; set; }
+        public string JenisPembelanjaan { get; set; }
+        public Nullable<Guid> HpsId { get; set; }
+        public string UnitKerjaPemohon { get; set; }
+        public string Region { get; set; }
+        public string Provinsi { get; set; }
+        public string KualifikasiRekan { get; set; }
+        public string JenisPekerjaan { get; set; }
+        public string TitleDokumenNotaInternal { get; set; }
+        public string TitleDokumenLain { get; set; }
+        public string TitleBerkasRujukanLain { get; set; }
+        public int nextStatus { get; set; }
+        public string NoPengadaan { get; set; }
+        public string Branch { get; set; }
+        public string Department { get; set; }
+        public DateTime? Mulai { get; set; }
+        public DateTime? Sampai { get; set; }
+        public Nullable<int> isKlarifikasiLanjutan { get; set; }
+        public Nullable<int> isPenilaian { get; set; }
+        public Nullable<int> Approver { get; set; }
+        public Nullable<int> ApproverPersetujuanPemenang { get; set; }
+        public Nullable<int> isCreated { get; set; }
+        public Nullable<int> isPIC { get; set; }
+        public Nullable<int> isTEAM { get; set; }
+        public Nullable<int> isPersonil { get; set; }
+        public Nullable<int> isController { get; set; }
+        public Nullable<int> isCompliance { get; set; }
+        public Nullable<int> isUser { get; set; }
+        public Nullable<int> isDireksi { get; set; }
+        public Nullable<int> PengadaanLangsung { get; set; }
+
+        public Nullable<EStatusPengadaan> Status { get; set; }
+        public string StatusName { get; set; }
+        public Nullable<StatusPengajuanPemenang> StatusPersetujuanPemenang { get; set; }
+        public int isMundurTahapanPelaksanaan { get; set; }
+        public int isMajuTahapanPelaksanaan { get; set; }
+        public string StatusPersetujuanPemenangName { get; set; }        
+        public Nullable<EGroupPengadaan> GroupPengadaan { get; set; }
+        public Nullable<Guid> IdBerkasRujukanLain { get; set; }
+        public Nullable<DateTime> CreatedOn { get; set; }
+        public Nullable<Guid> CreatedBy { get; set; }
+        public Nullable<int> isMasukKlarifikasi { get; set; }
+        public Nullable<int> cekisMasukKlarifikasiLanjutan { get; set; }
+        public List<RKSHeader> RKSHeaders { get; set; }
+        public Nullable<int> WorkflowTemplateId { get; set; }
+        public Nullable<int> WorkflowPersetujuanPemenangTemplateId { get; set; }
+        public Nullable<decimal> HPS { get; set; }
+        public Nullable<decimal> HargaNegosiasi { get; set; }
+        public string Pemenang { get; set; }
+        public List<VWVendor> vendor { get; set; }
+        public string HargaPemanang { get; set; }
+        public string lastApprover { get; set; }
+        public string PrevApprover { get; set; }
+        public string NextApprover { get; set; }
+        public string PrevApproverPersetujuan { get; set; }
+        public string NextApproverPersetujuan { get; set; }
+        public string lastApproverPersetujuanPemenang { get; set; }   
+        public List<string> lstPemenang { get; set; }     
+        public List<VWDokumenPengadaan> DokumenPengadaans { get; set; }
+        public List<VWKandidatPengadaan> KandidatPengadaans { get; set; }
+        public List<VWJadwalPengadaan> JadwalPengadaans { get; set; }
+        public List<VWPersonilPengadaan> PersonilPengadaans { get; set; }
+        public List<VWKualifikasiKandidat> KualifikasiKandidats { get; set; }
+        public List<VWJadwalPelaksanaan2> JadwalPelaksanaans { get; set; }
+        public int asuransicek { get; set; }
+
+        public BudgetingPengadaanHeader BudgetAllocated { get; set; }
+        public decimal? BudgetLeft { get; set; }
+		public List<decimal> BudgetDetails { get; set; }
+        //public List<BudgetingPengadaanDetail> BudgetDetails { get; set; }        
+        public string JenisPembelanjaanString { get; set; }
+        public string PeriodeAnggaranString { get; set; }
+
+        public decimal? BudgetOnProcess { get; set; }
+        public decimal? SisaBudgetEproc { get; set; }
+    }
+
+    public class DataPagePengadaan
+    {
+        public Nullable<int> TotalRecord { get; set; }
+        public List<ViewPengadaan> data { get; set; }
+    }
+
+    public class VWVendor
+    {
+        public int? Id { get; set; }
+        public string Nama { get; set; }
+        public string email { get; set; }
+    }
+
+    public class vwProduk
+    {
+        public Nullable<int> Id { get; set; }
+        public string Nama { get; set; }
+        public string Spesifikasi { get; set; }
+        public string Deskripsi { get; set; }
+        public string Satuan { get; set; }
+        public List<RiwayatHarga> RiwayatHarga { get; set; }
+    }
+
+    public class VWProdukSummary
+    {
+        public Nullable<int> Id { get; set; }
+        public string Nama { get; set; }
+        public string Region { get; set; }
+        public decimal Price { get; set; }
+        public string LastUpdate { get; set; }
+        public string Source { get; set; }
+        public string Satuan { get; set; }
+        public string Spesifikasi { get; set; }
+    }
+
+    public class VWDokumenPengadaan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string File { get; set; }
+        public string ContentType { get; set; }
+        public string Title { get; set; }
+        public Nullable<TipeBerkas> Tipe { get; set; }
+        public Nullable<long> SizeFile { get; set; }
+    }
+
+    public class VWKandidatPengadaan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Nullable<int> VendorId { get; set; }
+        public string Nama { get; set; }
+        public string Telepon { get; set; }
+    }
+
+    public class VWPemenangPengadaan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Nullable<int> VendorId { get; set; }
+        public string Nama { get; set; }
+    }
+
+    public class VWJadwalPengadaan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string tipe { get; set; }
+        public Nullable<DateTime> Mulai { get; set; }
+        public Nullable<DateTime> Sampai { get; set; }
+    }
+    public class VWJadwalPelaksanaan2
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public EStatusPengadaan? statusPengadaan { get; set; }
+        public Nullable<DateTime> Mulai { get; set; }
+        public Nullable<DateTime> Sampai { get; set; }
+    }
+
+    public class VWJadwalPelaksanaan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string tipe { get; set; }
+        public string Mulai { get; set; }
+        public string Sampai { get; set; }
+        public EStatusPengadaan? status { get; set; }
+    }
+
+    public class VWPersonilPengadaan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Nullable<Guid> PersonilId { get; set; }
+        public string Nama { get; set; }
+        public string Jabatan { get; set; }
+        public string tipe { get; set; }
+        public int? isReady{ get; set; }
+        public int? isMine { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class VWRKSHeaderPengadaan
+    {
+        public string Judul { get; set; }
+        public string Keterangan { get; set; }
+        public Nullable<EStatusPengadaan> Status { get; set; }
+        public Nullable<Guid> RKSHeaderId { get; set; }
+    }
+
+    public class VWPelaksanaanAanwijzing
+    {
+        public Nullable<Guid> Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string Mulai { get; set; }
+        public string IsiUndangan { get; set; }
+    }
+
+    public class VWKehadiranKandidatAanwijzing
+    {
+        public Nullable<Guid> Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Nullable<int> VendorId { get; set; }
+        public string NamaVendor { get; set; }
+        public string Telp { get; set; }
+        public string Kontak { get; set; }
+        public int hadir { get; set; }
+    }
+
+    public class VWKualifikasiKandidat
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string kualifikasi { get; set; }
+        public virtual Pengadaan Pengadaan { get; set; }
+    }
+    public class VWPErsetujuanBukaAmplop
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Nullable<Guid> UserId { get; set; }
+        public string tipe { get; set; }
+        public virtual Pengadaan Pengadaan { get; set; }
+    }
+
+    public class dataVendors
+    {
+        public List<ViewVendors> Vendors { get; set; }
+        public int totalRecord { get; set; }
+    }
+
+    public class ViewVendors
+    {
+        public int id { get; set; }
+        public string gCaptchaResponse { get; set; }
+        public string NoPengajuan { get; set; }
+        public int TipeVendor { get; set; }
+        public string strTipeVendor { get; set; }
+        public string Nama { get; set; }
+        public string Alamat { get; set; }
+        public string Provinsi { get; set; }
+        public string Kota { get; set; }
+        public string KodePos { get; set; }
+        public string Website { get; set; }
+        public string Email { get; set; }
+        public string Telepon { get; set; }
+        public string StatusAkhir { get; set; }
+        public Guid Owner { get; set; }
+        public VendorPerson VendorPerson { get; set; }
+        public DokumenDetail NPWP { get; set; }
+    }
+
+    public class ViewSendEmail
+    {
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string Surat { get; set; }
+    }
+
+    public class VWReportVendor
+    {
+        public string Nama { get; set; }
+    }
+
+    public class VWBeritaAcara
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string tanggal { get; set; }
+        public Nullable<TipeBerkas> Tipe { get; set; }
+        public string NoBeritaAcara { get; set; }
+        public Nullable<int> VendorId { get; set; }
+    }
+
+    public class VWKirimEmail
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Nullable<TipeBerkas> Tipe { get; set; }
+        public Nullable<int> VendorId { get; set; }
+    }
+
+    public class VWBeritaAcaraEnd
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public DateTime? tanggal { get; set; }
+        public Nullable<TipeBerkas> Tipe { get; set; }
+        public string NoBeritaAcara { get; set; }
+        public Nullable<int> VendorId { get; set; }
+    }
+    public class VWReportPengadaan
+    {
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string Judul { get; set; }
+        public string PIC { get; set; }
+        public string User { get; set; }
+        public Nullable<decimal> hps { get; set; }
+        public Nullable<decimal> realitas { get; set; }
+        public Nullable<decimal> efisiensi { get; set; }
+        public string Pemenang { get; set; }
+        public Nullable<DateTime> Aanwjzing { get; set; }
+        public Nullable<DateTime> PembukaanAmplop { get; set; }
+        public Nullable<DateTime> Klasrifikasi { get; set; }
+        public Nullable<DateTime> KlasrifikasiLanjut { get; set; }
+        public Nullable<DateTime> Scoring { get; set; }
+        public Nullable<DateTime> NotaPemenang { get; set; }
+        public Nullable<DateTime> SPK { get; set; }
+        public string WaktuPelaksanaan { get; set; }
+        public Nullable<EStatusPengadaan> Status { get; set; }
+    }
+
+    public class VWPembatalanPengadaan
+    {
+        public Nullable<Guid> PengadaanId { get; set; }
+        public string Keterangan { get; set; }
+    }
+
+
+    public class VWProgressReport
+    {
+        public string Judul { get; set; }
+        public int Progress { get; set; }
+    }
+
+    public class VWStaffCharges
+    {
+        public string Nama { get; set; }
+        public int Jumlah { get; set; }
+    }
+
+    public class VWPenolakan
+    {
+        public Guid PenolakanId { get; set; }
+        public string AlasanPenolakan { get; set; }
+    }
+
+    public class VWRiwayatDokumen
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> UserId { get; set; }
+        public string Nama { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Nullable<DateTime> ActionDate { get; set; }
+        public String Comment { get; set; }
+        public string Status { get; set; }
+        public string JudulPengadaan { get; set; }
+    }
+    
+    public class VWRiwayatMemo
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> UserId { get; set; }
+        public string Version { get; set; }
+        public Nullable<Guid> EMemoId { get; set; }
+        public Nullable<DateTime> CreateDate { get; set; }
+        public String Content { get; set; }
+        public String HPSAmount { get; set; }
+        
+    }
+
+    public class VWRiwayatPengadaan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Nullable<DateTime> Waktu { get; set; }
+        public string Status { get; set; }
+        public string Komentar { get; set; }
+        public int Urutan { get; set; }
+        public string JudulPengadaan { get; set; }
+    }
+
+    public class DataTablePengadaan
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<ViewPengadaan> data { get; set; }
+    }
+
+    public class DataTableUsers
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<Userx> data { get; set; }
+    }
+
+    public class VWCountListDokumen
+    {
+        public int PengadaanButuhPerSetujuan { get; set; }
+        public int PengadaanDiSetujui { get; set; }
+        public int PengadaanDiTolak { get; set; }
+        public int PemenangButuhPerSetujuan { get; set; }
+        public int PemenangDiSetujui { get; set; }
+        public int PemenangDiTolak { get; set; }
+        public int MonitorSelection { get; set; }
+        public int PersetujuanTerkait { get; set; }
+        public int TotalSeluruhPersetujuan { get; set; }
+        public int PengadaanBelumTerjadwal { get; set; }
+        public int RequestPendaftaranVendor { get; set; }
+        public int RequestPerubahanDataVendor { get; set; }
+        public int PerpanjanganPKS { get; set; }
+        public int DokumenVendorKadaluarsa { get; set; }
+        public int PenilaianVendor { get; set; }
+
+        public int EMemoNeedAttentionCount { get; set; }
+        public int ENotaNeedAttentionCount { get; set; }
+    }
+
+    public class VWPersetujuanTahapan
+    {
+        public Guid Id { get; set; }
+        public Nullable<Guid> PengadaanId { get; set; }
+        public Guid? UserId { get; set; }
+        public string UserName { get; set; }
+        public StatusTahapan Status { get; set; }
+        public EStatusPengadaan StatusPengadaan { get; set; }
+        public string StatusPengadaanName { get; set; }
+        public DateTime? CreatedOn { get; set; }
+    }
+
+    public class VWReportPenilaianVendorCetak
+    {
+        public string NamaProject { get; set; }
+        public string User { get; set; }
+        public string Vendor { get; set; }
+        public decimal QualityOfProduct { get; set; }
+        public decimal QualityOfService { get; set; }
+        public decimal Cost { get; set; }
+        public decimal Flexibility { get; set; }
+        public decimal Responsiveness { get; set; }
+        public decimal AverageScore { get; set; }
+        public string Note { get; set; }
+        public Guid rksheader { get; set; }
+    }
+
+    public class VWReportPenilaianVendorDetail
+    {
+        public decimal QualityOfProduct { get; set; }
+        public decimal QualityOfService { get; set; }
+        public decimal Cost { get; set; }
+        public decimal Delivery { get; set; }
+        public decimal Flexibility { get; set; }
+        public decimal Responsiveness { get; set; }
+        public decimal AverageScore { get; set; }
+        
+    }
+
+    public class VWReferenceData
+    {
+        public Guid TenderScoringDetailId { get; set; }
+        public string Code { get; set; }
+        public string LocalizedName { get; set; }
+    }
+
+     public class VWReportAssessment
+     {
+        public Guid PengadaanId { get; set; }
+        public decimal? Total { get; set; }
+        public decimal? Average { get; set; }
+        public List<VWVendor> Vendors { get; set; }
+        public List<VWTenderScoringHeader> TenderScoringHeaders { get; set; }
+        public List<VWTenderScoringDetails> TenderScoringDetails { get; set; }
+        public List<VWTenderScoringUser> TenderScoringUsers { get; set; }
+        public List<VWReferenceData> ReferenceDatas { get; set; }
+        public int? thereisquestion { get; set; }
+        public int? thereisvendor { get; set; }
+        public int? thereisvalue { get; set; }
+        public List<VWTenderScoringUser> ListUser { get; set; }
+        public List<VWTenderScoringUser> ListScore { get; set; }
+        public List<VWReportAssessment> ListVendor { get; set; }
+        public string NamaVendor { get; set; }
+    }
+
+    public class VWVendorBank
+    {
+        public int Vendor_Id { get; set; }
+
+    }
+
+    public class VWNoNPWP
+    {
+        public string NoNPWP { get; set; }
+        public EDocumentType TipeDokumen { get; set; }
+    }
+}
+

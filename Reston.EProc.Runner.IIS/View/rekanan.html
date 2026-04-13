@@ -1,0 +1,1139 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mandiri Tunas Finance</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="ionicons/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="dist/site.css">
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .box-c:hover {
+            cursor: pointer;
+            background: #B3EEFB;
+        }
+    </style>
+    <style>
+        #table-sanksi-vendor {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 99%;
+        }
+
+            #table-sanksi-vendor td, #table-sanksi-vendor th {
+                border: 1px solid #08205c;
+                padding: 8px;
+            }
+
+            #table-sanksi-vendor tr:nth-child(odd) {
+                background-color: #f2f2f2;
+            }
+
+            #table-sanksi-vendor th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #08205c;
+                color: white;
+            }
+    </style>
+</head>
+  <body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+      <div class="wrapper">
+
+
+          <div id="header">
+              <header class="main-header">
+                  <!-- Logo -->
+                  <a class="logo">
+                      <!-- mini logo for sidebar mini 50x50 pixels -->
+                      <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                      <!-- logo for regular state and mobile devices -->
+                      <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                  </a>
+                  <!-- Header Navbar: style can be found in header.less -->
+                  <nav class="navbar navbar-static-top" role="navigation">
+                      <!-- Sidebar toggle button-->
+                      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                          <span class="sr-only">Toggle navigation</span>
+                      </a>
+                      <div class="navbar-custom-menu pull-left">
+                          <ul class="nav navbar-nav" id="isMasterUser">
+                              <li>	<a id="judul-page" href="#">Rekanan</a></li>
+                          </ul>
+                      </div>
+                      <div class="navbar-custom-menu">
+                          <ul id="menu-top" class="nav navbar-nav">
+                              <li>
+                                  <div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
+                                      <form action="" class="search-form">
+                                          <div class="form-group has-feedback">
+                                              <label for="search" class="sr-only">Search</label>
+                                              <input type="text" class="form-control" name="search" id="search">
+                                              <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                          </div>
+                                      </form>
+                                  </div>
+                              </li>
+                              <li><a title="Tambah" href="registrasibystaff.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
+                          </ul>
+                      </div>
+                  </nav>
+              </header>
+          </div>
+          <!-- Left side column. contains the logo and sidebar -->
+          <div id="menu">
+              <aside class="main-sidebar" ng-app="app">
+                  <!-- sidebar: style can be found in sidebar.less -->
+                  <section class="sidebar">
+                      <div class="user-panel" ng-controller="user">
+                          <div class="pull-left info">
+                              <p class="title" ng-bind="user.FullName"></p>
+                              <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                          </div>
+                          <div class="pull-right image image-profile">
+                              <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                          </div>
+                      </div>
+                      <!-- sidebar menu: : style can be found in sidebar.less -->
+                      <ul class="sidebar-menu" ng-controller="side-menu">
+                          <li class="treeview" ng-repeat="menu in menus">
+                              <a href="{{menu.url}}">
+                                  <i class="{{menu.css}}"></i> <span ng-bind="menu.menu">Dashboard</span>
+                              </a>
+                          </li>
+                      </ul>
+                  </section>
+                  <!-- /.sidebar -->
+              </aside>
+          </div>
+
+
+          <!-- Content Wrapper. Contains page content -->
+          <div class="content-wrapper">
+
+
+              <section class="content">
+                  <div class="row">
+                      <div class="col-md-10">
+                          <div id="section-1" class="pengajuan-baru">
+                              <div class="box box-white">
+                                  <div class="box-header with-border">
+                                      <h3 class="box-title text-blue-mtf next-baru cursor-pointer">Pengajuan Baru</h3>
+                                      <div class="box-tools pull-right">
+
+                                      </div>
+                                  </div><!-- /.box-header -->
+                                  <div class="box-body">
+                                      <div class="row">
+                                          <div id="listVendorBaru" class="col-md-12">
+                                              <div id="listVendorBaruLoading" class="col-md-offset-6 col-md-1">
+                                                  <img src="Images/ajax-loader.gif" />
+                                              </div>
+                                          </div>
+                                          <div id="listVendorPass1" class="col-md-12">
+                                          </div>
+                                          <div id="listVendorPass2" class="col-md-12">
+                                          </div>
+                                          <div id="listVendorPass3" class="col-md-12">
+                                          </div>
+                                      </div>
+
+                                  </div><!-- /.box-body -->
+                                  <div class="box-footer text-center">
+                                      <a id="next-baru" class="uppercase next-baru">Berikutnya</a>
+                                  </div><!-- /.box-footer -->
+                              </div>
+                          </div>
+
+                          <div id="terdaftar">
+                              <div class="box box-white">
+                                  <div class="box-header with-border">
+                                      <h3 class="box-title text-blue-mtf next-terdaftar cursor-pointer" id="section-2">Terdaftar</h3>
+                                      <div class="box-tools pull-right">
+                                          <a href="rekanan-pencarian.html" target="_blank"><i class="fa fa-search" aria-hidden="true"></i> Pencarian Detail</a>
+                                      </div>
+                                  </div><!-- /.box-header -->
+                                  <div class="box-body">
+                                      <div id="listVendorTerdaftar" class="col-md-12">
+                                          <div id="listVendorTerdaftarLoading" class="col-md-offset-6 col-md-1">
+                                              <img src="Images/ajax-loader.gif" />
+                                          </div>
+                                      </div>
+                                  </div><!-- /.box-body -->
+
+                                  <div class="box-footer text-center">
+                                      <a id="next-terdaftar" class="uppercase next-terdaftar">Berikutnya</a>
+                                  </div><!-- /.box-footer -->
+                              </div>
+                          </div>
+
+                          <div id="permohonan">
+                              <div class="box box-white">
+                                  <div class="box-header with-border">
+                                      <h3 class="box-title text-blue-mtf" id="section-3">Permohonan Perubahan Data</h3>
+                                      <div class="box-tools pull-right">
+
+                                      </div>
+                                  </div><!-- /.box-header -->
+                                  <div class="box-body">
+                                      <div id="listVendorPerubahan" class="col-md-12">
+                                          <div id="listVendorPerubahanLoading" class="col-md-offset-6 col-md-1">
+                                              <img src="Images/ajax-loader.gif" />
+                                          </div>
+                                      </div>
+                                  </div><!-- /.box-body -->
+                                  <div class="box-footer text-center">
+
+                                  </div><!-- /.box-footer -->
+                              </div>
+                          </div>
+
+                          <div id="forMasterUser">
+                              <div class="box box-white">
+
+                                  <div class="box-header with-border">
+                                      <h3 class="box-title text-blue-mtf" id="section-4">Vendor Non-Register</h3>
+                                      <div class="box-tools pull-right">
+                                      </div>
+                                  </div>
+                                  <div class="box-body">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <form class="form-horizontal label-kanan">
+                                                  <div class="form-group">
+                                                      <label class="col-sm-2 control-label">Cari</label>
+                                                      <div class="col-sm-4">
+                                                          <input id="txtcari" type="text" class="form-control " placeholder="Nama Vendor">
+                                                      </div>
+                                                  </div>
+                                              </form>
+                                          </div>
+                                      </div>
+                                      <div id="btn_1" class="row ">
+                                          <div class="col-md-12">
+                                              <div class="submitgray button-row">
+                                                  <a title="Tambah" href="vendor-non-registrasi.html" class="btn btn-success" target="_blank"><i class="fa fa-plus" type="button"></i> Tambah</a>
+                                                  <button type="submit" name="search-btn" id="search-btn" onclick="fungsicari()" class="btn btn-primary"><i class="fa fa-search"></i> Cari</button>
+                                              </div>
+                                          </div>
+                                      </div>
+
+
+                                      <div class="tab-pane" id="tab-pic" style="overflow-x:auto;">
+                                          <table class="table table-bordered" id="table-vendor-non-registrasi">
+                                              <thead>
+                                                  <tr>
+                                                      <td class="tengah text-bold">Nama Vendor</td>
+                                                      <td class="tengah text-bold">Email</td>
+                                                      <td class="tengah text-bold">Telepon</td>
+                                                      <td class="tengah text-bold">Alamat</td>
+                                                      <td class="tengah text-bold"></td>
+                                                  </tr>
+                                              </thead>
+                                              <tbody></tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+
+                          <div id="expired" style="display:none;">
+                              <div class="box box-white">
+                                  <div class="box-header with-border">
+                                      <h3 class="box-title text-blue-mtf" id="section-5">Dokumen Vendor yang Kadaluarsa</h3>
+                                      <div class="box-tools pull-right">
+
+                                      </div>
+                                  </div>
+                                  <div class="box-body">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                            <div id="listVendorKadaluarsaLoading" class="col-md-12">
+                                                <div id="" class="col-md-offset-6 col-md-1">
+                                                    <img src="Images/ajax-loader.gif" />
+                                                </div>
+                                            </div>
+                                            <table id="listVendorKadaluarsaTabel" class="table table-bordered" style="overflow-x:auto;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="tengah" style="vertical-align: middle;" rowspan="2">No.</th>
+                                                        <th class="tengah" style="vertical-align: middle;" rowspan="2">Nama Vendor</th>
+                                                        <th class="tengah" colspan="3">Jenis Dokumen</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="tengah">TDP</th>
+                                                        <th class="tengah">SIUP</th>
+                                                        <th class="tengah">SIUJK</th>
+                                                    </tr>
+                                                </thead>
+                                                      <tbody id="listVendorTerdaftarTable"></tbody>
+                                                </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="box-footer text-center">
+                                      <a id="next-kadaluarsa" class="uppercase next-kadaluarsa">Berikutnya</a>
+                                  </div><!-- /.box-footer -->
+                              </div>
+                          </div>
+
+                          <div id="daftar-hitam">
+                              <!--
+                                <div class="box box-white">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title text-blue-mtf" id="section-5">Daftar Hitam</h3>
+                                        <div class="box-tools pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div id="listVendorDaftarHitam" class="col-md-12">
+                                            <div id="listVendorDaftarHitamLoading" class="col-md-offset-6 col-md-1">
+                                                <img src="Images/ajax-loader.gif" />
+                                            </div>
+                                        </div>
+                                        <div class="box-footer text-center">
+                                        </div>
+                                    </div>
+                                </div>
+                                    -->
+                              <div class="box box-white">
+
+                                  <div class="box-header with-border">
+                                      <h3 class="box-title text-blue-mtf" id="section-6">Monitoring Vendor / Sanksi Vendor</h3>
+                                      <div class="box-tools pull-right">
+                                          <a href="rekanan-sanksi.html" target="_blank"><i class="fa fa-search" aria-hidden="true"></i> Lihat Semua</a>
+                                      </div>
+                                  </div>
+                                  <div class="box-body">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <form class="form-horizontal label-kanan">
+                                                  <div class="form-group">
+                                                      <label class="col-sm-2 control-label">Cari</label>
+                                                      <div class="col-sm-4">
+                                                          <input id="txtcarisanksi" type="text" class="form-control " placeholder="Nama Vendor">
+                                                      </div>
+                                                  </div>
+                                              </form>
+                                          </div>
+                                      </div>
+                                      <div id="btn_1" class="row ">
+                                          <div class="col-md-12">
+                                              <div class="submitgray button-row">
+                                                  <button type="submit" name="search-btn" id="search-btn" onclick="fungsicariSanksi()" class="btn btn-primary"><i class="fa fa-search"></i> Cari</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="tab-pane" id="" style="overflow-x:auto;padding-top:15px;">
+                                          <table class="table" id="table-sanksi-vendor">
+                                              <thead>
+                                                  <tr>
+                                                      <th class="tengah text-bold">Nama Vendor</th>
+                                                      <th class="tengah text-bold">Nomor Pendaftaran</th>
+                                                      <th class="tengah text-bold">Jenis Sanksi</th>
+                                                      <th class="tengah text-bold">Deskripsi</th>
+                                                      <th class="tengah text-bold">Tgl Terbit</th>
+                                                      <th class="tengah text-bold">Tgl Kadaluarsa</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody></tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                  </div>
+
+              </section><!-- /.content -->
+
+          </div><!-- /.content-wrapper -->
+          <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan">
+              <ul class="nav nav-tabs nav-stacked">
+                  <li><a href="#section-1">Pengajuan Baru</a></li>
+                  <li><a href="#section-2">Terdaftar</a></li>
+                  <li><a href="#section-3">Permohonan Perubahan Data</a></li>
+                  <li><a href="#section-3">Vendor Non-Register</a></li>
+                  <li style="display:none"><a href="#section-5">Dokumen Vendor yang Kadaluarsa</a></li>
+                  <li><a href="#section-6">Monitoring Vendor / Sanksi Vendor</a></li>
+              </ul>
+          </aside>
+          <div class="control-sidebar-bg"></div>
+          <footer class="main-footer">
+              <div class="pull-right hidden-xs">
+                  <!--<b>Version</b> 1.0.0-->
+              </div>
+              <!--<strong>Supplier Relation Management</strong> -->
+          </footer>
+      </div><!-- ./wrapper -->
+
+      <div id="ModalHapus" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <input type="hidden" id="row_index" />
+              <!-- Modal content-->
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Hapus Vendor</h4>
+                  </div>
+                  <div class="modal-body">
+                      <p>Yakin Vendor ini dihapus?</p>
+                  </div>
+                  <div class="modal-footer">
+                      <button id="eveHapus" type="button" class="btn btn-default">Remove</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+
+      <div id="DeleteModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <input type="hidden" id="row_index" />
+              <!-- Modal content-->
+
+              <div class="modal-content">
+                  <input type="hidden" id="IdProduk" name="IdProduk" />
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <input type="hidden" id="tobeDelete" />
+                      <h4 class="modal-title">Konfirmasi penghapusan</h4>
+                  </div>
+                  <div class="modal-body">
+                      <p>
+                          Anda akan menghapus data ini?
+                      </p>
+                  </div>
+                  <div class="modal-footer">
+                      <input type="button" value="Hapus" onclick="Delete()" class="btn btn-default">
+                      <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!--chat-->
+      <!--<div id="chat">
+        <div class="chat-window" style="right: 10px;">
+        <div class="chat-window-title">
+            <div class="text">Online (2)</div>
+        </div>
+        <div class="chat-window-content" style="height: 300px;">
+            <div class="chat-window-inner-content user-list" style="height: 100px;">
+                <div class="user-list-item" data-val-id="2">
+                    <img class="profile-picture" src="dist/img/avatar.png">
+                    <div class="profile-status online"></div>
+                    <div class="content-chat">User 1</div>
+                </div>
+                <div class="user-list-item" data-val-id="2">
+                    <img class="profile-picture"  src="dist/img/avatar2.png">
+                    <div class="profile-status online"></div>
+                    <div class="content-chat">User 2</div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="divContainer">
+        </div>
+    </div>-->
+      <!-- jQuery 2.1.4 -->
+      <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+      <script src="site.js"></script>
+      <!-- Bootstrap 3.3.5 -->
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+      <!-- SlimScroll -->
+      <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	  <script src="dist/js/purify.js"></script>
+      <!-- FastClick -->
+      <script src="plugins/fastclick/fastclick.min.js"></script>
+      <script src="dist/js/app.min.js"></script>
+      <!--<script src="chatjs/chat.js"></script>-->
+      <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+      <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+      <script src="plugins/jQueryUItotop/easing.js"></script>
+      <script src="plugins/jQueryUItotop/jquery.ui.totop.js"></script>
+      <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+      <script src="plugins/angular/angular.min.js"></script>
+      <script src="dist/js/menu.js"></script>
+      <script src='plugins/fullcalendar/moment.min.js'></script>
+      <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
+      <script src='plugins/fullcalendar/lang/id.js'></script>
+      <script src="plugins/accounting/accounting.js"></script>
+      <script>
+          var nbaru = 9;
+          var nperubahan = 9;
+          var nterdaftar = 6;
+          var ndaftarhitam = 9;
+          var nvendorkadaluarsa = 9;
+          var increment = 6;
+          var tambah = 6;
+          var hash = window.location.hash || "";
+
+          $(function () {
+
+              getVendorBaru(nbaru, '');
+              getVendorPass1(nbaru, '');
+              getVendorPass2(nbaru, '');
+              getVendorPass3(nbaru, '');
+              getVendorPerubahan(nperubahan, '');
+              getVendorTerdaftar(nterdaftar, '');
+              getVendorDaftarHitam(ndaftarhitam, '');
+              getVendorKadaluarsa(nvendorkadaluarsa, '');
+
+              $("#myNav").affix({
+                  offset: {
+                      top: 100
+                  }
+              });
+              $().UItoTop({ easingType: 'easeOutQuart' });
+              $(".datepicker").datepicker({
+                  showOtherMonths: true,
+                  format: "dd/mm/yy",
+                  changeYear: true,
+                  changeMonth: true,
+                  yearRange: "-90:+4", //+4 Years from now
+
+              });
+              var table = $('#example1').DataTable({
+                  "paging": true,
+                  "lengthChange": false,
+                  "searching": true,
+                  "ordering": true,
+                  "info": true,
+                  "autoWidth": false,
+                  "columnDefs": [
+                      { className: "rata_kanan", "targets": [2] }
+                  ]
+              });
+
+              $("#next-baru,.next-baru").click(function () {
+                  next();
+              });
+
+              $("#next-terdaftar,.next-terdaftar").click(function () {
+                  $("#section-1").hide();
+                  $("#permohonan").hide();
+                  $("#daftar-hitam").hide();
+                  nterdaftar += increment;
+                  getVendorTerdaftar(nterdaftar, '');
+              });
+
+              $("#next-kadaluarsa,.next-kadaluarsa").click(function () {
+                  $("#section-1").hide();
+                  $("#permohonan").hide();
+                  $("#daftar-hitam").hide();
+                  nterdaftar += increment;
+                  getVendorTerdaftar(nterdaftar, '');
+              });
+
+          });
+
+          function getVendorBaru(limit, search) {
+              $.ajax({
+                  url: '/api/Registrasi/GetVendors?tipe=&status=NEW&limit=' + limit + '&search=' + search,
+                  success: function (data) {
+				  
+                      $("#listVendorBaruLoading").hide();
+                      $("#listVendorBaru").html('');
+                      if (data.length < 1) {
+                          //$("#listVendorBaru").append("<p>Kosong.</p>");
+                      }
+                      else {
+                          var s = '';
+						  if(data){
+                          for (var i in data) {
+                              console.log(DOMPurify.sanitize(data[i].NoPengajuan))
+                              var html = '<div class="col-md-4">' +
+                                  '<div class="box box-primary box-c" onclick="goToVendorRegDetail(' + DOMPurify.sanitize(data[i].NoPengajuan) + ')">' +
+                                  '<div class="box-body box-profile">' +
+                                      '<p class="profile-username title-header">' + DOMPurify.sanitize(data[i].Nama) + '</p>';
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-building"></span>' + data[i].Provinsi + '</p>' +
+                              if (DOMPurify.sanitize(data[i].Website) != null) {
+                                  html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(data[i].Website) + '</p>';
+                              };
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-user"></span> Sukamto</p>'/
+                              html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(data[i].Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(data[i].Email) + '</p>' +
+                                  '</div>' +
+                                  '</div>' +
+                                  '</div>';
+                              s += html;
+                          }
+                          }
+                          $("#listVendorBaru").append(s);
+                      }
+                  }
+              });
+          }
+
+
+          function getVendorPass1(limit, search) {
+              $.ajax({
+                  url: '/api/Registrasi/GetVendors?tipe=&status=PASS_1&limit=' + limit + '&search=' + search,
+                  success: function (data) {
+				  
+				  if(data){
+                      //$("#listVendorLoading").hide();
+                      //$("#listVendorBaru").html('');
+                      $("#listVendorPass1").html('');
+                      if (data.length < 1) {
+                          //$("#listVendorPass1").append("<p>Kosong.</p>");
+                      }
+                      else {
+                          var s = '';
+                          for (var i in data) {
+                              var html = '<div class="col-md-4">' +
+                                  '<div class="box box-primary box-c" onclick="goToVendorRegDetail(' + DOMPurify.sanitize(data[i].NoPengajuan) + ')">' +
+                                  '<div class="box-body box-profile">' +
+                                  '<p class="profile-username title-header">' + DOMPurify.sanitize(data[i].Nama) + '</p>';
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-building"></span>' + data[i].Provinsi + '</p>' +
+                              if (DOMPurify.sanitize(data[i].Website) != null) {
+                                  html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(data[i].Website) + '</p>';
+                              };
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-user"></span> Sukamto</p>'/
+                              html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(data[i].Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(data[i].Email) + '</p>' +
+                                  '</div>' +
+                                  '</div>' +
+                                  '</div>';
+                              s += html;
+                          }
+                          $("#listVendorPass1").append(s);
+                      }
+                  }
+                  }
+              });
+          }
+
+          function getVendorPass2(limit, search) {
+              $.ajax({
+                  url: '/api/Registrasi/GetVendors?tipe=&status=PASS_2&limit=' + limit + '&search=' + search,
+                  success: function (data) {
+				  
+                      //$("#listVendorLoading").hide();
+                      //$("#listVendorBaru").html('');
+                      $("#listVendorPass2").html('');
+                      if (data.length < 1) {
+                          //    $("#listVendorPass2").append("<p>Kosong.</p>");
+                      }
+                      else {
+                          var s = '';
+						  if(data){
+                          for (var i in data) {
+                              var html = '<div class="col-md-4">' +
+                                  '<div class="box box-primary box-c" onclick="goToVendorRegDetail(' + DOMPurify.sanitize(data[i].NoPengajuan) + ')">' +
+                                  '<div class="box-body box-profile">' +
+                                  '<p class="profile-username title-header">' + DOMPurify.sanitize(data[i].Nama) + '</p>';
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-building"></span>' + data[i].Provinsi + '</p>' +
+                              if (DOMPurify.sanitize(data[i].Website) != null) {
+                                  html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(data[i].Website) + '</p>';
+                              };
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-user"></span> Sukamto</p>'/
+                              html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(data[i].Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(data[i].Email) + '</p>' +
+                                  '</div>' +
+                                  '</div>' +
+                                  '</div>';
+                              s += html;
+                          }
+                          }
+                          $("#listVendorPass2").append(s);
+                      }
+                  }
+              });
+          }
+
+          function getVendorPass3(limit, search) {
+              $.ajax({
+                  url: '/api/Registrasi/GetVendors?tipe=&status=PASS_3&limit=' + limit + '&search=' + search,
+                  success: function (data) {
+				  
+                      //$("#listVendorLoading").hide();
+                      //$("#listVendorBaru").html('');
+                      $("#listVendorPass3").html('');
+                      if (data.length < 1) {
+                          // $("#listVendorPass3").append("<p>Kosong.</p>");
+                      }
+                      else {
+                          var s = '';
+                          for (var i in data) {
+                              var html = '<div class="col-md-4">' +
+                                  '<div class="box box-primary box-c" onclick="goToVendorRegDetail(' + DOMPurify.sanitize(data[i].NoPengajuan) + ')">' +
+                                  '<div class="box-body box-profile">' +
+                                  '<p class="profile-username title-header">' + DOMPurify.sanitize(data[i].Nama) + '</p>';
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-building"></span>' + data[i].Provinsi + '</p>' +
+                              if (DOMPurify.sanitize(data[i].Website) != null) {
+                                  html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(data[i].Website) + '</p>';
+                              };
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-user"></span> Sukamto</p>'/
+                              html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(data[i].Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(data[i].Email) + '</p>' +
+                                  '</div>' +
+                                  '</div>' +
+                                  '</div>';
+                              s += html;
+                          }
+                          $("#listVendorPass3").append(s);
+                      }
+                  }
+              });
+          }
+
+
+          function getVendorPerubahan(limit, search) {
+              $.ajax({
+                  url: '/api/Vendor/GetVendors?tipe=&status=UPDATED&limit=' + limit + '&search=' + search,
+                  success: function (data) {
+				  
+				  if(data){
+                      $("#listVendorPerubahanLoading").hide();
+                      $("#listVendorPerubahan").html('');
+                      if (data.length < 1) {
+                          $("#listVendorPerubahan").append("<div><p>Kosong.</p></div>");
+                      }
+                      else {
+                          var s = '';
+                          for (var i in data) {
+                              var html = '<div class="col-md-4">' +
+                                  '<div class="box box-primary box-c" onclick="goToVendorDetail(' + DOMPurify.sanitize(data[i].id) + ')">' +
+                                  '<div class="box-body box-profile">' +
+                                  '<p class="profile-username title-header">' + DOMPurify.sanitize(data[i].Nama) + '</p>';
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-building"></span>' + data[i].Provinsi + '</p>' +
+                              if (DOMPurify.sanitize(data[i].Website) != null) {
+                                  html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(data[i].Website) + '</p>';
+                              };
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-user"></span> Sukamto</p>'/
+                              html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(data[i].Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(data[i].Email) + '</p>' +
+                                  '</div>' +
+                                  '</div>' +
+                                  '</div>';
+                              s += html;
+                          }
+                          $("#listVendorPerubahan").append(s);
+                      }
+                  }
+                  }
+              });
+          }
+
+          function getVendorTerdaftar(limit, search) {
+              $.ajax({
+                  url: '/api/Vendor/GetVendors?tipe=&status=VERIFIED&limit=' + limit + '&search=' + search,
+                  success: function (data) {
+				 
+				  if(data){
+                      $("#listVendorTerdaftarLoading").hide();
+                      $("#listVendorTerdaftar").html('');
+                      if (data.length < 1) {
+                          $("#listVendorTerdaftar").append("<div><p>Kosong.</p></div>");
+                      }
+                      else {
+                          var s = '';
+						  
+                          for (var i in data) {
+                              var html = '<div class="col-md-4">' +
+                                  '<div class="box box-primary box-c" onclick="goToVendorDetail(' + DOMPurify.sanitize(data[i].id) + ')">' +
+                                  '<div class="box-body box-profile">' +
+                                  '<p class="profile-username title-header">' + DOMPurify.sanitize(data[i].Nama) + '</p>';
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-building"></span>' + data[i].Provinsi + '</p>' +
+                              if (DOMPurify.sanitize(data[i].Website) != null) {
+                                  html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(data[i].Website) + '</p>';
+                              };
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-user"></span> Sukamto</p>'/
+                              html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(data[i].Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(data[i].Email) + '</p>' +
+                                  '</div>' +
+                                  '</div>' +
+                                  '</div>';
+                              s += html;
+                          }
+                          $("#listVendorTerdaftar").append(s);
+                          //var y = '';
+                          //var x = 0;
+                          //for (var u in data) {
+                          //    x = x + 1;
+                          //    y += '<tr><td class="tengah">' + x + '</td><td class="tengah"><b>' + data[u].Nama + '<b></td><td class="tengah">' + data[u].TDP.MasaBerlaku +'</td></tr>';
+                          //}
+                          //$("#listVendorTerdaftarTable").append(y);
+                      }
+                  }
+                  }
+                  
+              });
+          }
+
+          function getVendorDaftarHitam(limit, search) {
+              $.ajax({
+                  url: '/api/Vendor/GetVendors?tipe=&status=BLACKLIST&limit=' + limit + '&search=' + search,
+                  success: function (data) {
+				  
+				  if(data){
+                      $("#listVendorDaftarHitamLoading").hide();
+                      $("#listVendorDaftarHitam").html('');
+                      if (data.length < 1) {
+                          $("#listVendorDaftarHitam").append("<div><p>Kosong.</p></div>");
+                      }
+                      else {
+                          var s = '';
+                          for (var i in data) {
+                              var html = '<div class="col-md-4">' +
+                                  '<div class="box box-primary box-c" onclick="goToVendorDetail(' + DOMPurify.sanitize(data[i].id) + ')">' +
+                                  '<div class="box-body box-profile">' +
+                                  '<p class="profile-username title-header">' + DOMPurify.sanitize(data[i].Nama) + '</p>';
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-building"></span>' + data[i].Provinsi + '</p>' +
+                              if (DOMPurify.sanitize(data[i].Website) != null) {
+                                  html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(data[i].Website) + '</p>';
+                              };
+                              //'<p class="text-muted text-center deskripsi"><span class="fa fa-user"></span> Sukamto</p>'/
+                              html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(data[i].Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(data[i].Email) + '</p>' +
+                                  '</div>' +
+                                  '</div>' +
+                                  '</div>';
+                              s += html;
+                          }
+                          $("#listVendorDaftarHitam").append(s);
+                      }
+                  }
+                  }
+              });
+          }
+
+          function goToVendorDetail(id) {
+              $.ajax({
+                  method: "POST",
+                  url: "Api/NilaiVendor/CheckVedndorEXT?idVendor=" + id,
+                 // dataType: "json"
+              }).done(function (data) {
+                  //console.log("adasdsad " + data);
+                  if (data == true) {
+                      document.location = "rekanan-detail-v2.html?id=" + id;
+                  } else if (data == false) {
+                      document.location = "rekanan-detail.html?id=" + id;
+                  }
+              });
+          }
+
+          function goToVendorRegDetail(id) {
+              document.location = "rekanan-verifikasi-v2.html?no=" + id;
+          }
+
+
+          var frm = $('#searchForm');
+          frm.submit(function (ev) {
+              //var v = validateForm();
+              var s = $('#search').val();
+              getVendorBaru(nbaru, s);
+              getVendorPerubahan(nperubahan, s);
+              getVendorTerdaftar(nterdaftar, s);
+              getVendorDaftarHitam(ndaftarhitam, s);
+              getVendorKadaluarsa(nvendorkadaluarsa, s);
+              ev.preventDefault(15, s);
+          });
+
+          function next() {
+              $("#terdaftar").hide();
+              $("#permohonan").hide();
+              $("#daftar-hitam").hide();
+              $("#expired").hide();
+              nbaru += increment;
+              getVendorBaru(nbaru, '');
+              getVendorPass1(nbaru, '');
+              getVendorPass2(nbaru, '');
+              getVendorPass3(nbaru, '');
+          }
+
+          function next2() {
+              $("#terdaftar").hide();
+              $(".pengajuan-baru").hide();
+              $("#daftar-hitam").hide();
+              $("#expired").hide();
+              //nbaru += increment;
+              //getVendorBaru(nbaru, '');
+              //getVendorPass1(nbaru, '');
+              //getVendorPass2(nbaru, '');
+              //getVendorPass3(nbaru, '');
+          }
+
+          if (hash === "#daftar-baru") {
+              next();
+          }
+
+          if (hash === "#permohonan") {
+              next2();
+          }
+
+          if (hash === "#expired") {
+              document.getElementById('section-6').scrollIntoView();
+          }
+
+          function getVendorKadaluarsa(limit, search) {
+              $("#listVendorKadaluarsaTabel").hide();
+              
+              $.ajax({
+                  url: '/api/Vendor/GetVendorDetails?tipe=&status=VERIFIED&limit=' + limit + '&search=' + search,
+                  //url: '/api/Vendor/GetVendorDetails',
+                  success: function (data) {
+                      if (typeof (data) == 'object') {
+
+                          $("#listVendorTerdaftarTable").html("");
+                          $("#listVendorKadaluarsaLoading").hide();
+                          $("#listVendorKadaluarsaTabel").show();
+
+                          var y = '';
+                          var x = 0;
+
+                          for (var u in data) {
+                              var tdpD = DOMPurify.sanitize(data[u].TDP.MasaBerlaku)
+                              var siupD = DOMPurify.sanitize(data[u].SIUP.MasaBerlaku)
+                              var siujkD = DOMPurify.sanitize(data[u].SIUJK.MasaBerlaku)
+
+                              var TDPExp = moment(tdpD).format("MM/DD/YYYY").toString();
+                              var SIUPExp = moment(siupD).format("MM/DD/YYYY").toString();
+                              var SIUJKExp = moment(siujkD).format("MM/DD/YYYY").toString();
+
+                              var currentdate = new Date();
+                              var expTDP = new Date(moment(tdpD).format("MM/DD/YYYY").toString());
+                              var expSIUP = new Date(moment(siupD).format("MM/DD/YYYY").toString());
+                              var expSIUJK = new Date(moment(siujkD).format("MM/DD/YYYY").toString());
+
+                              var timeDiffTDP = Math.ceil(expTDP.getTime() - currentdate.getTime());
+                              var totalTDP = Math.ceil(timeDiffTDP / (1000 * 3600 * 24));
+                              var monthTDP = Math.ceil(totalTDP / 30);
+
+                              var timeDiffSIUP = Math.ceil(expSIUP.getTime() - currentdate.getTime());
+                              var totalSIUP = Math.ceil(timeDiffSIUP / (1000 * 3600 * 24));
+                              var monthSIUP = Math.ceil(totalSIUP / 30);
+
+                              var timeDiffSIUJK = Math.ceil(expSIUJK.getTime() - currentdate.getTime());
+                              var totalSIUJK = Math.ceil(timeDiffSIUJK / (1000 * 3600 * 24));
+                              var monthSIUJK = Math.ceil(totalSIUJK / 30);
+
+                              if (monthTDP <= 0) {
+                                  var tdp = '<span class="label label-danger" style="font-size:small;"> ' + TDPExp + ' </span>';
+                              } else if (monthTDP <= 5) {
+                                  var tdp = '<span class="label label-warning" style="font-size:small;"> ' + TDPExp + '</span>';
+                              } else if (monthTDP >= 6) {
+                                  var tdp = '<span class="label label-success" style="font-size:small;"> ' + TDPExp + '</span>';
+                              }
+
+                              if (monthSIUP <= 0) {
+                                  var siup = '<span class="label label-danger" style="font-size:small;">' + SIUPExp + '</span>';
+                              } else if (monthSIUP <= 5) {
+                                  var siup = '<span class="label label-warning" style="font-size:small;"> ' + SIUPExp + '</span>';
+                              } else if (monthSIUP >= 6) {
+                                  var siup = '<span class="label label-success" style="font-size:small;"> ' + SIUPExp + '</span>';
+                              }
+
+                              if (monthSIUJK <= 0) {
+                                  var siujk = '<span class="label label-danger" style="font-size:small;">' + SIUJKExp + '</span>';
+                              } else if (monthSIUJK <= 5) {
+                                  var siujk = '<span class="label label-warning" style="font-size:small;"> ' + SIUJKExp + '</span>';
+                              } else if (monthTDP >= 6) {
+                                  var siujk = '<span class="label label-success" style="font-size:small;"> ' + SIUJKExp + '</span>';
+                              }
+
+                              x = x + 1;
+                              y += '<tr><td class="tengah">' + x + '</td><td><a href="rekanan-detail.html?id=' + DOMPurify.sanitize(data[u].id) + '" target="_blank">' + DOMPurify.sanitize(data[u].Nama) + '</a></td><td class="tengah">' + tdp + '</td><td class="tengah">' + siup + '</td><td class="tengah">' + siujk + '</td></tr>';
+                              //y += '<tr><td class="tengah">' + x + '</td><td class="tengah"><a href="rekanan-detail.html?id=' + data[u].id + '" target="_blank">' + data[u].Nama + '</a></td><td class="tengah">' + data[u].TDP.MasaBerlaku + '</td><td class="tengah">' + data[u].SIUP.MasaBerlaku + '</td><td class="tengah">' + data[u].SIUJK.MasaBerlaku + '</td></tr>';
+                              //'<tr><td class="tengah"></td><td class="tengah"></td><td class="tengah">SIUP</td><td class="tengah">' + data[u].SIUP.MasaBerlaku + '</td></tr>' +
+                              //'<tr><td class="tengah"></td><td class="tengah"></td><td class="tengah">SIUJK</td><td class="tengah">' + data[u].SIUJK.MasaBerlaku + '</td></tr>';
+                          }
+
+                          $("#listVendorTerdaftarTable").append(DOMPurify.sanitize(y));
+
+                      } else {
+                          var x = '<tr><th class="tengah" colspan="5">kosong</th></tr>';
+                          $("#listVendorTerdaftarTable").append(x);
+                      }
+                  }
+              })
+          }
+
+          var table_list;
+          $(function () {
+              cekmasteruser();
+              table_list = $('#table-vendor-non-registrasi').DataTable({
+                  "ajax": {
+                      "url": 'api/Vendor/ListVendorNonRegister',
+                      "type": 'POST',
+                      "data": function (d) {
+                          d.search = $("#txtcari").val();
+                          d.status = "";
+                      },
+                      "error": function (jqXHR, textStatus, errorThrown) {
+                      }
+                  },
+                  "columns": [
+                      { "data": "Nama" },
+                      { "data": "Email" },
+                      { "data": "Telepon" },
+                      { "data": "Alamat" },
+                      { "data": "null" },
+                  ],
+                  "columnDefs": [
+                      {
+                          "render": function (data, type, row) {
+                              if ($("#isMasterUser").val() == 1) {
+                                  return '<a href="vendor-non-registrasi.html?id=' + row.Id + '" target="_blank" id="" class="btn btn-xs btn-success " title="Edit"><span class="fa fa-pencil"></span></a> '
+                                      + '<a href="javascript:showDeleteConfirmation(' + row.Id + ')" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                              } else {
+                                  return '<a href="vendor-non-registrasi.html?id=' + row.Id + '" target="_blank" id="" class="btn btn-sm btn-primary "> Detail </a> ';
+                              }
+                          },
+                          "targets": 4,
+                          "orderable": false
+                      },
+                  ],
+                  "serverSide": true,
+                  "paging": true,
+                  "lengthChange": false,
+                  "searching": false,
+                  "ordering": false,
+                  "info": true,
+                  "autoWidth": false,
+                  "responsive": true,
+                  "destroy": true
+              });
+          });
+
+          function fungsicari() {
+              table_list.draw();
+          }
+
+          function cekmasteruser() {
+              let pengadaanId = parseInt($("#pengadaanId").val());
+
+              if (pengadaanId == "undefined" || isNaN(pengadaanId) || pengadaanId < 0) return;
+
+              $.ajax({
+                  method: "post",
+                  url: "api/pengadaane/cekmasteruser?PengadaanId=" + pengadaanId
+              }).done(function (data) {
+                  $("#isMasterUser").val(1);
+                  $("#forMasterUser").show();
+                  $("#navMasterUser").show();
+                  //alert("master user? " + $("#isMasterUser").val());
+              });
+          }
+
+          function showDeleteConfirmation(idd) {
+              $("#tobeDelete").val(idd);
+              $("#DeleteModal").modal('show');
+          }
+
+          function Delete(idd) {
+              $("#DeleteModal").modal('hide');
+              var v = 0;
+              if (!idd) {
+                  v = parseInt($("#tobeDelete").val());
+              }
+              else v = idd
+              $.ajax({
+                  url: "/api/Vendor/DeleteVendorNonRegister?id=" + v,
+                  success: function (data) {
+				    data = DOMPurify.sanitize(data);
+                      table_list.draw();
+                  },
+                  complete: function (xhr, textStatus) {
+                      //console.log(xhr.status);
+                      ajaxCompleteProcess(xhr);
+                  }
+              });
+          }
+
+
+          $(function () {
+              table_list_sanksi = $('#table-sanksi-vendor').DataTable({
+                  "ajax": {
+                      "url": 'api/NilaiVendor/ListSanksi',
+                      "type": 'POST',
+                      "data": function (d) {
+                          d.search = $("#txtcarisanksi").val();
+                          d.status = "";
+                      },
+                      "error": function (jqXHR, textStatus, errorThrown) {
+                      }
+                  },
+                  "columns": [
+                      { "data": "NamaVendor" },
+                      { "data": "NomorVendor" },
+                      { "data": "DecisionTypeCode" },
+                      { "data": "DecisionDescription" },
+                      { "data": "DecisionValidFrom" },
+                      { "data": "DecisionValidUntil" },
+                  ],
+                  "columnDefs": [
+                      {
+                          "render": function (data, type, row) {
+                              if (row.DecisionTypeCode == "SV01") {
+                                  return '<span class="label label-success" style="font-size:small;">No Warning</span>';
+                              }
+                              else if (row.DecisionTypeCode == "SV02") {
+                                  return '<span class="label label-warning" style="font-size:small;">Warning</span>';
+                              }
+                              else if (row.DecisionTypeCode == "SV04") {
+                                  return '<span class="label label-danger" style="font-size:small;">Penalty</span>';
+                              }
+                              else if (row.DecisionTypeCode == "SV03") {
+                                  return '<span class="label label-default" style="font-size:small;">Blacklist</span>';
+                              }
+                          },
+                          "targets": 2,
+                          //"orderable": false
+                      },
+                      {
+                          "render": function (data, type, row) {
+                              if (row.DecisionDescription == "") {
+                                  return 'Tidak ada Komentar';
+                              } else return row.DecisionDescription;
+                          },
+                          "targets": 3,
+                          //"orderable": false
+                      },
+                      {
+                          "render": function (data, type, row) {
+                              return moment(row.DecisionValidFrom).format("DD-MM-YYYY").toString();
+                          },
+                          "targets": 4,
+                          //"orderable": false
+                      },
+                      {
+                          "render": function (data, type, row) {
+                              return moment(row.DecisionValidUntil).format("DD-MM-YYYY").toString();
+                          },
+                          "targets": 5,
+                          //"orderable": false
+                      },
+                  ],
+                  "serverSide": true,
+                  "paging": true,
+                  "lengthChange": false,
+                  "searching": false,
+                  "ordering": true,
+                  "info": true,
+                  "autoWidth": false,
+                  "responsive": true,
+                  "destroy": true
+              });
+          });
+
+          function fungsicariSanksi() {
+              table_list_sanksi.draw();
+          }
+      </script>
+      <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
+
+  </body>
+</html>
