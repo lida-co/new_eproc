@@ -2,6 +2,62 @@
 var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
 var PksId = encodeURIComponent(safeId);
 
+var csrfToken = "";
+
+let csrfRetryCount = 0;
+const MAX_RETRIES = 3;
+
+async function initCsrf() {
+    try {
+        const res = await fetch('/api/security/GetCsrfToken');
+
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+
+        if (!data.csrfToken) {
+            throw new Error('CSRF token tidak ditemukan dalam response');
+        }
+
+        csrfToken = data.csrfToken;
+        csrfRetryCount = 0; // Reset retry count
+        //console.log('CSRF token berhasil diambil');
+
+    } catch (e) {
+        console.error("Gagal mengambil CSRF token:", e.message);
+        csrfRetryCount++;
+
+        if (csrfRetryCount <= MAX_RETRIES) {
+            setTimeout(initCsrf, 5000);
+        } else {
+            console.error('Gagal mengambil CSRF token setelah 3 kali percobaan');
+        }
+    }
+}
+
+$.ajaxSetup({
+    beforeSend: async function (xhr, settings) {
+        if (settings.type === 'GET') return;
+
+        // tunggu token kalau belum ada
+        let waitCount = 0;
+        while (!csrfToken && waitCount < 10) {
+            await new Promise(r => setTimeout(r, 200));
+            waitCount++;
+        }
+
+        if (!csrfToken) {
+            console.warn('CSRF token tetap belum tersedia');
+            return;
+        }
+
+        xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+    }
+});
+
+
 $(function () {
     //console.log("-----------ID-------" + PksId);
     //$("#pengadaanId").val(PengadaanId);

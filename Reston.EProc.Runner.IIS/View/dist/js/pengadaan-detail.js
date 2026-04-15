@@ -1,4 +1,5 @@
-﻿//var id_pengadaan = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+﻿
+
 var id_pengadaan = DOMPurify.sanitize(window.location.hash.replace("#", ""));
 
 $(function () {
