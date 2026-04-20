@@ -7,11 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer3.Core.Extensions;
@@ -45,7 +40,7 @@ namespace IdLdap.Configuration
             EnableSecurityStamp = true;
         }
 
-        public int validasiCaptcha(Guid guid,string answer)
+        public int validasiCaptcha(Guid guid, string answer)
         {
             var client = new HttpClient();
             //client.DefaultRequestHeaders.Accept.Clear();
@@ -76,10 +71,15 @@ namespace IdLdap.Configuration
             try
             {
                 var splitData = context.UserName.Split('#');
-                if (splitData.Count() < 3) return;
+                if (splitData.Count() < 3)
+                {
+                    _log.Warn("AuthenticateLocalAsync: Format username tidak valid. Diterima: '{UserNameRaw}'. Format yang dibutuhkan: 'username#captcha#guid'", context.UserName);
+                    context.AuthenticateResult = new AuthenticateResult("Username atau password tidak valid");
+                    return;
+                }
                 var username = splitData[0];
                 var answerCaptcha = splitData[1];
-                Guid guid =new Guid(splitData[2]);
+                Guid guid = new Guid(splitData[2]);
 
                 if (IdLdapConstants.AppConfiguration.IsAntiBruteForceEnabled)
                 {
@@ -98,7 +98,7 @@ namespace IdLdap.Configuration
                 var message = context.SignInMessage;
 
                 context.AuthenticateResult = null;
-                
+
                 //System.IO.File.AppendAllText(path, Environment.NewLine + DateTime.Now.ToString() + Environment.NewLine);
 
                 //_log.Debug(path);
@@ -188,83 +188,13 @@ namespace IdLdap.Configuration
                         }
                     }
                 }
-                else 
+                else
                 {
                     _log.Debug("User {0} not found", username);
                     context.AuthenticateResult = new AuthenticateResult("Username or password is invalid");
                     return;
 
                 }
-
-                //if (userIdentity != null)
-                //{
-                //    //System.IO.File.AppendAllText(path, "cekuser-idenity " + Environment.NewLine);
-
-                //    _log.Debug("cekuser-idenity ");
-                //    //if (userLdap != null)
-                //    //{
-                //    //    if (userLdap.IsAccountLockedOut())
-                //    //    {
-                //    //        return;
-                //    //    }
-                //    //}
-
-                //    if (userIdentity.LockoutEnabled)
-                //    {
-                //        return;
-                //    }
-
-                //    bool isLockedOut = await _UserManager.IsLockedOutAsync(userIdentity.Id);
-                //    if (_UserManager.SupportsUserLockout && isLockedOut)
-                //    {
-                //        return;
-                //    }
-
-                //    if (userIdentity.IsLdapUser)
-                //    {
-                //        //System.IO.File.AppendAllText(path, "user-ldap" + Environment.NewLine);
-                //        if (_LdapRepository.ValidateCredentials(username, password))
-                //        {
-
-                //            var claims = await GetClaimsForAuthenticateResult(userIdentity);
-                //            //var result = new AuthenticateResult(userLdap.Guid.ToString(), userLdap.SamAccountName, claims);
-                //            var result = new AuthenticateResult(userIdentity.Id, userIdentity.UserName, claims);
-
-                //            context.AuthenticateResult = result;
-                //        }
-                //        //}
-                //        //else
-                //        //{
-                //        //System.IO.File.AppendAllText(path, "bukan-user-ldap" + Environment.NewLine);
-                //        _log.Debug("bukan-user-ldap");
-                //        if (await _UserManager.CheckPasswordAsync(userIdentity, password))
-                //        {
-                //            if (_UserManager.SupportsUserLockout)
-                //            {
-                //                await _UserManager.ResetAccessFailedCountAsync(userIdentity.Id);
-                //            }
-
-                //            var claims = await GetClaimsForAuthenticateResult(userIdentity);
-                //            var result = new AuthenticateResult(userIdentity.Id.ToString(), userIdentity.UserName, claims);
-
-
-                //            context.AuthenticateResult = result;
-                //        }
-                //        else if (_UserManager.SupportsUserLockout)
-                //        {
-                //            await _UserManager.AccessFailedAsync(userIdentity.Id);
-                //        }
-
-                //    }
-
-                //}
-               
-                //System.IO.File.AppendAllText(path, "messege " + message + Environment.NewLine);
-                //System.IO.File.AppendAllText(path, "user " + username + Environment.NewLine);
-                //System.IO.File.AppendAllText(path, "password " + password + Environment.NewLine);
-                //_log.Debug("messege " + message);
-                //_log.Debug("user " + username);
-                //_log.Debug("password " + password);
             }
             catch (Exception ex)
             {
@@ -312,15 +242,40 @@ namespace IdLdap.Configuration
             }
 
             _log.Debug("Obtaining claims. {AccountId}, {AccountUserName}, {IsDirectoryUser}", userIdentity.Id, userIdentity.UserName, userIdentity.IsLdapUser);
-            IEnumerable<Claim> claims =  await GetClaimsFromAccount(userIdentity);
+            IEnumerable<Claim> claims = await GetClaimsFromAccount(userIdentity);
             if (userIdentity.IsLdapUser)
             {
-                _log.Debug("Account is directory-mapped. Overriding claims with those obtained from directory. {AccountId}, {AccountUserName}, {IsDirectoryUser}", userIdentity.Id, userIdentity.UserName, userIdentity.IsLdapUser); 
+                _log.Debug("Account is directory-mapped. Overriding claims with those obtained from directory. {AccountId}, {AccountUserName}, {IsDirectoryUser}", userIdentity.Id, userIdentity.UserName, userIdentity.IsLdapUser);
                 if (_LdapRepository != null)
                 {
-                    var userLdap = _LdapRepository.GetUserByGuid(key);
-                    claims = await GetClaimsFromAccount(userLdap, userIdentity);
-                    _log.Debug("Account is directory-mapped. Overriding claims successful. {AccountId}, {AccountUserName}, {IsDirectoryUser}", userIdentity.Id, userIdentity.UserName, userIdentity.IsLdapUser);
+                    try
+                    {
+                        // Cari user LDAP berdasarkan SamAccountName dulu, lalu fallback ke UserPrincipalName.
+                        // Tidak bisa pakai GetUserByGuid(key) karena 'key' adalah database ID,
+                        // bukan LDAP GUID — keduanya hampir selalu berbeda.
+                        var userLdap = _LdapRepository.FindUser(userIdentity.UserName);
+                        if (userLdap == null)
+                        {
+                            _log.Debug("FindUser (SamAccountName) tidak menemukan user, mencoba FindUser2 (UserPrincipalName)...");
+                            userLdap = _LdapRepository.FindUser2(userIdentity.UserName);
+                        }
+
+                        if (userLdap != null)
+                        {
+                            claims = await GetClaimsFromAccount(userLdap, userIdentity);
+                            _log.Debug("Account is directory-mapped. Overriding claims successful. {AccountId}, {AccountUserName}, {IsDirectoryUser}", userIdentity.Id, userIdentity.UserName, userIdentity.IsLdapUser);
+                        }
+                        else
+                        {
+                            _log.Warn("LDAP user tidak ditemukan untuk username '{UserName}'. Menggunakan local claims sebagai fallback.", userIdentity.UserName);
+                            // Tetap pakai local claims yang sudah di-set di atas
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Jangan biarkan exception di sini memutus alur /connect/authorize (error generik di UI).
+                        _log.Error(ex, "Gagal mengambil/memap claim LDAP untuk user DB '{UserName}' (subject {Subject}). Fallback ke claim dari database saja.", userIdentity.UserName, key);
+                    }
                 }
                 else
                 {
@@ -362,23 +317,37 @@ namespace IdLdap.Configuration
 
         public virtual async System.Threading.Tasks.Task<IEnumerable<Claim>> GetClaimsFromAccount(UserPrincipal userLdap, User userIdentity)
         {
+            var preferredUserName = userIdentity.UserName;
+            if (userLdap != null)
+            {
+                try
+                {
+                    var upn = userLdap.UserPrincipalName;
+                    if (!string.IsNullOrWhiteSpace(upn))
+                        preferredUserName = upn;
+                }
+                catch (Exception ex)
+                {
+                    _log.Warn(ex, "Tidak bisa membaca UserPrincipalName dari LDAP; memakai UserName database.");
+                }
+            }
 
-            var claims = new List<Claim>{
-                new Claim(Constants.ClaimTypes.Subject, userLdap.Guid.ToString()),
-                //new Claim(Constants.ClaimTypes.PreferredUserName, userLdap.SamAccountName),
-                new Claim(Constants.ClaimTypes.PreferredUserName, userLdap.UserPrincipalName),
+            var claims = new List<Claim>
+            {
+                new Claim(Constants.ClaimTypes.Subject, userIdentity.Id.ToString()),
+                new Claim(Constants.ClaimTypes.PreferredUserName, preferredUserName),
             };
 
-
+            // Gunakan userIdentity.Id untuk lookup ke database (bukan userLdap.Guid)
             if (_UserManager.SupportsUserClaim)
             {
-                claims.AddRange(await _UserManager.GetClaimsAsync(userLdap.Guid.ToString()));
+                claims.AddRange(await _UserManager.GetClaimsAsync(userIdentity.Id.ToString()));
             }
 
             if (_UserManager.SupportsUserRole)
             {
                 var roleClaims =
-                    from role in await _UserManager.GetRolesAsync(userLdap.Guid.ToString())
+                    from role in await _UserManager.GetRolesAsync(userIdentity.Id.ToString())
                     select new Claim(Constants.ClaimTypes.Role, role);
                 claims.AddRange(roleClaims);
             }
@@ -416,6 +385,6 @@ namespace IdLdap.Configuration
             }
         }
 
-        
+
     }
 }

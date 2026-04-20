@@ -71,7 +71,7 @@ namespace IdLdap
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
+                AuthenticationType = IdLdapConstants.SignInAsAuthenticationType.Cookies,
                 SlidingExpiration = true,
                 ExpireTimeSpan = System.TimeSpan.FromMinutes(500)
 
@@ -137,7 +137,6 @@ namespace IdLdap
                     ));
 
                     idSvrFactory.Register(new Registration<ILdapRepository, LdapRepository>());
-                    idSvrFactory.UserService = new Registration<IUserService, ADUserService>();
                     _log.Info("Registering Application Directory -backed User Service");
                     idSvrFactory.UserService = new Registration<IUserService>(
                         resolver => new ADUserService(resolver.Resolve<ILdapRepository>())
@@ -164,7 +163,7 @@ namespace IdLdap
                     RequireSsl = IdLdapConstants.AppConfiguration.IdentitySiteSLL,
                     Factory = idSvrFactory,
                     LoggingOptions = new LoggingOptions
-                    { 
+                    {
                         EnableHttpLogging = true,
                         EnableWebApiDiagnostics = true,
                         EnableKatanaLogging = true,
@@ -189,7 +188,7 @@ namespace IdLdap
                     },
                     AuthenticationType = "Bearer",
 
-                    IssuerSecurityTokenProviders = new[] { 
+                    IssuerSecurityTokenProviders = new[] {
                         new X509CertificateSecurityTokenProvider(IdLdapConstants.Id.Url, LoadCertificate())
                     },
 
@@ -237,27 +236,32 @@ namespace IdLdap
 
                         var response = await tokenClient.RequestAuthorizationCodeAsync(n.Code, n.RedirectUri);
                         var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
-                        
-                        var userInfo = await EndpointAndTokenHelper.CallUserInfoEndpoint(response.AccessToken);
-                        JToken roles;
-                        try
-                        {
-                           roles = userInfo.Value<JValue>(Thinktecture.IdentityModel.Client.JwtClaimTypes.Role).ToObject<JToken>();
-                        }catch{
-                            roles = userInfo.Value<JArray>(Thinktecture.IdentityModel.Client.JwtClaimTypes.Role).ToObject<JToken>();
-                        }
 
-                        foreach (var role in roles)
+                        var userInfo = await EndpointAndTokenHelper.CallUserInfoEndpoint(response.AccessToken);
+                        var roleClaimToken = userInfo[Thinktecture.IdentityModel.Client.JwtClaimTypes.Role];
+                        if (roleClaimToken != null && roleClaimToken.Type != JTokenType.Null)
                         {
-                            id.AddClaim(new Claim(
-                            Thinktecture.IdentityModel.Client.JwtClaimTypes.Role,
-                            role.ToString()));
+                            if (roleClaimToken.Type == JTokenType.Array)
+                            {
+                                foreach (var role in roleClaimToken)
+                                {
+                                    id.AddClaim(new Claim(
+                                        Thinktecture.IdentityModel.Client.JwtClaimTypes.Role,
+                                        role.ToString()));
+                                }
+                            }
+                            else
+                            {
+                                id.AddClaim(new Claim(
+                                    Thinktecture.IdentityModel.Client.JwtClaimTypes.Role,
+                                    roleClaimToken.ToString()));
+                            }
                         }
 
 
                         var issuerClaim = n.AuthenticationTicket.Identity
                             .FindFirst(Thinktecture.IdentityModel.Client.JwtClaimTypes.Issuer);
-                        var subjectClaim = n.AuthenticationTicket.  Identity
+                        var subjectClaim = n.AuthenticationTicket.Identity
                             .FindFirst(Thinktecture.IdentityModel.Client.JwtClaimTypes.Subject);
 
 

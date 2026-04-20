@@ -79,7 +79,7 @@ namespace Reston.Pinata.WebService
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationType = CookieAuthenticationDefaults.AuthenticationType,
+                AuthenticationType = IdLdapConstants.SignInAsAuthenticationType.Cookies,
                 SlidingExpiration = true,
                 ExpireTimeSpan = System.TimeSpan.FromMinutes(150)
 
@@ -93,7 +93,7 @@ namespace Reston.Pinata.WebService
                 PostLogoutRedirectUri = IdLdapConstants.Proc.Url,
                 SignInAsAuthenticationType = IdLdapConstants.SignInAsAuthenticationType.Cookies,
                 UseTokenLifetime = false,
-                
+
                 ResponseType = string.Format("{0} {1} {2}", IdLdapConstants.ResponseType.Code,
                                             IdLdapConstants.ResponseType.IdToken,
                                             IdLdapConstants.ResponseType.Token),
@@ -124,19 +124,20 @@ namespace Reston.Pinata.WebService
                         var userInfo = await EndpointAndTokenHelper.CallUserInfoEndpoint(response.AccessToken);
 
 
-                        JToken roles;
-                        try
+                        var roleClaimToken = userInfo[Thinktecture.IdentityModel.Client.JwtClaimTypes.Role];
+                        if (roleClaimToken != null && roleClaimToken.Type != JTokenType.Null)
                         {
-                            roles = userInfo.Value<JValue>(Thinktecture.IdentityModel.Client.JwtClaimTypes.Role).ToObject<JToken>();
-                        }
-                        catch
-                        {
-                            roles = userInfo.Value<JArray>(Thinktecture.IdentityModel.Client.JwtClaimTypes.Role).ToObject<JToken>();
-                        }
-
-                        foreach (var role in roles)
-                        {
-                            id.AddClaim(new Claim(Thinktecture.IdentityModel.Client.JwtClaimTypes.Role, role.ToString()));
+                            if (roleClaimToken.Type == JTokenType.Array)
+                            {
+                                foreach (var role in roleClaimToken)
+                                {
+                                    id.AddClaim(new Claim(Thinktecture.IdentityModel.Client.JwtClaimTypes.Role, role.ToString()));
+                                }
+                            }
+                            else
+                            {
+                                id.AddClaim(new Claim(Thinktecture.IdentityModel.Client.JwtClaimTypes.Role, roleClaimToken.ToString()));
+                            }
                         }
 
 
@@ -203,11 +204,11 @@ namespace Reston.Pinata.WebService
                 if (
                     (
                         (requestUri.AbsolutePath.EndsWith("/") || requestUri.AbsolutePath.EndsWith(".html"))
-                        && 
-                        !requestUri.AbsolutePath.EndsWith("lacak.html") 
-                        && 
+                        &&
+                        !requestUri.AbsolutePath.EndsWith("lacak.html")
+                        &&
                         !requestUri.AbsolutePath.EndsWith("registrasiv2.html")
-                        && 
+                        &&
                         !requestUri.AbsolutePath.EndsWith("kebijakan-pendaftaran.html")
                     )
                     && (request.User == null || !request.User.Identity.IsAuthenticated)
@@ -219,7 +220,7 @@ namespace Reston.Pinata.WebService
                     // 'actively' redirects user to whatever authentication URL it's configured with
                     // if that is not specified, this request will simply yield the HTTP 401.
                     response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-                    
+
                     // Then we...short-circuit the request (WTF???)
                     // How can the OIDCAuthMware handles the 401 if we short ciruit the request??.
                     // But it works!!
@@ -251,9 +252,9 @@ namespace Reston.Pinata.WebService
             options.StaticFileOptions.FileSystem = physicalFileSystem;
             options.StaticFileOptions.ServeUnknownFileTypes = true;
             options.DefaultFilesOptions.DefaultFileNames = new[]
-			{
-				"index.html"
-			};
+            {
+                "index.html"
+            };
 
             app.UseFileServer(options);
             //Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppDbContext, Reston.Pinata.Model.IdentityMigrations.IdentityConfiguration>());
