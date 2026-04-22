@@ -58,6 +58,7 @@ namespace IdLdap.Controllers
                     ContextType.Domain,
                     IdLdapConstants.LdapConfiguration.Host,
                     IdLdapConstants.LdapConfiguration.ContextNaming,
+                    ContextOptions.SimpleBind,
                     IdLdapConstants.LdapConfiguration.Username,
                     IdLdapConstants.LdapConfiguration.Password));
             }
@@ -96,7 +97,7 @@ namespace IdLdap.Controllers
             if (userIdentity != null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { message = "User sudah di link" }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "User sudah di link", linkedUsername = userIdentity.UserName }, JsonRequestBehavior.AllowGet);
             }
             UserPrincipal userLdap = null;
             bool useAppDir;
@@ -110,7 +111,7 @@ namespace IdLdap.Controllers
             if (userLdap == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return Json(new { message = "User LDAP tidak ditemukan. Pastikan username/UPN sesuai dengan data di AD LDS." }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "User LDAP tidak ditemukan. Pastikan username/UPN sesuai dengan data directory." }, JsonRequestBehavior.AllowGet);
             }
 
             var resolvedUsername = !string.IsNullOrWhiteSpace(userLdap.SamAccountName)
@@ -124,10 +125,17 @@ namespace IdLdap.Controllers
                 resolvedGuid = Guid.NewGuid();
             }
 
+            var existingResolvedUser = await _UserManager.FindByNameAsync(resolvedUsername);
+            if (existingResolvedUser != null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { message = "User sudah di link", linkedUsername = existingResolvedUser.UserName }, JsonRequestBehavior.AllowGet);
+            }
+
             await CreateUserLinkedLdap(resolvedUsername, "P@ssw0rd!", resolvedDisplayName, userLdap.EmailAddress, resolvedGuid);//password gakepake, ttp pake password ldap masing2
 
             Response.StatusCode = (int)HttpStatusCode.OK;
-            return Json(new { message = "Sukses linked account ldap. " }, JsonRequestBehavior.AllowGet);
+            return Json(new { message = "Sukses linked account ldap. ", linkedUsername = resolvedUsername }, JsonRequestBehavior.AllowGet);
         }
 
         private static bool IsMember(UserPrincipal user, string GroupName)

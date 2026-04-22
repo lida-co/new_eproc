@@ -6,11 +6,12 @@
 
 <style>
 
-    .hiddentd>button{
+    .hiddentd > button {
         display: none !important;
         visibility: hidden;
     }
-    .hiddentd{
+
+    .hiddentd {
         visibility: visible;
     }
 </style>
@@ -25,7 +26,7 @@
                    data-mvcgrid-type="filter" data-mvcgrid-option="UserPrincipalName" />
             <button type="button" class="btn btn-default" data-mvcgrid-apply-filter="click">Apply</button>
         </div>
-        
+
     </div>
 </div>
 
@@ -46,11 +47,12 @@
                     waitingDialog.hideloading();
                     MVCGrid.reloadGrid('UserLdapFiltering');
                     waitingDialog.showresult("Sukses", data.message);
-                    window.location = "@Url.Action("DetailUser","Admin")/"+value;
+                    var linkedUsername = data && data.linkedUsername ? data.linkedUsername : value;
+                    window.location = "@Url.Action("DetailUser","Admin")/" + encodeURIComponent(linkedUsername);
                     setTimeout(function () {
                         waitingDialog.hideresult();
                     }, 1000);
-                    
+
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -64,6 +66,6 @@
                 }
             });
         }
-    </script> 
-    
+    </script>
+
 }
