@@ -38,6 +38,8 @@ function SetListRegion(el) {
 
 function downloadFileUsingForm(url) {
     var form = document.createElement("form");
+    console.log(url);
+    console.log(DOMPurify.sanitize(url));
     form.method = "post";
     form.action = DOMPurify.sanitize(url);
     document.body.appendChild(form);

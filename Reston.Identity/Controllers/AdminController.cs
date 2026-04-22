@@ -29,59 +29,51 @@ namespace IdLdap.Controllers
 
         public AdminController()
         {
-            // FIXME!!
-            // _LdapRepository and all other deps should be injected!! Not constructed here!!
-
-            // Replace old routine to intilalize this class
-            // Now the _LdapRepository is constructed according to CONTEXT_TYPE configuration in Web.config
-            var contextType = IdLdapConstants.LdapConfiguration.ContextType;
-            if (IdLdapConstants.LdapContextType.Machine.Equals(contextType, StringComparison.InvariantCultureIgnoreCase))
-            {
-                _LdapRepository = new LdapRepository(
-                    new PrincipalContext(
-                        ContextType.Machine,
-                        IdLdapConstants.LdapConfiguration.Host
-                    )
-                 );
-            }
-            else if (IdLdapConstants.LdapContextType.Domain.Equals(contextType, StringComparison.InvariantCultureIgnoreCase))
-            {
-                _LdapRepository = new LdapRepository(
-                    new PrincipalContext(
-                        ContextType.Domain,
-                        IdLdapConstants.LdapConfiguration.Host,
-                        IdLdapConstants.LdapConfiguration.ContextNaming,
-                        //ContextOptions.SimpleBind,
-                        IdLdapConstants.LdapConfiguration.Username,
-                        IdLdapConstants.LdapConfiguration.Password
-                    )
-                 );
-            }
-            else if (IdLdapConstants.LdapContextType.ApplicationDirectory.Equals(contextType, StringComparison.InvariantCultureIgnoreCase))
-            {
-                _LdapRepository = new LdapRepository(
-                    new PrincipalContext(
-                        ContextType.ApplicationDirectory,
-                        IdLdapConstants.LdapConfiguration.Host,
-                        IdLdapConstants.LdapConfiguration.ContextNaming,
-                        ContextOptions.SimpleBind,
-                        IdLdapConstants.LdapConfiguration.Username,
-                        IdLdapConstants.LdapConfiguration.Password
-                    )
-                 );
-            }
-            else
-            {
-                _log.Error("'LDAP_CONTEXT_TYPE' is not set or set to unknown value. You have to set to either 'Machine', 'Domain', or 'ApplicationDirectory'");
-                throw new Exception("'LDAP_CONTEXT_TYPE' is not set or set to unknown value. You have to set to either 'Machine', 'Domain', or 'ApplicationDirectory'");
-            }
-
+            _LdapRepository = CreateLdapRepository();
             _IdentityContext = new IdentityContext();
             _UserManager = new UserManager(new UserStore(_IdentityContext));
             _RoleManager = new RoleManager(new RoleStore(_IdentityContext));
-
             _IdentityManagerService = new IdentityManagerService(_UserManager, _RoleManager);
-            
+        }
+
+        public AdminController(ILdapRepository ldapRepository, IdentityContext identityContext, UserManager userManager, RoleManager roleManager, IdentityManagerService identityManagerService)
+        {
+            _LdapRepository = ldapRepository;
+            _IdentityContext = identityContext;
+            _UserManager = userManager;
+            _RoleManager = roleManager;
+            _IdentityManagerService = identityManagerService;
+        }
+
+        private static ILdapRepository CreateLdapRepository()
+        {
+            var contextType = IdLdapConstants.LdapConfiguration.ContextType;
+            if (IdLdapConstants.LdapContextType.Machine.Equals(contextType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return new LdapRepository(new PrincipalContext(ContextType.Machine, IdLdapConstants.LdapConfiguration.Host));
+            }
+            if (IdLdapConstants.LdapContextType.Domain.Equals(contextType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return new LdapRepository(new PrincipalContext(
+                    ContextType.Domain,
+                    IdLdapConstants.LdapConfiguration.Host,
+                    IdLdapConstants.LdapConfiguration.ContextNaming,
+                    IdLdapConstants.LdapConfiguration.Username,
+                    IdLdapConstants.LdapConfiguration.Password));
+            }
+            if (IdLdapConstants.LdapContextType.ApplicationDirectory.Equals(contextType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return new LdapRepository(new PrincipalContext(
+                    ContextType.ApplicationDirectory,
+                    IdLdapConstants.LdapConfiguration.Host,
+                    IdLdapConstants.LdapConfiguration.ContextNaming,
+                    ContextOptions.SimpleBind,
+                    IdLdapConstants.LdapConfiguration.Username,
+                    IdLdapConstants.LdapConfiguration.Password));
+            }
+
+            _log.Error("'LDAP_CONTEXT_TYPE' is not set or set to unknown value. You have to set to either 'Machine', 'Domain', or 'ApplicationDirectory'");
+            throw new Exception("'LDAP_CONTEXT_TYPE' is not set or set to unknown value. You have to set to either 'Machine', 'Domain', or 'ApplicationDirectory'");
         }
         // GET: Admin
         [LdapMvcAuthorizeRole(IdLdapConstants.App.Roles.IdLdapAdminRole)]
@@ -99,20 +91,40 @@ namespace IdLdap.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new { message = "Username tidak boleh kosong" }, JsonRequestBehavior.AllowGet);
             }
-            
+
             var userIdentity = await _UserManager.FindByNameAsync(username);
             if (userIdentity != null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new { message = "User sudah di link" }, JsonRequestBehavior.AllowGet);
             }
-            bool UseAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
-            var userLdap = UseAppDir ? _LdapRepository.FindUser2(username) : _LdapRepository.FindUser(username);
-           // var userLdap = _LdapRepository.FindUser2(username);
-            //bool b = IsMember(userLdap, "doski");
-            
-            //await CreateUser(username, "123456", userLdap.Guid.GetValueOrDefault());//password gakepake, ttp pake password ldap masing2
-            await CreateUserLinkedLdap(username, "P@ssw0rd!", userLdap.DisplayName, userLdap.EmailAddress, userLdap.Guid.GetValueOrDefault());//password gakepake, ttp pake password ldap masing2
+            UserPrincipal userLdap = null;
+            bool useAppDir;
+            bool.TryParse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"], out useAppDir);
+            userLdap = useAppDir ? _LdapRepository.FindUser2(username) : _LdapRepository.FindUser(username);
+            if (userLdap == null)
+            {
+                // Fallback untuk AD LDS/local env: beberapa akun hanya bisa ditemukan via identity type lainnya.
+                userLdap = useAppDir ? _LdapRepository.FindUser(username) : _LdapRepository.FindUser2(username);
+            }
+            if (userLdap == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return Json(new { message = "User LDAP tidak ditemukan. Pastikan username/UPN sesuai dengan data di AD LDS." }, JsonRequestBehavior.AllowGet);
+            }
+
+            var resolvedUsername = !string.IsNullOrWhiteSpace(userLdap.SamAccountName)
+                ? userLdap.SamAccountName
+                : (!string.IsNullOrWhiteSpace(userLdap.UserPrincipalName) ? userLdap.UserPrincipalName : username);
+            var resolvedDisplayName = !string.IsNullOrWhiteSpace(userLdap.DisplayName) ? userLdap.DisplayName : resolvedUsername;
+            var resolvedGuid = userLdap.Guid.GetValueOrDefault();
+            if (resolvedGuid == Guid.Empty)
+            {
+                // Jaga-jaga jika object LDAP tidak expose GUID (kasus tertentu pada AD LDS schema).
+                resolvedGuid = Guid.NewGuid();
+            }
+
+            await CreateUserLinkedLdap(resolvedUsername, "P@ssw0rd!", resolvedDisplayName, userLdap.EmailAddress, resolvedGuid);//password gakepake, ttp pake password ldap masing2
 
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(new { message = "Sukses linked account ldap. " }, JsonRequestBehavior.AllowGet);
@@ -129,9 +141,9 @@ namespace IdLdap.Controllers
                 }
                 return false;
             }
-            catch (Exception E)
+            catch (Exception)
             {
-                throw E;
+                throw; // preserves original stack trace
             }
         }
 
@@ -143,7 +155,7 @@ namespace IdLdap.Controllers
                 UserName = username,
                 //Email = username + ".com",
                 Id = guid.ToString()
-                
+
             };
             var result = await _UserManager.CreateAsync(newUser, password);
 
@@ -166,7 +178,7 @@ namespace IdLdap.Controllers
                 IsLdapUser = true,
                 UserName = username,
                 //Email = username + ".com",
-                Email=Email,
+                Email = Email,
                 Id = guid.ToString(),
                 DisplayName = displayname
             };
@@ -200,7 +212,8 @@ namespace IdLdap.Controllers
             if (userIdentity == null)
                 throw new ApplicationException("username tidak terdaftar");
 
-            List<RoleUser> Roles = _RoleManager.Roles.Select(x => new RoleUser() {
+            List<RoleUser> Roles = _RoleManager.Roles.Select(x => new RoleUser()
+            {
                 Id = x.Id,
                 Name = x.Name,
                 RoleDescription = x.RoleDescription
@@ -217,7 +230,8 @@ namespace IdLdap.Controllers
                 LockoutEnabled = userIdentity.LockoutEnabled,
                 PhoneNumber = userIdentity.PhoneNumber,
                 UserName = userIdentity.UserName,
-                UserClaims = userIdentity.Claims.Select(x => new UserClaims() {
+                UserClaims = userIdentity.Claims.Select(x => new UserClaims()
+                {
                     ClaimType = x.ClaimType,
                     ClaimValue = x.ClaimValue,
                     Id = x.Id,
@@ -237,7 +251,7 @@ namespace IdLdap.Controllers
 
         //[LdapMvcAuthorizeRole(IdLdapConstants.App.Roles.pRole_procurement_user,IdLdapConstants.App.Roles.pRole_procurement_manager)]
         //[Authorize]
-        public async Task<JsonResult> ListUser(int start, int limit,string filter,string name)
+        public async Task<JsonResult> ListUser(int start, int limit, string filter, string name)
         {
             var s = User;
             DataPageUsers dataPageUsers = new DataPageUsers();
@@ -246,18 +260,18 @@ namespace IdLdap.Controllers
             var user = dbContext.Users.AsQueryable();//.Where(d => d.IsLdapUser == true);
 
             if (!string.IsNullOrEmpty(filter))
-               user = user.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(filter));
+                user = user.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(filter));
             if (!string.IsNullOrEmpty(name))
-                user = user.Where(d=>d.UserName.Contains(name));
+                user = user.Where(d => d.UserName.Contains(name));
             dataPageUsers.totalRecord = user.Count();
             dataPageUsers.Users = user.Select(d => new Userx
             {
-                PersonilId=d.Id,
+                PersonilId = d.Id,
                 Nama = d.DisplayName,
                 tlp = d.PhoneNumber,
-                jabatan=d.Position
+                jabatan = d.Position
             }).OrderBy(d => d.Nama).Skip(start).Take(limit).ToList();
-            
+
             return Json(dataPageUsers, JsonRequestBehavior.AllowGet);
         }
 
@@ -289,10 +303,11 @@ namespace IdLdap.Controllers
         {
 
             var dbContext = new IdentityContext();
-            var oData=dbContext.Users.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(IdLdapConstants.App.Roles.pRole_procurement_manager))
-                    .Select(d=>new Userx{
-                        Nama=d.UserName,
-                        PersonilId=d.Id                        
+            var oData = dbContext.Users.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(IdLdapConstants.App.Roles.pRole_procurement_manager))
+                    .Select(d => new Userx
+                    {
+                        Nama = d.UserName,
+                        PersonilId = d.Id
                     }).ToList();
 
             return Json(oData, JsonRequestBehavior.AllowGet);
@@ -305,10 +320,10 @@ namespace IdLdap.Controllers
                     .Select(d => new Userx
                     {
                         Nama = d.UserName,
-                        FullName=d.DisplayName,
+                        FullName = d.DisplayName,
                         PersonilId = d.Id,
-                        Email=d.Email,
-                        jabatan=d.Position
+                        Email = d.Email,
+                        jabatan = d.Position
                     }).FirstOrDefault();
 
             return Json(oData, JsonRequestBehavior.AllowGet);
@@ -350,15 +365,15 @@ namespace IdLdap.Controllers
             if (RoleUser == null)
                 throw new ApplicationException("Input null");
 
-            if(UserDetail == null)
+            if (UserDetail == null)
                 throw new ApplicationException("Tidak ada Detail User");
 
             var userIdentity = await _UserManager.FindByNameAsync(UserDetail.UserName);
 
-            if(userIdentity == null)
+            if (userIdentity == null)
                 throw new ApplicationException("User tidak terregister");
 
-            if (RoleUser.Where(d=>d.Name==IdLdapConstants.App.Roles.pRole_procurement_manager && d.Selected==true).Count()>0)
+            if (RoleUser.Where(d => d.Name == IdLdapConstants.App.Roles.pRole_procurement_manager && d.Selected == true).Count() > 0)
             {
                 var dbContext = new IdentityContext();
                 var userss = dbContext.Users.Where(d => d.Claims.Select(x => x.ClaimValue).Contains(IdLdapConstants.App.Roles.pRole_procurement_manager));
@@ -382,11 +397,11 @@ namespace IdLdap.Controllers
                 await _UserManager.RemoveClaimAsync(userIdentity.Id, new Claim(IdLdapConstants.Claims.Role, item.Name));
             }
 
-            
 
-            foreach(var item in RoleUser.Where(x=>x.Selected == true))
+
+            foreach (var item in RoleUser.Where(x => x.Selected == true))
             {
-                await _UserManager.AddClaimAsync(userIdentity.Id, new Claim(IdLdapConstants.Claims.Role, item.Name));  
+                await _UserManager.AddClaimAsync(userIdentity.Id, new Claim(IdLdapConstants.Claims.Role, item.Name));
             }
 
             return RedirectToAction("UserId", new { id = UserDetail.UserName });
@@ -396,14 +411,14 @@ namespace IdLdap.Controllers
         [LdapMvcAuthorizeRole(IdLdapConstants.App.Roles.IdLdapAdminRole)]
         public async Task<ActionResult> UpdateUserPassword(UserDetail UserDetail)
         {
-            if(UserDetail == null)
+            if (UserDetail == null)
                 throw new ApplicationException("Null Input");
 
-            if( String.IsNullOrEmpty(UserDetail.NewPassword))
+            if (String.IsNullOrEmpty(UserDetail.NewPassword))
                 throw new ApplicationException("Password Null !");
 
             var userIndentity = await _UserManager.FindByNameAsync(UserDetail.UserName);
-            if(userIndentity == null)
+            if (userIndentity == null)
                 throw new ApplicationException("User not exist");
 
             _UserManager.RemovePassword(userIndentity.Id);
@@ -446,7 +461,7 @@ namespace IdLdap.Controllers
             {
                 IsLdapUser = false,
                 UserName = UserDetail.UserName,
-                DisplayName=UserDetail.DisplayName,
+                DisplayName = UserDetail.DisplayName,
                 Email = UserDetail.Email,
 
             };
@@ -457,7 +472,7 @@ namespace IdLdap.Controllers
                 string error = String.Join(", ", result.Errors.ToArray());
                 throw new ApplicationException(error);
             }
-            
+
             return RedirectToAction("DetailUser", new { id = UserDetail.UserName });
         }
 
@@ -492,8 +507,9 @@ namespace IdLdap.Controllers
 
         [HttpPost]
         //[LdapMvcAuthorizeRole(IdLdapConstants.App.Roles.pRole_staff)]
-        public async Task<string> NewVendorUser(UserDetail UserDetail) {
-            
+        public async Task<string> NewVendorUser(UserDetail UserDetail)
+        {
+
             if (UserDetail == null)
                 throw new ApplicationException("Null Input");
 
@@ -502,9 +518,10 @@ namespace IdLdap.Controllers
 
             User b = _UserManager.FindByName(UserDetail.UserName);
             int i = 1;
-            if (b!=null) {
-                b = null;
-                UserDetail.UserName = UserDetail.UserName + i++.ToString();
+            // Cari username yang belum dipakai — tambahkan suffix angka jika sudah ada
+            while (b != null)
+            {
+                UserDetail.UserName = UserDetail.UserName.TrimEnd('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') + i++.ToString();
                 b = _UserManager.FindByName(UserDetail.UserName);
             }
 
@@ -525,8 +542,8 @@ namespace IdLdap.Controllers
 
             //add vendor role
             await _UserManager.AddClaimAsync(newUser.Id, new Claim(IdLdapConstants.Claims.Role, IdLdapConstants.App.Roles.pRole_procurement_vendor));
-            await _UserManager.AddClaimAsync(newUser.Id, new Claim(IdLdapConstants.Claims.Role, IdLdapConstants.App.Roles.IdLdapUserRole));  
-            
+            await _UserManager.AddClaimAsync(newUser.Id, new Claim(IdLdapConstants.Claims.Role, IdLdapConstants.App.Roles.IdLdapUserRole));
+
             return UserDetail.UserName;
         }
 
@@ -568,15 +585,15 @@ namespace IdLdap.Controllers
 
         public async Task<ActionResult> CreateNewRole(RoleUser RoleUser)
         {
-            if(RoleUser == null)
-                throw new  ApplicationException("input null");
-            
-            if(await _RoleManager.RoleExistsAsync(RoleUser.Name))
-                throw new  ApplicationException("role exist");
+            if (RoleUser == null)
+                throw new ApplicationException("input null");
 
-              await _RoleManager.CreateAsync(new Role() { Name = RoleUser.Name });
+            if (await _RoleManager.RoleExistsAsync(RoleUser.Name))
+                throw new ApplicationException("role exist");
 
-              return RedirectToAction("ListRole");
+            await _RoleManager.CreateAsync(new Role() { Name = RoleUser.Name });
+
+            return RedirectToAction("ListRole");
         }
 
 
@@ -586,12 +603,12 @@ namespace IdLdap.Controllers
                 throw new ApplicationException("input invalid");
 
             var datarole = await _RoleManager.FindByNameAsync(rolename);
-            if(datarole == null)
-                throw new  ApplicationException("role never exist");
+            if (datarole == null)
+                throw new ApplicationException("role never exist");
 
             await _RoleManager.DeleteAsync(datarole);
-            var userHaveClaim =  _UserManager.Users.Where(x=>x.Claims.Where(z=>z.ClaimType==IdLdapConstants.Claims.Role && z.ClaimValue == rolename).Any()).ToList();
-            
+            var userHaveClaim = _UserManager.Users.Where(x => x.Claims.Where(z => z.ClaimType == IdLdapConstants.Claims.Role && z.ClaimValue == rolename).Any()).ToList();
+
 
             foreach (var item in userHaveClaim)
             {

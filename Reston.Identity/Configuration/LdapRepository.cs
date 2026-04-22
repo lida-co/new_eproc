@@ -8,6 +8,7 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using Reston.Identity.Helper;
 
 namespace IdLdap.Configuration
 {
@@ -34,7 +35,8 @@ namespace IdLdap.Configuration
                 {
                     _log.Debug("FindUser - userprincipl.SamAccountName = {SamAccountName}", userprincipl.SamAccountName);
                 }
-                else {
+                else
+                {
                     _log.Debug("FindUser - userPrincipal not found! Searched using IdentityType.SamAccountName, search term {SearchTerm} ", searchterm);
                 }
                 return userprincipl;
@@ -42,11 +44,11 @@ namespace IdLdap.Configuration
             catch (Exception ex)
             {
                 _log.Debug(ex, "FindUser - Problem Occured. See stack trace for details");
-                return new UserPrincipal(_AuthLdapConnect);
+                return null;
             }
         }
 
-     
+
         public UserPrincipal FindUser2(string searchterm)
         {
             _log.Debug("FindUser2 -> {UserName}", _AuthLdapConnect.UserName);
@@ -66,10 +68,10 @@ namespace IdLdap.Configuration
             catch (Exception ex)
             {
                 _log.Debug(ex, "FindUser2 - Problem Occured. See stack trace for details");
-                return new UserPrincipal(_AuthLdapConnect);
+                return null;
             }
         }
-        
+
         public GroupPrincipal FindGroup(string searchterm)
         {
             return GroupPrincipal.FindByIdentity(_AuthLdapConnect, searchterm);
@@ -102,52 +104,177 @@ namespace IdLdap.Configuration
             return authenticated;
         }
 
-        public IdLdap.Models.GridUserItem GetUsersByUsername(string searchterm, int page = 0, int limit = int.MaxValue )
+        public IdLdap.Models.GridUserItem GetUsersByUsername(string searchterm, int page = 0, int limit = int.MaxValue)
         {
-            UserPrincipal userSearch =
-                new UserPrincipal(_AuthLdapConnect);
-            PrincipalSearcher searcher = new PrincipalSearcher();
-            
-            
-            //userSearch.SamAccountName = searchterm;
-            //userSearch.Name = searchterm;
-            //userSearch.UserPrincipalName = searchterm;
-            //userSearch.GivenName = searchterm;
-            //userSearch.SamAccountName = searchterm;
+            var normalizedTerm = (searchterm ?? string.Empty).Trim();
+            var wildcardChars = new[] { '*', '%' };
+            normalizedTerm = normalizedTerm.Trim(wildcardChars).Trim();
 
-            if (_AuthLdapConnect.ContextType == ContextType.Machine)
+            var users = new List<UserPrincipal>();
+            if (string.IsNullOrWhiteSpace(normalizedTerm))
             {
-                userSearch.SamAccountName = searchterm;
+                // Saat filter kosong, kembalikan seluruh user agar halaman Link LDAP tidak terlihat kosong.
+                users.AddRange(FindAllUsers());
             }
             else
             {
-                userSearch.UserPrincipalName = searchterm;
+                users.AddRange(FindUsersByIdentity(IdentityType.UserPrincipalName, normalizedTerm));
+                users.AddRange(FindUsersByIdentity(IdentityType.SamAccountName, normalizedTerm));
+                users.AddRange(FindUsersByIdentity(IdentityType.Name, normalizedTerm));
+
+                // Beberapa directory provider hanya match saat wildcard di-set eksplisit.
+                var wildcardTerm = "*" + normalizedTerm + "*";
+                users.AddRange(FindUsersByIdentity(IdentityType.UserPrincipalName, wildcardTerm));
+                users.AddRange(FindUsersByIdentity(IdentityType.SamAccountName, wildcardTerm));
+                users.AddRange(FindUsersByIdentity(IdentityType.Name, wildcardTerm));
             }
 
-            searcher.QueryFilter = userSearch;
-            int ct = searcher.FindAll().Count();
-            
-            using (searcher)
+            var dedupedUsers = users
+                .Where(x => x != null)
+                .GroupBy(x => x.Guid.HasValue ? x.Guid.Value.ToString() : (x.DistinguishedName ?? x.Sid?.ToString() ?? x.Name ?? string.Empty), StringComparer.OrdinalIgnoreCase)
+                .Select(x => x.First())
+                .ToList();
+
+            if (!dedupedUsers.Any())
             {
-                try
-                {
-                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).SizeLimit = limit;
-                    ((DirectorySearcher)searcher.GetUnderlyingSearcher()).PageSize = page;
-                }
-                catch
-                { 
-                }
-
-                PrincipalSearchResult<Principal> results =
-                    searcher.FindAll();
-
-                IdLdap.Models.GridUserItem gr = new IdLdap.Models.GridUserItem()
-                {
-                    Length = ct,
-                    Users = results.Skip(page * limit).Take(limit).Select(principal => principal as UserPrincipal)
-                };
-                return gr;
+                _log.Warn("GetUsersByUsername - UserPrincipal query returned 0 result. Fallback to DirectorySearcher. SearchTerm: {SearchTerm}", normalizedTerm);
+                var fallbackUsers = SearchUsersWithDirectorySearcher(normalizedTerm);
+                dedupedUsers = fallbackUsers
+                    .Where(x => x != null)
+                    .GroupBy(x => x.Guid.HasValue ? x.Guid.Value.ToString() : (x.DistinguishedName ?? x.Sid?.ToString() ?? x.Name ?? string.Empty), StringComparer.OrdinalIgnoreCase)
+                    .Select(x => x.First())
+                    .ToList();
+                _log.Info("GetUsersByUsername - DirectorySearcher fallback found {UserCount} users.", dedupedUsers.Count);
             }
+
+            var total = dedupedUsers.Count;
+            var pageIndex = page < 0 ? 0 : page;
+            var rowLimit = limit <= 0 ? int.MaxValue : limit;
+
+            return new IdLdap.Models.GridUserItem()
+            {
+                Length = total,
+                Users = dedupedUsers.Skip(pageIndex * rowLimit).Take(rowLimit)
+            };
+        }
+
+        private IEnumerable<UserPrincipal> FindAllUsers()
+        {
+            try
+            {
+                using (var userSearch = new UserPrincipal(_AuthLdapConnect))
+                using (var searcher = new PrincipalSearcher(userSearch))
+                {
+                    return searcher.FindAll().Select(principal => principal as UserPrincipal).Where(x => x != null).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Debug(ex, "GetUsersByUsername - failed querying all users.");
+                return Enumerable.Empty<UserPrincipal>();
+            }
+        }
+
+        private IEnumerable<UserPrincipal> FindUsersByIdentity(IdentityType identityType, string searchterm)
+        {
+            try
+            {
+                var userSearch = new UserPrincipal(_AuthLdapConnect);
+                switch (identityType)
+                {
+                    case IdentityType.UserPrincipalName:
+                        userSearch.UserPrincipalName = searchterm;
+                        break;
+                    case IdentityType.SamAccountName:
+                        userSearch.SamAccountName = searchterm;
+                        break;
+                    case IdentityType.Name:
+                        userSearch.Name = searchterm;
+                        break;
+                    default:
+                        return Enumerable.Empty<UserPrincipal>();
+                }
+
+                using (var searcher = new PrincipalSearcher(userSearch))
+                {
+                    return searcher.FindAll().Select(principal => principal as UserPrincipal).Where(x => x != null).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Debug(ex, "GetUsersByUsername - failed querying identity type {IdentityType} with term {SearchTerm}", identityType, searchterm);
+                return Enumerable.Empty<UserPrincipal>();
+            }
+        }
+
+        private IEnumerable<UserPrincipal> SearchUsersWithDirectorySearcher(string searchterm)
+        {
+            try
+            {
+                var host = IdLdapConstants.LdapConfiguration.Host;
+                var container = IdLdapConstants.LdapConfiguration.ContextNaming;
+                var username = IdLdapConstants.LdapConfiguration.Username;
+                var password = IdLdapConstants.LdapConfiguration.Password;
+
+                if (string.IsNullOrWhiteSpace(host) || string.IsNullOrWhiteSpace(container))
+                {
+                    _log.Warn("DirectorySearcher fallback skipped because LDAP host/container is empty.");
+                    return Enumerable.Empty<UserPrincipal>();
+                }
+
+                var escapedTerm = EscapeLdapSearchFilter(searchterm);
+                var filter = string.IsNullOrWhiteSpace(escapedTerm)
+                    ? "(&(objectClass=user))"
+                    : string.Format("(&(objectClass=user)(|(sAMAccountName=*{0}*)(userPrincipalName=*{0}*)(cn=*{0}*)(displayName=*{0}*)))", escapedTerm);
+
+                var users = new List<UserPrincipal>();
+                var ldapPath = "LDAP://" + host + "/" + container;
+                var authType = AuthenticationTypes.None;
+                if (IdLdapConstants.LdapConfiguration.UsingSSL)
+                {
+                    authType = AuthenticationTypes.SecureSocketsLayer;
+                }
+                using (var root = new DirectoryEntry(ldapPath, username, password, authType))
+                using (var searcher = new DirectorySearcher(root))
+                {
+                    searcher.Filter = filter;
+                    searcher.PageSize = 500;
+                    searcher.PropertiesToLoad.Add("distinguishedName");
+
+                    var results = searcher.FindAll();
+                    foreach (SearchResult result in results)
+                    {
+                        var dn = result.Properties["distinguishedName"]?.Count > 0
+                            ? result.Properties["distinguishedName"][0]?.ToString()
+                            : null;
+                        if (string.IsNullOrWhiteSpace(dn)) continue;
+
+                        var principal = UserPrincipal.FindByIdentity(_AuthLdapConnect, IdentityType.DistinguishedName, dn);
+                        if (principal != null)
+                        {
+                            users.Add(principal);
+                        }
+                    }
+                }
+
+                return users;
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "DirectorySearcher fallback failed.");
+                return Enumerable.Empty<UserPrincipal>();
+            }
+        }
+
+        private static string EscapeLdapSearchFilter(string value)
+        {
+            if (value == null) return string.Empty;
+            return value
+                .Replace("\\", "\\5c")
+                .Replace("*", "\\2a")
+                .Replace("(", "\\28")
+                .Replace(")", "\\29")
+                .Replace("\0", "\\00");
         }
 
         public PrincipalSearchResult<Principal> GetGroups(string searchterm)
@@ -166,7 +293,7 @@ namespace IdLdap.Configuration
                     searcher.FindAll();
 
                 return results;
-            } 
+            }
         }
 
 
@@ -185,6 +312,6 @@ namespace IdLdap.Configuration
 
 
 
-        
+
     }
 }

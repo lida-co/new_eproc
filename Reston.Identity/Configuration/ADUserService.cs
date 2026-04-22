@@ -116,10 +116,20 @@ namespace IdLdap.Configuration
                 //System.IO.File.AppendAllText(path, "cekuserldap " + userIdentity.DisplayName + Environment.NewLine);
                 //_log.Debug("cekuserldap " + userIdentity.DisplayName);
                 var userAccount = await _UserManager.FindByNameAsync(username);
+                if (userAccount == null && _LdapRepository != null)
+                {
+                    _log.Debug("Local account not found for '{UserName}'. Trying LDAP auto-link.", username);
+                    userAccount = await TryAutoLinkLdapAccountAsync(username);
+                    if (userAccount == null && ValidateLdapCredentialsWithFallback(username, username, password))
+                    {
+                        _log.Warn("LDAP lookup failed for '{UserName}', but credential bind succeeded. Creating minimal linked local account.", username);
+                        userAccount = await CreateMinimalLdapLinkedAccountAsync(username);
+                    }
+                }
                 if (userAccount != null)
                 {
                     _log.Debug("Account found. Id: {AccountId}, UserName: {AccountUserName}", userAccount.Id, userAccount.UserName);
-                    if (userAccount.LockoutEnabled)
+                    if (_UserManager.SupportsUserLockout && await _UserManager.IsLockedOutAsync(userAccount.Id))
                     {
                         _log.Debug("Account is locked. Id: {AccountId}, UserName: {AccountUserName}", userAccount.Id, userAccount.UserName);
                         context.AuthenticateResult = new AuthenticateResult("Account is locked. Please contact your system administrator");
@@ -129,9 +139,14 @@ namespace IdLdap.Configuration
                     if (userAccount.IsLdapUser)
                     {
                         _log.Debug("Account is LDAP-linked. Using LDAP Store to verify password. Id: {AccountId}, UserName: {AccountUserName}", userAccount.Id, userAccount.UserName);
-                        // TODO remove this
+                        if (_LdapRepository == null)
+                        {
+                            _log.Warn("LDAP repository is null while trying to authenticate LDAP user '{UserName}'.", userAccount.UserName);
+                            context.AuthenticateResult = new AuthenticateResult("The system is experiencing problem. Please contact system administrator");
+                            return;
+                        }
 
-                        bool pwdIsValid = _LdapRepository.ValidateCredentials(userAccount.UserName, password);
+                        bool pwdIsValid = ValidateLdapCredentialsWithFallback(username, userAccount.UserName, password);
                         if (pwdIsValid)
                         {
                             _log.Debug("Password verification SUCCESSFUL. Id: {AccountId}, UserName: {AccountUserName}", userAccount.Id, userAccount.UserName);
@@ -208,6 +223,152 @@ namespace IdLdap.Configuration
         protected async virtual Task<User> FindUserAsync(string username)
         {
             return await _UserManager.FindByNameAsync(username);
+        }
+
+        private async Task<User> TryAutoLinkLdapAccountAsync(string username)
+        {
+            try
+            {
+                var userLdap = FindUserFromLdapWithFallback(username);
+                if (userLdap == null)
+                {
+                    _log.Debug("LDAP user not found for '{UserName}'. Auto-link skipped.", username);
+                    return null;
+                }
+
+                var resolvedUsername = string.IsNullOrWhiteSpace(userLdap.SamAccountName) ? username : userLdap.SamAccountName;
+                var existingByResolvedUsername = await _UserManager.FindByNameAsync(resolvedUsername);
+                if (existingByResolvedUsername != null)
+                {
+                    _log.Debug("Found existing local account with LDAP resolved username '{UserName}'.", resolvedUsername);
+                    return existingByResolvedUsername;
+                }
+
+                var newUser = new User
+                {
+                    IsLdapUser = true,
+                    UserName = resolvedUsername,
+                    DisplayName = userLdap.DisplayName,
+                    Email = userLdap.EmailAddress
+                };
+                if (userLdap.Guid.HasValue)
+                {
+                    newUser.Id = userLdap.Guid.Value.ToString();
+                }
+
+                var createResult = await _UserManager.CreateAsync(newUser, "P@ssw0rd!");
+                if (!createResult.Succeeded)
+                {
+                    _log.Warn("Failed creating auto-linked LDAP user '{UserName}'. Errors: {Errors}",
+                        resolvedUsername, string.Join(", ", createResult.Errors));
+                    return null;
+                }
+
+                await _UserManager.AddClaimAsync(newUser.Id,
+                    new Claim(IdLdapConstants.Claims.Role, IdLdapConstants.AppConfiguration.IdLdapUserRole));
+
+                _log.Info("LDAP user '{UserName}' auto-linked successfully with id '{UserId}'.", resolvedUsername, newUser.Id);
+                return newUser;
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex, "LDAP auto-link failed for '{UserName}'.", username);
+                return null;
+            }
+        }
+
+        private UserPrincipal FindUserFromLdapWithFallback(string username)
+        {
+            try
+            {
+                bool useAppDir = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["LDAP_APPDIR"]);
+                UserPrincipal userLdap = useAppDir ? _LdapRepository.FindUser2(username) : _LdapRepository.FindUser(username);
+                if (userLdap != null)
+                {
+                    return userLdap;
+                }
+
+                // Fallback: coba metode kebalikan karena beberapa user disimpan dengan format identitas berbeda.
+                userLdap = useAppDir ? _LdapRepository.FindUser(username) : _LdapRepository.FindUser2(username);
+                if (userLdap != null)
+                {
+                    _log.Debug("LDAP user found via fallback identity lookup for '{UserName}'.", username);
+                }
+                return userLdap;
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex, "LDAP lookup fallback failed for '{UserName}'.", username);
+                return null;
+            }
+        }
+
+        private bool ValidateLdapCredentialsWithFallback(string inputUsername, string storedUsername, string password)
+        {
+            var usernamesToTry = new List<string>();
+            if (!string.IsNullOrWhiteSpace(storedUsername)) usernamesToTry.Add(storedUsername);
+            if (!string.IsNullOrWhiteSpace(inputUsername)) usernamesToTry.Add(inputUsername);
+
+            var domainHost = IdLdapConstants.LdapConfiguration.Host;
+            if (!string.IsNullOrWhiteSpace(domainHost))
+            {
+                var shortDomain = domainHost.Split('.').FirstOrDefault();
+                if (!string.IsNullOrWhiteSpace(shortDomain))
+                {
+                    usernamesToTry.Add(shortDomain + "\\" + storedUsername);
+                    usernamesToTry.Add(shortDomain + "\\" + inputUsername);
+                }
+
+                usernamesToTry.Add(storedUsername + "@" + domainHost);
+                usernamesToTry.Add(inputUsername + "@" + domainHost);
+            }
+
+            foreach (var candidate in usernamesToTry.Where(x => !string.IsNullOrWhiteSpace(x)).Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                _log.Debug("Attempting LDAP credential validation using candidate username '{CandidateUserName}'.", candidate);
+                if (_LdapRepository.ValidateCredentials(candidate, password))
+                {
+                    _log.Debug("LDAP credential validation succeeded using candidate username '{CandidateUserName}'.", candidate);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private async Task<User> CreateMinimalLdapLinkedAccountAsync(string username)
+        {
+            try
+            {
+                var existing = await _UserManager.FindByNameAsync(username);
+                if (existing != null) return existing;
+
+                var newUser = new User
+                {
+                    IsLdapUser = true,
+                    UserName = username,
+                    DisplayName = username
+                };
+
+                var createResult = await _UserManager.CreateAsync(newUser, "P@ssw0rd!");
+                if (!createResult.Succeeded)
+                {
+                    _log.Warn("Failed creating minimal auto-linked LDAP user '{UserName}'. Errors: {Errors}",
+                        username, string.Join(", ", createResult.Errors));
+                    return null;
+                }
+
+                await _UserManager.AddClaimAsync(newUser.Id,
+                    new Claim(IdLdapConstants.Claims.Role, IdLdapConstants.AppConfiguration.IdLdapUserRole));
+
+                _log.Info("Minimal LDAP user '{UserName}' auto-linked successfully with id '{UserId}'.", username, newUser.Id);
+                return newUser;
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex, "Failed to create minimal LDAP-linked user for '{UserName}'.", username);
+                return null;
+            }
         }
 
         public virtual async Task<IEnumerable<Claim>> GetClaimsForAuthenticateResult(User userIdentity)
@@ -317,6 +478,10 @@ namespace IdLdap.Configuration
 
         public virtual async System.Threading.Tasks.Task<IEnumerable<Claim>> GetClaimsFromAccount(UserPrincipal userLdap, User userIdentity)
         {
+            // Subject HARUS menggunakan userIdentity.Id (database ID), bukan userLdap.Guid.
+            // IsActiveAsync() memanggil FindByIdAsync(subject) untuk validasi session —
+            // jika subject berisi LDAP GUID (bukan database ID), user tidak akan ditemukan
+            // dan sesi dianggap tidak aktif → redirect ke login terus.
             var preferredUserName = userIdentity.UserName;
             if (userLdap != null)
             {

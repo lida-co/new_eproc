@@ -17,13 +17,13 @@ namespace IdLdap
     using Reston.Identity.Repository.Identity;
     using NLog;
 
-    public static class MVCGridConfig 
+    public static class MVCGridConfig
     {
         private static Logger _log = LogManager.GetCurrentClassLogger();
         static readonly ILdapRepository _LdapRepository;
         static readonly UserManager _UserManager;
         static readonly RoleManager _RoleManager;
-        
+
         static MVCGridConfig()
         {
             _log.Debug("Initializing MVCGridConfig...");
@@ -65,7 +65,7 @@ namespace IdLdap
                         principalContext.Options);
                 _LdapRepository = new LdapRepository(principalContext);
             }
-            else 
+            else
             {
                 _LdapRepository = null;
                 var msg = "'LDAP_CONTEXT_TYPE' is not set or set to unknown value. Fail to initialize MVCGridConfig.";
@@ -117,7 +117,7 @@ namespace IdLdap
                    var rolename = options.GetFilterString("NameRole") == null ? "" : options.GetFilterString("NameRole");
                    var result = (new RoleManager(new RoleStore(new IdentityContext()))).Roles.Where(x => x.Name.Contains(rolename));
                    var total = result.Count();
-                   result.Skip(options.GetLimitOffset().GetValueOrDefault()).Take(options.GetLimitRowcount().GetValueOrDefault());
+                   result = result.Skip(options.GetLimitOffset().GetValueOrDefault()).Take(options.GetLimitRowcount().GetValueOrDefault());
 
                    return new QueryResult<Role>()
                    {
@@ -166,7 +166,7 @@ namespace IdLdap
                         cols.Add("Edit").WithHtmlEncoding(false)
                             .WithSorting(false)
                             .WithHeaderText("Action")
-                            .WithValueExpression((p, c) => '"' + p.UserPrincipalName + '"')
+                            .WithValueExpression((p, c) => '"' + (!string.IsNullOrWhiteSpace(p.UserPrincipalName) ? p.UserPrincipalName : p.SamAccountName) + '"')
                             .WithCellCssClassExpression(p => p.IsLinked.GetValueOrDefault() ? "hiddentd" : "")
                             .WithValueTemplate("<button onclick='LinkedAccount({Value});' class='btn btn-primary' role='button'>Link</button>");
 
@@ -181,7 +181,7 @@ namespace IdLdap
                             var options = context.QueryOptions;
                             List<UserLdap> items;
 
-                            var username = options.GetFilterString("UserPrincipalName") == null ? "*" : "*" + options.GetFilterString("UserPrincipalName") + "*";
+                            var username = options.GetFilterString("UserPrincipalName") == null ? "" : options.GetFilterString("UserPrincipalName");
                             var result = _LdapRepository.GetUsersByUsername(username, options.PageIndex.GetValueOrDefault(), options.ItemsPerPage.GetValueOrDefault());
                             items = result.Users.Select(x => new UserLdap
                             {
@@ -209,7 +209,7 @@ namespace IdLdap
                                 TotalRecords = result.Length
                             };
                         }
-                        catch(Exception exc)
+                        catch (Exception exc)
                         {
                             _log.Error(exc, "*********" + exc.Message);
                         }
@@ -269,37 +269,13 @@ namespace IdLdap
                    .WithFiltering(true)
                    .WithRetrieveDataMethod((context) =>
                    {
-                       var options = context.QueryOptions;
-                       List<UserLdap> items;
-
-                       var username = options.GetFilterString("UserPrincipalName") == null ? "*" : "*" + options.GetFilterString("UserPrincipalName") + "*";
-                       var result = _LdapRepository.GetUsersByUsername(username, options.PageIndex.GetValueOrDefault(), options.ItemsPerPage.GetValueOrDefault());
-
-                       items = result.Users.Select(x => new UserLdap
-                       {
-                           Name = x.Name,
-                           Guid = x.Guid.ToString(),
-                           Mail = x.EmailAddress,
-                           SamAccountName = x.SamAccountName,
-                           UserPrincipalName = x.UserPrincipalName,
-                           GivenName = x.GivenName,
-                           Surname = x.Surname,
-                           IsAccountLockedOut = x.IsAccountLockedOut(),
-                           IsLinked = false,
-                           DisplayName = x.DisplayName
-                       }).ToList();
-
-                       List<string> guidSearch = items.Select(x => x.Guid).ToList();
-                       var usersIdentity = (new UserManager(new UserStore(new IdentityContext()))).Users.Where(x => guidSearch.Contains(x.Id)).Select(x => x.Id).ToList();
-                       //items.Where(c => usersIdentity.Contains(c.Guid)).ToList().ForEach(x =>  { x.IsLinked = true; } );
-
-                       items.Update(x => x.IsLinked = usersIdentity.Contains(x.Guid) ? true : false);
-
+                       // _LdapRepository is null — LDAP context type is not configured.
+                       // Return empty result to prevent NullReferenceException.
+                       _log.Warn("UserLdapFiltering: _LdapRepository is null. LDAP_CONTEXT_TYPE is not configured. Returning empty list.");
                        return new QueryResult<UserLdap>()
                        {
-                           Items = items,
-                           //TotalRecords = items.Count()
-                           TotalRecords = result.Length
+                           Items = new List<UserLdap>(),
+                           TotalRecords = 0
                        };
                    })
                );
@@ -325,7 +301,7 @@ namespace IdLdap
                        .WithValueExpression(p => p.Position)
                        .WithFiltering(true);
                    cols.Add("IsLdapUser").WithSorting(false).WithHeaderText("User Ldap")
-                       .WithValueExpression(p => p.IsLdapUser ? "User Ldap": "Non Ldap")
+                       .WithValueExpression(p => p.IsLdapUser ? "User Ldap" : "Non Ldap")
                        .WithFiltering(false);
                    cols.Add("LockoutEnabled").WithSorting(false)
                        .WithHeaderText("Status")
@@ -352,12 +328,12 @@ namespace IdLdap
 
                    var username = options.GetFilterString("UserName") == null ? "" : options.GetFilterString("UserName");
 
-                   var result = (new UserManager(new UserStore(new IdentityContext()))).Users.Where(x => x.UserName.Contains(username)||x.DisplayName.Contains(username));
-                   var total = result.Count();    
+                   var result = (new UserManager(new UserStore(new IdentityContext()))).Users.Where(x => x.UserName.Contains(username) || x.DisplayName.Contains(username));
+                   var total = result.Count();
                    //result.Skip(options.GetLimitOffset().GetValueOrDefault()).Take(options.GetLimitRowcount().GetValueOrDefault());
                    int skip = options.PageIndex.GetValueOrDefault() * options.ItemsPerPage.GetValueOrDefault();
                    int take = options.ItemsPerPage.GetValueOrDefault();
-                   result = result.OrderBy(x=>x.Id).Skip(skip).Take(take); 
+                   result = result.OrderBy(x => x.Id).Skip(skip).Take(take);
 
                    return new QueryResult<User>()
                    {
@@ -368,7 +344,7 @@ namespace IdLdap
            );
 
 
-            
+
 
         }
 
@@ -380,6 +356,6 @@ namespace IdLdap
             }
         }
 
-        
+
     }
 }
