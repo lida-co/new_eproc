@@ -15,16 +15,21 @@ namespace Reston.EProc.Web.Controllers
         [HttpGet]
         public IHttpActionResult GetCsrfToken()
         {
-            // GANTI: Gunakan CsrfHelper.GenerateToken() bukan Guid.NewGuid()
-            var token = CsrfHelper.GenerateToken();  // <- INI YANG BENAR
+            // Generate token menggunakan CsrfHelper
+            var token = CsrfHelper.GenerateToken();
 
+            // 🔒 PERBAIKAN: Tambahkan SameSite=Strict untuk mencegah CSRF
             var cookie = new HttpCookie("XSRF-TOKEN", token)
             {
-                HttpOnly = false,
-                Expires = DateTime.Now.AddMinutes(30)
+                HttpOnly = false,  // Harus false agar JavaScript bisa baca (untuk kirim via header)
+                Secure = true,     // 🔒 WAJIB HTTPS
+                SameSite = SameSiteMode.Strict,  // 🔒 PERBAIKAN: Tambahkan SameSite
+                Expires = DateTime.Now.AddMinutes(30),
+                Path = "/"
             };
 
             HttpContext.Current.Response.Cookies.Add(cookie);
+            
             return Ok(new { csrfToken = token });
         }
     }
