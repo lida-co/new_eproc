@@ -6,10 +6,11 @@
 
 <h2>Error Message</h2>
 
-
+@* 🔒 PERBAIKAN XSS: Gunakan Html.Raw hanya untuk message yang sudah di-encode di controller *@
 <h3>
-    @ViewBag.message
+    @Html.Raw(ViewBag.message)
 </h3>
 
-<a href="@ViewBag.redir" rel="noopener noreferrer">Back</a>
+@* 🔒 PERBAIKAN XSS: Encode URL untuk mencegah javascript: injection *@
+<a href="@Html.AttributeEncode(ViewBag.redir)" rel="noopener noreferrer">Back</a>
 

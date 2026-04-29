@@ -34,7 +34,8 @@
                 <h2>OOOPS!!!</h2>
                 <b>
                     <h4 style="color:black">
-                        @ViewBag.RedirectReason @if (this.User.Identity.IsAuthenticated)
+                        @* 🔒 PERBAIKAN XSS: Gunakan Html.Raw karena sudah di-encode di controller *@
+                        @Html.Raw(ViewBag.RedirectReason) @if (this.User.Identity.IsAuthenticated)
                         { <a style="color:blue" href="@Url.Action("Signout", "Header")">Silahkan Logout </a>}
                     </h4>
                 </b>

@@ -486,31 +486,77 @@ namespace IdLdap.Controllers
 
         public async Task<ActionResult> ErrorMessage(string msg, string redir)
         {
-            // default redirect aman
+            // 🔒 PERBAIKAN XSS: Default redirect aman
             string safeRedirect = Url.Action("UserId", "Admin");
 
-            // validasi redirect
-            if (!string.IsNullOrEmpty(redir) && Url.IsLocalUrl(redir))
+            // 🔒 PERBAIKAN XSS: Validasi redirect dengan ketat
+            if (!string.IsNullOrEmpty(redir))
             {
-                if (redir.StartsWith("/Admin", StringComparison.OrdinalIgnoreCase))
+                // Blokir javascript:, data:, vbscript:, dan protocol berbahaya lainnya
+                var dangerousProtocols = new[] { "javascript:", "data:", "vbscript:", "file:", "about:" };
+                var lowerRedir = redir.ToLower().Trim();
+                
+                bool isDangerous = dangerousProtocols.Any(protocol => lowerRedir.StartsWith(protocol));
+                
+                if (!isDangerous && Url.IsLocalUrl(redir))
                 {
-                    safeRedirect = redir;
+                    // Hanya izinkan path yang dimulai dengan /Admin
+                    if (redir.StartsWith("/Admin", StringComparison.OrdinalIgnoreCase))
+                    {
+                        safeRedirect = redir;
+                    }
                 }
             }
 
-            // sanitasi message (prevent abuse)
+            // 🔒 PERBAIKAN XSS: Sanitasi message dengan ketat
             string safeMessage = "Terjadi kesalahan. Silakan coba lagi.";
 
-            // OPTIONAL: kalau mau allow pesan tertentu saja
-            if (!string.IsNullOrEmpty(msg) && msg.Length < 200)
+            if (!string.IsNullOrEmpty(msg))
             {
-                safeMessage = msg;
+                // Validasi panjang
+                if (msg.Length > 200)
+                {
+                    msg = msg.Substring(0, 200);
+                }
+
+                // Blokir karakter berbahaya untuk XSS
+                if (ContainsDangerousCharacters(msg))
+                {
+                    // Jika ada karakter berbahaya, gunakan pesan default
+                    safeMessage = "Terjadi kesalahan. Silakan coba lagi.";
+                }
+                else
+                {
+                    // Encode HTML untuk mencegah XSS
+                    safeMessage = System.Web.HttpUtility.HtmlEncode(msg);
+                }
             }
 
             ViewBag.message = safeMessage;
             ViewBag.redir = safeRedirect;
 
             return View();
+        }
+
+        /// <summary>
+        /// Helper method untuk deteksi karakter berbahaya
+        /// </summary>
+        private bool ContainsDangerousCharacters(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return false;
+
+            // Blokir karakter yang umum digunakan untuk XSS
+            var dangerousPatterns = new[]
+            {
+                "<script", "</script", "javascript:", "onerror=", "onload=",
+                "<iframe", "<object", "<embed", "<img", "onclick=",
+                "onmouseover=", "onfocus=", "onblur=", "<svg", "alert(",
+                "eval(", "expression(", "vbscript:", "data:text/html"
+            };
+
+            var lowerInput = input.ToLower();
+            return dangerousPatterns.Any(pattern => lowerInput.Contains(pattern));
         }
 
         [HttpPost]

@@ -12,16 +12,30 @@ namespace IdLdap.Controllers
         // GET: HandleException
         public ActionResult Index()
         {
-            ViewBag.RedirectReason = "SOMETHING WENT WRONG.";
+            // 🔒 PERBAIKAN XSS: Default message aman
+            string safeMessage = "SOMETHING WENT WRONG.";
+            
             if (TempData["RedirectReason"] != null)
             {
-                ViewBag.RedirectReason = TempData["RedirectReason"].ToString();
+                string rawMessage = TempData["RedirectReason"].ToString();
+                
+                // 🔒 PERBAIKAN XSS: Sanitasi dan encode message
+                if (!string.IsNullOrEmpty(rawMessage))
+                {
+                    // Validasi panjang
+                    if (rawMessage.Length > 500)
+                    {
+                        rawMessage = rawMessage.Substring(0, 500);
+                    }
+                    
+                    // Encode HTML untuk mencegah XSS
+                    safeMessage = HttpUtility.HtmlEncode(rawMessage);
+                }
             }
-
-
+            
+            ViewBag.RedirectReason = safeMessage;
 
             return View();
         }
-
     }
 }
