@@ -546,7 +546,13 @@
     <script src="dist/js/menu.js"></script>
     <script src="dist/js/report.js"></script>
     <script>
+        $(document).ready(function () {
+            initCsrf();
+        });
 
+        function getCsrfToken() {
+            return csrfToken;
+        }
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 

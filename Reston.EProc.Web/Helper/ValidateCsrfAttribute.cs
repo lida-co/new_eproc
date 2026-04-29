@@ -36,7 +36,23 @@ namespace Reston.EProc.Web.Helper
                 path.Contains("/api/header/ceklogin") ||
                 path.Contains("/api/header/cekrole") ||
                 path.Contains("/api/header/signout") ||
-                path.Contains("/api/security/csrf-token"))
+                path.Contains("/api/security/csrf-token") ||
+                path.Contains("/api/security/getcsrftoken"))
+            {
+                return true;
+            }
+
+            // 🔒 PERBAIKAN: Skip CSRF validation untuk Report endpoints (file download)
+            // Report endpoints tidak mengubah data, hanya generate & download file
+            if (path.Contains("/api/report/"))
+            {
+                return true;
+            }
+
+            // 🔒 PERBAIKAN: Skip CSRF validation untuk Search endpoints (read-only)
+            // Search endpoints tidak mengubah data, hanya query/filter data
+            // Menggunakan POST untuk kirim complex filter criteria
+            if (path.EndsWith("/search") || path.Contains("/search/"))
             {
                 return true;
             }

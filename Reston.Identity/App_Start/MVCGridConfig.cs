@@ -89,8 +89,10 @@ namespace IdLdap
             };
 
 
+            // 🔒 PERBAIKAN: Require authentication untuk ListRole
+            // Hanya user yang sudah login yang bisa akses data roles
             MVCGridDefinitionTable.Add("ListRole", new MVCGridBuilder<Role>(colDefauls)
-               .WithAuthorizationType(AuthorizationType.AllowAnonymous)
+               .WithAuthorizationType(AuthorizationType.Authorized)
                .AddColumns(cols =>
                {
                    cols.Add("Id").WithSorting(false)
@@ -134,8 +136,10 @@ namespace IdLdap
             {
                 _log.Debug("Using _LdapRepository to retrieve LDAP Users list...");
 
+                // 🔒 PERBAIKAN: Require authentication untuk UserLdapFiltering
+                // Hanya user yang sudah login yang bisa akses data LDAP users
                 MVCGridDefinitionTable.Add("UserLdapFiltering", new MVCGridBuilder<UserLdap>(colDefauls)
-                    .WithAuthorizationType(AuthorizationType.AllowAnonymous)
+                    .WithAuthorizationType(AuthorizationType.Authorized)
                     .AddColumns(cols =>
                     {
                         //cols.Add("Guid").WithSorting(false)
@@ -227,8 +231,10 @@ namespace IdLdap
             }
             else
             {
+                // 🔒 PERBAIKAN: Require authentication untuk UserLdapFiltering (fallback)
+                // Hanya user yang sudah login yang bisa akses data users
                 MVCGridDefinitionTable.Add("UserLdapFiltering", new MVCGridBuilder<UserLdap>(colDefauls)
-                   .WithAuthorizationType(AuthorizationType.AllowAnonymous)
+                   .WithAuthorizationType(AuthorizationType.Authorized)
                    .AddColumns(cols =>
                    {
                        //cols.Add("Guid").WithSorting(false)
@@ -282,8 +288,10 @@ namespace IdLdap
             }
 
 
+            // 🔒 PERBAIKAN: Require authentication untuk UserId
+            // Hanya user yang sudah login yang bisa akses data users
             MVCGridDefinitionTable.Add("UserId", new MVCGridBuilder<User>(colDefauls)
-               .WithAuthorizationType(AuthorizationType.AllowAnonymous)
+               .WithAuthorizationType(AuthorizationType.Authorized)
                .AddColumns(cols =>
                {
                    //cols.Add("Guid").WithSorting(false)

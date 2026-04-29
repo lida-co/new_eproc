@@ -228,16 +228,8 @@
     <script src="blockui/jquery.blockUI.js"></script>
 
     <script>
-
         $(document).ready(function () {
             initCsrf();
-
-            //$(document).ajaxSend(function (event, jqxhr, settings) {
-            //    if (settings.type !== 'GET' && !csrfToken) {
-            //        console.error('CSRF token tidak tersedia untuk request non-GET');
-            //        // Opsional: tunda request atau tampilkan pesan
-            //    }
-            //});
         });
 
         function getCsrfToken() {
@@ -255,6 +247,12 @@
 
         $(document).ready(function () {
 
+            var headers = {};
+            if (csrfToken) {
+                headers['X-CSRF-Token'] = csrfToken;
+                headers['X-XSRF-TOKEN'] = csrfToken;
+            }
+
             new Promise(function (resolve, reject) {
                 dataTable = $('.tbl-result').DataTable({
                     serverSide: true,
@@ -264,6 +262,7 @@
                     ajax: {
                         method: 'post',
                         url: 'api/ememo/search',
+                        headers: headers,
                         contentType: 'application/json',
                         data: function (data, settings) {
                             return JSON.stringify({
