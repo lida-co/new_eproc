@@ -1,10 +1,70 @@
-﻿var dataPengadaanPErhatian;
+﻿function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length === 2) {
+        return parts.pop().split(";").shift();
+    }
+    return null;
+}
+
+var dataPengadaanPErhatian;
+
+// Function to wait for CSRF token to be available
+async function waitForCsrfToken(maxWaitMs = 5000) {
+    const startTime = Date.now();
+    while (!window.csrfToken && (Date.now() - startTime) < maxWaitMs) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    return window.csrfToken;
+}
+
 $(function () {
-    $.ajax({
-        method: "POST",
-        url: "Api/PengadaanE/isCreatePengadaan"
-    }).done(function (data) {
-        if (data == 1) $("#tambah").show();
+
+    // Wait for CSRF token before making the request
+    waitForCsrfToken().then(function (token) {
+        // Get CSRF token from multiple possible sources
+        var csrfToken = token || window.csrfToken;
+
+        // Try to get from meta tag if not available
+        if (!csrfToken) {
+            var metaToken = $('meta[name="csrf-token"]').attr('content');
+            if (metaToken) {
+                csrfToken = metaToken;
+            }
+        }
+
+        // Try to get from cookie
+        if (!csrfToken) {
+            var cookieToken = getCookie('CSRF-TOKEN') || getCookie('XSRF-TOKEN');
+            if (cookieToken) {
+                csrfToken = cookieToken;
+            }
+        }
+
+        // Build headers
+        var headers = {};
+        if (csrfToken) {
+            headers['X-CSRF-TOKEN'] = csrfToken;
+            headers['X-CSRF-Token'] = csrfToken;
+            headers['X-XSRF-TOKEN'] = csrfToken;
+            headers['RequestVerificationToken'] = csrfToken;
+        }
+
+        $.ajax({
+            method: "POST",
+            headers: headers,
+            url: "Api/PengadaanE/isCreatePengadaan",
+            error: function (xhr, status, error) {
+                console.error('isCreatePengadaan error:', status, error);
+                if (xhr.status === 403) {
+                    console.error('CSRF token validation failed. Token:', csrfToken ? 'present' : 'missing');
+                }
+            }
+        }).done(function (data) {
+            if (data == 1) $("#tambah").show();
+        });
+    }).catch(function (error) {
+        console.error('Failed to get CSRF token:', error);
     });
     $("#myNav").affix({
         offset: {
