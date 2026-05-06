@@ -54,22 +54,30 @@ async function initCsrf() {
 }
 
 $.ajaxSetup({
-    beforeSend: async function (xhr, settings) {
+    beforeSend: function (xhr, settings) {
         if (settings.type === 'GET') return;
 
-        // tunggu token kalau belum ada
-        let waitCount = 0;
-        while (!csrfToken && waitCount < 10) {
-            await new Promise(r => setTimeout(r, 200));
-            waitCount++;
-        }
-
         if (!csrfToken) {
-            console.warn('CSRF token tetap belum tersedia');
-            return;
+            try {
+                var req = new XMLHttpRequest();
+                req.open('GET', '/api/security/GetCsrfToken', false); // synchronous request
+                req.send(null);
+                if (req.status === 200) {
+                    var data = JSON.parse(req.responseText);
+                    csrfToken = data.csrfToken;
+                }
+            } catch (e) {
+                console.warn('Gagal sinkron CSRF token:', e);
+            }
         }
 
-        xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+        if (csrfToken) {
+            xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+            xhr.setRequestHeader("X-XSRF-TOKEN", csrfToken);
+            xhr.setRequestHeader("RequestVerificationToken", csrfToken);
+        } else {
+            console.warn('CSRF token tetap belum tersedia');
+        }
     }
 });
 

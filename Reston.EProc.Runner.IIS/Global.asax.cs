@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -30,7 +30,7 @@ namespace Runner.IIS
             // ========================================
             { "/pengadaan-add.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager", "procurement_staff" } },
             { "/pengadaan_add_terbuka.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager", "procurement_staff" } },
-            { "/pengadaan-detail.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager", "procurement_staff" } },
+            { "/pengadaan-terbuka-detail.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager", "procurement_staff", "compliance", "end_user", "direksi", "dirut", "approver", "legal_admin", "rekanan_terdaftar" } },
             { "/pengadaan-detail-edit.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager", "procurement_staff" } },
             { "/create-rks.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager", "procurement_staff" } },
             { "/create-pks.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager", "procurement_staff" } },
@@ -107,7 +107,7 @@ namespace Runner.IIS
         /// 🔒 PERBAIKAN KEAMANAN: Authorization check untuk file HTML statis
         /// Dipanggil untuk setiap HTTP request
         /// </summary>
-        protected void Application_BeginRequest(object sender, EventArgs e)
+        protected void Application_PostAuthenticateRequest(object sender, EventArgs e)
         {
             try
             {
