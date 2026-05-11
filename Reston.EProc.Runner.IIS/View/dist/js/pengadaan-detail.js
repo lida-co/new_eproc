@@ -1,17 +1,28 @@
 ﻿
 
+// Baca ID dari hash. Jika hash bukan GUID (misal berubah karena klik accordion),
+// fallback ke sessionStorage agar tidak redirect ke list saat accordion diklik.
 var id_pengadaan = DOMPurify.sanitize(window.location.hash.replace("#", ""));
+if (!isGuid(id_pengadaan)) {
+    var stored = sessionStorage.getItem("pengadaan_id");
+    if (stored && isGuid(stored)) {
+        id_pengadaan = stored;
+    }
+}
 
 $(function () {
     if (isGuid(id_pengadaan)) {
+        sessionStorage.setItem("pengadaan_id", id_pengadaan);
         $("#pengadaanId").val(id_pengadaan);
         loadData(id_pengadaan);
         GetUsingCOA();
     }
     else {
         if (isGuid($("#pengadaanId").val())) {
-            window.location.hash = $("#pengadaanId").val();
-            loadData($("#pengadaanId").val());
+            var currentId = $("#pengadaanId").val();
+            sessionStorage.setItem("pengadaan_id", currentId);
+            window.location.hash = currentId;
+            loadData(currentId);
             GetUsingCOA();
         }
         else {
@@ -220,6 +231,24 @@ $(function () {
         $(this).addClass("active");
     });
 
+    // Fix: Cegah accordion links mengubah window.location.hash ke nilai non-GUID
+    // (misal #collapse6), yang menyebabkan redirect ke list saat halaman di-refresh.
+    // Toggle accordion dilakukan secara manual agar Bootstrap collapse tetap berfungsi.
+    $("#accordion").on("click", "a[data-parent='#accordion']", function (e) {
+        e.preventDefault();
+        var target = $(this).attr("href");
+        if (!target) return;
+        var $target = $(target);
+        if ($target.length === 0) return;
+
+        var isOpen = $target.hasClass("in");
+        // Tutup semua panel accordion
+        $("#accordion .panel-collapse.in").collapse("hide");
+        // Buka panel yang diklik jika sebelumnya tertutup
+        if (!isOpen) {
+            $target.collapse("show");
+        }
+    });
 
 });
 
@@ -661,7 +690,11 @@ function loadData(pengadaanId) {
         }
 
         if (data.isDireksi == 1) {
-            $(".remove-direksi").remove();
+            // Direksi tetap bisa melihat semua panel pelaksanaan,
+            // tapi semua tombol action di-disable
+            $(".remove-direksi .action-pelaksanaan").remove();
+            $(".remove-direksi .action-pelaksanaan2").attr("disabled", "disabled");
+            $(".remove-direksi button").attr("disabled", "disabled");
         }
 
         if (data.GroupPengadaan == 3) {

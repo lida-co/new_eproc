@@ -5903,22 +5903,31 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 dataPengadaan.Status=EStatusPengadaan.AANWIJZING;
             }
 
-            var dataTahapan=dataPengadaan.PersetujuanTahapans.Where(d=>d.UserId==UserId && d.StatusPengadaan==data.StatusPengadaan && d.PengadaanId==data.PengadaanId).FirstOrDefault();
-            if (dataPengadaan.Status != data.StatusPengadaan) return new PersetujuanTahapan();
+            // Query langsung ke DB agar tidak ter-cache oleh EF identity map
+            var dataTahapan = ctx.PersetujuanTahapans
+                .Where(d => d.UserId == UserId && d.StatusPengadaan == data.StatusPengadaan && d.PengadaanId == data.PengadaanId)
+                .FirstOrDefault();
+
+            // Izinkan approve tahapan yang sudah lewat (status pengadaan >= status yang di-approve)
+            if (dataPengadaan.Status < data.StatusPengadaan) return new PersetujuanTahapan();
+
             if (dataTahapan == null)
             {
+                data.Id = Guid.NewGuid();
                 data.UserId = UserId;
                 data.CreatedBy = UserId;
                 data.CreatedOn = DateTime.Now;
                 ctx.PersetujuanTahapans.Add(data);
+                ctx.SaveChanges(UserId.ToString());
+                return data;
             }
             else
             {
                 dataTahapan.ModifiedBy = UserId;
-                dataTahapan.ModifiedOn = DateTime.Now;                
+                dataTahapan.ModifiedOn = DateTime.Now;
+                ctx.SaveChanges(UserId.ToString());
+                return dataTahapan;
             }
-            ctx.SaveChanges(UserId.ToString());
-            return new PersetujuanTahapan();
         }
 
         public List<VWPersetujuanTahapan> GetPersetujuanTahapan(Guid PengadaanId, EStatusPengadaan status)
@@ -5938,8 +5947,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 VWPersetujuanTahapan nVWPersetujuanTahapan=new VWPersetujuanTahapan();
 
-                var Tahapan = dataPengadaan.PersetujuanTahapans
-                                        .Where(d => d.UserId == item.PersonilId && d.StatusPengadaan == status).FirstOrDefault();
+                // Query langsung ke DB (bukan navigation property) agar selalu fresh
+                var Tahapan = ctx.PersetujuanTahapans
+                                        .Where(d => d.UserId == item.PersonilId && d.StatusPengadaan == status && d.PengadaanId == PengadaanId).FirstOrDefault();
                 if (Tahapan != null)
                 {
                     nVWPersetujuanTahapan.Id = Tahapan.Id;

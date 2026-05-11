@@ -2461,7 +2461,7 @@ $(function () {
             }
             else {
                 //alert("Next From Submit");
-                nextstepproceed();
+                nextstepproceed($(this));
             }
         }
         else if ($("#StatusName").val() == "KLARIFIKASI") {
@@ -2470,7 +2470,7 @@ $(function () {
             }
             else {
                 //alert("Next From Klarifikasi");
-                nextstepproceed();
+                nextstepproceed($(this));
             }
         }
         else if ($("#StatusName").val() == "KLARIFIKASILANJUTAN") {
@@ -2479,10 +2479,10 @@ $(function () {
             }
             else {
                 //alert("Next From Klarifikasi Lanjutan");
-                nextstepproceed();
+                nextstepproceed($(this));
             }
         } else {
-            nextstepproceed();
+            nextstepproceed($(this));
         }
     });
 
@@ -2518,15 +2518,15 @@ $(function () {
         return;
     }
 
-    function nextstepproceed(){
-        var elDari = $(this).attr("elDari");
-        var elSampai = $(this).attr("elSampai");
+    function nextstepproceed(btn){
+        var elDari = btn.attr("elDari");
+        var elSampai = btn.attr("elSampai");
 
         var dari = moment($(elDari).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
         var sampai = moment($(elSampai).val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
         var pengadaanId = $("#pengadaanId").val();
-        $(this).attr("disabled", "disabled");
-        var thisel = $(this);
+        btn.attr("disabled", "disabled");
+        var thisel = btn;
         $.ajax({
             method: "POST",
             url: "Api/PengadaanE/nextStateAndSchelud?Id=" + pengadaanId + "&dari=" + dari + "&sampai=" + sampai,
@@ -2650,10 +2650,10 @@ $(function () {
 
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/ClearPersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&&status=" + tahapan,
+            url: "Api/PengadaanE/ClearPersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&status=" + tahapan,
             success: function (data) {
                 waitingDialog.hideloading();
-                if (data.Id == 0) {
+                if (data.Id == "0") {
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
                         message: 'Anda Tidak Memiliki Akses!',
@@ -2812,10 +2812,10 @@ function savePersetujuanTahapan(tahapan) {
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
         method: "POST",
-        url: "Api/PengadaanE/SavePersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&&status=" + tahapan,
+        url: "Api/PengadaanE/SavePersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&status=" + tahapan,
         success: function (data) {
             waitingDialog.hideloading();
-            if (data.Id == 0) {
+            if (data.Id == "0") {
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
                     message: 'Anda Tidak Memiliki Akses!',
@@ -2849,7 +2849,7 @@ function getPersetujuanTahapan(tahapan) {
     
     $.ajax({
         method: "GET",
-        url: "Api/PengadaanE/GetPersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&&status=" + tahapan,
+        url: "Api/PengadaanE/GetPersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&status=" + tahapan,
         success: function (data) {
             renderPersetujuanPelaksanaan(data, tahapan);
             if ($("#StatusName").val() == tahapan) {
@@ -2898,7 +2898,7 @@ function deletePemenang(elTHis, objData) {
         success: function (data) {
             elTHis.prop('checked', false);
             waitingDialog.hideloading();
-            if (data.Id == 0) {
+            if (data.Id == "0") {
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
                     message: 'Anda Tidak Memiliki Akses!',
@@ -2938,7 +2938,7 @@ function addPemenang(elTHis, objData) {
         success: function (data) {
             elTHis.prop('checked', true);
             waitingDialog.hideloading();
-            if (data.Id == 0) {
+            if (data.Id == "0") {
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
                     message: 'Anda Tidak Memiliki Akses!',
@@ -3133,14 +3133,17 @@ function getDateSubmitPenawaran() {
         method: "POST",
         url: "Api/PengadaanE/GetSubmitPenawran?PId=" + $("#pengadaanId").val(),
         success: function (data) {
-            $("#tgl_pengisian_harga_re").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
-            $("#tgl_pengisian_harga_sampai_re").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
-            $("#pengisian_harga_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
-            //if (data.Id != "00000000-0000-0000-0000-000000000000") {
-            //    if (isGuid(data.Id)) {
-            //        $("#aanwijzingPId").val(data.Id);
-            //    }
-            //}
+            var mulai = moment(data.Mulai);
+            var sampai = moment(data.Sampai);
+            var mulaiStr = mulai.isValid() ? mulai.format("DD MMMM YYYY HH:mm") : "";
+            var sampaiStr = sampai.isValid() ? sampai.format("DD MMMM YYYY HH:mm") : "";
+            // field di header panel Submit Penawaran
+            $("#tgl_pengisian_harga_re").val(mulaiStr);
+            $("#tgl_pengisian_harga_sampai_re").val(sampaiStr);
+            $("#pengisian_harga_aktual").html(mulaiStr && sampaiStr ? "( " + mulaiStr + " s/d " + sampaiStr + " )" : "");
+            // field Next Step di panel Aanwijzing
+            if (mulaiStr) $("#next-submit-dari").val(mulaiStr);
+            if (sampaiStr) $("#next-submit-sampai").val(sampaiStr);
         },
         error: function (errormessage) {
             alert("gagal");
@@ -3153,14 +3156,17 @@ function getBukaAmplop() {
         method: "POST",
         url: "Api/PengadaanE/GetBukaAmplop?PId=" + $("#pengadaanId").val(),
         success: function (data) {
-            $("#buka_amplop_re").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
-            $("#buka_amplop_sampai_re").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
-            $("#buka_amplop_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
-            if (data.Id != "00000000-0000-0000-0000-000000000000") {
-                //if (isGuid(data.Id)) {
-                //    $("#aanwijzingPId").val(data.Id);
-                //}
-            }
+            var mulai = moment(data.Mulai);
+            var sampai = moment(data.Sampai);
+            var mulaiStr = mulai.isValid() ? mulai.format("DD MMMM YYYY HH:mm") : "";
+            var sampaiStr = sampai.isValid() ? sampai.format("DD MMMM YYYY HH:mm") : "";
+            // field di header panel Buka Amplop
+            $("#buka_amplop_re").val(mulaiStr);
+            $("#buka_amplop_sampai_re").val(sampaiStr);
+            $("#buka_amplop_aktual").html(mulaiStr && sampaiStr ? "( " + mulaiStr + " s/d " + sampaiStr + " )" : "");
+            // field Next Step di panel Submit Penawaran
+            if (mulaiStr) $("#next-buka-amplop-dari").val(mulaiStr);
+            if (sampaiStr) $("#next-buka-amplop-sampai").val(sampaiStr);
         },
         error: function (errormessage) {
             alert("gagal");
@@ -3173,14 +3179,17 @@ function getPenilaian() {
         method: "POST",
         url: "Api/PengadaanE/GetPenilaian?PId=" + $("#pengadaanId").val(),
         success: function (data) {
-            $("#jadwal_penilaian_kandidat").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
-            $("#jadwal_penilaian_kandidat_sampai").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
-            $("#penilaian_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
-            if (data.Id != "00000000-0000-0000-0000-000000000000") {
-                //if (isGuid(data.Id)) {
-                //    $("#aanwijzingPId").val(data.Id);
-                //}
-            }
+            var mulai = moment(data.Mulai);
+            var sampai = moment(data.Sampai);
+            var mulaiStr = mulai.isValid() ? mulai.format("DD MMMM YYYY HH:mm") : "";
+            var sampaiStr = sampai.isValid() ? sampai.format("DD MMMM YYYY HH:mm") : "";
+            // field di header panel Penilaian
+            $("#jadwal_penilaian_kandidat").val(mulaiStr);
+            $("#jadwal_penilaian_kandidat_sampai").val(sampaiStr);
+            $("#penilaian_aktual").html(mulaiStr && sampaiStr ? "( " + mulaiStr + " s/d " + sampaiStr + " )" : "");
+            // field Next Step di panel Klarifikasi Lanjutan
+            if (mulaiStr) $("#next-penilaian-dari").val(mulaiStr);
+            if (sampaiStr) $("#next-penilaian-sampai").val(sampaiStr);
         },
         error: function (errormessage) {
             alert("gagal");
@@ -3193,14 +3202,17 @@ function getKlarifikasi() {
         method: "POST",
         url: "Api/PengadaanE/GetKlarifikasi?PId=" + $("#pengadaanId").val(),
         success: function (data) {
-            $("#jadwal_pelaksanaan_klarifikasi").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
-            $("#jadwal_pelaksanaan_klarifikasi_sampai").val(moment(data.Sampai).format("DD MMMM YYYY HH:mm"));
-            $("#klarifikasi_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
-            if (data.Id != "00000000-0000-0000-0000-000000000000") {
-                //if (isGuid(data.Id)) {
-                //    $("#aanwijzingPId").val(data.Id);
-                //}
-            }
+            var mulai = moment(data.Mulai);
+            var sampai = moment(data.Sampai);
+            var mulaiStr = mulai.isValid() ? mulai.format("DD MMMM YYYY HH:mm") : "";
+            var sampaiStr = sampai.isValid() ? sampai.format("DD MMMM YYYY HH:mm") : "";
+            // field di header panel Klarifikasi
+            $("#jadwal_pelaksanaan_klarifikasi").val(mulaiStr);
+            $("#jadwal_pelaksanaan_klarifikasi_sampai").val(sampaiStr);
+            $("#klarifikasi_aktual").html(mulaiStr && sampaiStr ? "( " + mulaiStr + " s/d " + sampaiStr + " )" : "");
+            // field Next Step di panel Buka Amplop
+            if (mulaiStr) $("#next-klarifikasi-dari").val(mulaiStr);
+            if (sampaiStr) $("#next-klarifikasi-sampai").val(sampaiStr);
             generateUndanganKlarifikasi();
         },
         error: function (errormessage) {
@@ -3236,8 +3248,13 @@ function getPemenang() {
         method: "POST",
         url: "Api/PengadaanE/GetPemenang?PId=" + $("#pengadaanId").val(),
         success: function (data) {
-            $("#jadwal_pelaksanaan_pemenang").val(moment(data.Mulai).format("DD MMMM YYYY HH:mm"));
-            $("#pemenang_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " )");            
+            var mulai = moment(data.Mulai);
+            var mulaiStr = mulai.isValid() ? mulai.format("DD MMMM YYYY HH:mm") : "";
+            // field di header panel Pemenang
+            $("#jadwal_pelaksanaan_pemenang").val(mulaiStr);
+            $("#pemenang_aktual").html(mulaiStr ? "( " + mulaiStr + " )" : "");
+            // field Next Step di panel Penilaian
+            if (mulaiStr) $("#next-pemenang-dari").val(mulaiStr);
         },
         error: function (errormessage) {
            // alert("gagal");

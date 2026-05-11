@@ -4465,7 +4465,7 @@ namespace Reston.Pinata.WebService.Controllers
              };
              
             var rData = _repository.SavePersetujuanTahapan(data,UserId());
-            if (rData.Id == null) return Json(new ResultMessage()
+            if (rData.Id == Guid.Empty) return Json(new ResultMessage()
             {
                 message=Common.Forbiden(),status=HttpStatusCode.Forbidden            
             });

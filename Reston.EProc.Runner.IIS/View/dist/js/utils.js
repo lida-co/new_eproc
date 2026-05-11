@@ -22,20 +22,23 @@ function safeRedirect(key, paramName, paramValue) {
         "pengadaan_add_terbuka": "/pengadaan_add_terbuka.html",
         "pengadaan-rekanan": "/pengadaan-rekanan.html",
         "rekanan-side-detail-pengadaan": "/rekanan-side-detail-pengadaan.html",
-        "pengadaan-add": "/pengadaan-add.html"
+        "pengadaan-add": "/pengadaan-add.html",
+        "rekanan-rks": "/rekanan-rks.html",
+        "rekanan-rks-asuransi": "/rekanan-rks-asuransi.html",
+        "rekanan-klarifikasi-harga": "/rekanan-klarifikasi-harga.html",
+        "rekanan-klarifikasi-harga-asuransi": "/rekanan-klarifikasi-harga-asuransi.html",
+        "rekanan-klarifikasi-lanjutan-harga": "/rekanan-klarifikasi-lanjutan-harga.html",
+        "rekanan-klarifikasi-lanjutan-harga-asuransi": "/rekanan-klarifikasi-lanjutan-harga-asuransi.html"
     };
 
     if (!pathMap[key]) return;
     if (!/^[a-zA-Z0-9_-]+$/.test(paramValue)) return;
     if (whitelist.length > 0 && !whitelist.includes(paramValue)) return;
 
-    const safeParam = paramName;
-    const safeValue = paramValue;
-    const targetUrl = `${pathMap[key]}${safeParam}${safeValue}`;
+    const targetUrl = pathMap[key] + paramName + paramValue;
 
-    // ✅ Manipulasi history + reload
-    history.pushState(null, "", targetUrl);
-    location.reload();
+    // Gunakan location.href agar hash fragment (#) tidak di-encode menjadi %23
+    window.location.href = targetUrl;
 }
 
 

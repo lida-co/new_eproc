@@ -104,6 +104,7 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<Guid> Id { get; set; }
         public Nullable<decimal> jumlah { get; set; }
         public Nullable<decimal> harga { get; set; }
+        public string hargaEncrypt { get; set; }
         public string Keterangan { get; set; }
         public int? grup { get; set; }
         public subtotal subtotal { get; set; }

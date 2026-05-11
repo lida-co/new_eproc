@@ -1,43 +1,19 @@
-﻿var id_pengadaan = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+﻿var id_pengadaan = getIdFromUrl();
 var table;
 $(function () {
     if (isGuid(id_pengadaan)) {
         $("#pengadaanId").val(id_pengadaan);
         loadData(id_pengadaan);
-    }
-    else {
+    } else {
         if (isGuid($("#pengadaanId").val())) {
-            window.location.hash = parseInt($("#pengadaanId").val());
+            window.location.hash = $("#pengadaanId").val();
             loadData($("#pengadaanId").val());
-        }
-        else {            
-            window.location.replace( window.location.origin + "/pengadaan-rekanan.html");
+        } else {
+            window.location.replace(window.location.origin + "/pengadaan-rekanan.html");
         }
     }
-
-    $("#tab-pelakasanaan").on("click", function () {
-        $("#side-kanan").find(".rk").hide();
-        $("#side-kanan").find(".pl").show();
-    });
-    $("#tab-berkas").on("click", function () {
-        $("#side-kanan").find(".rk").hide();
-        $("#side-kanan").find(".pl").hide();
-    });
-    $("#tab-rk").on("click", function () {
-        $("#side-kanan").find(".rk").show();
-        $("#side-kanan").find(".pl").hide();
-    });
 
     $("#side-kanan").find(".pl").hide();
-
-    $("#myNav").affix({
-        offset: {
-            top: 100
-        }
-    });
-    $(".fa-download").click(function () {
-        $("#view-siup").modal('show');
-    });
 
     $(".tab-content").show();
 
@@ -47,8 +23,6 @@ $(function () {
         });
         $(this).addClass("active");
     });
-        
-   
 
     $(".tab-content").show();
     table = $('#example1').DataTable({
@@ -58,14 +32,13 @@ $(function () {
         "ordering": false,
         "info": false,
         "autoWidth": true,
-        //responsive: true,
         "ajax": "Api/PengadaanE/getRksKlarifikasiRekanan?id=" + $("#pengadaanId").val(),
         "columns": [
-            { "data":null },
+            { "data": null },
             { "data": "item" },
             { "data": "keteranganItem" },
-            { "data": "satuan" },            
-            { "data": "jumlah" ,"className": "tengah" },
+            { "data": "satuan" },
+            { "data": "jumlah", "className": "tengah" },
             { "data": null },
             { "data": null, "className": "rata_kanan" },
             { "data": null }
@@ -79,102 +52,77 @@ $(function () {
                 "targets": 0,
                 "orderable": false
             },
-                {
-                    "render": function (data, type, row) {
-                        //<input type="text" class="auto"  data-a-sign="€ " data-v-max="10000000000000000">
-                        if (row.jumlah > 0) {
-                            var harga = "0";
-
-                            var num = row.harga.toString().replace(",", ".");
-
-                            if (num > 0) {
-                                harga = accounting.formatNumber(num, { thousand: ".", decimal: ",", precision: 2 });
-                            }
-                            return '<input type="text" class="form-control harga-rekanan" value="' + harga + '"  attrId="' + row.Id + '" />';
-
+            {
+                "render": function (data, type, row) {
+                    if (row.jumlah > 0) {
+                        var harga = "0";
+                        var num = parseHargaIndonesia(row.harga);
+                        if (num > 0) {
+                            harga = accounting.formatNumber(num, { thousand: ".", decimal: ",", precision: 2 });
                         }
-                        else return '<input type="hidden" class="harga-rekanan" attrId="' + row.Id + '" />';
-
-                        // $('input.harga-rekanan').autoNumeric({ aSep: '.', aDec: ',' });
-                    },
-                    "targets": 5,
-                    "orderable": false
+                        return '<input type="text" class="form-control harga-rekanan" value="' + harga + '" attrId="' + row.Id + '" />';
+                    } else {
+                        return '<input type="hidden" class="harga-rekanan" attrId="' + row.Id + '" />';
+                    }
                 },
-                {
-                    "render": function (data, type, row) {
-                        if (row.jumlah != null) {
-                            var num = row.harga.toString().replace(",", ".");
-                            if (row.jumlah > 0 && num > 0) {
-                                return accounting.formatNumber(num * row.jumlah, { thousand: ".", decimal: ",", precision: 2 });
-                            }
-                            else return 0;
-                        }
-                        else return "";
-                    },
-                    "targets": 6,
-                    "orderable": false
+                "targets": 5,
+                "orderable": false
+            },
+            {
+                "render": function (data, type, row) {
+                    if (row.jumlah != null) {
+                        var num = parseHargaIndonesia(row.harga);
+                        if (row.jumlah > 0 && num > 0) {
+                            return accounting.formatNumber(num * row.jumlah, { thousand: ".", decimal: ",", precision: 2 });
+                        } else return 0;
+                    } else return "";
                 },
-                {
-                    "render": function (data, type, row) {
-                        if (row.jumlah != null) {
-                            if (row.jumlah > 0) {
-                                return '<textarea class="form-control undangan" attrId="' + row.Id + '">' + row.keterangan + '</textarea>';
-                            } else return "";
-                        }
-                        else return "";
-                    },
-                    "targets": 7,
-                    "orderable": false
-                }
+                "targets": 6,
+                "orderable": false
+            },
+            {
+                "render": function (data, type, row) {
+                    if (row.jumlah != null && row.jumlah > 0) {
+                        return '<textarea class="form-control undangan" attrId="' + row.Id + '">' + (row.keterangan || '') + '</textarea>';
+                    } else return "";
+                },
+                "targets": 7,
+                "orderable": false
+            }
         ],
         "rowCallback": function (row, data, index) {
-            hitungHargaItem();
+            // Jangan panggil hitungHargaItem di sini karena menyebabkan loop
         },
-        "initComplete": function (oSettings, json) {    
-            $(".harga-rekanan").number(true, 0, ",", ".");
+        "initComplete": function (oSettings, json) {
             hitungHargaItem();
         }
     });
-    //,vMax:'1000000000000'}); });
-    $('#example1').on("click", ".harga-rekanan", function () {
+
+    // Update harga saat focusout (bukan click+focusout untuk hindari multiple binding)
+    $('#example1').on("focusout", ".harga-rekanan", function () {
         var baris = $(this).parent().closest("tr").index();
-        var oldRowData = table.row(baris).data();
-        $(this).focusout(function () {           
-            var newData = {};
-            newData = oldRowData;
-            newData.harga = UnformatFloat($(this).val());
-            updateData(baris, newData);
-            hitungHargaItem();
-        });        
+        var rowData = table.row(baris).data();
+        if (!rowData) return;
+        rowData.harga = parseHargaIndonesia($(this).val());
+        table.row(baris).data(rowData);
+        hitungHargaItem();
     });
-    $('#example1').on("click", ".undangan", function () {
+
+    $('#example1').on("focusout", ".undangan", function () {
         var baris = $(this).parent().closest("tr").index();
-        var oldRowData = table.row(baris).data();
-        $(this).focusout(function () {
-            var newData = {};
-            newData = oldRowData;
-            newData.keterangan = $(this).val();
-            updateData(baris, newData);
-            hitungHargaItem();
-        });
+        var rowData = table.row(baris).data();
+        if (!rowData) return;
+        rowData.keterangan = $(this).val();
+        table.row(baris).data(rowData);
     });
 
     $(".save-harga").on("click", function () {
         var data = datatableToJson(table);
-        var arrData = [];
-        $.each(data, function (index,value) {
-            var objData = {};
-            objData.Id = value.Id;
-            if (value.HargaRekananId != "00000000-0000-0000-0000-000000000000")
-                objData.HargaRekananId = value.HargaRekananId;
-            if(value.harga!="" &&value.harga!=null)
-                objData.harga = value.harga;
-            arrData.push(objData);
-        });
+        var pengadaanId = $("#pengadaanId").val();
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/addHargaKlarifikasiRekanan?PengadaanId=" + $("#pengadaanId").val(),
+            url: "Api/PengadaanE/addHargaKlarifikasiRekanan?PengadaanId=" + pengadaanId,
             dataType: "json",
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
@@ -184,46 +132,37 @@ $(function () {
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
                         message: 'Harga Tawaran Berhasil di Kirim',
-                        buttons: [{
-                            label: 'Kembali',
-                            action: function (dialog) {
-
-                                let pengadaanId = $("#pengadaanId").val();
-                                safeRedirect("rekanan-side-detail-pengadaan", "#", pengadaanId);
-
-
-
+                        buttons: [
+                            {
+                                label: 'Kembali',
+                                action: function (dialog) {
+                                    dialog.close();
+                                    safeRedirect("rekanan-side-detail-pengadaan", "#", pengadaanId);
+                                }
+                            },
+                            {
+                                label: 'Close',
+                                action: function (dialog) { dialog.close(); }
                             }
-                        },
-                                {
-                                    label: 'Close',
-                                    action: function (dialog) {
-                                        dialog.close();
-                                    }
-                                }]
+                        ]
                     });
-                }
-                else {
+                } else {
                     BootstrapDialog.show({
                         title: 'Konfirmasi',
-                        message: 'Penewaran di tutup',
-                        buttons: [{
-                            label: 'Kembali',
-                            action: function (dialog) {
-
-                                let pengadaanId = $("#pengadaanId").val();
-
-                                safeRedirect("rekanan-side-detail-pengadaan", "#", pengadaanId);
-
-
+                        message: 'Penawaran di tutup',
+                        buttons: [
+                            {
+                                label: 'Kembali',
+                                action: function (dialog) {
+                                    dialog.close();
+                                    safeRedirect("rekanan-side-detail-pengadaan", "#", pengadaanId);
+                                }
+                            },
+                            {
+                                label: 'Close',
+                                action: function (dialog) { dialog.close(); }
                             }
-                        },
-                                {
-                                    label: 'Close',
-                                    action: function (dialog) {
-                                        dialog.close();
-                                    }
-                                }]
+                        ]
                     });
                 }
             },
@@ -231,71 +170,60 @@ $(function () {
                 waitingDialog.hideloading();
                 BootstrapDialog.show({
                     title: 'Error!!',
-                    message: errormessage,
-                    buttons: [{
-                        label: 'Kembali',
-                        action: function (dialog) {
-
-
-                            let safeId = encodeURIComponent(pengadaanId);
-                            safeRedirect("rekanan-side-detail-pengadaan", "#", pengadaanId);
-
-                           
-
+                    message: 'Terjadi kesalahan saat menyimpan data.',
+                    buttons: [
+                        {
+                            label: 'Kembali',
+                            action: function (dialog) {
+                                dialog.close();
+                                safeRedirect("rekanan-side-detail-pengadaan", "#", pengadaanId);
+                            }
+                        },
+                        {
+                            label: 'Close',
+                            action: function (dialog) { dialog.close(); }
                         }
-                    },
-                            {
-                                label: 'Close',
-                                action: function (dialog) {
-                                    dialog.close();
-                                }
-                            }]
+                    ]
                 });
             }
-        })
+        });
     });
 });
 
+// Konversi format harga Indonesia (titik=ribuan, koma=desimal) ke float
+function parseHargaIndonesia(value) {
+    if (value == null || value === "" || value === 0) return 0;
+    var str = value.toString().trim();
+    str = str.replace(/\./g, "").replace(",", ".");
+    var num = parseFloat(str);
+    return isNaN(num) ? 0 : num;
+}
+
 function updateData(baris, newdata) {
-    $.extend(table.row(baris).data(), newdata);
-    table.row(baris).invalidate();
+    table.row(baris).data(newdata);
 }
 
 function hitungHargaItem() {
     var totalHarga = 0;
     table.rows().every(function () {
         var d = this.data();
-
-        var numHarga = parseFloat(d.harga.toString().replace(",", "."));
-
+        var numHarga = parseHargaIndonesia(d.harga);
         if (numHarga > 0) {
-
-            var numJumlah = parseFloat(d.jumlah.toString().replace(",", "."));
-            console.log(numHarga);
-            var harga = numHarga * numJumlah;
-
-            d.counter++;
-            //harga = parseInt(UnformatFloat(harga));
-            this.invalidate(); // invalidate the data DataTables has cached for this row
-
-            totalHarga = totalHarga + harga;
+            var numJumlah = parseFloat((d.jumlah || 0).toString().replace(",", "."));
+            totalHarga += numHarga * numJumlah;
         }
     });
-
-    $("#total").text(accounting.formatNumber(totalHarga, { thousand: "." ,decimal: ",", precision: 2}));
+    $("#total").text(accounting.formatNumber(totalHarga, { thousand: ".", decimal: ",", precision: 2 }));
 }
 
 function datatableToJson(table) {
     var data = [];
     table.rows().every(function () {
-        var itemObj = {};
         var d = this.data();
-        d.harga = d.harga.toString().replace(",", ".");
-        itemObj = d;
-        data.push(itemObj);
+        d.harga = parseHargaIndonesia(d.harga);
+        data.push(d);
     });
     return data;
-    //console.log(JSON.stringify(data));
 }
 
 function loadData(pengadaanId) {
@@ -305,7 +233,7 @@ function loadData(pengadaanId) {
         dataType: "json"
     }).done(function (data) {
         $("#judul").text(data.Judul);
-        $("#deskripsi").text( data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);        
+        $("#deskripsi").text(data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
         $("#keterangan").text(data.Keterangan);
         $("#MataUang").text(data.MataUang);
         $("#UnitKerjaPemohon").text(data.UnitKerjaPemohon);
@@ -313,6 +241,8 @@ function loadData(pengadaanId) {
         $("#Provinsi").text(data.Provinsi);
         $("#JenisPekerjaan").text(data.JenisPekerjaan);
         $("#pengadaanId").val(data.Id);
+
+        // Jika status bukan KLARIFIKASI, tampilkan pesan dan redirect
         if (data.StatusName != "KLARIFIKASI") {
             BootstrapDialog.show({
                 title: 'Konfirmasi',
@@ -320,23 +250,21 @@ function loadData(pengadaanId) {
                 buttons: [{
                     label: 'Kembali',
                     action: function (dialog) {
-
-                        let pengadaanId = $("#pengadaanId").val();
-
-                        safeRedirect("pengadaan-rekanan", "#", pengadaanId);
-
-
-
+                        dialog.close();
+                        safeRedirect("rekanan-side-detail-pengadaan", "#", pengadaanId);
                     }
                 }]
             });
+            return;
         }
-        if (data.Status != 7)
 
-            let pengadaanId = $("#pengadaanId").val();
-
-            safeRedirect("rekanan-side-detail-pengadaan", "#", pengadaanId);
-     
+        // Disable form jika status sudah lewat fase Klarifikasi
+        if (data.Status != 7) {
+            $(".save-harga").remove();
+            setTimeout(function () {
+                $("#example1").find("input").attr("disabled", "disabled");
+                $("#example1").find("textarea").attr("disabled", "disabled");
+            }, 500);
+        }
     });
 }
-

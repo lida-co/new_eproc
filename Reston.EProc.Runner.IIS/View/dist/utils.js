@@ -21,13 +21,10 @@ function safeRedirect(key, paramName, paramValue) {
     if (!/^[a-zA-Z0-9_-]+$/.test(paramValue)) return;
     if (whitelist.length > 0 && !whitelist.includes(paramValue)) return;
 
-    const safeParam = encodeURIComponent(paramName);
-    const safeValue = encodeURIComponent(paramValue);
-    const targetUrl = `${pathMap[key]}?${safeParam}=${safeValue}`;
+    const targetUrl = pathMap[key] + paramName + paramValue;
 
-    // ✅ Manipulasi history + reload
-    history.pushState(null, "", targetUrl);
-    location.reload();
+    // Gunakan location.href agar hash fragment (#) tidak di-encode menjadi %23
+    window.location.href = targetUrl;
 }
 
 

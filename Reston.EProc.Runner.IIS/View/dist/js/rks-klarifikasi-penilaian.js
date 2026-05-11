@@ -1,4 +1,4 @@
-﻿var request = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+﻿var request = getIdFromUrl();
 
 var table;
 

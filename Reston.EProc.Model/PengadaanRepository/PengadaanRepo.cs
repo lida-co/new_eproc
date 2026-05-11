@@ -3333,10 +3333,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 if (MjadwalPelaksanaan != null)
                 {
                     //MpelaksanaanAanwijzing.IsiUndangan = pelaksanaanAanwijzing.IsiUndangan;
-                    if (pelaksanaanSubmitPenawaran.Mulai >= DateTime.Now)
-                        MjadwalPelaksanaan.Mulai = pelaksanaanSubmitPenawaran.Mulai;
-                    if (pelaksanaanSubmitPenawaran.Sampai > DateTime.Now)
-                        MjadwalPelaksanaan.Sampai = pelaksanaanSubmitPenawaran.Sampai;
+                    MjadwalPelaksanaan.Mulai = pelaksanaanSubmitPenawaran.Mulai;
+                    MjadwalPelaksanaan.Sampai = pelaksanaanSubmitPenawaran.Sampai;
                 }
                 else
                 {
@@ -3344,10 +3342,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
                     MjadwalPelaksanaan.PengadaanId = pelaksanaanSubmitPenawaran.PengadaanId;
                     //MpelaksanaanAanwijzing.IsiUndangan = pelaksanaanAanwijzing.IsiUndangan;
                     MjadwalPelaksanaan.statusPengadaan = EStatusPengadaan.SUBMITPENAWARAN;
-                    if (pelaksanaanSubmitPenawaran.Mulai >= DateTime.Now)
-                        MjadwalPelaksanaan.Mulai = pelaksanaanSubmitPenawaran.Mulai;
-                    if (pelaksanaanSubmitPenawaran.Sampai > DateTime.Now)
-                        MjadwalPelaksanaan.Sampai = pelaksanaanSubmitPenawaran.Sampai;
+                    MjadwalPelaksanaan.Mulai = pelaksanaanSubmitPenawaran.Mulai;
+                    MjadwalPelaksanaan.Sampai = pelaksanaanSubmitPenawaran.Sampai;
                     ctx.JadwalPelaksanaans.Add(MjadwalPelaksanaan);
                 }
                 ctx.SaveChanges();
@@ -4393,33 +4389,66 @@ namespace Reston.Pinata.Model.PengadaanRepository
             var xKandidatPengadaans = (from b in ctx.KandidatPengadaans
                                        join c in ctx.Vendors on b.VendorId equals c.Id
                                        where b.PengadaanId == PengadaanId
-                                       select new VWRekananPenilaian
+                                       select new
                                        {
                                            NamaVendor = c.Nama,
                                            VendorId = b.VendorId,
-                                           NilaiKriteria = (from bb in ctx.PembobotanPengadaans
+                                           // Cast ke int? agar tidak error saat subquery kosong (null)
+                                           NilaiKriteria = (int?)(from bb in ctx.PembobotanPengadaans
                                                             join cc in ctx.PembobotanPengadaanVendors on bb.KreteriaPembobotanId equals cc.KreteriaPembobotanId
                                                             where cc.PengadaanId == PengadaanId && cc.VendorId == b.VendorId && bb.PengadaanId == PengadaanId
                                                             select new
                                                             {
                                                                 Bobot = bb.Bobot == null ? 0 : bb.Bobot.Value,
                                                                 Nilai = cc.Nilai == null ? 0 : cc.Nilai.Value
-                                                            }).Sum(dd => (dd.Nilai * dd.Bobot) / 100),
-                                           total = (from bb in ctx.HargaRekanans
-                                                    join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
-                                                    join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
-                                                    where dd.PengadaanId == PengadaanId && bb.VendorId == b.VendorId
-                                                    select new item
-                                                    {
-                                                        harga = bb.harga,
-                                                        jumlah = cc.jumlah
-                                                    }).Sum(xx => xx.harga * xx.jumlah),
-                                           terpilih = (from bb in ctx.PelaksanaanPemilihanKandidats
+                                                            }).Sum(dd => (int?)((dd.Nilai * dd.Bobot) / 100)),
+                                           // Ambil raw items dulu, decrypt di memory
+                                           rawItems = (from bb in ctx.HargaRekanans
+                                                       join cc in ctx.RKSDetails on bb.RKSDetailId equals cc.Id
+                                                       join dd in ctx.RKSHeaders on cc.RKSHeaderId equals dd.Id
+                                                       where dd.PengadaanId == PengadaanId && bb.VendorId == b.VendorId
+                                                       select new
+                                                       {
+                                                           harga = bb.harga,
+                                                           hargaEncrypt = bb.hargaEncrypt,
+                                                           jumlah = cc.jumlah
+                                                       }).ToList(),
+                                           terpilih = (int?)(from bb in ctx.PelaksanaanPemilihanKandidats
                                                        where bb.PengadaanId == PengadaanId &&
                                                        bb.VendorId == b.VendorId
-                                                       select bb).FirstOrDefault() == null ? 0 : 1
+                                                       select bb).Count()
                                        }).ToList();
-            return xKandidatPengadaans;
+
+            // Decrypt harga di memory dan hitung total
+            var enc = new JimbisEncrypt();
+            var result = xKandidatPengadaans.Select(x =>
+            {
+                decimal totalHarga = 0;
+                foreach (var rawItem in x.rawItems)
+                {
+                    decimal harga = rawItem.harga ?? 0;
+                    if (harga == 0 && !string.IsNullOrEmpty(rawItem.hargaEncrypt))
+                    {
+                        try
+                        {
+                            var dec = enc.Decrypt(rawItem.hargaEncrypt);
+                            if (!string.IsNullOrEmpty(dec)) harga = Convert.ToDecimal(dec);
+                        }
+                        catch { }
+                    }
+                    totalHarga += harga * (rawItem.jumlah ?? 0);
+                }
+                return new VWRekananPenilaian
+                {
+                    NamaVendor = x.NamaVendor,
+                    VendorId = x.VendorId,
+                    NilaiKriteria = x.NilaiKriteria ?? 0,
+                    total = totalHarga,
+                    terpilih = (x.terpilih ?? 0) > 0 ? 1 : 0
+                };
+            }).ToList();
+
+            return result;
         }
 
         public List<VWRekananPenilaian> getListRekananPenilaian2(Guid PengadaanId, Guid UserId)
@@ -4796,8 +4825,25 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                          select new item
                                          {
                                              jumlah = c.jumlah,
-                                             harga = b.harga
+                                             harga = b.harga,
+                                             hargaEncrypt = b.hargaEncrypt
                                          }).ToList();
+
+                // Decrypt harga dari hargaEncrypt jika harga null
+                JimbisEncrypt encryptor = new JimbisEncrypt();
+                foreach (var hargaItem in mVWVendorsHarga.items)
+                {
+                    if ((hargaItem.harga == null || hargaItem.harga == 0) && !string.IsNullOrEmpty(hargaItem.hargaEncrypt))
+                    {
+                        try
+                        {
+                            var decrypted = encryptor.Decrypt(hargaItem.hargaEncrypt);
+                            if (!string.IsNullOrEmpty(decrypted))
+                                hargaItem.harga = Convert.ToDecimal(decrypted);
+                        }
+                        catch { }
+                    }
+                }
 
 
 
@@ -7461,22 +7507,32 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 dataPengadaan.Status = EStatusPengadaan.AANWIJZING;
             }
 
-            var dataTahapan = dataPengadaan.PersetujuanTahapans.Where(d => d.UserId == UserId && d.StatusPengadaan == data.StatusPengadaan && d.PengadaanId == data.PengadaanId).FirstOrDefault();
-            if (dataPengadaan.Status != data.StatusPengadaan) return new PersetujuanTahapan();
+            // Query langsung ke DB agar tidak ter-cache oleh EF identity map
+            var dataTahapan = ctx.PersetujuanTahapans
+                .Where(d => d.UserId == UserId && d.StatusPengadaan == data.StatusPengadaan && d.PengadaanId == data.PengadaanId)
+                .FirstOrDefault();
+
+            // Izinkan approve tahapan yang sudah lewat (status pengadaan >= status yang di-approve)
+            // Contoh: status BUKAAMPLOP boleh approve SUBMITPENAWARAN yang sudah lewat
+            if (dataPengadaan.Status < data.StatusPengadaan) return new PersetujuanTahapan();
+
             if (dataTahapan == null)
             {
+                data.Id = Guid.NewGuid();
                 data.UserId = UserId;
                 data.CreatedBy = UserId;
                 data.CreatedOn = DateTime.Now;
                 ctx.PersetujuanTahapans.Add(data);
+                ctx.SaveChanges(UserId.ToString());
+                return data;
             }
             else
             {
                 dataTahapan.ModifiedBy = UserId;
                 dataTahapan.ModifiedOn = DateTime.Now;
+                ctx.SaveChanges(UserId.ToString());
+                return dataTahapan;
             }
-            ctx.SaveChanges(UserId.ToString());
-            return new PersetujuanTahapan();
         }
 
         public List<VWPersetujuanTahapan> GetPersetujuanTahapan(Guid PengadaanId, EStatusPengadaan status)
@@ -7496,8 +7552,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
             {
                 VWPersetujuanTahapan nVWPersetujuanTahapan = new VWPersetujuanTahapan();
 
-                var Tahapan = dataPengadaan.PersetujuanTahapans
-                                        .Where(d => d.UserId == item.PersonilId && d.StatusPengadaan == status).FirstOrDefault();
+                // Query langsung ke DB (bukan navigation property) agar selalu fresh
+                var Tahapan = ctx.PersetujuanTahapans
+                                        .Where(d => d.UserId == item.PersonilId && d.StatusPengadaan == status && d.PengadaanId == PengadaanId).FirstOrDefault();
                 if (Tahapan != null)
                 {
                     nVWPersetujuanTahapan.Id = Tahapan.Id;

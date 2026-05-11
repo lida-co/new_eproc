@@ -1,4 +1,5 @@
-﻿var id_pengadaan = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+﻿var id_pengadaan = getIdFromUrl();
+
 
 var table;
 
@@ -311,8 +312,8 @@ function setListHargaVendor(vendor) {
 								'<div class="box-body box-profile pop-up-vendor-penilaian" style="margin-top:3px">' +
                 '<p class="profile-username title-header"><a >' + DOMPurify.sanitize(vendor[i].nama)+'</a></p>' +
                 '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(DOMPurify.sanitize(vendor[i].items[0].harga), { thousand: "." }) + '</p>' +
-                '<p class="text-muted text-center deskripsi">Bobot Nilai: ' + (DOMPurify.sanitize((vendor[i].NIlaiKriteria) == null ? 0 : DOMPurify.sanitize(vendor[i].NIlaiKriteria)) + '</p>' +
-								'</div></div></div>';
+                '<p class="text-muted text-center deskripsi">Bobot Nilai: ' + (vendor[i].NIlaiKriteria == null ? 0 : DOMPurify.sanitize(String(vendor[i].NIlaiKriteria))) + '</p>' +
+								'</div></div></div>'
 		}
 	}
     $("#listHargaVendor").append(str_vendor);
@@ -680,34 +681,31 @@ function LoadRekananPembobotan() {
         method: "POST",
         url: "Api/PengadaanE/GetRekananPenilaian?PId=" + $("#pengadaanId").val(),
         success: function (data) {
-			//data = DOMPurify.sanitize(data);
             $.each(data, function (index, val) {
                 var valx = val;
-                if (val.total > 0) {
-                    $.ajax({
-                        method: "POST",
-                        url: "Api/PengadaanE/getPembobotanNilaiVendor?PengadaanId=" + $("#pengadaanId").val() + "&VendorId=" + valx.VendorId,
-                        success: function (data) {
-							//data = DOMPurify.sanitize(data);
-                            html = "";
-                            $.each(data, function (index, val) {
-                                if (index == 0) {
-                                    html = html +
-                                        '<div class="form-group col-md-12">' +
-                                            '<label style="font-size:small">' + valx.NamaVendor + '</label>' +
-                                        '</div>';
-                                }
-                                html = html + '<div class="form-group col-md-2">' +
-                                        '<label style="font-size:small">' + 'Nilai Kriteria ' + val.NamaKreteria + '</label>' +
-                                        '<input attrId="' + val.Id + '" vendorId="' + valx.VendorId + '" type="text" class="form-control input-nilai-vendor" value=' + val.Nilai + ' placeholder="NIlai">' +
-                                    '</div>';
-                            });
+                // Tampilkan semua vendor kandidat, tidak perlu filter berdasarkan total
+                $.ajax({
+                    method: "POST",
+                    url: "Api/PengadaanE/getPembobotanNilaiVendor?PengadaanId=" + $("#pengadaanId").val() + "&VendorId=" + valx.VendorId,
+                    success: function (data) {
+                        var html = "";
+                        $.each(data, function (index, val) {
+                            if (index == 0) {
+                                html += '<div class="form-group col-md-12">' +
+                                    '<label style="font-size:small">' + DOMPurify.sanitize(valx.NamaVendor || "") + '</label>' +
+                                '</div>';
+                            }
+                            html += '<div class="form-group col-md-2">' +
+                                '<label style="font-size:small">Nilai Kriteria ' + DOMPurify.sanitize(val.NamaKreteria || "") + '</label>' +
+                                '<input attrId="' + DOMPurify.sanitize(String(val.Id || "")) + '" vendorId="' + DOMPurify.sanitize(String(valx.VendorId || "")) + '" type="text" class="form-control input-nilai-vendor" value="' + DOMPurify.sanitize(String(val.Nilai || 0)) + '" placeholder="Nilai">' +
+                            '</div>';
+                        });
+                        if (html) {
                             $("#NilaiPembobotanRekanan").append(html);
                         }
-                    });
-               }
+                    }
+                });
             });
         }
     });
-    
 }

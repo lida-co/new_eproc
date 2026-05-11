@@ -11,6 +11,34 @@ function isGuid(value) {
     return match != null;
 }
 
+/**
+ * Baca GUID dari URL — mendukung hash fragment (#guid) dan
+ * fallback ke query string (?%23=guid) yang terjadi akibat
+ * history.pushState meng-encode # menjadi %23.
+ * Jika ditemukan dari query string, URL otomatis diperbaiki ke format hash.
+ */
+function getIdFromUrl() {
+    // Coba baca dari hash fragment dulu
+    var fromHash = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+    if (isGuid(fromHash)) return fromHash;
+
+    // Fallback: baca dari query string (kasus ?%23=guid atau ?id=guid)
+    try {
+        var params = new URLSearchParams(window.location.search);
+        var candidates = ['#', '%23', 'id', 'Id', 'pengadaanId'];
+        for (var i = 0; i < candidates.length; i++) {
+            var val = params.get(candidates[i]);
+            if (val && isGuid(val)) {
+                // Perbaiki URL ke format hash yang benar
+                history.replaceState(null, '', window.location.pathname + '#' + val);
+                return val;
+            }
+        }
+    } catch (e) { }
+
+    return '';
+}
+
 function gup(name, url) {
     if (!url) url = HOME_PAGE;
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");

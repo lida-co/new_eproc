@@ -1,4 +1,4 @@
-﻿var id_pengadaan = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+﻿var id_pengadaan = getIdFromUrl();
 
 var table;
 
@@ -282,8 +282,6 @@ function generateTable(pengadaanId) {
 
             smallestValueInRowTable(table);
         }
-
-        }
     });
 }
 
@@ -335,9 +333,9 @@ function setListHargaVendor(vendor) {
                             ' <span class="fa fa-lock unlocked"></span> ' +
                             '<input class="s-checkbox" data-idx="'+i+'" type="checkbox" title="Kunci/Lepas kunci" value="" onclick="lockUnlockVendor(this,'+i+')" /></div></div>' +
                             '<div class="box-body box-profile" style="margin-top:3px">' +
-            '<p class="profile-username title-header"><a onclick="gotoVendor(0)">' + DOMPurify.sanitize(vendor[i].nama)+'</a></p>' +
-            '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(DOMPurify.sanitize(vendor[i].items[0].harga), { thousand: ".", decimal: ",", precision: 2 }) + '</p>' +
-            '<p class="text-muted text-center deskripsi">Bobot Nilai ' + (DOMPurify.sanitize(vendor[i].NIlaiKriteria) == null ? 0 : DOMPurify.sanitize(vendor[i].NIlaiKriteria)) + '</p>' +
+            '<p class="profile-username title-header"><a onclick="gotoVendor(0)">' + DOMPurify.sanitize(vendor[i].nama || "") +'</a></p>' +
+            '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(DOMPurify.sanitize(String(vendor[i].items[0].harga || 0)), { thousand: ".", decimal: ",", precision: 2 }) + '</p>' +
+            '<p class="text-muted text-center deskripsi">Bobot Nilai: ' + DOMPurify.sanitize(String(vendor[i].NIlaiKriteria == null ? 0 : vendor[i].NIlaiKriteria)) + '</p>' +
                             '</div></div></div>';
 	}
     }
@@ -638,33 +636,32 @@ function LoadRekananPembobotan() {
         method: "POST",
         url: "Api/PengadaanE/GetRekananPenilaian?PId=" + $("#pengadaanId").val(),
         success: function (data) {
-			//data = DOMPurify.sanitize(data);
             $.each(data, function (index, val) {
                 var valx = val;
-                if (valx.total > 0)
-                    $.ajax({
-                        method: "POST",
-                        url: "Api/PengadaanE/getPembobotanNilaiVendor?PengadaanId=" + $("#pengadaanId").val() + "&VendorId=" + valx.VendorId,
-                        success: function (data) {
-							//data = DOMPurify.sanitize(data);
-                            $.each(data, function (index, val) {
-                                if (index == 0) {
-                                    html =
-                                        '<div class="form-group col-md-12">' +
-                                            '<label style="font-size:small">' + valx.NamaVendor + '</label>' +
-                                        '</div>';
-                                }
-                                html = html + '<div class="form-group col-md-2">' +
-                                        '<label style="font-size:small">' + 'Nilai Kriteria ' + val.NamaKreteria + '</label>' +
-                                        '<input attrId="' + val.Id + '" vendorId="' + valx.VendorId + '" type="text" class="form-control input-nilai-vendor only-ga-team-disabled" value=' + val.Nilai + ' placeholder="Nilai">' +
-                                    '</div>';
-                            });
+                // Tampilkan semua vendor kandidat, tidak perlu filter berdasarkan total
+                $.ajax({
+                    method: "POST",
+                    url: "Api/PengadaanE/getPembobotanNilaiVendor?PengadaanId=" + $("#pengadaanId").val() + "&VendorId=" + valx.VendorId,
+                    success: function (data) {
+                        var html = "";
+                        $.each(data, function (index, val) {
+                            if (index == 0) {
+                                html += '<div class="form-group col-md-12">' +
+                                    '<label style="font-size:small">' + DOMPurify.sanitize(valx.NamaVendor || "") + '</label>' +
+                                '</div>';
+                            }
+                            html += '<div class="form-group col-md-2">' +
+                                '<label style="font-size:small">Nilai Kriteria ' + DOMPurify.sanitize(val.NamaKreteria || "") + '</label>' +
+                                '<input attrId="' + DOMPurify.sanitize(String(val.Id || "")) + '" vendorId="' + DOMPurify.sanitize(String(valx.VendorId || "")) + '" type="text" class="form-control input-nilai-vendor only-ga-team-disabled" value="' + DOMPurify.sanitize(String(val.Nilai || 0)) + '" placeholder="Nilai">' +
+                            '</div>';
+                        });
+                        if (html) {
                             $("#NilaiPembobotanRekanan").append(html);
                         }
-                    });
+                    }
+                });
             });
         }
     });
-
 }
 

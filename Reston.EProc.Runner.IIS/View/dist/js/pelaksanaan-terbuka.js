@@ -1527,10 +1527,10 @@ function savePersetujuanTahapan(tahapan) {
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
         method: "POST",
-        url: "Api/PengadaanE/SavePersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&&status=" + tahapan,
+        url: "Api/PengadaanE/SavePersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&status=" + tahapan,
         success: function (data) {
             waitingDialog.hideloading();
-            if (data.Id == 0) {
+            if (data.Id == "0") {
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
                     message: 'Anda Tidak Memiliki Akses!',
@@ -1564,9 +1564,8 @@ function getPersetujuanTahapan(tahapan) {
 
     $.ajax({
         method: "GET",
-        url: "Api/PengadaanE/GetPersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&&status=" + tahapan,
+        url: "Api/PengadaanE/GetPersetujuanTahapan?PengadaanId=" + $("#pengadaanId").val() + "&status=" + tahapan,
         success: function (data) {
-			data = DOMPurify.sanitize(data);
             renderPersetujuanPelaksanaan(data, tahapan);
             if ($("#StatusName").val() == tahapan) {
                 var oData = $.grep(data, function (e) { return e.Status == 0; });
@@ -1614,7 +1613,7 @@ function deletePemenang(elTHis, objData) {
         success: function (data) {
             elTHis.prop('checked', false);
             waitingDialog.hideloading();
-            if (data.Id == 0) {
+            if (data.Id == "0") {
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
                     message: 'Anda Tidak Memiliki Akses!',
@@ -1654,7 +1653,7 @@ function addPemenang(elTHis, objData) {
         success: function (data) {
             elTHis.prop('checked', true);
             waitingDialog.hideloading();
-            if (data.Id == 0) {
+            if (data.Id == "0") {
                 BootstrapDialog.show({
                     title: 'Konfirmasi',
                     message: 'Anda Tidak Memiliki Akses!',

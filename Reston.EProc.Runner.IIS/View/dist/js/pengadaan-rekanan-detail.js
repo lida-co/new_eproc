@@ -1,20 +1,29 @@
-﻿var id_pengadaan = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+﻿// Baca ID dari hash. Jika hash bukan GUID (misal berubah karena klik accordion),
+// fallback ke sessionStorage agar tidak redirect ke list saat accordion diklik.
+var id_pengadaan = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+if (!isGuid(id_pengadaan)) {
+    var _stored = sessionStorage.getItem("rekanan_pengadaan_id");
+    if (_stored && isGuid(_stored)) {
+        id_pengadaan = _stored;
+    }
+}
 
 $(function () {
 
     if (isGuid(id_pengadaan)) {
+        sessionStorage.setItem("rekanan_pengadaan_id", id_pengadaan);
         $("#pengadaanId").val(id_pengadaan);
         loadData(id_pengadaan);
         loadStatus(id_pengadaan);
     } else {
-        console.log($("#pengadaanId").val());
-        if (isGuid($("#pengadaanId").val())) {
-            window.location.hash = $("#pengadaanId").val();
-            loadData($("#pengadaanId").val());
-            loadStatus($("#pengadaanId").val());
-        }
-        else {            
-            window.location.replace( "/pengadaan-rekanan.html");
+        var existingId = $("#pengadaanId").val();
+        if (isGuid(existingId)) {
+            sessionStorage.setItem("rekanan_pengadaan_id", existingId);
+            window.location.hash = existingId;
+            loadData(existingId);
+            loadStatus(existingId);
+        } else {
+            window.location.replace("/pengadaan-rekanan.html");
         }
     }
 
@@ -41,9 +50,6 @@ $(function () {
             top: 100
         }
     });
-    $(".fa-download").click(function () {
-        $("#view-siup").modal('show');
-    });
 
     $(".tab-content").show();
 
@@ -53,397 +59,270 @@ $(function () {
         });
         $(this).addClass("active");
     });
-        
+
+    // Fix: Cegah accordion links mengubah window.location.hash ke nilai non-GUID
+    // yang menyebabkan redirect ke list saat halaman di-refresh.
+    $("#accordion").on("click", "a[data-parent='#accordion']", function (e) {
+        e.preventDefault();
+        var target = $(this).attr("href");
+        if (!target) return;
+        var $target = $(target);
+        if ($target.length === 0) return;
+
+        var isOpen = $target.hasClass("in");
+        // Tutup semua panel accordion
+        $("#accordion .panel-collapse.in").collapse("hide");
+        // Buka panel yang diklik jika sebelumnya tertutup
+        if (!isOpen) {
+            $target.collapse("show");
+        }
+    });
+
     //dropzone
-    var myDropzoneBerkasRujukanLain = new Dropzone("#BerkasRujukanLain",
-            {
-                url: $("#BerkasRujukanLain").attr("action") + "&id=" + $("#pengadaanId").val(),
-                maxFilesize: 5,
-                acceptedFiles: "",
-                clickable: false,
-                dictDefaultMessage: "Tidak Ada Dokumen",
-				init: function () {
-                    this.on("addedfile", function (file) {
-                        file.previewElement.addEventListener("click", function () {
-                            var id = 0;
-                            //console.log(url);
-                            if (file.Id != undefined)
-                                id = file.Id;
-                            else
-                                //id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
-                                //id = $.parseJSON(file.xhr.response);
-
-                                let id = null;
-
-                            try {
-                                const parsedResponse = JSON.parse(file.xhr.response);
-
-                                if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                    id = parsedResponse.Id;
-                                } else {
-                                    throw new Error("Unexpected JSON format");
-                                }
-                            } catch (e) {
-                                console.error("Invalid or malicious JSON response", e);
-                                id = null; // fallback
-                            }
-
-
-                            console.log(id);
-							$("#HapusFile").hide();
-                            $("#konfirmasiFile").attr("attr1", "BerkasRujukanLain");
-                            $("#konfirmasiFile").attr("FileId", id);
-                            $("#konfirmasiFile").modal("show");
-                        });
-                    });
-                }
-            }
-        );
+    var myDropzoneBerkasRujukanLain = new Dropzone("#BerkasRujukanLain", {
+        url: $("#BerkasRujukanLain").attr("action") + "&id=" + $("#pengadaanId").val(),
+        maxFilesize: 5,
+        acceptedFiles: "",
+        clickable: false,
+        dictDefaultMessage: "Tidak Ada Dokumen",
+        init: function () {
+            this.on("addedfile", function (file) {
+                file.previewElement.addEventListener("click", function () {
+                    var fileId = null;
+                    if (file.Id != undefined) {
+                        fileId = file.Id;
+                    } else {
+                        try {
+                            var parsed = JSON.parse(file.xhr.response);
+                            fileId = (parsed && parsed.Id !== undefined) ? parsed.Id : null;
+                        } catch (e) {
+                            console.error("Invalid JSON response", e);
+                            fileId = null;
+                        }
+                    }
+                    $("#HapusFile").hide();
+                    $("#konfirmasiFile").attr("attr1", "BerkasRujukanLain");
+                    $("#konfirmasiFile").attr("FileId", fileId);
+                    $("#konfirmasiFile").modal("show");
+                });
+            });
+        }
+    });
     renderDokumenDropzone(myDropzoneBerkasRujukanLain, "BerkasRujukanLain");
     Dropzone.options.BerkasRujukanLain = false;
 
-    var myDropzoneDokumenLain = new Dropzone("#DokumenLain",
-           {
-               url: $("#DokumenLain").attr("action") + "&id=" + $("#pengadaanId").val(),
-               maxFilesize: 5,
-               acceptedFiles: "",
-               clickable: false,
-               dictDefaultMessage: "Tidak Ada Dokumen",
-               init: function () {
-                   this.on("addedfile", function (file) {
-                       file.previewElement.addEventListener("click", function () {
-                           var id = 0;
-                           if (file.Id != undefined)
-                               id = file.Id;
-                           else
-                               //id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
-                               //id = $.parseJSON(file.xhr.response);
-                               let id = null;
-
-                           try {
-                               const parsedResponse = JSON.parse(file.xhr.response);
-
-                               if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                   id = parsedResponse.Id;
-                               } else {
-                                   throw new Error("Unexpected JSON format");
-                               }
-                           } catch (e) {
-                               console.error("Invalid or malicious JSON response", e);
-                               id = null; // fallback
-                           }
-
-                           $("#HapusFile").hide();
-                           $("#konfirmasiFile").attr("attr1", "DokumenLain");
-                           $("#konfirmasiFile").attr("FileId", id);
-                           $("#konfirmasiFile").modal("show");
-                       });
-                   });
-               }
-           }
-       );
+    var myDropzoneDokumenLain = new Dropzone("#DokumenLain", {
+        url: $("#DokumenLain").attr("action") + "&id=" + $("#pengadaanId").val(),
+        maxFilesize: 5,
+        acceptedFiles: "",
+        clickable: false,
+        dictDefaultMessage: "Tidak Ada Dokumen",
+        init: function () {
+            this.on("addedfile", function (file) {
+                file.previewElement.addEventListener("click", function () {
+                    var fileId = null;
+                    if (file.Id != undefined) {
+                        fileId = file.Id;
+                    } else {
+                        try {
+                            var parsed = JSON.parse(file.xhr.response);
+                            fileId = (parsed && parsed.Id !== undefined) ? parsed.Id : null;
+                        } catch (e) {
+                            console.error("Invalid JSON response", e);
+                            fileId = null;
+                        }
+                    }
+                    $("#HapusFile").hide();
+                    $("#konfirmasiFile").attr("attr1", "DokumenLain");
+                    $("#konfirmasiFile").attr("FileId", fileId);
+                    $("#konfirmasiFile").modal("show");
+                });
+            });
+        }
+    });
     renderDokumenDropzone(myDropzoneDokumenLain, "DOKUMENLAIN");
     Dropzone.options.DokumenLain = false;
 
-    var myDropzoneBerkasRekanan = new Dropzone("#BerkasRekanan",
-            {
-                url: $("#BerkasRekanan").attr("action") + "&id=" + $("#pengadaanId").val(),
-                maxFilesize: 5,
-                acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.docx,.xlsx",
-                dictDefaultMessage: "Tidak Ada Dokumen",
-                init: function () {
-                    this.on("addedfile", function (file) {
-                        file.previewElement.addEventListener("click", function () {
-                            var id = 0;
-                            if (file.Id != undefined)
-                                id = file.Id;
-                            else
-                                //id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
-                                //id = $.parseJSON(file.xhr.response);
-                                let id = null;
-
-                            try {
-                                const parsedResponse = JSON.parse(file.xhr.response);
-
-                                if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                    id = parsedResponse.Id;
-                                } else {
-                                    throw new Error("Unexpected JSON format");
-                                }
-                            } catch (e) {
-                                console.error("Invalid or malicious JSON response", e);
-                                id = null; // fallback
-                            }
-
-                            console.log(id);
-                            $("#konfirmasiFile").attr("attr1", "BerkasRekanan");
-                            $("#konfirmasiFile").attr("FileId", id);
-                            $("#konfirmasiFile").modal("show");
-                        });
-                    });
-                    //this.on("removedfile", function (file, responseText) {
-                    //    myDropzoneBerkasRekanan.removeFile(file);
-                    //});
-                    this.on("success", function (file, responseText) {
-                        if (responseText == 0) {
-                            myDropzoneBerkasRekanan.removeFile(file);
-                            BootstrapDialog.show({
-                                title: 'Konfirmasi',
-                                message: 'Waktu Penawaran Sudah Habis',
-                                buttons: [{
-                                    label: 'Close',
-                                    action: function (dialog) {
-                                        dialog.close();
-                                    }
-                                }]
-                            });
+    var myDropzoneBerkasRekanan = new Dropzone("#BerkasRekanan", {
+        url: $("#BerkasRekanan").attr("action") + "&id=" + $("#pengadaanId").val(),
+        maxFilesize: 5,
+        acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.docx,.xlsx",
+        dictDefaultMessage: "Tidak Ada Dokumen",
+        init: function () {
+            this.on("addedfile", function (file) {
+                file.previewElement.addEventListener("click", function () {
+                    var fileId = null;
+                    if (file.Id != undefined) {
+                        fileId = file.Id;
+                    } else {
+                        try {
+                            var parsed = JSON.parse(file.xhr.response);
+                            fileId = (parsed && parsed.Id !== undefined) ? parsed.Id : null;
+                        } catch (e) {
+                            console.error("Invalid JSON response", e);
+                            fileId = null;
                         }
+                    }
+                    $("#konfirmasiFile").attr("attr1", "BerkasRekanan");
+                    $("#konfirmasiFile").attr("FileId", fileId);
+                    $("#konfirmasiFile").modal("show");
+                });
+            });
+            this.on("success", function (file, responseText) {
+                if (responseText == 0) {
+                    myDropzoneBerkasRekanan.removeFile(file);
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Waktu Penawaran Sudah Habis',
+                        buttons: [{ label: 'Close', action: function (dialog) { dialog.close(); } }]
                     });
                 }
-            }
-        );
+            });
+        }
+    });
     renderDokumenDropzone(myDropzoneBerkasRekanan, "BerkasRekanan");
     Dropzone.options.BerkasRekanan = false;
 
-    var myDropzoneBerkasRekananKlarifikasi = new Dropzone("#BerkasRekananKlarifikasi",
-            {
-                url: $("#BerkasRekananKlarifikasi").attr("action") + "&id=" + $("#pengadaanId").val(),
-                maxFilesize: 5,
-                acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.docx,.xlsx",
-                dictDefaultMessage: "Tidak Ada Dokumen",
-                init: function () {
-                    this.on("addedfile", function (file) {
-                        file.previewElement.addEventListener("click", function () {
-                            var id = 0;
-                            if (file.Id != undefined)
-                                id = file.Id;
-                            else
-                                //id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
-                                //id = $.parseJSON(file.xhr.response);
-                                let id = null;
-
-                            try {
-                                const parsedResponse = JSON.parse(file.xhr.response);
-
-                                if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                    id = parsedResponse.Id;
-                                } else {
-                                    throw new Error("Unexpected JSON format");
-                                }
-                            } catch (e) {
-                                console.error("Invalid or malicious JSON response", e);
-                                id = null; // fallback
-                            }
-
-                            console.log(id);
-                            $("#konfirmasiFile").attr("attr1", "BerkasRekananKlarifikasi");
-                            $("#konfirmasiFile").attr("FileId", id);
-                            $("#konfirmasiFile").modal("show");
-                        });
-                    });
-                    this.on("success", function (file, responseText) {
-                        if (responseText == 0) {
-                            myDropzoneBerkasRekananKlarifikasi.removeFile(file);
-                            BootstrapDialog.show({
-                                title: 'Konfirmasi',
-                                message: 'Waktu Penawaran Sudah Habis',
-                                buttons: [{
-                                    label: 'Close',
-                                    action: function (dialog) {
-                                        myDropzoneBerkasRekananKlarifikasi.removeFile(file);
-                                        dialog.close();
-                                    }
-                                }]
-                            });
+    var myDropzoneBerkasRekananKlarifikasi = new Dropzone("#BerkasRekananKlarifikasi", {
+        url: $("#BerkasRekananKlarifikasi").attr("action") + "&id=" + $("#pengadaanId").val(),
+        maxFilesize: 5,
+        acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.docx,.xlsx",
+        dictDefaultMessage: "Tidak Ada Dokumen",
+        init: function () {
+            this.on("addedfile", function (file) {
+                file.previewElement.addEventListener("click", function () {
+                    var fileId = null;
+                    if (file.Id != undefined) {
+                        fileId = file.Id;
+                    } else {
+                        try {
+                            var parsed = JSON.parse(file.xhr.response);
+                            fileId = (parsed && parsed.Id !== undefined) ? parsed.Id : null;
+                        } catch (e) {
+                            console.error("Invalid JSON response", e);
+                            fileId = null;
                         }
+                    }
+                    $("#konfirmasiFile").attr("attr1", "BerkasRekananKlarifikasi");
+                    $("#konfirmasiFile").attr("FileId", fileId);
+                    $("#konfirmasiFile").modal("show");
+                });
+            });
+            this.on("success", function (file, responseText) {
+                if (responseText == 0) {
+                    myDropzoneBerkasRekananKlarifikasi.removeFile(file);
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Waktu Penawaran Sudah Habis',
+                        buttons: [{ label: 'Close', action: function (dialog) { dialog.close(); } }]
                     });
                 }
-            }
-        );
+            });
+        }
+    });
     renderDokumenDropzone(myDropzoneBerkasRekananKlarifikasi, "BerkasRekananKlarifikasi");
     Dropzone.options.BerkasRekananKlarifikasi = false;
 
-    var myDropzoneBerkasRekananKlarifikasiLanjutan = new Dropzone("#BerkasRekananKlarifikasiLanjutan",
-          {
-              url: $("#BerkasRekananKlarifikasiLanjutan").attr("action") + "&id=" + $("#pengadaanId").val(),
-              maxFilesize: 5,
-              acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.docx,.xlsx",
-              dictDefaultMessage: "Tidak Ada Dokumen",
-              init: function () {
-                  this.on("addedfile", function (file) {
-                      file.previewElement.addEventListener("click", function () {
-                          var id = 0;
-                          if (file.Id != undefined)
-                              id = file.Id;
-                          else
-                              //id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
-                              //id = $.parseJSON(file.xhr.response);
-                              let id = null;
-
-                          try {
-                              const parsedResponse = JSON.parse(file.xhr.response);
-
-                              if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                  id = parsedResponse.Id;
-                              } else {
-                                  throw new Error("Unexpected JSON format");
-                              }
-                          } catch (e) {
-                              console.error("Invalid or malicious JSON response", e);
-                              id = null; // fallback
-                          }
-
-
-                          $("#konfirmasiFile").attr("attr1", "BerkasRekananKlarifikasiLanjutan");
-                          $("#konfirmasiFile").attr("FileId", id);
-                          $("#konfirmasiFile").modal("show");
-                      });
-                  });
-                  this.on("success", function (file, responseText) {
-                      if (responseText == 0) {
-                          myDropzoneBerkasRekananKlarifikasiLanjutan.removeFile(file);
-                          BootstrapDialog.show({
-                              title: 'Konfirmasi',
-                              message: 'Waktu Penawaran Sudah Habis',
-                              buttons: [{
-                                  label: 'Close',
-                                  action: function (dialog) {
-                                      myDropzoneBerkasRekananKlarifikasiLanjutan.removeFile(file);
-                                      dialog.close();
-                                  }
-                              }]
-                          });
-                      }
-                  });
-              }
-          }
-      );
+    var myDropzoneBerkasRekananKlarifikasiLanjutan = new Dropzone("#BerkasRekananKlarifikasiLanjutan", {
+        url: $("#BerkasRekananKlarifikasiLanjutan").attr("action") + "&id=" + $("#pengadaanId").val(),
+        maxFilesize: 5,
+        acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.docx,.xlsx",
+        dictDefaultMessage: "Tidak Ada Dokumen",
+        init: function () {
+            this.on("addedfile", function (file) {
+                file.previewElement.addEventListener("click", function () {
+                    var fileId = null;
+                    if (file.Id != undefined) {
+                        fileId = file.Id;
+                    } else {
+                        try {
+                            var parsed = JSON.parse(file.xhr.response);
+                            fileId = (parsed && parsed.Id !== undefined) ? parsed.Id : null;
+                        } catch (e) {
+                            console.error("Invalid JSON response", e);
+                            fileId = null;
+                        }
+                    }
+                    $("#konfirmasiFile").attr("attr1", "BerkasRekananKlarifikasiLanjutan");
+                    $("#konfirmasiFile").attr("FileId", fileId);
+                    $("#konfirmasiFile").modal("show");
+                });
+            });
+            this.on("success", function (file, responseText) {
+                if (responseText == 0) {
+                    myDropzoneBerkasRekananKlarifikasiLanjutan.removeFile(file);
+                    BootstrapDialog.show({
+                        title: 'Konfirmasi',
+                        message: 'Waktu Penawaran Sudah Habis',
+                        buttons: [{ label: 'Close', action: function (dialog) { dialog.close(); } }]
+                    });
+                }
+            });
+        }
+    });
     renderDokumenDropzone(myDropzoneBerkasRekananKlarifikasiLanjutan, "BerkasRekananKlarifikasiLanjutan");
     Dropzone.options.BerkasRekananKlarifikasiLanjutan = false;
 
-
-    let pengadaanId = $("#pengadaanId").val();
-    if (/^[a-zA-Z0-9_-]+$/.test(pengadaanId)) {
-        let safeId = encodeURIComponent(pengadaanId);
-
-        if ($("#CekAsuransi").val() == "true") {
-            window.location.replace("/rekanan-rks-asuransi.html#" + safeId);
-        }
-        else {
-            window.location.replace("/rekanan-rks.html#" + safeId);
-        }
-
-    } else {
-        console.error("Invalid pengadaanId:", pengadaanId);
-    }
-
-
+    // Tombol Buat Penawaran
     $("#penawaran").on("click", function () {
-        let pengadaanId = $("#pengadaanId").val();
-
+        var pid = $("#pengadaanId").val();
         if ($("#CekAsuransi").val() === "true") {
-            // Relative path, aman dari open redirect
-            safeOpen("rekanan-rks-asuransi", "#", pengadaanId);
+            safeRedirect("rekanan-rks-asuransi", "#", pid);
         } else {
-            safeOpen("rekanan-rks", "#", pengadaanId);
+            safeRedirect("rekanan-rks", "#", pid);
         }
-
-        
     });
 
-
-
+    // Tombol Buat Penawaran Klarifikasi
     $("#penawaran-klarifikasi").on("click", function () {
-
-
-        let pengadaanId = $("#pengadaanId").val();
-
+        var pid = $("#pengadaanId").val();
         if ($("#CekAsuransi").val() === "true") {
-            // Relative path, aman dari open redirect
-            safeOpen("rekanan-klarifikasi-harga-asuransi", "#", pengadaanId);
+            safeRedirect("rekanan-klarifikasi-harga-asuransi", "#", pid);
         } else {
-            safeOpen("rekanan-klarifikasi-harga", "#", pengadaanId);
+            safeRedirect("rekanan-klarifikasi-harga", "#", pid);
         }
-=
-
     });
+
+    // Tombol Buat Penawaran Klarifikasi Lanjutan
     $("#penawaran-klarifikasi-lanjutan").on("click", function () {
-
-        let pengadaanId = $("#pengadaanId").val();
-
+        var pid = $("#pengadaanId").val();
         if ($("#CekAsuransi").val() === "true") {
-            // Relative path, aman dari open redirect
-            safeOpen("rekanan-klarifikasi-lanjutan-harga-asuransi", "#", pengadaanId);
+            safeRedirect("rekanan-klarifikasi-lanjutan-harga-asuransi", "#", pid);
         } else {
-            safeOpen("rekanan-klarifikasi-lanjutan-harga", "#", pengadaanId);
+            safeRedirect("rekanan-klarifikasi-lanjutan-harga", "#", pid);
         }
-
-
     });
 
+    // Download file dari modal konfirmasi
     $("#downloadFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         downloadFileUsingForm("/api/pengadaane/OpenFile?Id=" + FileId);
         $("#konfirmasiFile").modal("hide");
     });
 
+    // Hapus file dari modal konfirmasi
     $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = parseInt($(this).parent().parent().parent().parent().attr("FileId"));
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = parseInt($("#konfirmasiFile").attr("FileId"));
         $.ajax({
             method: "POST",
             url: "Api/VendorAction/deleteDokumenPelaksanaan?Id=" + FileId
         }).done(function (data) {
-            //data = DOMPurify.sanitize(data)
             if (data.Id == "1") {
-                if (tipe == "BerkasRekanan") {
-                    $.each(myDropzoneBerkasRekanan.files, function (index, item) {
-                        var id = 0;
-                        if (item.Id != undefined) {
-                            id = item.Id;
+                var dropzoneMap = {
+                    "BerkasRekanan": myDropzoneBerkasRekanan,
+                    "BerkasRekananKlarifikasi": myDropzoneBerkasRekananKlarifikasi,
+                    "BerkasRekananKlarifikasiLanjutan": myDropzoneBerkasRekananKlarifikasiLanjutan
+                };
+                var dz = dropzoneMap[tipe];
+                if (dz) {
+                    $.each(dz.files, function (index, item) {
+                        var id = item.Id != undefined ? item.Id : null;
+                        if (!id && item.xhr) {
+                            try { id = JSON.parse(DOMPurify.sanitize(item.xhr.response)); } catch (e) { }
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
-                        }
-
                         if (id == FileId) {
-                            myDropzoneBerkasRekanan.removeFile(item);
-                        }
-                    });
-                }
-            }
-            if (data.Id == "1") {
-                if (tipe == "BerkasRekananKlarifikasi") {
-                    $.each(myDropzoneBerkasRekananKlarifikasi.files, function (index, item) {
-                        var id = 0;
-                        if (item.Id != undefined) {
-                            id = item.Id;
-                        }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
-                            
-                        }
-
-                        if (id == FileId) {
-                            myDropzoneBerkasRekananKlarifikasi.removeFile(item);
-                        }
-                    });
-                }
-            }
-            if (data.Id == "1") {
-                if (tipe == "BerkasRekananKlarifikasiLanjutan") {
-                    $.each(myDropzoneBerkasRekananKlarifikasiLanjutan.files, function (index, item) {
-                        var id = 0;
-                        if (item.Id != undefined) {
-                            id = item.Id;
-                        }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
-                        }
-
-                        if (id == FileId) {
-                            myDropzoneBerkasRekananKlarifikasiLanjutan.removeFile(item);
+                            dz.removeFile(item);
                         }
                     });
                 }
@@ -454,20 +333,16 @@ $(function () {
 });
 
 function cekrksbiasapaasuransi() {
-    console.log(id_pengadaan);
     $.ajax({
         method: "post",
         url: "api/pengadaane/cekRKSBiasaAtauAsuransi?PengadaanId=" + $("#pengadaanId").val()
     }).done(function (data) {
-        console.log("data: ", data);
-        //data = DOMPurify.sanitize(data)
         if (data.RKSBiasa == true) {
             $("#CekAsuransi").val("false");
             $(".total-penawaran").show();
             $("#total_penawaran-klarifikasi").show();
             $("#total-penawaran-klarifikasi-lanjutan").show();
-        }
-        else if (data.RKSAsuransi == true) {
+        } else if (data.RKSAsuransi == true) {
             $("#CekAsuransi").val("true");
             $(".total-penawaran").hide();
             $("#total_penawaran-klarifikasi").hide();
@@ -483,7 +358,7 @@ function loadData(pengadaanId) {
         dataType: "json"
     }).done(function (data) {
         $("#judul").text(data.Judul);
-        $("#deskripsi").text( data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);        
+        $("#deskripsi").text(data.AturanPengadaan + ", " + data.AturanBerkas + ", " + data.AturanPenawaran);
         $("#keterangan").text(data.Keterangan);
         $("#MataUang").text(data.MataUang);
         $("#UnitKerjaPemohon").text(data.UnitKerjaPemohon);
@@ -491,47 +366,43 @@ function loadData(pengadaanId) {
         $("#Provinsi").text(data.Provinsi);
         $("#JenisPekerjaan").text(data.JenisPekerjaan);
         $("#pengadaanId").val(data.Id);
-        hitungTawaranRekanan($("#pengadaanId").val(), data.AturanPenawaran);
+
+        hitungTawaranRekanan(data.Id, data.AturanPenawaran);
         loadJadwal(data.JadwalPengadaans);
         loadKualifikas(data.KualifikasiKandidats);
-        if ( data.Status>=4) {
-            //$("#Status").text("Submit Penawaran");
-            $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
-            //$("#Status").text("Submit Penawaran");
 
-            if ( data.Status==4) 
-            $("#collapseOne").addClass("in");
+        // Aktifkan accordion sesuai status
+        if (data.Status >= 4) {
+            $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
+            if (data.Status == 4) {
+                $("#collapseOne").addClass("in");
+            }
         }
-        
 
         if (data.Status >= 7) {
-            //$("#Status").text("Submit Penawaran");
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
-            //$("#Status").text("Submit Penawaran");
-            if ( data.Status==7) 
-            $("#collapseTwo").addClass("in");
+            if (data.Status == 7) {
+                $("#collapseTwo").addClass("in");
+            }
         }
 
         if (data.Status >= 6) {
-            //$("#Status").text("Submit Penawaran");
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
-            if (data.Status == 6)
-             $("#panel-klarifikasi-lanjutan").addClass("in");
+            if (data.Status == 6) {
+                $("#panel-klarifikasi-lanjutan").addClass("in");
+            }
         }
 
-        if (data.cekisMasukKlarifikasiLanjutan == 0)
-        {
-            //$("#panel-klarifikasi-lanjutan").attr("style", "display : none");
-            //$("#tab-klarifikasi-lanjutan-rekanan").attr("style", "display : none");
+        // Sembunyikan panel klarifikasi lanjutan jika rekanan tidak masuk
+        if (data.cekisMasukKlarifikasiLanjutan == 0) {
             $("#panel-klarifikasi-lanjutan").remove();
-            $("#tab-klarifikasi-lanjutan-rekanan").remove();
+            $("#tab-klarifikasi-lanjutan-rekanan").closest(".panel").remove();
         }
 
         if (data.Status == 12) {
-            //$("#Status").text("Submit Penawaran");
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
@@ -539,27 +410,20 @@ function loadData(pengadaanId) {
         }
 
         if (data.Status == 8) {
-            //$("#Status").text("Submit Penawaran");
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
-
         }
-       // if (data.AturanPenawaran == "Price Matching") {
-            $("#total_penawaran").attr("disabled", "disabled");
-            $("#row_penawaran_open_price").remove();           
-            $("#total_penawaran-klarifikasi").attr("disabled", "disabled");
-        //}
-        //if (data.AturanPenawaran == "Open Price") {
-        //    $("#total_penawaran").removeAttr("disabled");
-        //    $("#row_penawaran").remove();
-        //    $("#total_penawaran-klarifikasi").removeAttr("disabled");
-        //    $("#penawaran-klarifikasi").attr("disabled", "disabled");
-        //}
-      
+
+        // Disable input total penawaran (read-only)
+        $("#total_penawaran").attr("disabled", "disabled");
+        $("#row_penawaran_open_price").remove();
+        $("#total_penawaran-klarifikasi").attr("disabled", "disabled");
+
+        // Load jadwal aktual setelah pengadaanId terisi
+        getDateSubmitPenawaran();
+        getKlarifikasi();
     });
-    getDateSubmitPenawaran();
-    getKlarifikasi();
 }
 
 function loadStatus(pengadaanId) {
@@ -569,87 +433,76 @@ function loadStatus(pengadaanId) {
         dataType: "json"
     }).done(function (data) {
         $("#Status").html("Status: " + data);
-
     });
 }
 
 function renderDokumenDropzone(myDropzone, tipe) {
+    var pid = $("#pengadaanId").val();
+    if (!pid) return;
     $.ajax({
-        url: "Api/VendorAction/getDokumens?Id=" + $("#pengadaanId").val() + "&tipe=" + tipe,
+        url: "Api/VendorAction/getDokumens?Id=" + pid + "&tipe=" + tipe,
         success: function (data) {
             for (var key in data) {
                 var file = {
-                    Id: data[key].Id, name: data[key].File, accepted: true,
-                    status: Dropzone.SUCCESS, processing: true, size: data[key].SizeFile
+                    Id: data[key].Id,
+                    name: data[key].File,
+                    accepted: true,
+                    status: Dropzone.SUCCESS,
+                    processing: true,
+                    size: data[key].SizeFile
                 };
-                //thisDropzone.options.addedfile.call(thisDropzone, file);
                 myDropzone.emit("addedfile", file);
                 myDropzone.emit("complete", file);
                 myDropzone.files.push(file);
             }
         },
-        error: function (errormessage) {
-        }
+        error: function () { }
     });
 }
 
-function hitungTawaranRekanan(pengadaanId,aturanPenawaran) {
-   // if (aturanPenawaran == "Price Matching") {
-        $.ajax({
-            url: "Api/VendorAction/getRksRekanan?id=" + pengadaanId,
-        }).done(function (data) {
-            var rksdetail = data.data;
-            var total = 0;
-            for (var key in rksdetail) {
+function hitungTawaranRekanan(pengadaanId, aturanPenawaran) {
+    $.ajax({
+        url: "Api/VendorAction/getRksRekanan?id=" + pengadaanId
+    }).done(function (data) {
+        var rksdetail = data.data;
+        var total = 0;
+        for (var key in rksdetail) {
+            if (rksdetail[key].harga > 0 && rksdetail[key].jumlah > 0) {
+                total += rksdetail[key].jumlah * rksdetail[key].harga;
+            }
+        }
+        $("#total_penawaran").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
+        if (total <= 0) { $("#amplop-merah-penawaran").show(); } else { $("#amplop-hijau-penawaran").show(); }
+    });
 
-                //if (rksdetail[key].jumlah != null && rksdetail[key].jumlah != "" && rksdetail[key].harga != null && rksdetail[key].harga != "") {
-                if (rksdetail[key].harga > 0 && rksdetail[key].jumlah > 0) {
+    $.ajax({
+        url: "Api/VendorAction/getRKSForKlarifikasiRekanan?id=" + pengadaanId
+    }).done(function (data) {
+        var rksdetail = data.data;
+        var total = 0;
+        for (var key in rksdetail) {
+            if (rksdetail[key].harga > 0 && rksdetail[key].jumlah > 0) {
+                total += rksdetail[key].jumlah * rksdetail[key].harga;
+            }
+        }
+        $("#total_penawaran-klarifikasi").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
+        if (total <= 0) { $("#amplop-merah-klarifikasi").show(); } else { $("#amplop-hijau-klarifikasi").show(); }
+    });
 
-                    var jumlah = rksdetail[key].jumlah;
-                    var harga = rksdetail[key].harga;
-                    var totalPerItem = jumlah * harga;
-                    total = total + totalPerItem;
-                }
+    $.ajax({
+        url: "Api/VendorAction/getRKSForKlarifikasiLanjutanRekanan?Id=" + pengadaanId
+    }).done(function (data) {
+        var rksdetail = data.data;
+        var total = 0;
+        for (var key in rksdetail) {
+            if (rksdetail[key].harga > 0 && rksdetail[key].jumlah > 0) {
+                total += rksdetail[key].jumlah * rksdetail[key].harga;
             }
-            $("#total_penawaran").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
-            if (total <= '0') { $("#amplop-merah-penawaran").show(); } else { $("#amplop-hijau-penawaran").show(); };
-        });
-        $.ajax({
-            url: "Api/VendorAction/getRKSForKlarifikasiRekanan?id=" + pengadaanId,
-        }).done(function (data) {
-            var rksdetail = data.data;
-            var total = 0;
-            for (var key in rksdetail) {
-                if (rksdetail[key].harga > 0 && rksdetail[key].jumlah > 0) {
-                    var jumlah = rksdetail[key].jumlah;
-                    var harga = rksdetail[key].harga;
-                    var totalPerItem = jumlah * harga;
-                    total = total + totalPerItem;
-                }
-            }
-            $("#total_penawaran-klarifikasi").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
-            if (total <= '0' ) { $("#amplop-merah-klarifikasi").show();} else { $("#amplop-hijau-klarifikasi").show(); };
-        });
-        $.ajax({
-            url: "Api/VendorAction/getRKSForKlarifikasiLanjutanRekanan?Id=" + pengadaanId,
-        }).done(function (data) {
-            var rksdetail = data.data;
-            var total = 0;
-            for (var key in rksdetail) {
-                if (rksdetail[key].harga > 0 && rksdetail[key].jumlah > 0) {
-                    var jumlah = rksdetail[key].jumlah;
-                    var harga = rksdetail[key].harga;
-                    var totalPerItem = jumlah * harga;
-                    total = total + totalPerItem;
-                }
-            }
-            $("#total-penawaran-klarifikasi-lanjutan").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
-            if (total <= '0') { $("#amplop-merah-lanjutan").show(); } else { $("#amplop-hijau-lanjutan").show(); };
-        });
-   // }
+        }
+        $("#total-penawaran-klarifikasi-lanjutan").val(accounting.formatNumber(total, { thousand: ".", decimal: ",", precision: 2 }));
+        if (total <= 0) { $("#amplop-merah-lanjutan").show(); } else { $("#amplop-hijau-lanjutan").show(); }
+    });
 }
-
-
 
 function loadKualifikas(kualifikasiKandidat) {
     $(".checkbox-kualifikasi").removeAttr("checked");
@@ -659,62 +512,70 @@ function loadKualifikas(kualifikasiKandidat) {
     });
 }
 
-function loadJadwal(data) {   
-        for (var i in data) {
-            var tgl = "";
-            var dateMulai;
-            var dateSampai;
-            if (data[i].Mulai != null && moment(data[i].Mulai).format("DD/MM/YYYY") != "Invalid date") {
-                tgl = tgl + moment(data[i].Mulai).format("DD/MM/YYYY");
-            }
-            if (data[i].Sampai != null && moment(data[i].Sampai).format("DD/MM/YYYY") != "Invalid date") {
-                tgl = tgl + " s/d " + moment(data[i].Sampai).format("DD/MM/YYYY");
-            }
-            if (data[i].tipe == "Aanwijzing") {
-                if (data[i].Mulai != null)
-                    $("#Aanwijzing").text(tgl);
-            }
-            if (data[i].tipe == "pengisian_harga") {
-                $("#PengisianHarga").text(tgl);
-            }
-            if (data[i].tipe == "buka_amplop") {
-                $("#BukaAmplop").text(tgl);
-            }
-            if (data[i].tipe == "penilaian") {
-                $("#penilaian").text(tgl);
-            }
-            if (data[i].tipe == "klarifikasi") {
-                $("#Klarifikasi").text(tgl);
-            }
-            if (data[i].tipe == "penentuan_pemenang") {
-                $("#PenentuanPemenang").text(tgl);
-            }
+function loadJadwal(data) {
+    for (var i in data) {
+        var tgl = "";
+        if (data[i].Mulai != null && moment(data[i].Mulai).isValid()) {
+            tgl += moment(data[i].Mulai).format("DD/MM/YYYY");
         }
+        if (data[i].Sampai != null && moment(data[i].Sampai).isValid()) {
+            tgl += " s/d " + moment(data[i].Sampai).format("DD/MM/YYYY");
+        }
+        if (data[i].tipe == "Aanwijzing" && data[i].Mulai != null) {
+            $("#Aanwijzing").text(tgl);
+        }
+        if (data[i].tipe == "pengisian_harga") {
+            $("#PengisianHarga").text(tgl);
+        }
+        if (data[i].tipe == "buka_amplop") {
+            $("#BukaAmplop").text(tgl);
+        }
+        if (data[i].tipe == "penilaian") {
+            $("#penilaian").text(tgl);
+        }
+        if (data[i].tipe == "klarifikasi") {
+            $("#Klarifikasi").text(tgl);
+        }
+        if (data[i].tipe == "penentuan_pemenang") {
+            $("#PenentuanPemenang").text(tgl);
+        }
+    }
 }
 
 function getDateSubmitPenawaran() {
+    var pid = $("#pengadaanId").val();
+    if (!pid) return;
     $.ajax({
         method: "POST",
-        url: "Api/VendorAction/GetSubmitPenawran?PId=" + $("#pengadaanId").val(),
+        url: "Api/VendorAction/GetSubmitPenawran?PId=" + pid,
         success: function (data) {
-            $("#pengisian_harga_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
-
+            var mulai = moment(data.Mulai);
+            var sampai = moment(data.Sampai);
+            if (mulai.isValid() && sampai.isValid()) {
+                $("#pengisian_harga_aktual").html(
+                    "( " + mulai.format("DD MMMM YYYY HH:mm") + " s/d " + sampai.format("DD MMMM YYYY HH:mm") + " )"
+                );
+            }
         },
-        error: function (errormessage) {
-        }
+        error: function () { }
     });
 }
 
 function getKlarifikasi() {
+    var pid = $("#pengadaanId").val();
+    if (!pid) return;
     $.ajax({
         method: "POST",
-        url: "Api/VendorAction/GetKlarifikasi?PId=" + $("#pengadaanId").val(),
+        url: "Api/VendorAction/GetKlarifikasi?PId=" + pid,
         success: function (data) {
-            $("#klarifikasi_aktual").html("( " + moment(data.Mulai).format("DD MMMM YYYY HH:mm") + " s/d " + moment(data.Sampai).format("DD MMMM YYYY HH:mm") + " )");
+            var mulai = moment(data.Mulai);
+            var sampai = moment(data.Sampai);
+            if (mulai.isValid() && sampai.isValid()) {
+                $("#klarifikasi_aktual").html(
+                    "( " + mulai.format("DD MMMM YYYY HH:mm") + " s/d " + sampai.format("DD MMMM YYYY HH:mm") + " )"
+                );
+            }
         },
-        error: function (errormessage) {
-        }
+        error: function () { }
     });
 }
-
-
