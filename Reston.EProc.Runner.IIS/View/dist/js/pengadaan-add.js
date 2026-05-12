@@ -1916,25 +1916,29 @@ $(function () {
             var branch = $("[name=Branch]").val() || '';
             var department = $("[name=Department]").val() || '';
             var year = $("[name=PeriodeAnggaran]").val() || '';
-            //var month = $("[name=Month]").val() || '';
             var jenispembelanjaan = $("[name=JenisPembelanjaan]").val() || '';
-            //var table_list;
             var hps = $("[name=HpsId]").val();
-            $(function () {
-                table_list = $('#table-modal-budget').DataTable({
 
-                    //var branch = $("[name=Branch]").val(viewPengadaan.Branch);
-                    //var branch = $("[name=Department]").val(viewPengadaan.Department);
+            // Destroy DataTable jika sudah ada sebelumnya
+            if ($.fn.DataTable.isDataTable('#table-modal-budget')) {
+                $('#table-modal-budget').DataTable().destroy();
+            }
+
+            table_list = $('#table-modal-budget').DataTable({
                     //"ajax": 'api/Budget/GetLoadCOAPengadaan?branch=' + branch + '&department=' + department + '&year=' + year + '&month=' + month + '&jenispembelanjaan=' + jenispembelanjaan + '&pengadaanid=' + pengadaanid,
                     "ajax": {
                         "url": "api/Budget/GetLoadCOAPengadaan",
                         "type": "POST",
+                        "beforeSend": function (xhr) {
+                            if (typeof csrfToken !== 'undefined' && csrfToken) {
+                                xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+                            }
+                        },
                         "data": function (d) {
                             return $.extend({}, d, {
                                 "Branch": $("[name=Branch]").val() || '',
                                 "Department": $("[name=Department]").val() || '',
                                 "Year": $("[name=PeriodeAnggaran]").val() || '',
-                                //"Month": $("[name=Month]").val() || '',
                                 "Jenispembelanjaan": $("[name=JenisPembelanjaan]").val() || '',
                                 "Pengadaanid": $("#pengadaanId").val() || ''
                             })
@@ -2043,7 +2047,6 @@ $(function () {
                     "responsive": true,
                     "destroy": true
                 });
-            });
 
             $('[name=Month]').on('change', function (data) {
                 //console.log(data);

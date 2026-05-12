@@ -23,7 +23,6 @@ namespace Reston.Pinata.Model.PengadaanRepository
         ResultMessage saveDokumenBudget(DokumenBudget dokumenSpkNonPks, Guid UserId);
         List<VWDokumenBudget> GetListDokumenBudget();
         DataTableBudgeting GetAllCOAPengadaan(/*string search,*/string department, string branch, string year, string jenis, /*string month,*/ int start, int length, int sortColumn, string sortDirection);
-        //List<VWBudgeting> GetLoadCOAPengadaan(string branch, string department, string year, string month, string jenispembelanjaan, string pengadaanid, int start, int length);
         Guid GetDataHeader(Guid PengadaanId);
         List<BudgetingPengadaanHeader> GetDataHeader(Guid PengadaanId, decimal TotalInput);
         List<BudgetingPengadaanDetail> GetDataDetail(Guid HeaderId);
@@ -31,7 +30,8 @@ namespace Reston.Pinata.Model.PengadaanRepository
         void RemoveHeaderCOA(Guid PengadaanId);
         BudgetingPengadaanHeader SaveAllocation(BudgetingPengadaanHeader budgetAllocation);
         DataTableBudgeting GetLoadCOAPengadaan(string branch, string department, string year, /*string month,*/ string jenispembelanjaan, string pengadaanid, int start, int length);
-        
+        ResultMessage SaveBudgetingsFromExcel(List<Budgeting> budgetings);
+        int? GetDokumenBudgetLatestVersion(string tahun, string jenis);
     }
 
     public class BudgetRepo : IBudgetRepo
@@ -224,6 +224,15 @@ namespace Reston.Pinata.Model.PengadaanRepository
             }
         }
 
+        public int? GetDokumenBudgetLatestVersion(string tahun, string jenis)
+        {
+            return ctx.DokumenBudgets
+                .Where(d => d.Year == tahun && d.Jenis == jenis)
+                .OrderByDescending(d => d.Version)
+                .Select(d => d.Version)
+                .FirstOrDefault();
+        }
+
         public List<VWDokumenBudget> GetListDokumenBudget()
         {
             return ctx.DokumenBudgets.Select(d => new VWDokumenBudget()
@@ -233,6 +242,43 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 ContentType = d.ContentType,
                 File = d.File
             }).ToList();
+        }
+
+        /// <summary>
+        /// Insert/update list data Budgeting ke database.
+        /// Data sudah di-parse dari Excel di controller.
+        /// </summary>
+        public ResultMessage SaveBudgetingsFromExcel(List<Budgeting> budgetings)
+        {
+            try
+            {
+                foreach (var item in budgetings)
+                {
+                    var existing = ctx.Budgetings.FirstOrDefault(b =>
+                        b.Branch == item.Branch && b.Department == item.Department &&
+                        b.COA == item.COA && b.Year == item.Year &&
+                        b.Month == item.Month && b.Jenis == item.Jenis);
+
+                    if (existing != null)
+                    {
+                        existing.BudgetAmount = item.BudgetAmount;
+                        existing.BudgetUsage = item.BudgetUsage;
+                        existing.BudgetLeft = item.BudgetLeft;
+                        existing.Version = item.Version;
+                        existing.Description = item.Description;
+                    }
+                    else
+                    {
+                        ctx.Budgetings.Add(item);
+                    }
+                }
+                ctx.SaveChanges();
+                return new ResultMessage { status = HttpStatusCode.OK, message = $"Berhasil import {budgetings.Count} baris" };
+            }
+            catch (Exception ex)
+            {
+                return new ResultMessage { status = HttpStatusCode.InternalServerError, message = ex.Message };
+            }
         }
 
         public DataTableBudgeting GetAllCOAPengadaan(/*string search,*/string department, string branch, string year, string jenis, /*string month,*/ int start, int length, int sortColumn, string sortDirection)
@@ -345,18 +391,53 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
         public DataTableBudgeting GetLoadCOAPengadaan(string branch, string department, string year, /*string month,*/ string jenispembelanjaan, string pengadaanid, int start, int length)
         {
+            // Trim semua parameter untuk menghindari masalah spasi
+            branch = (branch ?? "").Trim();
+            department = (department ?? "").Trim();
+            year = (year ?? "").Trim();
+            jenispembelanjaan = (jenispembelanjaan ?? "").Trim();
+            pengadaanid = (pengadaanid ?? "").Trim();
+
+            // Convert year Code (PA001) ke LocalizedName (TA-2021) untuk matching dengan Budgeting.Year
+            string yearLocalizedName = year;
+            if (!string.IsNullOrEmpty(year))
+            {
+                var refData = ctx.ReferenceDatas.FirstOrDefault(r => r.Code == year);
+                if (refData != null)
+                    yearLocalizedName = refData.LocalizedName;
+            }
+
             var budgetCoaList = (from budgetCoas in ctx.Budgetings
-                                 where budgetCoas.Branch.Equals(branch)
-                                     && budgetCoas.Department.Equals(department)
-                                     && budgetCoas.Year.Equals(year)
-                                     && budgetCoas.Jenis.Equals(jenispembelanjaan) // filter belum ada
+                                 where (string.IsNullOrEmpty(branch) || budgetCoas.Branch.Contains(branch))
+                                     && (string.IsNullOrEmpty(department) || budgetCoas.Department.Contains(department))
+                                     && (string.IsNullOrEmpty(yearLocalizedName) || budgetCoas.Year.Contains(yearLocalizedName))
+                                     && (string.IsNullOrEmpty(jenispembelanjaan) || budgetCoas.Jenis.Contains(jenispembelanjaan))
                                  select budgetCoas)
                                 .GroupBy(x => x.Version)
                                 .ToList()
                                 .DefaultIfEmpty()
                                 .Last();
 
-            var maxVersion = budgetCoaList != null && budgetCoaList.First() != null ? budgetCoaList.First().Version : 0; // anggap versi = 0 jika sama sekali tidak ada data di budget
+            // Jika tidak ada data yang cocok, gunakan versi tertinggi yang ada
+            // atau 0 jika memang tidak ada data sama sekali
+            int maxVersion = 0;
+            if (budgetCoaList != null && budgetCoaList.Any() && budgetCoaList.First() != null)
+            {
+                maxVersion = budgetCoaList.First().Version ?? 0;
+            }
+            else
+            {
+                // Fallback: cari versi tertinggi dari semua data yang ada untuk branch+department+year+jenis
+                var anyVersion = ctx.Budgetings
+                    .Where(b => (string.IsNullOrEmpty(branch) || b.Branch.Contains(branch))
+                             && (string.IsNullOrEmpty(department) || b.Department.Contains(department))
+                             && (string.IsNullOrEmpty(yearLocalizedName) || b.Year.Contains(yearLocalizedName))
+                             && (string.IsNullOrEmpty(jenispembelanjaan) || b.Jenis.Contains(jenispembelanjaan)))
+                    .Select(b => b.Version)
+                    .DefaultIfEmpty(0)
+                    .Max();
+                maxVersion = anyVersion ?? 0;
+            }
 
             var someguid = Guid.Parse(pengadaanid);
 
@@ -392,10 +473,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
             var BP = (from a in ctx.BudgetingPengadaanDetails
                       join b in ctx.BudgetingPengadaanHeaders on a.BudgetingPengadaanId equals b.Id
                       join c in ctx.Pengadaans on b.PengadaanId equals c.Id
-                      where a.Branch.Equals(branch)
-                             && a.Department.Equals(department)
-                             && a.Year.Equals(year)
-                             && a.BudgetType.Equals(jenispembelanjaan)
+                      where (string.IsNullOrEmpty(branch) || a.Branch.Contains(branch))
+                             && (string.IsNullOrEmpty(department) || a.Department.Contains(department))
+                             && (string.IsNullOrEmpty(year) || a.Year.Contains(year))
+                             && (string.IsNullOrEmpty(jenispembelanjaan) || a.BudgetType.Contains(jenispembelanjaan))
                              && c.GroupPengadaan == EGroupPengadaan.DALAMPELAKSANAAN
                       select new VWBudgeting
                       {
@@ -436,11 +517,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                select new { NoCOA = b.NoCOA, /*Month = b.Month,*/ Inputbudget = b.Input, PengadaanId = g.PengadaanId }
                            ) on a.COA equals e.NoCOA into h
                            from i in h.Where(x => x.NoCOA.Equals(a.COA)).DefaultIfEmpty()
-                           where a.Branch.Equals(branch)
-                              && a.Department.Equals(department)
-                              && a.Year.Equals(year)
-                              && a.Jenis.Equals(jenispembelanjaan)
-                              && a.Version == maxVersion // somehow cari cara untuk dapatkan versi yg aktif
+                           where (string.IsNullOrEmpty(branch) || a.Branch.Contains(branch))
+                              && (string.IsNullOrEmpty(department) || a.Department.Contains(department))
+                              && (string.IsNullOrEmpty(yearLocalizedName) || a.Year.Contains(yearLocalizedName))
+                              && (string.IsNullOrEmpty(jenispembelanjaan) || a.Jenis.Contains(jenispembelanjaan))
+                              && (maxVersion == 0 || a.Version == maxVersion)
                            select new VWBudgeting
                            {
                                //Checked = i != null ? a.COA.Equals(i.NoCOA) : false,

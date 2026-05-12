@@ -25,6 +25,7 @@ using Reston.Helper.Util;
 using Reston.Helper.Model;
 using System.Web;
 using SpreadsheetLight;
+using OfficeOpenXml;
 using Reston.Eproc.Model.Monitoring.Entities;
 
 
@@ -102,6 +103,9 @@ namespace Reston.Pinata.WebService.Controllers
             return Json(_repository.add(lstCoa, UserId()));          
         }
 
+        [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head,
+                                           IdLdapConstants.Roles.pRole_procurement_staff, IdLdapConstants.Roles.pRole_procurement_end_user,
+                                            IdLdapConstants.Roles.pRole_procurement_manager, IdLdapConstants.Roles.pRole_compliance)]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
         public async Task<IHttpActionResult> UploadBudget(string Tahun, string Jenis)
         {
@@ -122,11 +126,13 @@ namespace Reston.Pinata.WebService.Controllers
             string contentType = "";
             Guid newGuid = Guid.NewGuid();
             long sizeFile = 0;
+            byte[] fileBytes = null;
             foreach (var file in provider.Contents)
             {
                 string filename = file.Headers.ContentDisposition.FileName.Trim('\"');
                 string extension = filename.Substring(filename.IndexOf(".") + 1, filename.Length - filename.IndexOf(".") - 1);
                 byte[] buffer = await file.ReadAsByteArrayAsync();
+                fileBytes = buffer;
                 contentType = file.Headers.ContentType.ToString();
                 sizeFile = buffer.Length;
                 filePathSave += newGuid.ToString() + "." + extension;
@@ -154,24 +160,112 @@ namespace Reston.Pinata.WebService.Controllers
             {
                 try
                 {
+                    // Hitung versi berikutnya dari DokumenBudgets via repository
+                    var existingDocs = _repository.GetDokumenBudgetLatestVersion(Tahun, Jenis);
+                    int nextVersion = (existingDocs ?? 0) + 1;
+
                     DokumenBudget dokumen = new DokumenBudget
                     {
-                        File = uploadPath + filePathSave, // <--- yang ini berubah asalnya File = fileName
+                        File = uploadPath + filePathSave,
                         ContentType = contentType,
                         SizeFile = sizeFile,
                         Year = Tahun,
                         Jenis = Jenis
                     };
-                    // savw dokumen to repo
-                    // return sucess
                     _repository.saveDokumenBudget(dokumen, UserId());
-                    return Ok();
+
+                    // Parse Excel - support .xls (OleDb ACE) dan .xlsx (EPPlus)
+                    // Format kolom: Branch, Department, Description, COA, Month, BudgetAmount, BudgetUsage, BudgetLeft
+                    var budgetList = new List<Reston.Pinata.Model.PengadaanRepository.Budgeting>();
+                    string savedFilePath = uploadPath.ToString() + filePathSave;
+                    string fileExt = System.IO.Path.GetExtension(savedFilePath).ToLower();
+
+                    System.Data.DataTable dt = new System.Data.DataTable();
+
+                    if (fileExt == ".xlsx")
+                    {
+                        // Gunakan EPPlus untuk .xlsx
+                        using (var ms = new System.IO.MemoryStream(fileBytes))
+                        using (var package = new OfficeOpenXml.ExcelPackage(ms))
+                        {
+                            var worksheet = package.Workbook.Worksheets[1];
+                            if (worksheet != null && worksheet.Dimension != null)
+                            {
+                                int colCount = worksheet.Dimension.End.Column;
+                                int rowCount = worksheet.Dimension.End.Row;
+                                // header row
+                                for (int col = 1; col <= colCount; col++)
+                                    dt.Columns.Add("Col" + col);
+                                // data rows
+                                for (int row = 2; row <= rowCount; row++)
+                                {
+                                    var dr = dt.NewRow();
+                                    for (int col = 1; col <= colCount; col++)
+                                        dr[col - 1] = worksheet.Cells[row, col].Text ?? "";
+                                    dt.Rows.Add(dr);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Gunakan OleDb ACE untuk .xls
+                        string connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + savedFilePath + "';Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1;\"";
+                        using (var excelConn = new System.Data.OleDb.OleDbConnection(connString))
+                        {
+                            excelConn.Open();
+                            string sheetName = excelConn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                            using (var adapter = new System.Data.OleDb.OleDbDataAdapter("SELECT * FROM [" + sheetName + "]", excelConn))
+                            {
+                                adapter.Fill(dt);
+                            }
+                        }
+                    }
+
+                    foreach (System.Data.DataRow row in dt.Rows)
+                    {
+                        // Excel columns: No. | Branch | Department | Description | COA EPROC | Month | Budget Amount | Budget Usage | Budget Left
+                        string branch = row[1]?.ToString()?.Trim();      // Column B (index 1)
+                        string department = row[2]?.ToString()?.Trim();  // Column C (index 2)
+                        string description = row[3]?.ToString()?.Trim(); // Column D (index 3)
+                        string coa = row[4]?.ToString()?.Trim();         // Column E (index 4) - COA EPROC
+                        string month = row[5]?.ToString()?.Trim();       // Column F (index 5)
+
+                        if (string.IsNullOrEmpty(branch) && string.IsNullOrEmpty(coa)) continue;
+
+                        decimal budgetAmount = 0, budgetUsage = 0, budgetLeft = 0;
+                        decimal.TryParse(row[6]?.ToString()?.Replace(".", "").Replace(",", "."),  // Column G (index 6)
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture, out budgetAmount);
+                        decimal.TryParse(row[7]?.ToString()?.Replace(".", "").Replace(",", "."),  // Column H (index 7)
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture, out budgetUsage);
+                        decimal.TryParse(row[8]?.ToString()?.Replace(".", "").Replace(",", "."),  // Column I (index 8)
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture, out budgetLeft);
+
+                        budgetList.Add(new Reston.Pinata.Model.PengadaanRepository.Budgeting
+                        {
+                            Branch = branch,
+                            Department = department,
+                            Description = description,
+                            COA = coa,
+                            Month = month,
+                            BudgetAmount = budgetAmount,
+                            BudgetUsage = budgetUsage,
+                            BudgetLeft = budgetLeft,
+                            Year = Tahun,
+                            Jenis = Jenis,
+                            Version = nextVersion
+                        });
+                    }
+
+                    var importResult = _repository.SaveBudgetingsFromExcel(budgetList);
+                    return Ok(new { message = importResult.message, imported = importResult.status == System.Net.HttpStatusCode.OK });
                 }
                 catch (Exception ex)
                 {
-                    // return internal server error
                     return InternalServerError(ex);
-                    ;                   // return Json("00000000-0000-0000-0000-000000000000");
                 }
             }
 
@@ -199,13 +293,54 @@ namespace Reston.Pinata.WebService.Controllers
 
         [ApiAuthorize]
         [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
-        public IHttpActionResult GetLoadCOAPengadaan(BudgetAllocationFilterVM filter)
+        public IHttpActionResult DebugBudgeting()
         {
-            int start = Convert.ToInt32(HttpContext.Current.Request["start"]);
-            int length = Convert.ToInt32(HttpContext.Current.Request["length"]);
-            filter.Month = "";
-            //return Json(new { aaData = GetLoadCOABudget(filter.Branch, filter.Department, filter.Year, filter.Month, filter.Jenispembelanjaan, filter.Pengadaanid, start, length) });
-            return Json(_repository.GetLoadCOAPengadaan(filter.Branch, filter.Department, filter.Year, /*filter.Month,*/ filter.Jenispembelanjaan, filter.Pengadaanid, start, length));
+            string year = HttpContext.Current.Request["year"] ?? "";
+            string jenis = HttpContext.Current.Request["jenis"] ?? "";
+            
+            var ctx2 = new AppDbContext();
+            
+            var allYears = ctx2.Budgetings
+                .Select(b => new { b.Year, b.Jenis })
+                .Distinct()
+                .ToList();
+            
+            var refPeriode = ctx2.ReferenceDatas
+                .Where(r => r.Qualifier == "Periode Anggaran")
+                .Select(r => new { r.Code, r.LocalizedName })
+                .ToList();
+            
+            var refJenis = ctx2.ReferenceDatas
+                .Where(r => r.Qualifier == "Jenis Pembelanjaan")
+                .Select(r => new { r.Code, r.LocalizedName })
+                .ToList();
+            
+            return Json(new { 
+                budgetingYearsAndJenis = allYears,
+                refPeriodeAnggaran = refPeriode,
+                refJenisPembelanjaan = refJenis,
+                queryYear = year,
+                queryJenis = jenis
+            });
+        }
+
+        [ApiAuthorize]
+        [System.Web.Http.AcceptVerbs("GET", "POST", "HEAD")]
+        public IHttpActionResult GetLoadCOAPengadaan()
+        {
+            int start = Convert.ToInt32(HttpContext.Current.Request["start"] ?? "0");
+            int length = Convert.ToInt32(HttpContext.Current.Request["length"] ?? "100");
+            int draw = Convert.ToInt32(HttpContext.Current.Request["draw"] ?? "1");
+            
+            string branch = HttpContext.Current.Request["Branch"] ?? "";
+            string department = HttpContext.Current.Request["Department"] ?? "";
+            string year = HttpContext.Current.Request["Year"] ?? "";
+            string jenispembelanjaan = HttpContext.Current.Request["Jenispembelanjaan"] ?? "";
+            string pengadaanid = HttpContext.Current.Request["Pengadaanid"] ?? "";
+            
+            var result = _repository.GetLoadCOAPengadaan(branch, department, year, jenispembelanjaan, pengadaanid, start, length);
+            result.draw = draw;
+            return Json(result);
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_head, IdLdapConstants.Roles.pRole_approver,

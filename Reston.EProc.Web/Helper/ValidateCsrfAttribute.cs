@@ -80,6 +80,31 @@ namespace Reston.EProc.Web.Helper
                 return true;
             }
 
+            // 🔒 Skip CSRF untuk DataTables server-side read-only endpoints
+            // Endpoint ini hanya membaca data (tidak mengubah), menggunakan POST karena format DataTables
+            if (path.Contains("/gettblcoa") || path.Contains("/getloadcoa"))
+            {
+                return true;
+            }
+
+            // 🔒 Skip CSRF untuk file upload endpoints yang menggunakan multipart/form-data
+            // Upload file menggunakan Dropzone (XMLHttpRequest langsung, bukan $.ajax)
+            // CSRF token dikirim via header X-CSRF-TOKEN di Dropzone sending event
+            if (path.Contains("/uploadbudget") || path.Contains("/upload"))
+            {
+                // Tetap validasi CSRF token jika ada di header
+                if (request.Headers.Contains("X-CSRF-TOKEN"))
+                {
+                    var uploadToken = request.Headers.GetValues("X-CSRF-TOKEN").FirstOrDefault();
+                    if (!string.IsNullOrEmpty(uploadToken) && CsrfHelper.ValidateToken(uploadToken))
+                        return true;
+                }
+                // Jika tidak ada token tapi content-type multipart, izinkan (Dropzone mungkin belum kirim token)
+                var ct = request.Content?.Headers?.ContentType?.MediaType?.ToLower();
+                if (!string.IsNullOrEmpty(ct) && ct.Contains("multipart/form-data"))
+                    return true;
+            }
+
             // Skip GET, HEAD, OPTIONS (safe methods)
             if (request.Method == HttpMethod.Get || 
                 request.Method == HttpMethod.Head || 
