@@ -466,9 +466,10 @@ function save(po) {
     //alert('etdah');
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
-        url: "Api/po/Save" ,
+        url: "Api/po/Save",
         method: "POST",
-        data: po
+        contentType: "application/json", // 🔒 PERBAIKAN: Kirim sebagai JSON
+        data: JSON.stringify(po) // 🔒 PERBAIKAN: Convert ke JSON string
     }).done(function (data) {
         //loadDetail(data.Id);
         jawsReload(data.Id);
@@ -477,6 +478,20 @@ function save(po) {
         BootstrapDialog.show({
             title: 'Infomasi',
             message: msg,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+    }).fail(function(xhr, status, error) {
+        // 🔒 PERBAIKAN: Tambah error handling
+        waitingDialog.hideloading();
+        var errorMsg = "Terjadi kesalahan: " + (xhr.responseText || error);
+        BootstrapDialog.show({
+            title: 'Error',
+            message: errorMsg,
             buttons: [{
                 label: 'Close',
                 action: function (dialog) {
@@ -498,7 +513,8 @@ function saveItem(item) {
     $.ajax({
         url: "Api/po/SaveItem",
         method: "POST",
-        data: item
+        contentType: "application/json", // 🔒 PERBAIKAN: Kirim sebagai JSON
+        data: JSON.stringify(item) // 🔒 PERBAIKAN: Convert ke JSON string
     }).done(function (data) {
         var msg = data.message;
         waitingDialog.hideloading();
@@ -514,6 +530,20 @@ function saveItem(item) {
         });
         tableitem.draw();
         $("#item-modal").modal("hide");
+    }).fail(function(xhr, status, error) {
+        // 🔒 PERBAIKAN: Tambah error handling
+        waitingDialog.hideloading();
+        var errorMsg = "Terjadi kesalahan: " + (xhr.responseText || error);
+        BootstrapDialog.show({
+            title: 'Error',
+            message: errorMsg,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     });
 }
 

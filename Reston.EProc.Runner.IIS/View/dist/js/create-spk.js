@@ -16,9 +16,14 @@ var myDropzoneSPK;
 $(function () {
     //$("#pengadaanId").val(PengadaanId);
     //$("#VendorId").val(VendorId);
-    if (SpkId != "" && SpkId != null) loadDetail(SpkId);
-    if ($("#pksId").val() != "" && (SpkId == null || SpkId == "")) loadDetail($("#spkId").val());
-       //window.location.href("http://" + window.location.host + "/pks.html");
+    
+    // 🔒 PERBAIKAN: Hanya load detail jika SpkId valid dan bukan string kosong
+    if (SpkId && SpkId !== "" && SpkId !== "null" && SpkId !== "undefined") {
+        loadDetail(SpkId);
+    } else if ($("#spkId").val() && $("#spkId").val() !== "" && $("#spkId").val() !== "null") {
+        loadDetail($("#spkId").val());
+    }
+    // Jika tidak ada ID, ini adalah SPK baru - tidak perlu load detail
    
 
     $("#HapusFile").on("click", function () {
@@ -200,9 +205,31 @@ $(function () {
     $(".Simpan").on("click", function () {
         var spk = {};
         spk.PksId = $("#pksId").val();
+        spk.Id = $("#spkId").val() || "00000000-0000-0000-0000-000000000000"; // 🔒 PERBAIKAN: Set default GUID untuk SPK baru
         spk.TanggalSPKStr = moment($("#tanggal-spk").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
         spk.NilaiSPK = $("#nilai-spk").val();
-        console.log(spk);
+        
+        // 🔒 DEBUG: Log data yang akan dikirim
+        console.log("Data SPK yang akan disimpan:", spk);
+        console.log("PksId:", spk.PksId);
+        console.log("SpkId:", spk.Id);
+        console.log("isOwner:", $("#isOwner").val());
+        
+        // Validasi: PksId harus ada untuk SPK baru
+        if (!spk.PksId || spk.PksId === "") {
+            BootstrapDialog.show({
+                title: 'Peringatan',
+                message: 'Silakan pilih PKS terlebih dahulu dengan klik tombol "Cari PKS"',
+                buttons: [{
+                    label: 'OK',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+            return;
+        }
+        
         if ($("#isOwner").val() == 1 || $("#spkId").val() == "")
             save(spk);
     });
@@ -243,7 +270,9 @@ $(function () {
 
 function loadDetail(Id) {
     $.ajax({
-        url: "Api/spk/detail?Id=" + Id
+        url: "Api/spk/detail?Id=" + Id,
+        method: "POST", // Pastikan method POST
+        contentType: "application/json" // 🔒 PERBAIKAN: Kirim sebagai JSON
     }).done(function (data) {
         $("#judul").val(data.Judul);
         $("#no-pengadaan").val(data.NoPengadaan);
@@ -285,6 +314,19 @@ function loadDetail(Id) {
 
 
         $("#Status").text(data.StatusPksName);
+    }).fail(function(xhr, status, error) {
+        // 🔒 PERBAIKAN: Tambah error handling
+        console.error("Error loading detail:", error);
+        BootstrapDialog.show({
+            title: 'Error',
+            message: "Gagal memuat detail SPK: " + (xhr.responseText || error),
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     });
 
 }
@@ -293,8 +335,17 @@ function renderDokumenDropzone(myDropzone) {
     var rSpkId = SpkId;
     
     if ($("#spkId").val() !== '') rSpkId = $("#spkId").val();
+    
+    // 🔒 PERBAIKAN: Jangan load dokumen jika tidak ada ID (SPK baru)
+    if (!rSpkId || rSpkId === "" || rSpkId === "null" || rSpkId === "undefined") {
+        console.log("Tidak ada SPK ID, skip load dokumen");
+        return;
+    }
+    
     $.ajax({
         url: "Api/Spk/getDokumens?Id=" + rSpkId,
+        method: "POST", // Pastikan method POST
+        contentType: "application/json", // 🔒 PERBAIKAN: Kirim sebagai JSON
         success: function (data) {
             for (var key in data) {
                 var file = {
@@ -307,8 +358,10 @@ function renderDokumenDropzone(myDropzone) {
                 myDropzone.files.push(file);
             }
         },
-        error: function (errormessage) {
-
+        error: function (xhr, status, errormessage) {
+            // 🔒 PERBAIKAN: Tambah error handling yang lebih baik
+            console.error("Error loading documents:", errormessage);
+            // Jangan reload, cukup log error
             //location.reload();
 
         }
@@ -318,11 +371,22 @@ function renderDokumenDropzone(myDropzone) {
 function save(spk) {
     
     waitingDialog.showloading("Proses Harap Tunggu");
+    
+    // 🔒 DEBUG: Log CSRF token
+    console.log("CSRF Token:", csrfToken);
+    console.log("Data yang akan dikirim:", JSON.stringify(spk));
+    
     $.ajax({
-        url: "Api/spk/Save" ,
+        url: "Api/spk/Save",
         method: "POST",
-        data: spk ///JSON.stringify(pks)
+        contentType: "application/json", // 🔒 PERBAIKAN: Kirim sebagai JSON
+        data: JSON.stringify(spk), // 🔒 PERBAIKAN: Convert ke JSON string
+        beforeSend: function(xhr) {
+            // 🔒 DEBUG: Log headers yang dikirim
+            console.log("Request headers akan dikirim");
+        }
     }).done(function (data) {
+        console.log("Response dari server:", data);
         loadDetail(data.Id);
         var msg = data.message;
         waitingDialog.hideloading();
@@ -337,13 +401,32 @@ function save(spk) {
             }]
         });
         
+    }).fail(function(xhr, status, error) {
+        // 🔒 PERBAIKAN: Tambah error handling
+        console.error("Error response:", xhr);
+        console.error("Status:", status);
+        console.error("Error:", error);
+        console.error("Response Text:", xhr.responseText);
+        
+        waitingDialog.hideloading();
+        var errorMsg = "Terjadi kesalahan: " + (xhr.responseText || error);
+        BootstrapDialog.show({
+            title: 'Error',
+            message: errorMsg,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     });
 }
 
 $("#template-spk").on("click", function () {
     //var tanggal = moment($("#tanggal-spk").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
     downloadFileUsingForm("Api/Report/BerkasSPK2?Judul=" + $("#judul").val() + "&Tanggal_SPK=" + $("#tanggal-spk").val() + "&Vendor= " + $("#pelaksana").val() + "&Nilai_SPK=" + $("#nilai-spk").val());
-    alert("bgafugsafgsg")
+    /*alert("bgafugsafgsg")*/
 });
 
 function change() {
@@ -367,6 +450,7 @@ function change() {
     $.ajax({
         url: "Api/Spk/ChangeSatus?Id=" + $("#spkId").val() + "&status=" + status,
         method: "POST",
+        contentType: "application/json" // 🔒 PERBAIKAN: Kirim sebagai JSON
     }).done(function (data) {
         loadDetail($("#spkId").val());
         if (data.Id != "") {
@@ -389,5 +473,19 @@ function change() {
             }]
         });
 
+    }).fail(function(xhr, status, error) {
+        // 🔒 PERBAIKAN: Tambah error handling
+        waitingDialog.hideloading();
+        var errorMsg = "Terjadi kesalahan: " + (xhr.responseText || error);
+        BootstrapDialog.show({
+            title: 'Error',
+            message: errorMsg,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
     });
 }

@@ -40,19 +40,31 @@ namespace Reston.EProc.Web.Helper
         {
             lock (_lock)
             {
+                // 🔒 DEBUG: Log validasi token
+                System.Diagnostics.Debug.WriteLine($"[CSRF] Validating token: {token}");
+                System.Diagnostics.Debug.WriteLine($"[CSRF] Total tokens in memory: {Tokens.Count}");
+                
                 if (Tokens.TryGetValue(token, out DateTime expiry))
                 {
+                    System.Diagnostics.Debug.WriteLine($"[CSRF] Token found, expiry: {expiry}, now: {DateTime.Now}");
+                    
                     if (expiry >= DateTime.Now)
                     {
+                        System.Diagnostics.Debug.WriteLine($"[CSRF] Token valid!");
                         // Remove after use (optional)
                         //Tokens.TryRemove(token, out _);
                         return true;
                     }
                     else
                     {
+                        System.Diagnostics.Debug.WriteLine($"[CSRF] Token expired!");
                         // Remove expired token
                         Tokens.TryRemove(token, out _);
                     }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"[CSRF] Token NOT found in memory!");
                 }
                 return false;
             }
