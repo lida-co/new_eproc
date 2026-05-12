@@ -3261,7 +3261,6 @@ function getPemenang() {
         }
     });
 }
-
 function getListKandidatPelaksanaan() {
     $.ajax({
         method: "POST",
@@ -3477,21 +3476,18 @@ function getListKlarifikasiRekanan() {
         method: "POST",
         url: "Api/PengadaanE/GetRekananKlarifikasiPenilaian?PId=" + $("#pengadaanId").val(),
         success: function (data) {
+            $(".list-rekanan-klarifikasi-penilaian").html("");
             $.each(data, function (index, value) {
                 var html = '<div class="col-md-3 "  vendorId="' + value.VendorId + '">' +
                             '<div class="box box-primary">' +
                                 '<div class="box-tools pull-right vendor-check-box" data-toggle="tooltip" title="' + value.NamaVendor + '">';
-                       //'<button class="delete-klarifikasi-kandidat btn btn-box-tool" vendorId="' + value.VendorId + '"><i class="fa fa-times"></i></button>' +
-                       
+
+                // Selalu render tanpa disabled — enable/disable ditentukan setelah render
+                // berdasarkan isPIC yang sudah tersedia dari loadData
                 if (value.terpilih == 0) {
-                    if ($("#isPIC").val() == "1")
-                        html = html + '<input class="s-checkbox checkbox-pilih-pemenang"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
-                    else html = html + '<input class="s-checkbox checkbox-pilih-pemenang" disabled="disabled"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
-                }
-                else {
-                    if ($("#isPIC").val() == "1")
-                         html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
-                    else html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked disabled="disabled"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                    html = html + '<input class="s-checkbox checkbox-pilih-pemenang" vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                } else {
+                    html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
                 }
                 if ($("#CekAsuransi").val() == "true") {
                     console.log("masuk asuransi");
@@ -3516,6 +3512,10 @@ function getListKlarifikasiRekanan() {
 
                 $(".list-rekanan-klarifikasi-penilaian").append(html);
             });
+            // Disable checkbox jika bukan PIC — dilakukan setelah semua render selesai
+            if ($("#isPIC").val() != "1") {
+                $(".list-rekanan-klarifikasi-penilaian .checkbox-pilih-pemenang").attr("disabled", "disabled");
+            }
         }
     });
 }
@@ -3525,21 +3525,17 @@ function getListKlarifikasiRekananLanjutan() {
         method: "POST",
         url: "Api/PengadaanE/GetRekananKlarifikasiPenilaianLanjutan?PId=" + $("#pengadaanId").val(),
         success: function (data) {
+            $(".list-rekanan-klarifikasi-lanjutan-check").html("");
             $.each(data, function (index, value) {
                 var html = '<div class="col-md-3 "  vendorId="' + value.VendorId + '">' +
                             '<div class="box box-primary">' +
                                 '<div class="box-tools pull-right vendor-check-box" data-toggle="tooltip" title="' + value.NamaVendor + '">';
-                //'<button class="delete-klarifikasi-kandidat btn btn-box-tool" vendorId="' + value.VendorId + '"><i class="fa fa-times"></i></button>' +
 
+                // Selalu render tanpa disabled — enable/disable ditentukan setelah render
                 if (value.terpilih == 0) {
-                    if ($("#isPIC").val() == "1")
-                        html = html + '<input class="s-checkbox checkbox-pilih-pemenang"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
-                    else html = html + '<input class="s-checkbox checkbox-pilih-pemenang" disabled="disabled"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
-                }
-                else {
-                    if ($("#isPIC").val() == "1")
-                        html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
-                    else html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked disabled="disabled"  vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                    html = html + '<input class="s-checkbox checkbox-pilih-pemenang" vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
+                } else {
+                    html = html + '<input class="s-checkbox checkbox-pilih-pemenang" checked vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
                 }
 
                 if ($("#CekAsuransi").val() == "true") {
@@ -3562,6 +3558,10 @@ function getListKlarifikasiRekananLanjutan() {
                 }
                 $(".list-rekanan-klarifikasi-lanjutan-check").append(html);
             });
+            // Disable checkbox jika bukan PIC — dilakukan setelah semua render selesai
+            if ($("#isPIC").val() != "1") {
+                $(".list-rekanan-klarifikasi-lanjutan-check .checkbox-pilih-pemenang").attr("disabled", "disabled");
+            }
         }
     });
 }

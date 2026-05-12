@@ -645,8 +645,7 @@ function loadData(pengadaanId) {
         $("#Branch").text(data.Branch);
         $("#Department").text(data.Department);
         isPemenangApproved(pengadaanId);
-        StatusPemenang(pengadaanId);
-        if (data.isPIC == 0) {
+        StatusPemenang(pengadaanId);        if (data.isPIC == 0) {
             $(".action-pelaksanaan").attr("disabled", "disabled");
             $(".bingkai-pic-pelaksanaan").remove();
             $("button.action-pelaksanaan").remove();
@@ -987,6 +986,15 @@ function loadData(pengadaanId) {
         cekStep();
         cekLewati();
         userid();
+
+        // Re-render daftar kandidat pemenang di akhir loadData setelah semua kondisi
+        // disable sudah dieksekusi, agar isPIC sudah tersedia dan tidak ter-override
+        if (typeof getListKlarifikasiRekanan === "function") {
+            getListKlarifikasiRekanan();
+        }
+        if (typeof getListKlarifikasiRekananLanjutan === "function") {
+            getListKlarifikasiRekananLanjutan();
+        }
     });
 }
 
