@@ -56,12 +56,39 @@ $(function () {
              {
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
+                 // 🔒 PERBAIKAN: Kirim CSRF token via event sending (token sudah pasti ada)
+                 sending: function(file, xhr, formData) {
+                     var token = csrfToken;
+                     if (!token) {
+                         try {
+                             var req = new XMLHttpRequest();
+                             req.open('GET', '/api/security/GetCsrfToken', false);
+                             req.send(null);
+                             if (req.status === 200) {
+                                 token = JSON.parse(req.responseText).csrfToken;
+                                 csrfToken = token;
+                             }
+                         } catch(e) { console.warn('Gagal ambil CSRF token:', e); }
+                     }
+                     if (token) {
+                         xhr.setRequestHeader("X-CSRF-TOKEN", token);
+                         xhr.setRequestHeader("X-XSRF-TOKEN", token);
+                     }
+                 },
                  accept: function (file, done) {
                      this.options.url = $("#dokspk").attr("action") + "?id=" + $("#spkId").val();
-                     if ($("#isOwner").val() != 1)
+                     
+                     var spkId = $("#spkId").val();
+                     var isOwner = $("#isOwner").val();
+                     var statusSpk = $("#StatusSpk").val();
+                     
+                     // Blokir upload hanya jika SPK sudah Aktif/Batal (bukan Draft)
+                     // Semua role yang berwenang bisa upload selama status masih Draft
+                     // Validasi role sudah ada di server (ApiAuthorize)
+                     if (statusSpk != 0 && statusSpk != "") {
                          BootstrapDialog.show({
                              title: 'Konfirmasi',
-                             message: 'Anda Tidak Punya Akses ',
+                             message: 'Upload hanya bisa dilakukan saat status SPK masih Draft',
                              buttons: [{
                                  label: 'Close',
                                  action: function (dialog) {
@@ -70,7 +97,7 @@ $(function () {
                                  }
                              }]
                          });
-                     else {
+                     } else {
                          var jumFile = myDropzoneSPK.files.length;
                          if ($("#pksId").val() == "") {
                              BootstrapDialog.show({
@@ -81,11 +108,9 @@ $(function () {
                                      action: function (dialog) {
                                          myDropzoneSPK.removeFile(file);
                                          dialog.close();
-
                                      }
                                  }]
                              });
-
                          } else {
                              if (jumFile > 1) {
                                  BootstrapDialog.show({
@@ -372,18 +397,32 @@ function save(spk) {
     
     waitingDialog.showloading("Proses Harap Tunggu");
     
-    // 🔒 DEBUG: Log CSRF token
-    console.log("CSRF Token:", csrfToken);
-    console.log("Data yang akan dikirim:", JSON.stringify(spk));
+    // Ambil token terbaru - jangan bergantung hanya pada $.ajaxSetup
+    var token = csrfToken;
+    if (!token) {
+        try {
+            var req = new XMLHttpRequest();
+            req.open('GET', '/api/security/GetCsrfToken', false);
+            req.send(null);
+            if (req.status === 200) {
+                token = JSON.parse(req.responseText).csrfToken;
+                csrfToken = token;
+            }
+        } catch(e) { console.warn('Gagal ambil CSRF token:', e); }
+    }
+    
+    console.log("Save - CSRF Token:", token);
+    console.log("Save - Data:", JSON.stringify(spk));
     
     $.ajax({
         url: "Api/spk/Save",
         method: "POST",
-        contentType: "application/json", // 🔒 PERBAIKAN: Kirim sebagai JSON
-        data: JSON.stringify(spk), // 🔒 PERBAIKAN: Convert ke JSON string
-        beforeSend: function(xhr) {
-            // 🔒 DEBUG: Log headers yang dikirim
-            console.log("Request headers akan dikirim");
+        contentType: "application/json",
+        data: JSON.stringify(spk),
+        headers: {
+            "X-CSRF-TOKEN": token || "",
+            "X-XSRF-TOKEN": token || "",
+            "RequestVerificationToken": token || ""
         }
     }).done(function (data) {
         console.log("Response dari server:", data);
@@ -402,12 +441,7 @@ function save(spk) {
         });
         
     }).fail(function(xhr, status, error) {
-        // 🔒 PERBAIKAN: Tambah error handling
-        console.error("Error response:", xhr);
-        console.error("Status:", status);
-        console.error("Error:", error);
-        console.error("Response Text:", xhr.responseText);
-        
+        console.error("Error response:", xhr.responseText);
         waitingDialog.hideloading();
         var errorMsg = "Terjadi kesalahan: " + (xhr.responseText || error);
         BootstrapDialog.show({

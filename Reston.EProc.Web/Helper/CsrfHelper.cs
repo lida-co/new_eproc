@@ -1,70 +1,65 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Reston.EProc.Web.Helper
 {
+    /// <summary>
+    /// CSRF Helper menggunakan in-memory token store.
+    /// Simple dan reliable - token disimpan di memory server.
+    /// </summary>
     public static class CsrfHelper
     {
-        private static readonly ConcurrentDictionary<string, DateTime> Tokens = new ConcurrentDictionary<string, DateTime>();
+        private static readonly ConcurrentDictionary<string, DateTime> _tokens 
+            = new ConcurrentDictionary<string, DateTime>();
 
         private static readonly object _lock = new object();
 
         public static string GenerateToken()
         {
-            var token = Guid.NewGuid().ToString();
-            var expiry = DateTime.Now.AddMinutes(30);
+            var token = Guid.NewGuid().ToString("N"); // 32 hex chars, no dashes, no special chars
+            var expiry = DateTime.UtcNow.AddMinutes(120); // 2 jam
 
             lock (_lock)
             {
-                // Clean expired tokens
-                var expiredTokens = Tokens.Where(kvp => kvp.Value < DateTime.Now)
-                                         .Select(kvp => kvp.Key)
-                                         .ToList();
-                foreach (var expired in expiredTokens)
-                {
-                    Tokens.TryRemove(expired, out _);
-                }
+                // Bersihkan token expired
+                var expired = _tokens.Where(x => x.Value < DateTime.UtcNow)
+                                     .Select(x => x.Key).ToList();
+                foreach (var key in expired)
+                    _tokens.TryRemove(key, out _);
 
-                Tokens[token] = expiry;
+                _tokens[token] = expiry;
             }
 
+            System.Diagnostics.Debug.WriteLine($"[CSRF] Generated token: {token}, total tokens: {_tokens.Count}");
             return token;
         }
 
         public static bool ValidateToken(string token)
         {
+            if (string.IsNullOrEmpty(token)) return false;
+
             lock (_lock)
             {
-                // 🔒 DEBUG: Log validasi token
-                System.Diagnostics.Debug.WriteLine($"[CSRF] Validating token: {token}");
-                System.Diagnostics.Debug.WriteLine($"[CSRF] Total tokens in memory: {Tokens.Count}");
-                
-                if (Tokens.TryGetValue(token, out DateTime expiry))
+                System.Diagnostics.Debug.WriteLine($"[CSRF] Validating: {token}, total tokens: {_tokens.Count}");
+
+                if (_tokens.TryGetValue(token, out DateTime expiry))
                 {
-                    System.Diagnostics.Debug.WriteLine($"[CSRF] Token found, expiry: {expiry}, now: {DateTime.Now}");
-                    
-                    if (expiry >= DateTime.Now)
+                    if (expiry >= DateTime.UtcNow)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[CSRF] Token valid!");
-                        // Remove after use (optional)
-                        //Tokens.TryRemove(token, out _);
+                        System.Diagnostics.Debug.WriteLine($"[CSRF] Valid!");
                         return true;
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine($"[CSRF] Token expired!");
-                        // Remove expired token
-                        Tokens.TryRemove(token, out _);
+                        System.Diagnostics.Debug.WriteLine($"[CSRF] Expired!");
+                        _tokens.TryRemove(token, out _);
                     }
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine($"[CSRF] Token NOT found in memory!");
+                    System.Diagnostics.Debug.WriteLine($"[CSRF] Not found in memory!");
                 }
                 return false;
             }

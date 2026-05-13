@@ -75,6 +75,31 @@ function downloadFileUsingForm(url) {
     document.body.removeChild(form);
 }
 
+/**
+ * Helper: tambahkan CSRF token ke Dropzone instance
+ * Panggil ini setelah membuat Dropzone baru
+ */
+function addCsrfToDropzone(dropzoneInstance) {
+    dropzoneInstance.on("sending", function(file, xhr, formData) {
+        var token = csrfToken;
+        if (!token) {
+            try {
+                var req = new XMLHttpRequest();
+                req.open('GET', '/api/security/GetCsrfToken', false);
+                req.send(null);
+                if (req.status === 200) {
+                    token = JSON.parse(req.responseText).csrfToken;
+                    csrfToken = token;
+                }
+            } catch(e) { console.warn('Gagal ambil CSRF token untuk Dropzone:', e); }
+        }
+        if (token) {
+            xhr.setRequestHeader("X-CSRF-TOKEN", token);
+            xhr.setRequestHeader("X-XSRF-TOKEN", token);
+        }
+    });
+}
+
 
 function SetListProvinsi(el) {
     $.ajax({

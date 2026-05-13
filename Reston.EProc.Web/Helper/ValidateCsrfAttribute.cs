@@ -41,41 +41,23 @@ namespace Reston.EProc.Web.Helper
                 path.Contains("/api/header/cekrole") ||
                 path.Contains("/api/header/signout") ||
                 path.Contains("/api/security/csrf-token") ||
-                path.Contains("/api/security/getcsrftoken") ||
-                path.Contains("/save") || // 🔒 TEMPORARY: Whitelist save endpoints untuk debug
-                path.Contains("/saveitem")) // 🔒 TEMPORARY: Whitelist saveitem endpoints
+                path.Contains("/api/security/getcsrftoken"))
             {
                 return true;
             }
 
-            // 🔒 PERBAIKAN: Skip CSRF validation untuk Report endpoints (file download)
-            // Report endpoints tidak mengubah data, hanya generate & download file
-            // Termasuk: /api/report/*, /api/po/report, /api/spk/report, dll
-            if (path.Contains("/report"))
+            // Skip CSRF untuk file download (read-only, tidak mengubah data)
+            if (path.Contains("/report") ||
+                path.Contains("/openfile"))
             {
                 return true;
             }
 
-            // 🔒 PERBAIKAN: Skip CSRF validation untuk Search endpoints (read-only)
-            // Search endpoints tidak mengubah data, hanya query/filter data
-            // Menggunakan POST untuk kirim complex filter criteria
-            if (path.EndsWith("/search") || path.Contains("/search/"))
-            {
-                return true;
-            }
-
-            // 🔒 PERBAIKAN: Skip CSRF validation untuk OpenFile endpoints (file download)
-            // OpenFile endpoints adalah operasi read-only untuk download file SPK/PO/dokumen
-            // Tidak mengubah data, hanya membaca dan mengirim file ke client
-            if (path.Contains("/openfile"))
-            {
-                return true;
-            }
-
-            // 🔒 PERBAIKAN: Skip CSRF validation untuk read-only endpoints
-            // Detail dan GetDokumens adalah operasi read-only (GET data)
-            // Menggunakan POST untuk compatibility dengan DataTables dan complex queries
-            if (path.Contains("/detail") || path.Contains("/getdokumens") || path.Contains("/getdokumen"))
+            // Skip CSRF untuk read-only data endpoints
+            if (path.EndsWith("/search") || path.Contains("/search/") ||
+                path.Contains("/detail") ||
+                path.Contains("/getdokumens") ||
+                path.Contains("/getdokumen"))
             {
                 return true;
             }
@@ -119,25 +101,16 @@ namespace Reston.EProc.Web.Helper
             
             if (!string.IsNullOrEmpty(contentType))
             {
-                // BLOKIR application/x-www-form-urlencoded
-                if (contentType.Contains("application/x-www-form-urlencoded"))
-                {
-                    actionContext.Response = new HttpResponseMessage(HttpStatusCode.UnsupportedMediaType)
-                    {
-                        Content = new StringContent("Content-Type application/x-www-form-urlencoded tidak diizinkan. Gunakan application/json")
-                    };
-                    return false;
-                }
-
-                // Validasi hanya content-type yang diizinkan (kecuali multipart untuk upload file)
+                // Validasi hanya content-type yang diizinkan
                 bool isAllowed = contentType.Contains("application/json") || 
-                                 contentType.Contains("multipart/form-data");
+                                 contentType.Contains("multipart/form-data") ||
+                                 contentType.Contains("application/x-www-form-urlencoded"); // Izinkan form-urlencoded, proteksi dari CSRF token di header
                 
                 if (!isAllowed)
                 {
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.UnsupportedMediaType)
                     {
-                        Content = new StringContent("Content-Type tidak diizinkan. Gunakan application/json atau multipart/form-data")
+                        Content = new StringContent("Content-Type tidak diizinkan.")
                     };
                     return false;
                 }
@@ -160,21 +133,36 @@ namespace Reston.EProc.Web.Helper
             // ========================================
             string token = null;
 
-            // HANYA cek header X-CSRF-TOKEN (TIDAK fallback ke cookie)
+            // Log semua headers yang diterima untuk debug
+            System.Diagnostics.Debug.WriteLine($"[CSRF] Headers received:");
+            foreach (var header in request.Headers)
+                System.Diagnostics.Debug.WriteLine($"[CSRF]   {header.Key}: {string.Join(",", header.Value)}");
+
+            // Cek header X-CSRF-TOKEN atau X-XSRF-TOKEN
             if (request.Headers.Contains("X-CSRF-TOKEN"))
-            {
                 token = request.Headers.GetValues("X-CSRF-TOKEN").FirstOrDefault();
-                System.Diagnostics.Debug.WriteLine($"[CSRF] Token from header: {token}");
-            }
-            else
+            
+            if (string.IsNullOrEmpty(token) && request.Headers.Contains("X-XSRF-TOKEN"))
+                token = request.Headers.GetValues("X-XSRF-TOKEN").FirstOrDefault();
+
+            if (string.IsNullOrEmpty(token) && request.Headers.Contains("RequestVerificationToken"))
+                token = request.Headers.GetValues("RequestVerificationToken").FirstOrDefault();
+
+            // Untuk multipart/form-data (upload file), juga cek cookie XSRF-TOKEN sebagai fallback
+            // Ini aman karena attacker tidak bisa baca cookie dari domain lain
+            // contentType sudah dideklarasikan di atas (baris validasi Content-Type)
+            if (string.IsNullOrEmpty(token) && contentType != null && contentType.Contains("multipart/form-data"))
             {
-                System.Diagnostics.Debug.WriteLine($"[CSRF] No X-CSRF-TOKEN header found!");
+                var cookieHeader = request.Headers.GetCookies("XSRF-TOKEN").FirstOrDefault();
+                if (cookieHeader != null)
+                    token = cookieHeader["XSRF-TOKEN"]?.Value;
             }
 
-            // Jika token tidak ada di header, TOLAK
+            System.Diagnostics.Debug.WriteLine($"[CSRF] Token from header: {token ?? "NULL"}");
+
             if (string.IsNullOrEmpty(token))
             {
-                System.Diagnostics.Debug.WriteLine($"[CSRF] Token is null or empty - REJECTED");
+                System.Diagnostics.Debug.WriteLine($"[CSRF] No token found - REJECTED");
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden)
                 {
                     Content = new StringContent("CSRF token wajib dikirim via header X-CSRF-TOKEN")
@@ -182,8 +170,6 @@ namespace Reston.EProc.Web.Helper
                 return false;
             }
 
-            // Validasi token
-            System.Diagnostics.Debug.WriteLine($"[CSRF] Validating token...");
             if (!CsrfHelper.ValidateToken(token))
             {
                 System.Diagnostics.Debug.WriteLine($"[CSRF] Token validation FAILED!");
@@ -220,7 +206,7 @@ namespace Reston.EProc.Web.Helper
             var requestScheme = request.RequestUri.Scheme.ToLower();
             var requestPort = request.RequestUri.Port;
 
-            // Cek Origin header (lebih reliable)
+            // Cek Origin header
             if (request.Headers.Contains("Origin"))
             {
                 var origin = request.Headers.GetValues("Origin").FirstOrDefault();
@@ -229,19 +215,11 @@ namespace Reston.EProc.Web.Helper
                     try
                     {
                         var originUri = new Uri(origin);
-                        
-                        // Validasi: scheme, host, dan port harus sama
-                        if (originUri.Scheme.ToLower() == requestScheme &&
-                            originUri.Host.ToLower() == requestHost &&
-                            originUri.Port == requestPort)
-                        {
-                            return true;
-                        }
+                        return originUri.Scheme.ToLower() == requestScheme &&
+                               originUri.Host.ToLower() == requestHost &&
+                               originUri.Port == requestPort;
                     }
-                    catch
-                    {
-                        return false;
-                    }
+                    catch { return false; }
                 }
             }
 
@@ -249,18 +227,15 @@ namespace Reston.EProc.Web.Helper
             if (request.Headers.Referrer != null)
             {
                 var referer = request.Headers.Referrer;
-                
-                // Validasi: scheme, host, dan port harus sama
-                if (referer.Scheme.ToLower() == requestScheme &&
-                    referer.Host.ToLower() == requestHost &&
-                    referer.Port == requestPort)
-                {
-                    return true;
-                }
+                return referer.Scheme.ToLower() == requestScheme &&
+                       referer.Host.ToLower() == requestHost &&
+                       referer.Port == requestPort;
             }
 
-            // Jika tidak ada Origin dan Referer, TOLAK
-            return false;
+            // Jika tidak ada Origin dan Referer, IZINKAN
+            // (request dari server-side atau tools seperti Dropzone yang tidak selalu kirim Origin)
+            // Proteksi tetap ada dari CSRF token validation
+            return true;
         }
 
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)

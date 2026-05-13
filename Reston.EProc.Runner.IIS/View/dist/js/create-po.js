@@ -7,10 +7,8 @@ var Id = encodeURIComponent(safeId);
 var tableitem;
 
 $(function () {
-    //$("#pengadaanId").val(PengadaanId);
-    //$("#VendorId").val(VendorId);
-    //console.log("id Po nya: " + Id);
-    if (Id != "" && Id != null) {
+    // 🔒 PERBAIKAN: Hanya load detail jika Id valid (bukan PO baru)
+    if (Id && Id !== "" && Id !== "null" && Id !== "undefined") {
         loadDetail(Id);
     }
     else {
@@ -18,7 +16,6 @@ $(function () {
         SetListVendor("");
         SetListVendor2("");
     }
-    //if ($("#Id").val() != "" && (Id == null || Id == "")) loadDetail($("#Id").val());
        //window.location.href("http://" + window.location.host + "/pks.html");
 
     $("#HapusFile").on("click", function () {
@@ -54,6 +51,24 @@ $(function () {
                  accept: function (file, done) {
                      this.options.url = $("#DOKPO").attr("action") + "?id=" + $("#Id").val();
                      done();
+                 },
+                 sending: function(file, xhr, formData) {
+                     var token = csrfToken;
+                     if (!token) {
+                         try {
+                             var req = new XMLHttpRequest();
+                             req.open('GET', '/api/security/GetCsrfToken', false);
+                             req.send(null);
+                             if (req.status === 200) {
+                                 token = JSON.parse(req.responseText).csrfToken;
+                                 csrfToken = token;
+                             }
+                         } catch(e) { console.warn('Gagal ambil CSRF token:', e); }
+                     }
+                     if (token) {
+                         xhr.setRequestHeader("X-CSRF-TOKEN", token);
+                         xhr.setRequestHeader("X-XSRF-TOKEN", token);
+                     }
                  },
                  init: function () {
                      this.on("addedfile", function (file) {
@@ -388,11 +403,17 @@ function SetListBank(namabank) {
 }
 
 function loadDetail(Id) {
-    //alert("hmm");
+    // 🔒 PERBAIKAN: Validasi ID sebelum request
+    if (!Id || Id === "" || Id === "null" || Id === "undefined") {
+        console.log("loadDetail dipanggil tanpa ID, skip");
+        return;
+    }
+    
     $.ajax({
-        url: "Api/PO/detail?Id=" + Id
+        url: "Api/PO/detail?Id=" + Id,
+        method: "POST",
+        contentType: "application/json"
     }).done(function (data) {
-		//data = DOMPurify.sanitize(data);
         $("#Id").val(data.Id);
         $("#prihal").val(data.Prihal);
         $("#idVendor").val(data.Vendor);
@@ -424,7 +445,6 @@ function loadDetail(Id) {
         $("#pph").val(data.PPH);
         SetListBank(data.NamaBank);
         SetListVendor(data.Vendor);
-        //SetListVendor2(data.Vendor);
         if (data.PeriodeDari != null || data.PeriodeSampai != null) {
             $("#hide-periode").attr("checked",true);
             $("#hide-periode-sewa").show();
@@ -434,29 +454,39 @@ function loadDetail(Id) {
             $("#hide-periode").attr("checked",false);
             $("#hide-periode-sewa").hide();
         }
-        });
+    }).fail(function(xhr, status, error) {
+        // 🔒 PERBAIKAN: Error handling
+        console.error("Error loading PO detail:", error, xhr.responseText);
+    });
 }
 
 function renderDokumenDropzone(myDropzone) {
     var rId = Id;
     if ($("#Id").val() !== '') rId = $("#Id").val();
+    
+    // 🔒 PERBAIKAN: Jangan load dokumen jika tidak ada ID (PO baru)
+    if (!rId || rId === "" || rId === "null" || rId === "undefined") {
+        console.log("Tidak ada PO ID, skip load dokumen");
+        return;
+    }
+    
     $.ajax({
         url: "Api/PO/getDokumens?Id=" + rId,
+        method: "POST",
+        contentType: "application/json",
         success: function (data) {
-			//data = DOMPurify.sanitize(data);
             for (var key in data) {
                 var file = {
                     Id: data[key].Id, name: data[key].File, accepted: true,
                     status: Dropzone.SUCCESS, processing: true, size: data[key].SizeFile
                 };
-                //thisDropzone.options.addedfile.call(thisDropzone, file);
                 myDropzone.emit("addedfile", file);
                 myDropzone.emit("complete", file);
                 myDropzone.files.push(file);
             }
         },
-        error: function (errormessage) {
-            //location.reload();
+        error: function (xhr, status, errormessage) {
+            console.error("Error loading PO documents:", errormessage);
         }
     });
 }

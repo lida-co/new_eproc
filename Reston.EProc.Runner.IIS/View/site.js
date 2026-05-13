@@ -38,8 +38,7 @@ async function initCsrf() {
         }
 
         csrfToken = data.csrfToken;
-        csrfRetryCount = 0; // Reset retry count
-        //console.log('CSRF token berhasil diambil');
+        csrfRetryCount = 0;
 
     } catch (e) {
         console.error("Gagal mengambil CSRF token:", e.message);
@@ -53,9 +52,17 @@ async function initCsrf() {
     }
 }
 
+// ✅ Auto-init CSRF token saat DOM ready - berlaku untuk SEMUA halaman
+// Tidak perlu lagi memanggil initCsrf() manual di setiap HTML
+$(document).ready(function () {
+    initCsrf();
+});
+
 $.ajaxSetup({
     beforeSend: function (xhr, settings) {
-        if (settings.type === 'GET') return;
+        // Skip untuk GET, HEAD, OPTIONS
+        var method = (settings.type || settings.method || '').toUpperCase();
+        if (method === 'GET' || method === 'HEAD' || method === 'OPTIONS') return;
 
         if (!csrfToken) {
             try {
