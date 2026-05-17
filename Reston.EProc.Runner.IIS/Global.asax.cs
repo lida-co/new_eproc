@@ -21,7 +21,8 @@ namespace Runner.IIS
             { "/anggaran.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager" } },
             { "/budgeting.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head", "procurement_manager" } },
             { "/daftar-hitam.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head" } },
-            { "/kebijakan-pendaftaran.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head" } },
+            // kebijakan-pendaftaran.html sengaja TIDAK diproteksi - konten ini perlu bisa diakses publik
+            // karena diload via AJAX dari halaman registrasi vendor (registrasiv2.html) yang tidak butuh login
             { "/edit-kebijakan.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head" } },
             { "/regulasi.html", new[] { "eproc_superadmin", "eproc_admin", "procurement_head" } },
             
@@ -273,7 +274,7 @@ namespace Runner.IIS
             Anda tidak memiliki akses ke halaman ini.<br>
             Silakan hubungi administrator jika Anda merasa ini adalah kesalahan.
         </p>
-        <a href='/View/dashboard.html' class='btn'>Kembali ke Dashboard</a>
+        <a href='/dashboard.html' class='btn'>Kembali ke Dashboard</a>
     </div>
 </body>
 </html>");
