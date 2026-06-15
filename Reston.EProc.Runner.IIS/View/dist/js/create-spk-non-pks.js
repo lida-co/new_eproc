@@ -1,4 +1,4 @@
-﻿
+
 var rawId = gup("id", window.location.href);
 var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
 var SpkId = encodeURIComponent(safeId);
@@ -195,6 +195,10 @@ $(function () {
 
     myDropzoneSPK = new Dropzone("#dokspk",
              {
+                 headers: {
+                     'X-CSRF-TOKEN': csrfToken,
+                     'X-XSRF-TOKEN': csrfToken
+                 },
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
@@ -281,6 +285,10 @@ $(function () {
 
     myDropzoneAnwijzing = new Dropzone("#dokaanwijzing",
         {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-XSRF-TOKEN': csrfToken
+            },
             maxFilesize: 10,
             acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
             accept: function (file, done) {
@@ -373,6 +381,10 @@ $(function () {
 
     myDropzoneMemo = new Dropzone("#dokMemo",
         {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-XSRF-TOKEN': csrfToken
+            },
             maxFilesize: 10,
             acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
             accept: function (file, done) {
@@ -465,6 +477,10 @@ $(function () {
 
     myDropzoneSubmitPenawaran = new Dropzone("#dokSubmitPenawaran",
         {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-XSRF-TOKEN': csrfToken
+            },
             maxFilesize: 10,
             acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
             accept: function (file, done) {
@@ -557,6 +573,10 @@ $(function () {
 
     myDropzoneKlarifikasi = new Dropzone("#dokKlarifikasi",
         {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-XSRF-TOKEN': csrfToken
+            },
             maxFilesize: 10,
             acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
             accept: function (file, done) {
@@ -649,6 +669,10 @@ $(function () {
 
     myDropzoneKlarifikasiLanjutan = new Dropzone("#dokKlarifikasiLanjutan",
         {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-XSRF-TOKEN': csrfToken
+            },
             maxFilesize: 10,
             acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
             accept: function (file, done) {
@@ -741,6 +765,10 @@ $(function () {
 
     myDropzonePenilaian = new Dropzone("#dokPenilaian",
         {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-XSRF-TOKEN': csrfToken
+            },
             maxFilesize: 10,
             acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
             accept: function (file, done) {

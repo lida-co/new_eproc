@@ -517,7 +517,7 @@ namespace Reston.EProc.Web.Controllers
         {
             var httpRequest = HttpContext.Current.Request;
 
-            // 🔥 ambil parameter dulu dengan aman
+            // ambil parameter dulu dengan aman
             var idValue = httpRequest["Id"];
             var namaDokumen = httpRequest["NamaDokumen"];
 
@@ -552,7 +552,7 @@ namespace Reston.EProc.Web.Controllers
                 if (string.IsNullOrEmpty(fileName))
                     continue;
 
-                var extension = Path.GetExtension(fileName); // 🔥 lebih aman
+                var extension = Path.GetExtension(fileName); // lebih aman
                 byte[] buffer = await file.ReadAsByteArrayAsync();
 
                 contentType = file.Headers.ContentType?.ToString();
@@ -560,7 +560,7 @@ namespace Reston.EProc.Web.Controllers
 
                 string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                // 🔥 sanitize nama file
+                // sanitize nama file
                 string safeNamaDokumen = namaDokumen.Replace(" ", "_");
 
                 namaFileSave = $"Dokumen{dokumenId}-{safeNamaDokumen}-{timestamp}{extension}";

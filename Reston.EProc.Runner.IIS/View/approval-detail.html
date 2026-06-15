@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Mandiri Tunas Finance</title>
+    <title>Calpadia</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -70,9 +70,9 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/Calpadia-bg-biru.png" width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
+                    <span class="logo-lg"><img src="dist/img/Calpadia-bg-biru.png" width="100px" /></span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top" role="navigation">
@@ -133,7 +133,7 @@
                         <div id="perlu_perhatian">
                             <div class="box box-white">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List To Do / Approval / Detail</h3>
+                                    <h3 class="box-title text-blue-Calpadia cursor-pointer repository">List To Do / Approval / Detail</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
 									<div class="form-group col-md-12">
@@ -349,7 +349,11 @@
 		    $('#File' + el).addClass('dropzone');
 		    var tmp = new Dropzone('#File' + el, {
 		        maxFilesize: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
-		        accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='" + el + ".File']").val(response.File); $("[name='" + el + ".ContentType']").val(response.ContentType); }
+		        accept: dzOption.accept, init: dzOption.init, success: function (file, response) { $("[name='" + el + ".File']").val(response.File); $("[name='" + el + ".ContentType']").val(response.ContentType); },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-XSRF-TOKEN': csrfToken
+                }
 		    });
 
 		    return tmp;

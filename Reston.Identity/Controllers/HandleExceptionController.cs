@@ -12,14 +12,14 @@ namespace IdLdap.Controllers
         // GET: HandleException
         public ActionResult Index()
         {
-            // 🔒 PERBAIKAN XSS: Default message aman
+            // PERBAIKAN XSS: Default message aman
             string safeMessage = "SOMETHING WENT WRONG.";
             
             if (TempData["RedirectReason"] != null)
             {
                 string rawMessage = TempData["RedirectReason"].ToString();
                 
-                // 🔒 PERBAIKAN XSS: Sanitasi dan encode message
+                // PERBAIKAN XSS: Sanitasi dan encode message
                 if (!string.IsNullOrEmpty(rawMessage))
                 {
                     // Validasi panjang

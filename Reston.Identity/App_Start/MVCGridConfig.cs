@@ -89,7 +89,7 @@ namespace IdLdap
             };
 
 
-            // 🔒 PERBAIKAN: Require authentication untuk ListRole
+            // PERBAIKAN: Require authentication untuk ListRole
             // Hanya user yang sudah login yang bisa akses data roles
             MVCGridDefinitionTable.Add("ListRole", new MVCGridBuilder<Role>(colDefauls)
                .WithAuthorizationType(AuthorizationType.Authorized)
@@ -136,7 +136,7 @@ namespace IdLdap
             {
                 _log.Debug("Using _LdapRepository to retrieve LDAP Users list...");
 
-                // 🔒 PERBAIKAN: Require authentication untuk UserLdapFiltering
+                // PERBAIKAN: Require authentication untuk UserLdapFiltering
                 // Hanya user yang sudah login yang bisa akses data LDAP users
                 MVCGridDefinitionTable.Add("UserLdapFiltering", new MVCGridBuilder<UserLdap>(colDefauls)
                     .WithAuthorizationType(AuthorizationType.Authorized)
@@ -231,7 +231,7 @@ namespace IdLdap
             }
             else
             {
-                // 🔒 PERBAIKAN: Require authentication untuk UserLdapFiltering (fallback)
+                // PERBAIKAN: Require authentication untuk UserLdapFiltering (fallback)
                 // Hanya user yang sudah login yang bisa akses data users
                 MVCGridDefinitionTable.Add("UserLdapFiltering", new MVCGridBuilder<UserLdap>(colDefauls)
                    .WithAuthorizationType(AuthorizationType.Authorized)
@@ -288,7 +288,7 @@ namespace IdLdap
             }
 
 
-            // 🔒 PERBAIKAN: Require authentication untuk UserId
+            // PERBAIKAN: Require authentication untuk UserId
             // Hanya user yang sudah login yang bisa akses data users
             MVCGridDefinitionTable.Add("UserId", new MVCGridBuilder<User>(colDefauls)
                .WithAuthorizationType(AuthorizationType.Authorized)

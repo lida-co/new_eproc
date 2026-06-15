@@ -10,7 +10,7 @@ namespace Runner.IIS
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        // 🔒 KONFIGURASI: Mapping file HTML ke roles yang diizinkan
+        // KONFIGURASI: Mapping file HTML ke roles yang diizinkan
         private static readonly Dictionary<string, string[]> FileRoleMapping = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
         {
             // ========================================
@@ -96,7 +96,7 @@ namespace Runner.IIS
 
         protected void Application_Start()
         {
-            // 🔍 DEBUG: Log application start
+            // DEBUG: Log application start
             System.Diagnostics.Debug.WriteLine("========================================");
             System.Diagnostics.Debug.WriteLine("[APP] Application_Start called");
             System.Diagnostics.Debug.WriteLine("[APP] Authorization module initialized");
@@ -105,7 +105,7 @@ namespace Runner.IIS
         }
 
         /// <summary>
-        /// 🔒 PERBAIKAN KEAMANAN: Authorization check untuk file HTML statis
+        /// PERBAIKAN KEAMANAN: Authorization check untuk file HTML statis
         /// Dipanggil untuk setiap HTTP request
         /// </summary>
         protected void Application_PostAuthenticateRequest(object sender, EventArgs e)
@@ -115,7 +115,7 @@ namespace Runner.IIS
                 // Get current request path
                 string requestPath = Request.Url.AbsolutePath;
                 
-                // 🔍 DEBUG: Log EVERY request (untuk verify event berjalan)
+                // DEBUG: Log EVERY request (untuk verify event berjalan)
                 System.Diagnostics.Debug.WriteLine($"[REQUEST] {Request.HttpMethod} {requestPath}");
 
                 // Skip non-HTML files untuk performance
@@ -124,13 +124,13 @@ namespace Runner.IIS
                     return;
                 }
 
-                // 🔒 Check if file needs authorization
+                // Check if file needs authorization
                 if (FileRoleMapping.ContainsKey(requestPath))
                 {
                     // Get required roles for this file
                     string[] requiredRoles = FileRoleMapping[requestPath];
 
-                    // 🔍 DEBUG: Log request info
+                    // DEBUG: Log request info
                     System.Diagnostics.Debug.WriteLine("========================================");
                     System.Diagnostics.Debug.WriteLine($"[AUTH] Protected file requested: {requestPath}");
                     System.Diagnostics.Debug.WriteLine($"[AUTH] User object: {(User == null ? "NULL" : "EXISTS")}");

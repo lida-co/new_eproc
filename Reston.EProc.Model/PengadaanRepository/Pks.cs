@@ -1,4 +1,4 @@
-﻿using Reston.Eproc.Model.Monitoring.Entities;
+using Reston.Eproc.Model.Monitoring.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

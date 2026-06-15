@@ -1,4 +1,4 @@
-﻿//var Id = DOMPurify.sanitize(gup("id", window.location.href));
+//var Id = DOMPurify.sanitize(gup("id", window.location.href));
 
 var rawId = gup("id", window.location.href);
 var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
@@ -46,6 +46,10 @@ $(function () {
 
     var myDropzonePO = new Dropzone("#DOKPO",
              {
+                 headers: {
+                     'X-CSRF-TOKEN': csrfToken,
+                     'X-XSRF-TOKEN': csrfToken
+                 },
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {

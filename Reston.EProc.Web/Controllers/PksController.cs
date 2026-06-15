@@ -270,7 +270,7 @@ namespace Reston.Pinata.WebService.Controllers
     IdLdapConstants.Roles.pRole_compliance)]
         public IHttpActionResult Save([FromBody] VWPks pks)
         {
-            // 🔒 VALIDASI BASIC
+            // VALIDASI BASIC
             if (pks == null)
                 return BadRequest("Request tidak valid");
 
@@ -283,11 +283,11 @@ namespace Reston.Pinata.WebService.Controllers
             if (string.IsNullOrWhiteSpace(pks.Note))
                 return BadRequest("Note tidak boleh kosong");
 
-            // 🔒 ANTI XSS (block karakter HTML)
+            // ANTI XSS (block karakter HTML)
             if (ContainsDangerousInput(pks.Title) || ContainsDangerousInput(pks.Note))
                 return BadRequest("Input mengandung karakter berbahaya");
 
-            // 🔒 VALIDASI TANGGAL
+            // VALIDASI TANGGAL
             DateTime? tanggalMulai = null;
             DateTime? tanggalSelesai = null;
 
@@ -325,11 +325,11 @@ namespace Reston.Pinata.WebService.Controllers
                 {
                     Id = pks.Id,
 
-                    // 🔐 OPSI 1: simpan RAW (pastikan frontend encode)
+                    // OPSI 1: simpan RAW (pastikan frontend encode)
                     //Note = pks.Note,
                     //Title = pks.Title,
 
-                    // 🔐 OPSI 2 (lebih aman):
+                    // OPSI 2 (lebih aman):
                     Note = HttpUtility.HtmlEncode(pks.Note),
                     Title = HttpUtility.HtmlEncode(pks.Title),
 
@@ -580,7 +580,7 @@ namespace Reston.Pinata.WebService.Controllers
             if (req.Id == Guid.Empty)
                 return BadRequest("Id tidak valid");
 
-            // 🔐 Validasi XSS
+            // Validasi XSS
             if (ContainsDangerousInput(req.Note) || ContainsDangerousInput(req.NoPks))
                 return BadRequest("Input mengandung karakter berbahaya");
 

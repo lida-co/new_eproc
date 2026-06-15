@@ -18,12 +18,12 @@ namespace Reston.EProc.Web.Controllers
             // Generate token menggunakan CsrfHelper
             var token = CsrfHelper.GenerateToken();
 
-            // 🔒 PERBAIKAN: Tambahkan SameSite=Strict untuk mencegah CSRF
+            // PERBAIKAN: Tambahkan SameSite=Strict untuk mencegah CSRF
             var cookie = new HttpCookie("XSRF-TOKEN", token)
             {
                 HttpOnly = false,  // Harus false agar JavaScript bisa baca (untuk kirim via header)
-                Secure = true,     // 🔒 WAJIB HTTPS
-                SameSite = SameSiteMode.Strict,  // 🔒 PERBAIKAN: Tambahkan SameSite
+                Secure = true,     // WAJIB HTTPS
+                SameSite = SameSiteMode.Strict,  // PERBAIKAN: Tambahkan SameSite
                 Expires = DateTime.Now.AddMinutes(30),
                 Path = "/"
             };

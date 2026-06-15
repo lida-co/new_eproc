@@ -1,4 +1,4 @@
-﻿
+
 //var PksId = DOMPurify.sanitize(gup("id", window.location.href));
 
 
@@ -54,6 +54,10 @@ $(function () {
 
      myDropzoneSPK = new Dropzone("#dokspk",
              {
+                 headers: {
+                     'X-CSRF-TOKEN': csrfToken,
+                     'X-XSRF-TOKEN': csrfToken
+                 },
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  // 🔒 PERBAIKAN: Kirim CSRF token via event sending (token sudah pasti ada)

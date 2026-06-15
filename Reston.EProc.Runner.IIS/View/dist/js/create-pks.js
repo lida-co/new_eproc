@@ -1,41 +1,12 @@
-﻿var rawId = gup("id", window.location.href);
+var rawId = gup("id", window.location.href);
 var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
 var PksId = encodeURIComponent(safeId);
 
-var csrfToken = "";
-
-let csrfRetryCount = 0;
-const MAX_RETRIES = 3;
-
-async function initCsrf() {
-    try {
-        const res = await fetch('/api/security/GetCsrfToken');
-
-        if (!res.ok) {
-            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-        }
-
-        const data = await res.json();
-
-        if (!data.csrfToken) {
-            throw new Error('CSRF token tidak ditemukan dalam response');
-        }
-
-        csrfToken = data.csrfToken;
-        csrfRetryCount = 0; // Reset retry count
-        //console.log('CSRF token berhasil diambil');
-
-    } catch (e) {
-        console.error("Gagal mengambil CSRF token:", e.message);
-        csrfRetryCount++;
-
-        if (csrfRetryCount <= MAX_RETRIES) {
-            setTimeout(initCsrf, 5000);
-        } else {
-            console.error('Gagal mengambil CSRF token setelah 3 kali percobaan');
-        }
-    }
-}
+// CSRF variable declarations removed because they are already in site.js (global scope)
+// var csrfToken = ""; 
+// let csrfRetryCount = 0;
+// const MAX_RETRIES = 3;
+// initCsrf() is also already defined in site.js
 
 $.ajaxSetup({
     beforeSend: async function (xhr, settings) {
@@ -54,6 +25,7 @@ $.ajaxSetup({
         }
 
         xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+        xhr.setRequestHeader("X-XSRF-TOKEN", csrfToken);
     }
 });
 
@@ -67,6 +39,10 @@ $(function () {
     
     var myDropzonePKS = new Dropzone("#DraftPKS",
              {
+                 headers: {
+                     'X-CSRF-TOKEN': csrfToken,
+                     'X-XSRF-TOKEN': csrfToken
+                 },
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
@@ -157,6 +133,10 @@ $(function () {
 
     var myDropzoneFinalPKS = new Dropzone("#FinalLegalPks",
              {
+                 headers: {
+                     'X-CSRF-TOKEN': csrfToken,
+                     'X-XSRF-TOKEN': csrfToken
+                 },
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
                  accept: function (file, done) {
@@ -244,6 +224,10 @@ $(function () {
 
     var myDropzoneAssignedPks = new Dropzone("#AssignedPks",
              {
+                 headers: {
+                     'X-CSRF-TOKEN': csrfToken,
+                     'X-XSRF-TOKEN': csrfToken
+                 },
                  url: $("#AssignedPks").attr("action") + "&id=" + $("#pksId").val(),
                  maxFilesize: 10,
                  acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",

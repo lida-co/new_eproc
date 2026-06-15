@@ -486,10 +486,10 @@ namespace IdLdap.Controllers
 
         public async Task<ActionResult> ErrorMessage(string msg, string redir)
         {
-            // 🔒 PERBAIKAN XSS: Default redirect aman
+            // PERBAIKAN XSS: Default redirect aman
             string safeRedirect = Url.Action("UserId", "Admin");
 
-            // 🔒 PERBAIKAN XSS: Validasi redirect dengan ketat
+            // PERBAIKAN XSS: Validasi redirect dengan ketat
             if (!string.IsNullOrEmpty(redir))
             {
                 // Blokir javascript:, data:, vbscript:, dan protocol berbahaya lainnya
@@ -508,7 +508,7 @@ namespace IdLdap.Controllers
                 }
             }
 
-            // 🔒 PERBAIKAN XSS: Sanitasi message dengan ketat
+            // PERBAIKAN XSS: Sanitasi message dengan ketat
             string safeMessage = "Terjadi kesalahan. Silakan coba lagi.";
 
             if (!string.IsNullOrEmpty(msg))
