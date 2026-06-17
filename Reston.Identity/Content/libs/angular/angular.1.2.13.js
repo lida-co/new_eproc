@@ -1,8 +1,4 @@
-/**
- * @license AngularJS v1.2.13
- * (c) 2010-2014 Google, Inc. http://angularjs.org
- * License: MIT
- */
+
 (function(window, document, undefined) {'use strict';
 
 /**
@@ -68,7 +64,7 @@ function minErr(module) {
       return match;
     });
 
-    message = message + '\nhttp://errors.angularjs.org/1.2.13/' +
+    message = message + '\nhttp://errors.angularjs.org/1.3.13/' +
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i-2) + '=' +
@@ -1835,13 +1831,13 @@ function setupModuleLoader(window) {
  * - `dot` – `{number}` – Dot version number, such as "18".
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
-var version = {
-  full: '1.2.13',    // all of these placeholder strings will be replaced by grunt's
-  major: 1,    // package task
-  minor: 2,
-  dot: 13,
-  codeName: 'romantic-transclusion'
-};
+//var version = {
+//  full: '1.3.13',    // all of these placeholder strings will be replaced by grunt's
+//  major: 1,    // package task
+//  minor: 3,
+//  dot: 13,
+//  codeName: 'romantic-transclusion'
+//};
 
 
 function publishExternalAPI(angular){
