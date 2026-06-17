@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +20,7 @@
     <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />-->
 </head>
+
 <body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
     <div class="wrapper">
 
@@ -28,7 +30,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -40,7 +43,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Master Data EPROC</a></li>
+                            <li> <a id="judul-page" href="#">Master Data EPROC</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -101,9 +104,12 @@
                     <div class="box-body form-horizontal">
                         <div class="box">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#master-data" id="change-tab-masdat" data-toggle="tab">Master Data</a></li>
-                                <li><a href="#master-branch" id="change-tab-branch" data-toggle="tab">Master Branch</a></li>
-                                <li><a href="#master-department" id="change-tab-department" data-toggle="tab">Master Department</a></li>
+                                <li class="active"><a href="#master-data" id="change-tab-masdat"
+                                        data-toggle="tab">Master Data</a></li>
+                                <li><a href="#master-branch" id="change-tab-branch" data-toggle="tab">Master Branch</a>
+                                </li>
+                                <li><a href="#master-department" id="change-tab-department" data-toggle="tab">Master
+                                        Department</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="master-data">
@@ -119,7 +125,8 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">Nama</label>
                                                         <div class="col-sm-4">
-                                                            <input id="nama_item" type="text" class="form-control " placeholder="kode/nama/deskripsi">
+                                                            <input id="nama_item" type="text" class="form-control "
+                                                                placeholder="kode/nama/deskripsi">
                                                         </div>
                                                     </div>
                                                 </form>
@@ -128,8 +135,10 @@
                                         <div id="btn_1" class="row ">
                                             <div class="col-md-12">
                                                 <div class="submitgray button-row">
-                                                    <button id="cari" class="btn btn-primary " type="submit">Cari</button>
-                                                    <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Data Baru</button>
+                                                    <button id="cari" class="btn btn-primary "
+                                                        type="submit">Cari</button>
+                                                    <button id="tambah" class="btn btn-success" onclick="NewItem()"
+                                                        type="submit">Tambah Data Baru</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -137,8 +146,10 @@
                                             <div class="btn_asuransi">
                                                 <div class="col-md-12">
                                                     <div class="submitgray button-row">
-                                                        <button id="cari" class="btn btn-primary " type="submit">Cari</button>
-                                                        <button id="tambah" class="btn btn-success" onclick="NewItem2()" type="submit">Tambah Data Baru</button>
+                                                        <button id="cari" class="btn btn-primary "
+                                                            type="submit">Cari</button>
+                                                        <button id="tambah" class="btn btn-success" onclick="NewItem2()"
+                                                            type="submit">Tambah Data Baru</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,7 +157,8 @@
                                         <div id="btn_3" class="row " style="display: none;">
                                             <div class="col-md-12">
                                                 <div class="submitgray button-row">
-                                                    <button id="cari" class="btn btn-primary " type="submit">Cari</button>
+                                                    <button id="cari" class="btn btn-primary "
+                                                        type="submit">Cari</button>
                                                     <!--<button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Data Baru</button>-->
                                                 </div>
                                             </div>
@@ -155,8 +167,10 @@
                                             <div class="btn_segmentasi">
                                                 <div class="col-md-12">
                                                     <div class="submitgray button-row">
-                                                        <button id="cari" class="btn btn-primary " type="submit">Cari</button>
-                                                        <button id="tambah-segmentasi" class="btn btn-success" onclick="NewItem4()" type="submit">Tambah Data Baru</button>
+                                                        <button id="cari" class="btn btn-primary "
+                                                            type="submit">Cari</button>
+                                                        <button id="tambah-segmentasi" class="btn btn-success"
+                                                            onclick="NewItem4()" type="submit">Tambah Data Baru</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -164,36 +178,68 @@
                                         <div class="box-body">
                                             <div class="nav-tabs-custom">
                                                 <ul class="nav nav-tabs" id="myTab">
-                                                    <li class="active" data-ctr="0"><a href="javascript:changeTab(0)" id="tab-periode">Periode Anggaran</a></li>
-                                                    <li data-ctr="1"><a href="javascript:changeTab(1)" id="tab-unitkerja">Unit Kerja Pemohon</a></li>
-                                                    <li data-ctr="2"><a href="javascript:changeTab(2)" id="tab-jenisbelanja">Jenis Belanja</a></li>
-                                                    <li data-ctr="3"><a href="javascript:changeTab(3)" id="tab-jenispekerjaan">Jenis Pekerjaan</a></li>
-                                                    <li data-ctr="4"><a href="javascript:changeTab(4)" id="tab-matauang">Mata Uang</a></li>
-                                                    <li data-ctr="5"><a href="javascript:changeTab(5)" id="tab-region">Region</a></li>
-                                                    <li data-ctr="6"><a href="javascript:changeTab(6)" id="tab-satuan">Satuan</a></li>
-                                                    <li data-ctr="7"><a href="javascript:changeTab(7)" id="tab-bank">Bank</a></li>
-                                                    <li data-ctr="8"><a href="javascript:changeTab(8)" id="tab-penilaian">Penilaian</a></li>
-                                                    <li data-ctr="9"><a href="javascript:changeTab(9)" id="tab_QUALIFIER_INS_BENEF_TYPE">Asuransi Type</a></li>
-                                                    <li data-ctr="10"><a href="javascript:changeTab(10)" id="tab_QUALIFIER_INS_BENEF_COVERAGE">Asuransi Coverage</a></li>
-                                                    <li data-ctr="11"><a href="javascript:changeTab(11)" id="tab_QUALIFIER_INS_REGION">Asuransi Region</a></li>
-                                                    <li data-ctr="12"><a href="javascript:changeTab(12)" id="tab_QUALIFIER_INS_BENEFIT">Benefit Asuransi</a></li>
-                                                    <li data-ctr="13"><a href="javascript:changeTab(13)" id="tab-pertanyaan">Pertanyaan</a></li>
-                                                    <li data-ctr="14"><a href="javascript:changeTabCatalogue(14)" id="tab-eCatalogue">Kategori eCatalogue</a></li>
-                                                    <li data-ctr="15"><a href="javascript:changeTab(15)" id="tab-infoperusahaan">Info Perusahaan</a></li>
-                                                    <li data-ctr="16"><a href="javascript:changeTab(16)" id="tab-provinsi">Provinsi</a></li>
-                                                    <li data-ctr="17"><a href="javascript:changeTab(17)" id="tab-Pertanyaan-Penilaian-Rekanan">Pertanyaan Penilaian Rekanan</a></li>
-                                                    <li data-ctr="18"><a href="javascript:changeTab(18)" id="tab-bidang-usaha">Bidang Usaha</a></li>
-                                                    <li data-ctr="19"><a href="javascript:changeTabMulti(19)" id="tab-kelompok-usaha">Kelompok Usaha</a></li>
-                                                    <li data-ctr="20" style="display:none"><a href="javascript:changeTabMulti(20)" id="tab-sub-bidang-usaha">Sub Bidang Usaha</a></li>
-                                                    <li data-ctr="21"><a href="javascript:changeTab(21)" id="tab-dukcapil-negara">Dukcapil Negara</a></li>
-                                                    <li data-ctr="22"><a href="javascript:changeTab(22)" id="tab-dukcapil-provinsi">Dukcapil Provinsi</a></li>
-                                                    <li data-ctr="23"><a href="javascript:changeTabMulti(23)" id="tab-dukcapil-kota">Dukcapil Kota</a></li>
-                                                    <li data-ctr="24"><a href="javascript:changeTabMulti(24)" id="tab-dukcapil-kecamatan">Dukcapil Kecamatan</a></li>
-                                                    <li data-ctr="25"><a href="javascript:changeTabMulti(25)" id="tab-dukcapil-kelurahan">Dukcapil Kelurahan</a></li>
-                                                    <li data-ctr="26"><a href="javascript:changeTabMulti(26)" id="tab-dukcapil-pos">Dukcapil Kode Pos</a></li>
+                                                    <li class="active" data-ctr="0"><a href="javascript:changeTab(0)"
+                                                            id="tab-periode">Periode Anggaran</a></li>
+                                                    <li data-ctr="1"><a href="javascript:changeTab(1)"
+                                                            id="tab-unitkerja">Unit Kerja Pemohon</a></li>
+                                                    <li data-ctr="2"><a href="javascript:changeTab(2)"
+                                                            id="tab-jenisbelanja">Jenis Belanja</a></li>
+                                                    <li data-ctr="3"><a href="javascript:changeTab(3)"
+                                                            id="tab-jenispekerjaan">Jenis Pekerjaan</a></li>
+                                                    <li data-ctr="4"><a href="javascript:changeTab(4)"
+                                                            id="tab-matauang">Mata Uang</a></li>
+                                                    <li data-ctr="5"><a href="javascript:changeTab(5)"
+                                                            id="tab-region">Region</a></li>
+                                                    <li data-ctr="6"><a href="javascript:changeTab(6)"
+                                                            id="tab-satuan">Satuan</a></li>
+                                                    <li data-ctr="7"><a href="javascript:changeTab(7)"
+                                                            id="tab-bank">Bank</a></li>
+                                                    <li data-ctr="8"><a href="javascript:changeTab(8)"
+                                                            id="tab-penilaian">Penilaian</a></li>
+                                                    <li data-ctr="9"><a href="javascript:changeTab(9)"
+                                                            id="tab_QUALIFIER_INS_BENEF_TYPE">Asuransi Type</a></li>
+                                                    <li data-ctr="10"><a href="javascript:changeTab(10)"
+                                                            id="tab_QUALIFIER_INS_BENEF_COVERAGE">Asuransi Coverage</a>
+                                                    </li>
+                                                    <li data-ctr="11"><a href="javascript:changeTab(11)"
+                                                            id="tab_QUALIFIER_INS_REGION">Asuransi Region</a></li>
+                                                    <li data-ctr="12"><a href="javascript:changeTab(12)"
+                                                            id="tab_QUALIFIER_INS_BENEFIT">Benefit Asuransi</a></li>
+                                                    <li data-ctr="13"><a href="javascript:changeTab(13)"
+                                                            id="tab-pertanyaan">Pertanyaan</a></li>
+                                                    <li data-ctr="14"><a href="javascript:changeTabCatalogue(14)"
+                                                            id="tab-eCatalogue">Kategori eCatalogue</a></li>
+                                                    <li data-ctr="15"><a href="javascript:changeTab(15)"
+                                                            id="tab-infoperusahaan">Info Perusahaan</a></li>
+                                                    <li data-ctr="16"><a href="javascript:changeTab(16)"
+                                                            id="tab-provinsi">Provinsi</a></li>
+                                                    <li data-ctr="17"><a href="javascript:changeTab(17)"
+                                                            id="tab-Pertanyaan-Penilaian-Rekanan">Pertanyaan Penilaian
+                                                            Rekanan</a></li>
+                                                    <li data-ctr="18"><a href="javascript:changeTab(18)"
+                                                            id="tab-bidang-usaha">Bidang Usaha</a></li>
+                                                    <li data-ctr="19"><a href="javascript:changeTabMulti(19)"
+                                                            id="tab-kelompok-usaha">Kelompok Usaha</a></li>
+                                                    <li data-ctr="20" style="display:none"><a
+                                                            href="javascript:changeTabMulti(20)"
+                                                            id="tab-sub-bidang-usaha">Sub Bidang Usaha</a></li>
+                                                    <li data-ctr="21"><a href="javascript:changeTab(21)"
+                                                            id="tab-dukcapil-negara">Dukcapil Negara</a></li>
+                                                    <li data-ctr="22"><a href="javascript:changeTab(22)"
+                                                            id="tab-dukcapil-provinsi">Dukcapil Provinsi</a></li>
+                                                    <li data-ctr="23"><a href="javascript:changeTabMulti(23)"
+                                                            id="tab-dukcapil-kota">Dukcapil Kota</a></li>
+                                                    <li data-ctr="24"><a href="javascript:changeTabMulti(24)"
+                                                            id="tab-dukcapil-kecamatan">Dukcapil Kecamatan</a></li>
+                                                    <li data-ctr="25"><a href="javascript:changeTabMulti(25)"
+                                                            id="tab-dukcapil-kelurahan">Dukcapil Kelurahan</a></li>
+                                                    <li data-ctr="26"><a href="javascript:changeTabMulti(26)"
+                                                            id="tab-dukcapil-pos">Dukcapil Kode Pos</a></li>
+                                                    <li data-ctr="27"><a href="javascript:changeTab(27)"
+                                                            id="tab-ppn">PPN</a></li>
 
 
-                                                    
+
                                                 </ul>
                                                 <div class="tab-content" style="overflow:visible">
                                                     <div id="periode" class="tab-pane active" style="overflow:visible">
@@ -210,7 +256,8 @@
                                                                     </thead>
                                                                     <tbody></tbody>
                                                                 </table>
-                                                                <table id="tabel-kelompok-usaha" class="table table-bordered">
+                                                                <table id="tabel-kelompok-usaha"
+                                                                    class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Code</th>
@@ -221,7 +268,8 @@
                                                                     </thead>
                                                                     <tbody></tbody>
                                                                 </table>
-                                                                <table id="tabel-sub-bidang-usaha" class="table table-bordered">
+                                                                <table id="tabel-sub-bidang-usaha"
+                                                                    class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Code</th>
@@ -232,7 +280,8 @@
                                                                     </thead>
                                                                     <tbody></tbody>
                                                                 </table>
-                                                                <table id="table-dukcapil-kota" class="table table-bordered">
+                                                                <table id="table-dukcapil-kota"
+                                                                    class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Code</th>
@@ -243,7 +292,8 @@
                                                                     </thead>
                                                                     <tbody></tbody>
                                                                 </table>
-                                                                <table id="table-dukcapil-kecamatan" class="table table-bordered">
+                                                                <table id="table-dukcapil-kecamatan"
+                                                                    class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Code</th>
@@ -254,7 +304,8 @@
                                                                     </thead>
                                                                     <tbody></tbody>
                                                                 </table>
-                                                                <table id="table-dukcapil-kelurahan" class="table table-bordered">
+                                                                <table id="table-dukcapil-kelurahan"
+                                                                    class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Code</th>
@@ -265,7 +316,8 @@
                                                                     </thead>
                                                                     <tbody></tbody>
                                                                 </table>
-                                                                <table id="table-dukcapil-pos" class="table table-bordered">
+                                                                <table id="table-dukcapil-pos"
+                                                                    class="table table-bordered">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Code</th>
@@ -327,7 +379,8 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">Cari</label>
                                                         <div class="col-sm-4">
-                                                            <input id="txtcari" type="text" class="form-control " placeholder="Kode / Nama Branch">
+                                                            <input id="txtcari" type="text" class="form-control "
+                                                                placeholder="Kode / Nama Branch">
                                                         </div>
                                                     </div>
                                                 </form>
@@ -336,7 +389,9 @@
                                         <div id="btn_1" class="row ">
                                             <div class="col-md-12">
                                                 <div class="submitgray button-row">
-                                                    <button id="tambah" class="btn btn-success" onclick="NewItemBranch()" type="submit">Tambah Data Baru</button>
+                                                    <button id="tambah" class="btn btn-success"
+                                                        onclick="NewItemBranch()" type="submit">Tambah Data
+                                                        Baru</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -374,7 +429,8 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">Cari</label>
                                                         <div class="col-sm-4">
-                                                            <input id="txtcari" type="text" class="form-control " placeholder="Kode / Nama Department">
+                                                            <input id="txtcari" type="text" class="form-control "
+                                                                placeholder="Kode / Nama Department">
                                                         </div>
                                                     </div>
                                                 </form>
@@ -383,7 +439,9 @@
                                         <div id="btn_1" class="row ">
                                             <div class="col-md-12">
                                                 <div class="submitgray button-row">
-                                                    <button id="tambah" class="btn btn-success" onclick="NewItemDepartment()" type="submit">Tambah Data Baru</button>
+                                                    <button id="tambah" class="btn btn-success"
+                                                        onclick="NewItemDepartment()" type="submit">Tambah Data
+                                                        Baru</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -423,7 +481,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Insert Master Data : <strong id="qualifier"></strong></h4>
                 </div>
                 <div class="modal-content">
@@ -463,7 +522,8 @@
             <div class="modal-content">
                 <input type="hidden" id="idToEdit" />
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Edit Master Data : <strong id="qualifier"></strong></h4>
                 </div>
                 <div class="modal-content">
@@ -634,7 +694,8 @@
                                 <div class="form-group">
                                     <label>Parent Data : <strong id="parentstrAtt1"></strong></label>
 
-                                    <select id="listParentSegmentasi" name="ParentSegmentasi" class="form-control select2 required ParentSegmentasi" style="width: 100%;">
+                                    <select id="listParentSegmentasi" name="ParentSegmentasi"
+                                        class="form-control select2 required ParentSegmentasi" style="width: 100%;">
                                         <option selected disabled>--Parent Data--</option>
                                     </select>
                                 </div>
@@ -658,7 +719,8 @@
             <div class="modal-content">
                 <input type="hidden" id="idToEdit" />
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Edit Master Data : <strong id="qualifier"></strong></h4>
                 </div>
                 <div class="modal-content">
@@ -671,20 +733,23 @@
                                 <div class="form-group">
                                     <label>Code</label>
                                     <!--<input type="text" name="id" id="id" class="form-control" />-->
-                                    <input type="text" name="Edit-Code-Segmentasi" id="Edit-Code-Segmentasi" class="form-control" />
+                                    <input type="text" name="Edit-Code-Segmentasi" id="Edit-Code-Segmentasi"
+                                        class="form-control" />
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label id="namenya"></label>
-                                    <input type="text" name="Edit-LocalizedName-Segmentasi" id="Edit-LocalizedName-Segmentasi" class="form-control" />
+                                    <input type="text" name="Edit-LocalizedName-Segmentasi"
+                                        id="Edit-LocalizedName-Segmentasi" class="form-control" />
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Parent Data : <strong id="parentstrAtt1"></strong></label>
 
-                                    <select id="Edit-listParentSegmentasi" name="Edit-ParentSegmentasi" class="form-control select2 required ParentSegmentasi" style="width: 100%;">
+                                    <select id="Edit-listParentSegmentasi" name="Edit-ParentSegmentasi"
+                                        class="form-control select2 required ParentSegmentasi" style="width: 100%;">
                                         <!--<option selected disabled>--Parent Data--</option>-->
                                     </select>
                                 </div>
@@ -705,7 +770,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Delete Confirmation : <strong id="qualifier"></strong></h4>
                 </div>
                 <div class="modal-content">
@@ -729,7 +795,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Delete Confirmation : </h4>
                 </div>
                 <div class="modal-content">
@@ -767,13 +834,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nomor Pengadaan</label>
-                                    <input type="text" name="noPengadaan" id="noPengadaan" class="form-control" disabled />
+                                    <input type="text" name="noPengadaan" id="noPengadaan" class="form-control"
+                                        disabled />
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Judul Pengadaan</label>
-                                    <input type="text" name="namaPengadaan" id="namaPengadaan" class="form-control" disabled />
+                                    <input type="text" name="namaPengadaan" id="namaPengadaan" class="form-control"
+                                        disabled />
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -790,7 +859,9 @@
                                         <div class="col-md-12">
                                             <label>
                                                 <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
-                                                <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                <a id="addPerson-pic" attr1=".listperson-pic"
+                                                    style="margin-top:10px;margin-bottom:10px"
+                                                    class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                     <i class="fa fa-plus"></i>
                                                     Tambah PIC GA & Procurement
                                                 </a>
@@ -818,7 +889,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Daftar Personil</h4>
                 </div>
                 <div class="modal-body">
@@ -827,9 +899,11 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="cari personil" ng-model="search" id="search" />
+                                    <input type="text" class="form-control" placeholder="cari personil"
+                                        ng-model="search" id="search" />
                                     <div class="input-group-addon">
-                                        <a href="#search"><i class="glyphicon glyphicon-search" ng-click="searchPerson()"></i></a>
+                                        <a href="#search"><i class="glyphicon glyphicon-search"
+                                                ng-click="searchPerson()"></i></a>
                                     </div>
                                 </div>
                             </h3>
@@ -849,7 +923,8 @@
                             </ul>
                         </div><!-- /.box-body -->
                         <div class="box-footer text-center">
-                            <a class="uppercase" id="pop-personil-next" ng-click="nextPerson($event,person)">Berikutnya</a>
+                            <a class="uppercase" id="pop-personil-next"
+                                ng-click="nextPerson($event,person)">Berikutnya</a>
                         </div><!-- /.box-footer -->
                     </div>
                 </div>
@@ -864,7 +939,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">PIC Sudah Ada</h4>
                 </div>
                 <div class="modal-footer">
@@ -879,7 +955,8 @@
             <div class="modal-content">
                 <input type="hidden" id="idToEdit" />
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Edit Master Data : <strong id="qualifier"></strong></h4>
                 </div>
                 <div class="modal-content">
@@ -922,7 +999,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Insert Master Data : Branch</h4>
                 </div>
                 <div class="modal-content">
@@ -943,7 +1021,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Provinsi:</label>
-                                    <select id="listProvinsiBranch" name="ProvinsiBranch" class="form-control select2 required" style="width: 100%;">
+                                    <select id="listProvinsiBranch" name="ProvinsiBranch"
+                                        class="form-control select2 required" style="width: 100%;">
                                         <option selected disabled>--Provinsi--</option>
                                     </select>
                                 </div>
@@ -964,7 +1043,8 @@
             <div class="modal-content">
                 <input type="hidden" id="idToEdit" />
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Edit Master Data : Branch</h4>
                 </div>
                 <div class="modal-content">
@@ -989,7 +1069,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Provinsi</label>
-                                    <select id="listProvinsiEditBranch" name="ProvinsiBranch" class="form-control select2 required" style="width: 100%;">
+                                    <select id="listProvinsiEditBranch" name="ProvinsiBranch"
+                                        class="form-control select2 required" style="width: 100%;">
                                         <option selected disabled>--Provinsi--</option>
                                     </select>
                                 </div>
@@ -1009,7 +1090,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Delete Confirmation : Branch</h4>
                 </div>
                 <div class="modal-content">
@@ -1034,7 +1116,8 @@
             <div class="modal-content">
                 <input type="hidden" id="idToCreate" />
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Add Department To Branch</h4>
                 </div>
                 <div class="modal-content">
@@ -1043,7 +1126,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Department:</label>
-                                    <select id="listDepartmentBranch" name="DepartmentBranch" class="form-control select2 required" style="width: 100%;">
+                                    <select id="listDepartmentBranch" name="DepartmentBranch"
+                                        class="form-control select2 required" style="width: 100%;">
                                         <option selected disabled>--Department--</option>
                                     </select>
                                 </div>
@@ -1064,7 +1148,8 @@
             <div class="modal-content">
                 <input type="hidden" id="idToEdit" />
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Edit Department Branch</h4>
                 </div>
                 <div class="modal-content">
@@ -1076,7 +1161,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Department:</label>
-                                    <select id="listEditDepartmentBranch" name="EditDepartmentBranch" class="form-control select2 required" style="width: 100%;">
+                                    <select id="listEditDepartmentBranch" name="EditDepartmentBranch"
+                                        class="form-control select2 required" style="width: 100%;">
                                         <option selected disabled>--Department--</option>
                                     </select>
                                 </div>
@@ -1096,7 +1182,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Delete Confirmation : Department Branch</h4>
                 </div>
                 <div class="modal-content">
@@ -1120,7 +1207,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Insert Master Data : Department</h4>
                 </div>
                 <div class="modal-content">
@@ -1162,7 +1250,8 @@
             <div class="modal-content">
                 <input type="hidden" id="idToEdit" />
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Edit Master Data : Department</h4>
                 </div>
                 <div class="modal-content">
@@ -1207,7 +1296,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Delete Confirmation : Department</h4>
                 </div>
                 <div class="modal-content">
@@ -1233,7 +1323,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="plugins/jQueryUItotop/easing.js"></script>
@@ -1257,10 +1347,10 @@
         var table;
         var urls = ["AddPeriodeAnggaran", "AddUnitKerja", "AddJenisBelanja", "AddJenisPekerjaan",
             "AddCurrency", "AddRegion", "AddSatuan", "AddBank", "AddPenilaian", "AddQUALIFIER_INS_BENEF_TYPE", "AddQUALIFIER_INS_BENEF_COVERAGE", "AddQUALIFIER_INS_REGION", "AddQUALIFIER_INS_BENEFIT", "AddPertanyaan", "", "AddInfoPerusahaan", "AddProvinsi", "AddPertanyaanPenilaianRekanan",
-            "AddBidangUsaha", "AddKelompokUsaha", "AddSubBidangUsaha", "AddDukcapilNegara", "AddDukcapilProvinsi", "AddDukcapilKota", "AddDukcapilKecamatan", "AddDukcapilKelurahan", "AddDukcapilPos"];
+            "AddBidangUsaha", "AddKelompokUsaha", "AddSubBidangUsaha", "AddDukcapilNegara", "AddDukcapilProvinsi", "AddDukcapilKota", "AddDukcapilKecamatan", "AddDukcapilKelurahan", "AddDukcapilPos", "AddPPN"];
         var urls_tbl = ["GetTblPeriodeAnggaran", "GetTblUnitKerja", "GetTblJenisPembelanjaan", "GetTblJenisPekerjaan",
             "GetTblCurrency", "GetTblRegion", "GetTblSatuan", "GetTblBank", "GetTblPenilaian", "GetTblQUALIFIER_INS_BENEF_TYPE", "GetTblQUALIFIER_INS_BENEF_COVERAGE", "GetTblQUALIFIER_INS_REGION", "GetTblQUALIFIER_INS_BENEFIT", "GetTblPertanyaan", "GetTblKategoriMaster", "GetTblInfoPerusahaan", "GetTblProvinsi", "GetTblPertanyaanPenilaianRekanan",
-            "GetTblBidangUsaha", "GetTblKelompokUsaha", "GetTblSubBidangUsaha", "GetTblDukcapilNegara", "GetTblDukcapilProvinsi", "GetTblDukcapilKota", "GetTblDukcapilKecamatan", "GetTblDukcapilKelurahan", "GetTblDukcapilPos"];
+            "GetTblBidangUsaha", "GetTblKelompokUsaha", "GetTblSubBidangUsaha", "GetTblDukcapilNegara", "GetTblDukcapilProvinsi", "GetTblDukcapilKota", "GetTblDukcapilKecamatan", "GetTblDukcapilKelurahan", "GetTblDukcapilPos", "GetTblPPN"];
 
         var table_list;
 
@@ -1382,6 +1472,20 @@
                 $("#table-dukcapil-pos").hide();
             });
             $("#tab-periode").click(function () {
+                $("#btn_1").show();
+                $("#btn_2").hide();
+                $("#btn_3").hide();
+                $("#btn_4").hide();
+
+                $("#example1").show();
+                $("#tabel-kelompok-usaha").hide();
+                $("#tabel-sub-bidang-usaha").hide();
+                $("#table-dukcapil-kota").hide();
+                $("#table-dukcapil-kecamatan").hide();
+                $("#table-dukcapil-kelurahan").hide();
+                $("#table-dukcapil-pos").hide();
+            });
+            $("#tab-ppn").click(function () {
                 $("#btn_1").show();
                 $("#btn_2").hide();
                 $("#btn_3").hide();
@@ -1761,7 +1865,7 @@
                     for (var i in data) {
                         $(".ParentSegmentasi").append("<option value='" + DOMPurify.sanitize(data[i].Code) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
                     }
-				
+
                 }
             });
         }
@@ -1773,9 +1877,12 @@
             }
 
             var kode = $("#kode").val();
-            var nama = $("#nama").val();
+            var nama = $("#nama").val() || "";
             var deskripsi = $("#deskripsi").val();
             var index = $("#myTab li.active").data("ctr");
+            if (index == 27) {
+                nama = nama.replace(/[^0-9.]/g, '');
+            }
             var url = "api/ReferenceData/" + urls[index];
 
             // Add CSRF token to headers if needed
@@ -1923,7 +2030,7 @@
             $(".ParentSegmentasi").append("<option selected disabled>--Parent Data--</option>");
             var text = $("#myTab li.active a").html();
             $("#modal-edit-segmentasi #qualifier").html(text);
-            
+
             //document.getElementById('Code-Segmentasi').value = '';
             //document.getElementById('LocalizedName-Segmentasi').value = '';
             //document.getElementById('LocalizedDesc-Segmentasi').value = '';
@@ -1985,7 +2092,7 @@
                 $("input[name=Edit-Code-Segmentasi]").val(DOMPurify.sanitize(data.Code));
                 $("input[name=Edit-LocalizedName-Segmentasi]").val(DOMPurify.sanitize(data.LocalizedName));
                 $("input[name=Edit-ParentSegmentasi]").val(DOMPurify.sanitize(data.StringAttr1));
-                
+
 
             });
         }
@@ -2022,7 +2129,7 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: headers,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $('#modal-edit-segmentasi').modal('hide');
                     // $("#exampleModal").hide();
@@ -2035,150 +2142,160 @@
 
         function generateTable(url) {
 
-                table = $('#example1').DataTable({
-                    "ajax": 'api/ReferenceData/' + url,
-                    "columns": [
-                        { "data": "Code" },
-                        { "data": "Name" },
-                        { "data": "Desc" },
-                        { "data": "null", "width": "3%" }
-                    ],
-                    "columnDefs": [
-                        {
-                            "render": function (data, type, row) {
-                                return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
-                            },
-                            "targets": 0,
-                            "orderable": true
+            table = $('#example1').DataTable({
+                "ajax": 'api/ReferenceData/' + url,
+                "columns": [
+                    { "data": "Code" },
+                    { "data": "Name" },
+                    { "data": "Desc" },
+                    { "data": "null", "width": "3%" }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
                         },
-                        //{
-                        //    "render": function (data, type, row) {
-                        //        return '<a class="btn btn-xs btn-danger remove-item" href="javascript:deleteItem(' + row.id + ')" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                        //    },
-                        //    "targets": 3,
-                        //    "orderable": false
-                        //}
-                        {
-                            "render": function (data, type, row) {
-                                //return '<a href="javascript:editItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit-item" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                                //    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                                //if (url == 'GetTblPenilaian') {
-                                //    return '<a href="javascript:editItem3(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                                //        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                                //}
-                                if (url == 'GetTblQUALIFIER_INS_BENEF_COVERAGE') {
-                                    return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                                        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                                }
-                                else if (url == 'GetTblQUALIFIER_INS_REGION') {
-                                    return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                                        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                                }
-                                else if (url == 'GetTblQUALIFIER_INS_BENEFIT') {
-                                    return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                                        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                                }
-                                else {
-                                    return '<a href="javascript:editItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                                        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                                }
-                            },
-                            "targets": 3,
-                            "orderable": false
-                        }
-                    ],
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false
-                });
-                //alert('qwerty = ' + url);
-            }
+                        "targets": 0,
+                        "orderable": true
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            if (url == "GetTblPPN") {
+                                return data + '%';
+                            }
+                            return data;
+                        },
+                        "targets": 1,
+                        "orderable": true
+                    },
+                    //{
+                    //    "render": function (data, type, row) {
+                    //        return '<a class="btn btn-xs btn-danger remove-item" href="javascript:deleteItem(' + row.id + ')" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                    //    },
+                    //    "targets": 3,
+                    //    "orderable": false
+                    //}
+                    {
+                        "render": function (data, type, row) {
+                            //return '<a href="javascript:editItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit-item" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                            //    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            //if (url == 'GetTblPenilaian') {
+                            //    return '<a href="javascript:editItem3(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                            //        '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            //}
+                            if (url == 'GetTblQUALIFIER_INS_BENEF_COVERAGE') {
+                                return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            }
+                            else if (url == 'GetTblQUALIFIER_INS_REGION') {
+                                return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            }
+                            else if (url == 'GetTblQUALIFIER_INS_BENEFIT') {
+                                return '<a href="javascript:editItem2(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            }
+                            else {
+                                return '<a href="javascript:editItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                            }
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false
+            });
+            //alert('qwerty = ' + url);
+        }
 
 
         function generateTableMulti(url) {
-                var tabelnya = "";
+            var tabelnya = "";
 
-                if (url == "GetTblKelompokUsaha") { tabelnya = "tabel-kelompok-usaha" };
-                //if (url == "GetTblSubBidangUsaha") { tabelnya = "tabel-sub-bidang-usaha" };
-                if (url == "GetTblDukcapilKota") { tabelnya = "table-dukcapil-kota" };
-                if (url == "GetTblDukcapilKecamatan") { tabelnya = "table-dukcapil-kecamatan" };
-                if (url == "GetTblDukcapilKelurahan") { tabelnya = "table-dukcapil-kelurahan" };
-                if (url == "GetTblDukcapilPos") { tabelnya = "table-dukcapil-pos" };
-        
-                table = $('#' + tabelnya + '').DataTable({
-                    "ajax": 'api/ReferenceData/' + url,
-                    "columns": [
-                        { "data": "Code" },
-                        { "data": "Name" },
-                        { "data": "Str1" },
-                        { "data": "null", "width": "3%" }
-                    ],
-                    "columnDefs": [
-                        {
-                            "render": function (data, type, row) {
-                                return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
-                            },
-                            "targets": 0,
-                            "orderable": true
+            if (url == "GetTblKelompokUsaha") { tabelnya = "tabel-kelompok-usaha" };
+            //if (url == "GetTblSubBidangUsaha") { tabelnya = "tabel-sub-bidang-usaha" };
+            if (url == "GetTblDukcapilKota") { tabelnya = "table-dukcapil-kota" };
+            if (url == "GetTblDukcapilKecamatan") { tabelnya = "table-dukcapil-kecamatan" };
+            if (url == "GetTblDukcapilKelurahan") { tabelnya = "table-dukcapil-kelurahan" };
+            if (url == "GetTblDukcapilPos") { tabelnya = "table-dukcapil-pos" };
+
+            table = $('#' + tabelnya + '').DataTable({
+                "ajax": 'api/ReferenceData/' + url,
+                "columns": [
+                    { "data": "Code" },
+                    { "data": "Name" },
+                    { "data": "Str1" },
+                    { "data": "null", "width": "3%" }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
                         },
-                        {
-                            "render": function (data, type, row) {
-                                return '<a href="javascript:editItem4(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                                    '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                            },
-                            "targets": 3,
-                            "orderable": false
-                        }
-                    ],
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false
-                });
-                //alert('qwerty = ' + url);
-            }
+                        "targets": 0,
+                        "orderable": true
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:editItem4(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                '<a href="javascript:deleteItem(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false
+            });
+            //alert('qwerty = ' + url);
+        }
 
         function generateTableCatalogue() {
-                //alert('hahahaha');
-                table = $('#example1').DataTable({
-                    "ajax": 'api/Produk/GetTblKategoriMaster',
-                    "columns": [
-                        { "data": "id" },
-                        { "data": "NamaKategori" },
-                        { "data": "DeskripsiKategori" },
-                        { "data": "null", "width": "3%" }
-                    ],
-                    "columnDefs": [
-                        {
-                            "render": function (data, type, row) {
-                                return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
-                            },
-                            "targets": 0,
-                            "orderable": true
+            //alert('hahahaha');
+            table = $('#example1').DataTable({
+                "ajax": 'api/Produk/GetTblKategoriMaster',
+                "columns": [
+                    { "data": "id" },
+                    { "data": "NamaKategori" },
+                    { "data": "DeskripsiKategori" },
+                    { "data": "null", "width": "3%" }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:viewDetail(' + row.id + ')">' + data + '</a>';
                         },
-                        {
-                            "render": function (data, type, row) {
-                                return '<a href="javascript:editItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                                    '<a href="javascript:deleteItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                            },
-                            "targets": 3,
-                            "orderable": false
-                        }
-                    ],
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false
-                });
-                //alert('qwerty = ' + url);
-            }
+                        "targets": 0,
+                        "orderable": true
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:editItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                                '<a href="javascript:deleteItemKategori(' + row.id + ')" idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false
+            });
+            //alert('qwerty = ' + url);
+        }
 
         $(function () {
             $().UItoTop({ easingType: 'easeOutQuart' });
@@ -2204,7 +2321,7 @@
 
         function editItem(id) {
             var text = $("#myTab li.active a").html();
-            $("#modal-edit #qualifier").html(text);            
+            $("#modal-edit #qualifier").html(text);
             $("#modal-edit").modal('show');
 
             GetEdit(id);
@@ -2279,7 +2396,7 @@
             $.ajax({
                 url: "/api/ReferenceData/EditReferenceData",
                 method: "GET",
-                headers:headers,
+                headers: headers,
                 data: { id: id },
                 success: function (data) {
 
@@ -2334,7 +2451,7 @@
                     }
 
                     let sanitizedId = data.Id;
-                    let sanitizedCode = data.Id; 
+                    let sanitizedCode = data.Id;
                     let sanitizedName = DOMPurify.sanitize(data.Nama || "");
                     let sanitizedDesc = DOMPurify.sanitize(data.Deskripsi || "");
 
@@ -2360,10 +2477,16 @@
                 return;
             }
 
+            var namaStr = $("#modal-edit #nama").val() || "";
+            var index = $("#myTab li.active").data("ctr");
+            if (index == 27) {
+                namaStr = namaStr.replace(/[^0-9.]/g, '');
+            }
+
             var arrData = {
                 Id: $("#modal-edit #id").val(),
                 Code: DOMPurify.sanitize($("#modal-edit #kode").val()),
-                LocalizedName: DOMPurify.sanitize($("#modal-edit #nama").val()),
+                LocalizedName: DOMPurify.sanitize(namaStr),
                 LocalizedDesc: DOMPurify.sanitize($("#modal-edit #deskripsi").val())
             };
 
@@ -2383,7 +2506,7 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: headers,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $('#modal-edit').modal('hide');
                     // $("#exampleModal").hide();
@@ -2426,7 +2549,7 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: headers,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $('#modal-edit').modal('hide');
                     // $("#exampleModal").hide();
@@ -2468,7 +2591,7 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: headers,
                 success: function (data) {
-				    data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $('#modal-edit-kategori').modal('hide');
                     // $("#exampleModal").hide();
@@ -2575,6 +2698,25 @@
             $("[data-ctr=" + idx + "]").addClass('active');
             table.destroy();
             $("#periode").show();
+
+            if (idx == 27) { // PPN
+                $("#example1 th:eq(1)").text("Value");
+                $("[id='nama']").prev("label").text("Value");
+                
+                if ($("[id='nama']").parent().hasClass("input-group") == false) {
+                    $("[id='nama']").wrap('<div class="input-group"></div>');
+                    $("[id='nama']").after('<span class="input-group-addon" id="addon-percent">%</span>');
+                }
+            } else {
+                $("#example1 th:eq(1)").text("Name");
+                $("[id='nama']").prev("label").text("Nama");
+
+                if ($("[id='nama']").parent().hasClass("input-group")) {
+                    $("#addon-percent").remove();
+                    $("[id='nama']").unwrap();
+                }
+            }
+
             generateTable(urls_tbl[idx]);
             //alert('idx = ' + idx);
         }
@@ -2651,7 +2793,7 @@
 
         function GetEditPIC(id) {
             $.getJSON("/api/MonitoringSelection/GetEditPIC?id=" + id, null, function (data) {
-			data = DOMPurify.sanitize(data);
+                data = DOMPurify.sanitize(data);
                 //clear();
                 //console.log("doc data:", data);
                 $("input[name=id]").val(data.Id);
@@ -2740,7 +2882,7 @@
                 return;
             }
 
-            
+
             var arrData = {
                 Id: $("#modal-edit #id").val(),
                 Code: $("#modal-edit #kode").val(),
@@ -2764,7 +2906,7 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: headers,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $('#modal-edit').modal('hide');
                     // $("#exampleModal").hide();
@@ -2937,7 +3079,7 @@
         function GetEditBranch(id) {
 
             $.getJSON("/api/ReferenceData/EditBranch?id=" + id, null, function (data) {
-			data = DOMPurify.sanitize(data);
+                data = DOMPurify.sanitize(data);
 
                 $("input[name=id]").val(data.Branch_Id);
                 $("input[name=kodebranch]").val(data.Branch_Code);
@@ -2978,7 +3120,7 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: headers,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $('#modal-edit-branch').modal('hide');
                     // $("#exampleModal").hide();
@@ -3097,7 +3239,7 @@
                 url: url,
                 data: { Branch_Id: branchid, Department_Id: deptbranch },
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     $("#modal-create-branchdept").modal('hide');
                     table_coba_branch.ajax.reload();
                     alert(data);
@@ -3120,7 +3262,7 @@
             //alert("id" + idbranch);
             //alert("id" + iddept);
             $.getJSON("/api/ReferenceData/EditDepartmentBranch?idbranch=" + idbranch + "&iddept=" + iddept, null, function (data) {
-			data = DOMPurify.sanitize(data);
+                data = DOMPurify.sanitize(data);
 
                 $("input[name=id]").val(data.Id);
                 $("[name=EditDepartmentBranch]").val(data.FK_Department_Id);
@@ -3152,7 +3294,7 @@
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $("#modal-create-branchdept").modal('hide');
                     // $("#exampleModal").hide();
@@ -3218,12 +3360,12 @@
             $.ajax({
                 url: "/api/ReferenceData/GetAllProvinsi",
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
-				if(data){
-                    for (var i in data) {
-                        $(el).append("<option value='" + data[i].id + "'>" + data[i].Name + "</option>");
+                    data = DOMPurify.sanitize(data);
+                    if (data) {
+                        for (var i in data) {
+                            $(el).append("<option value='" + data[i].id + "'>" + data[i].Name + "</option>");
+                        }
                     }
-				}
                 }
             });
         }
@@ -3232,12 +3374,12 @@
             $.ajax({
                 url: "/api/ReferenceData/GetAllDepartment",
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
-				if(data){
-                    for (var i in data) {
-                        $(el).append("<option value='" + data[i].Department_Id + "'>" + data[i].Department_Name + "</option>");
+                    data = DOMPurify.sanitize(data);
+                    if (data) {
+                        for (var i in data) {
+                            $(el).append("<option value='" + data[i].Department_Id + "'>" + data[i].Department_Name + "</option>");
+                        }
                     }
-                }
                 }
             });
         }
@@ -3343,7 +3485,7 @@
         function GetEditDepartment(id) {
 
             $.getJSON("/api/ReferenceData/EditDepartment?id=" + id, null, function (data) {
-			    data = DOMPurify.sanitize(data);
+                data = DOMPurify.sanitize(data);
 
                 $("input[name=id]").val(data.Department_Id);
                 $("input[name=kodedepartment]").val(data.Department_Code);
@@ -3382,7 +3524,7 @@
                 contentType: 'application/json; charset=utf-8',
                 headers: headers,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $('#modal-edit-department').modal('hide');
                     // $("#exampleModal").hide();

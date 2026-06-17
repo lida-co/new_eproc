@@ -1,4 +1,4 @@
-﻿using Reston.Eproc.Model.Monitoring.Entities;
+using Reston.Eproc.Model.Monitoring.Entities;
 using Reston.Pinata.Model.PengadaanRepository;
 using System;
 using System.Collections.Generic;
@@ -172,6 +172,13 @@ namespace Reston.Pinata.Model.JimbisModel
     public class DeleteRequest
     {
         public int Id { get; set; }
+    }
+
+    public class AddPPN
+    {
+        public string code { get; set; }
+        public string nama { get; set; }
+        public string deskripsi { get; set; }
     }
 
     //end fchr

@@ -15,8 +15,9 @@ $(function () {
         SetListBank("");
         SetListVendor("");
         SetListVendor2("");
+        SetListPPN("");
     }
-       //window.location.href("http://" + window.location.host + "/pks.html");
+    //window.location.href("http://" + window.location.host + "/pks.html");
 
     $("#HapusFile").on("click", function () {
         var tipe = $(this).parent().parent().parent().parent().attr("attr1");
@@ -26,25 +27,26 @@ $(function () {
             url: "Api/PO/deleteDokumenPO?Id=" + FileId
         }).done(function (data) {
             if (DOMPurify.sanitize(data.Id) == "1") {
-                    $.each(myDropzonePO.files, function (index, item) {
-                        var id = 0;
-                        if (DOMPurify.sanitize(item.Id) != undefined) {
-                            id = DOMPurify.sanitize(item.Id);
-                        }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
-                        }
+                $.each(myDropzonePO.files, function (index, item) {
+                    var id = 0;
+                    if (DOMPurify.sanitize(item.Id) != undefined) {
+                        id = DOMPurify.sanitize(item.Id);
+                    }
+                    else {
+                        id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                    }
 
-                        if (id == FileId) {
-                            myDropzonePO.removeFile(item);
-                        }
-                    });
-                }            
+                    if (id == FileId) {
+                        myDropzonePO.removeFile(item);
+                    }
+                });
+            }
             $("#konfirmasiFile").modal("hide");
         });
     });
 
     var myDropzonePO = new Dropzone("#DOKPO",
+<<<<<<< Updated upstream
              {
                  headers: {
                      'X-CSRF-TOKEN': csrfToken,
@@ -88,18 +90,59 @@ $(function () {
                              $("#konfirmasiFile").modal("show");
                          });
                      });
+=======
+        {
+            maxFilesize: 10,
+            acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
+            accept: function (file, done) {
+                this.options.url = $("#DOKPO").attr("action") + "?id=" + $("#Id").val();
+                done();
+            },
+            sending: function (file, xhr, formData) {
+                var token = csrfToken;
+                if (!token) {
+                    try {
+                        var req = new XMLHttpRequest();
+                        req.open('GET', '/api/security/GetCsrfToken', false);
+                        req.send(null);
+                        if (req.status === 200) {
+                            token = JSON.parse(req.responseText).csrfToken;
+                            csrfToken = token;
+                        }
+                    } catch (e) { console.warn('Gagal ambil CSRF token:', e); }
+                }
+                if (token) {
+                    xhr.setRequestHeader("X-CSRF-TOKEN", token);
+                    xhr.setRequestHeader("X-XSRF-TOKEN", token);
+                }
+            },
+            init: function () {
+                this.on("addedfile", function (file) {
+                    file.previewElement.addEventListener("click", function () {
+                        var id = 0;
+                        if (file.Id != undefined)
+                            id = file.Id;
+                        else
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        $("#HapusFile").show();
+                        $("#konfirmasiFile").attr("attr1", "PKS");
+                        $("#konfirmasiFile").attr("FileId", id);
+                        $("#konfirmasiFile").modal("show");
+                    });
+                });
+>>>>>>> Stashed changes
 
-                     this.on("error", function (file) {
-                         myDropzonePO.removeFile(file);
-                     });
-                     this.on("success", function (file, responseText) {
-                         if (responseText == "00000000-0000-0000-0000-000000000000" || responseText == null) {
-                             myDropzonePO.removeFile(file);
-                         }
-                     });
-                 }
-             }
-         );
+                this.on("error", function (file) {
+                    myDropzonePO.removeFile(file);
+                });
+                this.on("success", function (file, responseText) {
+                    if (responseText == "00000000-0000-0000-0000-000000000000" || responseText == null) {
+                        myDropzonePO.removeFile(file);
+                    }
+                });
+            }
+        }
+    );
 
     renderDokumenDropzone(myDropzonePO, "DOKPO");
     Dropzone.options.DOKPO = false;
@@ -139,11 +182,11 @@ $(function () {
             { "data": "NamaBarang", "width": "40%" },
             { "data": "Banyak", "width": "10%" },
             { "data": "Satuan", "width": "10%" },
-            { "data": null,"width": "5%"  },
+            { "data": null, "width": "5%" },
             { "data": null, "width": "10%" },
             { "data": "Keterangan", "width": "20%" },
             { "data": null, "width": "15%" },
-            { "data": null,"width":"15%" }
+            { "data": null, "width": "15%" }
         ],
         "columnDefs": [
             {
@@ -156,7 +199,7 @@ $(function () {
             },
             {
                 "render": function (data, type, row) {
-                    return accounting.formatNumber(row.Harga , { thousand: ".", decimal: ",", precision: 2 });
+                    return accounting.formatNumber(row.Harga, { thousand: ".", decimal: ",", precision: 2 });
                 },
 
                 "targets": 4,
@@ -241,7 +284,7 @@ $(function () {
     });
 
     $("#table-podetail").on("click", ".pilih-pks", function () {
-        var obj = jQuery.parseJSON($(this).attr("obj"));       
+        var obj = jQuery.parseJSON($(this).attr("obj"));
         waitingDialog.showloading("Proses Harap Tunggu");
         $("#judul").val(obj.Judul);
         $("#no-pengadaan").val(obj.NoPengadaan);
@@ -282,14 +325,12 @@ $(function () {
         data.Ttd2 = $("#ttd2").val();
         data.Ttd3 = $("#ttd3").val();
         data.Discount = $("#discount").val();
-        if ($('#ppn').is(':checked')) 
-            data.ppn = 10;
-        else 
-            data.ppn = 0;
+        var ppnVal = parseFloat($("#ppn").val());
+        data.ppn = isNaN(ppnVal) ? 0 : ppnVal;
         data.pph = $("#pph").val();
         data.keterangan = $("#keterangan").val();
         save(data);
-    });   
+    });
 
     $(".Hapus").on("click", function () {
         waitingDialog.showloading("Proses Harap Tunggu");
@@ -302,7 +343,7 @@ $(function () {
         });
 
     });
-    
+
     $(".date").datetimepicker({
         format: "DD MMMM YYYY",
         locale: 'id',
@@ -356,7 +397,7 @@ $(function () {
             //alert("Hidup");
             $('input[name=item-pph]').prop("checked", true);
         }
-        if (data.Pph == 0 || data.Pph == null ) {
+        if (data.Pph == 0 || data.Pph == null) {
             //alert("Mati");
             $('input[name=item-pph]').prop("checked", false);
         }
@@ -371,7 +412,7 @@ $(function () {
         $("#item-modal").modal("show");
     });
 
-    $("#table-podetail").on("click",".delete-item", function () {
+    $("#table-podetail").on("click", ".delete-item", function () {
         deleteItem($(this).attr("attrId"));
     });
 
@@ -393,13 +434,33 @@ function SetListBank(namabank) {
     $.ajax({
         url: "/api/ReferenceData/GetAllBank",
         success: function (data) {
-			//data = DOMPurify.sanitize(data);
+            //data = DOMPurify.sanitize(data);
             for (var i in data) {
                 if (namabank == DOMPurify.sanitize(data[i].Name)) {
                     $("[name='BankInfo.Nama']").append("<option value='" + DOMPurify.sanitize(data[i].Name) + "' selected>" + DOMPurify.sanitize(data[i].Name) + "</option>");
                 }
                 else {
                     $("[name='BankInfo.Nama']").append("<option value='" + DOMPurify.sanitize(data[i].Name) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                }
+            }
+            $("[name='BankInfo.Nama']").trigger("change");
+        }
+    });
+}
+
+function SetListPPN(ppnVal) {
+    $.ajax({
+        url: "/api/ReferenceData/GetAllPPN",
+        success: function (data) {
+            $("#ppn").empty();
+            $("#ppn").append('<option value=""></option>');
+            for (var i in data) {
+                var val = DOMPurify.sanitize(data[i].Name);
+                if (ppnVal == val) {
+                    $("#ppn").append("<option value='" + val + "' selected>" + val + " %</option>");
+                }
+                else {
+                    $("#ppn").append("<option value='" + val + "'>" + val + " %</option>");
                 }
             }
         }
@@ -412,7 +473,7 @@ function loadDetail(Id) {
         console.log("loadDetail dipanggil tanpa ID, skip");
         return;
     }
-    
+
     $.ajax({
         url: "Api/PO/detail?Id=" + Id,
         method: "POST",
@@ -444,21 +505,19 @@ function loadDetail(Id) {
         $("#ttd2").val(data.Ttd2);
         $("#ttd3").val(data.Ttd3);
         $("#discount").val(data.Discount);
-        if (data.PPN != "")
-            $("#ppn").attr("checked", true);
+        SetListPPN(data.PPN);
         $("#pph").val(data.PPH);
         SetListBank(data.NamaBank);
         SetListVendor(data.Vendor);
         if (data.PeriodeDari != null || data.PeriodeSampai != null) {
-            $("#hide-periode").attr("checked",true);
+            $("#hide-periode").attr("checked", true);
             $("#hide-periode-sewa").show();
         }
-        else if (data.PeriodeDari == null || data.PeriodeSampai == null)
-        {
-            $("#hide-periode").attr("checked",false);
+        else if (data.PeriodeDari == null || data.PeriodeSampai == null) {
+            $("#hide-periode").attr("checked", false);
             $("#hide-periode-sewa").hide();
         }
-    }).fail(function(xhr, status, error) {
+    }).fail(function (xhr, status, error) {
         // 🔒 PERBAIKAN: Error handling
         console.error("Error loading PO detail:", error, xhr.responseText);
     });
@@ -467,13 +526,13 @@ function loadDetail(Id) {
 function renderDokumenDropzone(myDropzone) {
     var rId = Id;
     if ($("#Id").val() !== '') rId = $("#Id").val();
-    
+
     // 🔒 PERBAIKAN: Jangan load dokumen jika tidak ada ID (PO baru)
     if (!rId || rId === "" || rId === "null" || rId === "undefined") {
         console.log("Tidak ada PO ID, skip load dokumen");
         return;
     }
-    
+
     $.ajax({
         url: "Api/PO/getDokumens?Id=" + rId,
         method: "POST",
@@ -519,7 +578,7 @@ function save(po) {
                 }
             }]
         });
-    }).fail(function(xhr, status, error) {
+    }).fail(function (xhr, status, error) {
         // 🔒 PERBAIKAN: Tambah error handling
         waitingDialog.hideloading();
         var errorMsg = "Terjadi kesalahan: " + (xhr.responseText || error);
@@ -536,7 +595,7 @@ function save(po) {
     });
 }
 
-function jawsReload(Id){
+function jawsReload(Id) {
     //alert("ini idnya " + Id);
     loadDetail(Id);
     window.location.href = "create-po.html?id=" + Id;
@@ -564,7 +623,7 @@ function saveItem(item) {
         });
         tableitem.draw();
         $("#item-modal").modal("hide");
-    }).fail(function(xhr, status, error) {
+    }).fail(function (xhr, status, error) {
         // 🔒 PERBAIKAN: Tambah error handling
         waitingDialog.hideloading();
         var errorMsg = "Terjadi kesalahan: " + (xhr.responseText || error);
@@ -584,7 +643,7 @@ function saveItem(item) {
 function deleteItem(Id) {
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
-        url: "Api/po/DeleteItem?Id="+Id,
+        url: "Api/po/DeleteItem?Id=" + Id,
         method: "GET",
     }).done(function (data) {
         var msg = data.message;
@@ -606,7 +665,7 @@ function deleteItem(Id) {
 function generateNoPO() {
     waitingDialog.showloading("Proses Harap Tunggu");
     $.ajax({
-        url: "Api/po/GenerateNoPO?Id="+$("#Id").val(),
+        url: "Api/po/GenerateNoPO?Id=" + $("#Id").val(),
         method: "GET",
     }).done(function (data) {
         loadDetail(data.Id)
@@ -658,7 +717,7 @@ function SetListVendor2(vendor2) {
     $.ajax({
         url: "/api/ReferenceData/GetAllInfoPerusahaan",
         success: function (data) {
-			//data = DOMPurify.sanitize(data);
+            //data = DOMPurify.sanitize(data);
             for (var i in data) {
                 if (vendor2 == data[i].Name) {
                     //$("[name='Vendor']").append("<option value='" + data[i].Name + "' selected>" + data[i].Name + "</option>");
@@ -678,7 +737,7 @@ function SetListVendor(vendor) {
     $.ajax({
         url: "/api/Vendor/GetAllVendor",
         success: function (data) {
-			//data = DOMPurify.sanitize(data);
+            //data = DOMPurify.sanitize(data);
             for (var i in data) {
                 if (vendor == DOMPurify.sanitize(data[i].Nama)) {
                     $("[name = 'Vendor']").append("<option value='" + DOMPurify.sanitize(data[i].id) + "' selected>" + DOMPurify.sanitize(data[i].Nama) + "</option>");
@@ -689,6 +748,7 @@ function SetListVendor(vendor) {
                     $("#idVendor").val(DOMPurify.sanitize(data[i].Nama));
                 }
             }
+            $("[name = 'Vendor']").trigger("change");
         }
     });
 }
@@ -698,7 +758,7 @@ $(function () {
         var nv = $("[name = 'Vendor']").val();
         //alert('id vendor= ' + $("#idVendor").val());
         //alert('ID vendor= ' + nv);
-        
+
         //if (nv == "1") {
         //    $('#atas-nama').val("");
         //    $('#no-rekening').val("");
@@ -706,16 +766,16 @@ $(function () {
         //    $('#npwp').val("");
         //}
         //else {
-            $.ajax({
-                url: "api/Vendor/GetVendorDetail/" + nv,
-                success: function (data) {
-					//data = DOMPurify.sanitize(data);
-                    $("#idVendor").val(DOMPurify.sanitize(data.Nama));
-                    $('#atas-nama').val(DOMPurify.sanitize(data.BankInfo.NamaRekening));
-                    $('#no-rekening').val(DOMPurify.sanitize(data.BankInfo.NomorRekening));
-                    $("[name='BankInfo.Nama']").val(DOMPurify.sanitize(data.BankInfo.Nama));
-                    $('#npwp').val(DOMPurify.sanitize(data.NPWP.Nomor));
-                }
+        $.ajax({
+            url: "api/Vendor/GetVendorDetail/" + nv,
+            success: function (data) {
+                //data = DOMPurify.sanitize(data);
+                $("#idVendor").val(DOMPurify.sanitize(data.Nama));
+                $('#atas-nama').val(DOMPurify.sanitize(data.BankInfo.NamaRekening));
+                $('#no-rekening').val(DOMPurify.sanitize(data.BankInfo.NomorRekening));
+                $("[name='BankInfo.Nama']").val(DOMPurify.sanitize(data.BankInfo.Nama));
+                $('#npwp').val(DOMPurify.sanitize(data.NPWP.Nomor));
+            }
         });
         //alert('nama vendor= ' + $("#idVendor").val(););
         //}

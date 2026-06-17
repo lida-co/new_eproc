@@ -1,4 +1,4 @@
-﻿using Model.Helper;
+using Model.Helper;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using Reston.Eproc.Model.Ext;
 using Reston.EProc.Web.ViewModels;
@@ -254,6 +254,73 @@ namespace Reston.Pinata.WebService
                         _repository.AddVendorDocumentImageExt(npwpdoc);
                     }
                 }
+                #endregion
+
+                #region PAC
+                RegVendorExtPac pacData = new RegVendorExtPac()
+                {
+                    Id = Guid.NewGuid(),
+                    RegVendorExtId = guidvenregext,
+                    NamaPerusahaan = SanitizeInput(model.PacNamaPerusahaan),
+                    TtdNama = SanitizeInput(model.PacTtdNama),
+                    TtdPosisi = SanitizeInput(model.PacTtdPosisi),
+
+                    Status1 = SanitizeInput(model.PacStatus1),
+                    Penjelasan1 = SanitizeInput(model.PacPenjelasan1),
+                    Komitmen1 = SanitizeInput(model.PacKomitmen1),
+                    TargetDate1 = model.PacTargetDate1,
+
+                    Status2 = SanitizeInput(model.PacStatus2),
+                    Penjelasan2 = SanitizeInput(model.PacPenjelasan2),
+                    Komitmen2 = SanitizeInput(model.PacKomitmen2),
+                    TargetDate2 = model.PacTargetDate2,
+
+                    Status3 = SanitizeInput(model.PacStatus3),
+                    Penjelasan3 = SanitizeInput(model.PacPenjelasan3),
+                    Komitmen3 = SanitizeInput(model.PacKomitmen3),
+                    TargetDate3 = model.PacTargetDate3,
+
+                    Status4 = SanitizeInput(model.PacStatus4),
+                    Penjelasan4 = SanitizeInput(model.PacPenjelasan4),
+                    Komitmen4 = SanitizeInput(model.PacKomitmen4),
+                    TargetDate4 = model.PacTargetDate4
+                };
+
+                // Helper to save PAC document
+                Action<VendorDokumenExt, int, Action<Guid>> savePacDoc = (doc, docTypeEnum, assignDocId) =>
+                {
+                    if (doc != null && doc.base64 != null)
+                    {
+                        var guiddocext = Guid.NewGuid();
+                        RegDocumentExt detaildoc = new RegDocumentExt()
+                        {
+                            Id = guiddocext,
+                            Nomor = "PAC",
+                            RegVendorExtId = guidvenregext,
+                            TipeDokumen = docTypeEnum
+                        };
+                        _repository.AddVendorDocumentExt(detaildoc);
+
+                        RegDocumentImageExt pacDocImg = new RegDocumentImageExt()
+                        {
+                            Id = Guid.NewGuid(),
+                            Content = safeFile(doc.base64),
+                            FileName = SanitizeInput(doc.FileName),
+                            ContentType = SanitizeInput(doc.ContentType),
+                            RegDocumenExtId = guiddocext
+                        };
+                        _repository.AddVendorDocumentImageExt(pacDocImg);
+
+                        assignDocId(guiddocext);
+                    }
+                };
+
+                savePacDoc(model.PacDokumen1, (int)EDocumentType.PAC1, id => pacData.DokumenId1 = id);
+                savePacDoc(model.PacDokumen2, (int)EDocumentType.PAC2, id => pacData.DokumenId2 = id);
+                savePacDoc(model.PacDokumen3, (int)EDocumentType.PAC3, id => pacData.DokumenId3 = id);
+                savePacDoc(model.PacDokumen4, (int)EDocumentType.PAC4, id => pacData.DokumenId4 = id);
+
+                _repository.AddVendorExtPac(pacData);
                 #endregion
 
                 #region Riwayat
@@ -610,6 +677,49 @@ namespace Reston.Pinata.WebService
             else
                 return Json(new { base64 = "", base64a = base64String, ContentType = "", FileName = "", ContentTypea = contentType, FileNamea = filename });
             //return Json(new { base64 = base64String, ContentType = contentType, FileName = filename });
+        }
+
+        [HttpGet]
+        public HttpResponseMessage DownloadDraft(string tipe)
+        {
+            string draftPath = System.Configuration.ConfigurationManager.AppSettings["DraftDocumentPath"];
+            if (string.IsNullOrEmpty(draftPath))
+            {
+                return Request.CreateErrorResponse(System.Net.HttpStatusCode.InternalServerError, "DraftDocumentPath is not configured in web.config.");
+            }
+
+            string fileName = "";
+            switch (tipe)
+            {
+                case "SuratPernyataanPengadaan":
+                    fileName = "Surat_Pernyataan_Pengadaan.docx";
+                    break;
+                case "SuratPernyataanEtika":
+                    fileName = "Surat_Pernyataan_Etika.docx";
+                    break;
+                case "SuratPernyataanKerahasiaan":
+                    fileName = "Surat_Pernyataan_Kerahasiaan.docx";
+                    break;
+                default:
+                    return Request.CreateErrorResponse(System.Net.HttpStatusCode.BadRequest, "Invalid document type.");
+            }
+
+            string fullPath = System.IO.Path.Combine(draftPath, fileName);
+            if (!System.IO.File.Exists(fullPath))
+            {
+                return Request.CreateErrorResponse(System.Net.HttpStatusCode.NotFound, "Draft document not found.");
+            }
+
+            HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            var fileStream = new System.IO.FileStream(fullPath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            response.Content = new StreamContent(fileStream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = fileName
+            };
+
+            return response;
         }
 
         [ApiAuthorize(IdLdapConstants.Roles.pRole_procurement_staff)]

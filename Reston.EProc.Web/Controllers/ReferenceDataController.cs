@@ -1,4 +1,4 @@
-﻿using Microsoft.Owin.FileSystems;
+using Microsoft.Owin.FileSystems;
 using Reston.Pinata.Model;
 using Reston.Pinata.Model.JimbisModel;
 using Reston.Pinata.Model.Repository;
@@ -234,6 +234,28 @@ namespace Reston.Pinata.WebService
         }
 
         [HttpGet]
+        public List<ReferenceDataViewModel> GetAllPPN()
+        {
+            return _repository.GetData(RefDataQualifier.PPN, null).Select(x => new ReferenceDataViewModel()
+            {
+                id = x.Id,
+                Code = x.Code,
+                Name = x.LocalizedName,
+                Desc = x.LocalizedDesc,
+                Str1 = x.StringAttr1,
+                Int1 = x.IntAttr1,
+                Flag1 = x.FlagAttr1
+            }).OrderBy(z => z.Name).ToList();
+        }
+
+        [HttpGet]
+        [ApiAuthorize]
+        public IHttpActionResult GetTblPPN()
+        {
+            return Json(new { aaData = GetAllPPN() });
+        }
+
+        [HttpGet]
         public List<ReferenceDataViewModel> GetAllUnitKerja()
         {
             return _repository.GetData(RefDataQualifier.UnitKerja, null).Select(x => new ReferenceDataViewModel()
@@ -404,6 +426,48 @@ namespace Reston.Pinata.WebService
             }
             _repository.SaveData(r);
             return "Sukses!";
+        }
+
+        [HttpPost]
+        [ApiAuthorize(new string[] { IdLdapConstants.Roles.pRole_procurement_admin, IdLdapConstants.App.Roles.IdLdapProcurementAdminRole })]
+        //[ApiAuthorize]
+        public IHttpActionResult AddPPN([FromBody] AddPPN req)
+        {
+            if (req == null)
+                return BadRequest("Request tidak valid");
+
+            if (string.IsNullOrWhiteSpace(req.code))
+                return BadRequest("Code tidak boleh kosong");
+
+            if (string.IsNullOrWhiteSpace(req.nama))
+                return BadRequest("Nama tidak boleh kosong");
+
+            if (string.IsNullOrWhiteSpace(req.deskripsi))
+                return BadRequest("Deskripsi tidak boleh kosong");
+
+            if (!IsSafe(req.code) || !IsSafe(req.nama) || !IsSafe(req.deskripsi))
+                return BadRequest("Input mengandung karakter berbahaya");
+
+            try
+            {
+                var result = AddReferenceData(new ReferenceData()
+                {
+                    Qualifier = RefDataQualifier.PPN,
+                    Code = HttpUtility.HtmlEncode(req.code),
+                    LocalizedName = HttpUtility.HtmlEncode(req.nama),
+                    LocalizedDesc = HttpUtility.HtmlEncode(req.deskripsi)
+                });
+
+                return Ok(new
+                {
+                    message = "Berhasil tambah data",
+                    data = result
+                });
+            }
+            catch
+            {
+                return InternalServerError();
+            }
         }
 
         [HttpPost]

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -76,6 +76,7 @@ namespace Model.Helper
         public const string DUKCAPILKECAMATAN = "DUKCAPILKECAMATAN";
         public const string DUKCAPILKELURAHAN = "DUKCAPILKELURAHAN";
         public const string DUKCAPILPOS = "DUKCAPILPOS";
+        public const string PPN = "PPN";
 
     }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
@@ -206,6 +206,7 @@ namespace Reston.Pinata.Model
         public virtual DbSet<RegVendorDocumentExt> RegVendorDocumentExts { get; set; }
         public virtual DbSet<RegDocumentExt> RegDocumentExts { get; set; }
         public virtual DbSet<RegDocumentImageExt> RegDocumentImageExts { get; set; }
+        public virtual DbSet<RegVendorExtPac> RegVendorExtPacs { get; set; }
 
         //vendor ext 
         public virtual DbSet<VendorExt> VendorExts { get; set; }
@@ -218,6 +219,7 @@ namespace Reston.Pinata.Model
         public virtual DbSet<VendorDocumentExt> VendorDocumentExts { get; set; }
         public virtual DbSet<DocumentExt> DocumentExts { get; set; }
         public virtual DbSet<DocumentImageExt> DocumentImageExts { get; set; }
+        public virtual DbSet<VendorExtPac> VendorExtPacs { get; set; }
 
 
         // --------------

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -707,7 +707,89 @@ namespace Reston.Pinata.Model.JimbisModel
         public string FileName { get; set; }
         public string ContentType { get; set; }
         public Guid DocumenExtId { get; set; }
+    }
 
+    [Table("RegVendorExtPac", Schema = AppDbContext.VENDORREG_SCHEMA_NAME)]
+    public class RegVendorExtPac
+    {
+        [Key]
+        public Guid Id { get; set; }
+
+        [ForeignKey("RegVendorExtId")]
+        public RegVendorExt RegVendorExt { get; set; }
+        [Required]
+        public Guid RegVendorExtId { get; set; }
+
+        [MaxLength(255)]
+        public string NamaPerusahaan { get; set; }
+        [MaxLength(255)]
+        public string TtdNama { get; set; }
+        [MaxLength(100)]
+        public string TtdPosisi { get; set; }
+
+        public string Status1 { get; set; }
+        public string Penjelasan1 { get; set; }
+        public string Komitmen1 { get; set; }
+        public DateTime? TargetDate1 { get; set; }
+        public Guid? DokumenId1 { get; set; }
+
+        public string Status2 { get; set; }
+        public string Penjelasan2 { get; set; }
+        public string Komitmen2 { get; set; }
+        public DateTime? TargetDate2 { get; set; }
+        public Guid? DokumenId2 { get; set; }
+
+        public string Status3 { get; set; }
+        public string Penjelasan3 { get; set; }
+        public string Komitmen3 { get; set; }
+        public DateTime? TargetDate3 { get; set; }
+        public Guid? DokumenId3 { get; set; }
+
+        public string Status4 { get; set; }
+        public string Penjelasan4 { get; set; }
+        public string Komitmen4 { get; set; }
+        public DateTime? TargetDate4 { get; set; }
+        public Guid? DokumenId4 { get; set; }
+    }
+
+    [Table("VendorExtPac", Schema = AppDbContext.VENDOR_SCHEMA_NAME)]
+    public class VendorExtPac
+    {
+        [Key]
+        public Guid Id { get; set; }
+
+        public Guid VendorExtId { get; set; }
+
+        [MaxLength(255)]
+        public string NamaPerusahaan { get; set; }
+        [MaxLength(255)]
+        public string TtdNama { get; set; }
+        [MaxLength(100)]
+        public string TtdPosisi { get; set; }
+
+        public string Status1 { get; set; }
+        public string Penjelasan1 { get; set; }
+        public string Komitmen1 { get; set; }
+        public DateTime? TargetDate1 { get; set; }
+        public Guid? DokumenId1 { get; set; }
+
+        public string Status2 { get; set; }
+        public string Penjelasan2 { get; set; }
+        public string Komitmen2 { get; set; }
+        public DateTime? TargetDate2 { get; set; }
+        public Guid? DokumenId2 { get; set; }
+
+        public string Status3 { get; set; }
+        public string Penjelasan3 { get; set; }
+        public string Komitmen3 { get; set; }
+        public DateTime? TargetDate3 { get; set; }
+        public Guid? DokumenId3 { get; set; }
+
+        public string Status4 { get; set; }
+        public string Penjelasan4 { get; set; }
+        public string Komitmen4 { get; set; }
+        public DateTime? TargetDate4 { get; set; }
+        public Guid? DokumenId4 { get; set; }
     }
 
 }

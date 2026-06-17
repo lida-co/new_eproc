@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -114,6 +114,9 @@ namespace Reston.Pinata.Model.JimbisModel
         AKTAPERUBAHAN,
         PKSMTF,
         DokumenCVTenagaAhli,
-
+        PAC1,
+        PAC2,
+        PAC3,
+        PAC4
     }
 }

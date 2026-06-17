@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,8 +61,34 @@ namespace Reston.EProc.Web.ViewModels
         public VendorDokumenExt VendorEquipmentExt2 { get; set; }
         public VendorDokumenExt VendorJobHistoryExt1 { get; set; }  
 
+        // PAC Fields
+        public string PacNamaPerusahaan { get; set; }
+        public string PacTtdNama { get; set; }
+        public string PacTtdPosisi { get; set; }
 
-    }
+        public string PacStatus1 { get; set; }
+        public string PacPenjelasan1 { get; set; }
+        public string PacKomitmen1 { get; set; }
+        public DateTime? PacTargetDate1 { get; set; }
+        public VendorDokumenExt PacDokumen1 { get; set; }
+
+        public string PacStatus2 { get; set; }
+        public string PacPenjelasan2 { get; set; }
+        public string PacKomitmen2 { get; set; }
+        public DateTime? PacTargetDate2 { get; set; }
+        public VendorDokumenExt PacDokumen2 { get; set; }
+
+        public string PacStatus3 { get; set; }
+        public string PacPenjelasan3 { get; set; }
+        public string PacKomitmen3 { get; set; }
+        public DateTime? PacTargetDate3 { get; set; }
+        public VendorDokumenExt PacDokumen3 { get; set; }
+
+        public string PacStatus4 { get; set; }
+        public string PacPenjelasan4 { get; set; }
+        public string PacKomitmen4 { get; set; }
+        public DateTime? PacTargetDate4 { get; set; }
+        public VendorDokumenExt PacDokumen4 { get; set; }    }
 
     public class VendorRegExtViewModel
     {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -49,6 +49,7 @@ namespace Reston.EProc.Client
         public const string UnitKerja = "Unit Kerja";
         public const string JenisPekerjaan = "Jenis Pekerjaan";
         public const string JenisPembelanjaan = "Jenis Pembelanjaan";
+        public const string PPN = "PPN";
     }
 
     
