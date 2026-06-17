@@ -99,6 +99,22 @@ namespace Reston.Pinata.Model.JimbisModel
         public string StringAttr1 { get; set; }
     }
 
+    public class AddDukcapilKelurahan
+    {
+        public string Code { get; set; }
+        public string LocalizedName { get; set; }
+        public string LocalizedDesc { get; set; }
+        public string StringAttr1 { get; set; }
+    }
+
+    public class AddDukcapilPos
+    {
+        public string Code { get; set; }
+        public string LocalizedName { get; set; }
+        public string LocalizedDesc { get; set; }
+        public string StringAttr1 { get; set; }
+    }
+
     public class AddDukcapilNegara
     {
         public string code { get; set; }

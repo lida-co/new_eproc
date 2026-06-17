@@ -1952,20 +1952,96 @@ namespace Reston.Pinata.WebService
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [ApiAuthorize(new string[] { IdLdapConstants.Roles.pRole_procurement_admin, IdLdapConstants.App.Roles.IdLdapProcurementAdminRole })]
         //[ApiAuthorize]
-        public string AddDukcapilKelurahan(string Code, string LocalizedName, string LocalizedDesc, string StringAttr1)
+        public IHttpActionResult AddDukcapilKelurahan([FromBody] AddDukcapilKelurahan req)
         {
-            return AddReferenceData(new ReferenceData() { Qualifier = RefDataQualifier.DUKCAPILKELURAHAN, Code = Code, LocalizedName = LocalizedName, LocalizedDesc = LocalizedDesc, StringAttr1 = StringAttr1 });
+            if (req == null)
+                return BadRequest("Request tidak valid");
+
+            if (string.IsNullOrWhiteSpace(req.Code))
+                return BadRequest("Code tidak boleh kosong");
+
+            if (string.IsNullOrWhiteSpace(req.LocalizedName))
+                return BadRequest("Nama tidak boleh kosong");
+
+            if (string.IsNullOrWhiteSpace(req.LocalizedDesc))
+                return BadRequest("Deskripsi tidak boleh kosong");
+
+            if (string.IsNullOrWhiteSpace(req.StringAttr1))
+                return BadRequest("Atribut tidak boleh kosong");
+
+            if (!IsSafe(req.Code) || !IsSafe(req.LocalizedName) || !IsSafe(req.LocalizedDesc) || !IsSafe(req.StringAttr1))
+                return BadRequest("Input mengandung karakter berbahaya");
+
+            try
+            {
+                var result = AddReferenceData(new ReferenceData()
+                {
+                    Qualifier = RefDataQualifier.DUKCAPILKELURAHAN,
+                    Code = HttpUtility.HtmlEncode(req.Code),
+                    LocalizedName = HttpUtility.HtmlEncode(req.LocalizedName),
+                    LocalizedDesc = HttpUtility.HtmlEncode(req.LocalizedDesc),
+                    StringAttr1 = HttpUtility.HtmlEncode(req.StringAttr1)
+                });
+
+                return Ok(new
+                {
+                    message = "Berhasil tambah data",
+                    data = result
+                });
+            }
+            catch
+            {
+                return InternalServerError();
+            }
         }
 
-        [HttpGet]
+        [HttpPost]
         [ApiAuthorize(new string[] { IdLdapConstants.Roles.pRole_procurement_admin, IdLdapConstants.App.Roles.IdLdapProcurementAdminRole })]
         //[ApiAuthorize]
-        public string AddDukcapilPos(string Code, string LocalizedName, string LocalizedDesc, string StringAttr1)
+        public IHttpActionResult AddDukcapilPos([FromBody] AddDukcapilPos req)
         {
-            return AddReferenceData(new ReferenceData() { Qualifier = RefDataQualifier.DUKCAPILPOS, Code = Code, LocalizedName = LocalizedName, LocalizedDesc = LocalizedDesc, StringAttr1 = StringAttr1 });
+            if (req == null)
+                return BadRequest("Request tidak valid");
+
+            if (string.IsNullOrWhiteSpace(req.Code))
+                return BadRequest("Code tidak boleh kosong");
+
+            if (string.IsNullOrWhiteSpace(req.LocalizedName))
+                return BadRequest("Nama tidak boleh kosong");
+
+            if (string.IsNullOrWhiteSpace(req.LocalizedDesc))
+                return BadRequest("Deskripsi tidak boleh kosong");
+
+            if (string.IsNullOrWhiteSpace(req.StringAttr1))
+                return BadRequest("Atribut tidak boleh kosong");
+
+            if (!IsSafe(req.Code) || !IsSafe(req.LocalizedName) || !IsSafe(req.LocalizedDesc) || !IsSafe(req.StringAttr1))
+                return BadRequest("Input mengandung karakter berbahaya");
+
+            try
+            {
+                var result = AddReferenceData(new ReferenceData()
+                {
+                    Qualifier = RefDataQualifier.DUKCAPILPOS,
+                    Code = HttpUtility.HtmlEncode(req.Code),
+                    LocalizedName = HttpUtility.HtmlEncode(req.LocalizedName),
+                    LocalizedDesc = HttpUtility.HtmlEncode(req.LocalizedDesc),
+                    StringAttr1 = HttpUtility.HtmlEncode(req.StringAttr1)
+                });
+
+                return Ok(new
+                {
+                    message = "Berhasil tambah data",
+                    data = result
+                });
+            }
+            catch
+            {
+                return InternalServerError();
+            }
         }
 
         [HttpGet]
