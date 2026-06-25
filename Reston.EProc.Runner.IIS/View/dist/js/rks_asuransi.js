@@ -1,4 +1,4 @@
-﻿var id_rks = DOMPurify.sanitize(window.location.hash);
+var id_rks = DOMPurify.sanitize(window.location.hash);
 var status;
 var table;
 $(function () {
@@ -11,7 +11,7 @@ $(function () {
     }
     else {
         if (isGuid($("#pengadaanId").val())) {
-            window.location.hash = parseInt($("#pengadaanId").val());
+            window.location.hash = $("#pengadaanId").val();
             loadData($("#pengadaanId").val());
             loadDataRks($("#pengadaanId").val());
         }
@@ -640,7 +640,7 @@ $(function () {
         $("#loader").show();
         var objRKSHeader = {};
         if ($("#idRks").val() != "") objRKSHeader.Id = parseInt($("#idRks").val());
-        objRKSHeader.PengadaanId = parseInt($("#pengadaanId").val());
+        objRKSHeader.PengadaanId = $("#pengadaanId").val();
         objRKSHeader.RKSDetails = datatableToJson(table);
 
         waitingDialog.showloading("Proses Harap Tunggu");
@@ -671,18 +671,18 @@ $(function () {
     });
     $("#kembali").on("click", function () {
         if ($("#aturan-pengadaan").val()=="Pengadaan Terbuka")
-            window.location.replace(HOME_PAGE + "/pengadaan_add_terbuka.html#" + parseInt($("#pengadaanId").val()));
-        else window.location.replace(HOME_PAGE + "/pengadaan-add.html#" + parseInt($("#pengadaanId").val()));
+            window.location.replace(HOME_PAGE + "/pengadaan_add_terbuka.html#" + $("#pengadaanId").val());
+        else window.location.replace(HOME_PAGE + "/pengadaan-add.html#" + $("#pengadaanId").val());
     });
     $("#kembali-ulul").on("click", function () {
         if ($("#aturan-pengadaan").val() == "Pengadaan Terbuka")
-            window.location.replace(HOME_PAGE + "/pengadaan_add_terbuka.html#" + parseInt($("#pengadaanId").val()));
-        else window.location.replace(HOME_PAGE + "/pengadaan-add.html#" + parseInt($("#pengadaanId").val()));
+            window.location.replace(HOME_PAGE + "/pengadaan_add_terbuka.html#" + $("#pengadaanId").val());
+        else window.location.replace(HOME_PAGE + "/pengadaan-add.html#" + $("#pengadaanId").val());
     });
 
     $(".refresh").on("click", function () {
         //window.location.reload();
-        window.location.href = HOME_PAGE + "/rks_asuransi.html#" + parseInt($("#pengadaanId").val());
+        window.location.href = HOME_PAGE + "/rks_asuransi.html#" + $("#pengadaanId").val();
         window.location.reload();
         // window.location.replace(HOME_PAGE + "/rks.html#"+$("#pengadaanId").val());
         //window.location.reload(HOME_PAGE + "/rks.html#" + $("#pengadaanId").val());

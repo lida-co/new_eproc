@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,6 +25,7 @@
     <link rel="stylesheet" href="dist/site.css">
     <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
 </head>
+
 <body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
     <div class="wrapper">
         <div id="header">
@@ -31,7 +33,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -65,10 +68,10 @@
                     <div class="user-panel" ng-controller="user">
                         <div class="pull-left info">
                             <p class="title" ng-bind="user.FullName"></p>
-                           <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
                         </div>
-                       <div class="pull-right image image-profile">
-                          <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
                         </div>
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -105,8 +108,9 @@
                                                 <div class="col-md-6" style="margin-top:30px;">
                                                     <div class="col-md-8" style="margin-left:20px;">
                                                         <label>Upload File Excel</label>
-                                                    <input type="file" id="import-anggaran" name="upload" style="margin-top:10px;">
-                                                </div>
+                                                        <input type="file" id="import-anggaran" name="upload"
+                                                            style="margin-top:10px;">
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                 </div>
@@ -178,7 +182,7 @@
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
@@ -207,10 +211,10 @@
                     { "data": "NoCoa" },
                     { "data": "Region" },
                     { "data": "Divisi" },
-                     { "data": "Periode" },
-                     { "data": "GroupAset" },
-                     { "data": "JenisAset" },
-                     { "data": "NilaiAset" }
+                    { "data": "Periode" },
+                    { "data": "GroupAset" },
+                    { "data": "JenisAset" },
+                    { "data": "NilaiAset" }
                 ],
                 "paging": true,
                 "lengthChange": false,
@@ -225,19 +229,19 @@
             $("#cari").on("click", function () {
                 table.draw();
             });
-            $(".import").submit( function () {
-              /*  var fileUpload = $("#import-anggaran").get(0);
-
-                //alert(dokumenid);
-                var files = fileUpload.files;
-
-                // Create FormData object
-                var fileData = new FormData();
-
-                // Looping over all files and add it to FormData object
-                for (var i = 0; i < files.length; i++) {
-                    fileData.append(files[i].name, files[i]);
-                }*/
+            $(".import").submit(function () {
+                /*  var fileUpload = $("#import-anggaran").get(0);
+  
+                  //alert(dokumenid);
+                  var files = fileUpload.files;
+  
+                  // Create FormData object
+                  var fileData = new FormData();
+  
+                  // Looping over all files and add it to FormData object
+                  for (var i = 0; i < files.length; i++) {
+                      fileData.append(files[i].name, files[i]);
+                  }*/
                 $.ajax({
                     url: 'Api/Budget/importXls',
                     type: "POST",
@@ -266,4 +270,5 @@
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 </body>
+
 </html>

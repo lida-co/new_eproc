@@ -1,4 +1,4 @@
-﻿using Reston.Pinata.Model;
+using Reston.Pinata.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

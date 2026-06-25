@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -2565,6 +2565,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
             if (rksHeader != null)
             {
+                var vendor = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault();
+                int vendorId = vendor != null ? vendor.Id : 0;
+
                 List<VWRKSDetailRekanan> VWRksDEtail = (from b in rksHeader.RKSDetails
                                                         select new VWRKSDetailRekanan
                                                         {
@@ -2578,9 +2581,9 @@ namespace Reston.Pinata.Model.PengadaanRepository
                                                             level = b.level,
                                                             grup = b.grup,
                                                             judul = b.judul,
-                                                            HargaRekananId = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? Guid.Empty : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().Id,
-                                                            harga = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? 0 : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().harga,
-                                                            keterangan = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault() == null ? "" : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id).FirstOrDefault().keterangan
+                                                            HargaRekananId = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == vendorId).FirstOrDefault() == null ? Guid.Empty : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == vendorId).FirstOrDefault().Id,
+                                                            harga = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == vendorId).FirstOrDefault() == null ? 0 : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == vendorId).FirstOrDefault().harga,
+                                                            keterangan = ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == vendorId).FirstOrDefault() == null ? "" : ctx.HargaKlarifikasiLanLanjutans.Where(d => d.RKSDetailId == b.Id && d.VendorId == vendorId).FirstOrDefault().keterangan
                                                         }).ToList();
 
                 return VWRksDEtail;
@@ -2936,7 +2939,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 }
             }
             ctx.SaveChanges(UserId.ToString());
-            return mdokPengadaan;
+            return mdokPengadaan ?? dokumenPengadaan;
         }
 
         public int deleteDokumen(Guid Id)
@@ -4156,11 +4159,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             JimbisEncrypt code = new JimbisEncrypt();
             List<VWRKSDetailRekanan> newLstVWRKSDetailRekanan = new List<VWRKSDetailRekanan>();
-            if (ctx.Pengadaans.Find(PengadaanId) == null) return new List<VWRKSDetailRekanan>();
+            if (ctx.Pengadaans.Find(PengadaanId) == null) return null;
             else
             {
-                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.SUBMITPENAWARAN) return new List<VWRKSDetailRekanan>();
-                if (cekStateSubmitPenawaran(PengadaanId) == 1) return new List<VWRKSDetailRekanan>();
+                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.SUBMITPENAWARAN) return null;
+                if (cekStateSubmitPenawaran(PengadaanId) == 1) return null;
             }
             foreach (var item in dlstHargaRekanan)
             {
@@ -4224,10 +4227,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public List<VWRKSDetailRekanan> addHargaKlarifikasiRekanan(List<VWRKSDetailRekanan> dlstHargaKlarifikasiRekanan, Guid PengadaanId, Guid UserId)
         {
             List<VWRKSDetailRekanan> newLstVWRKSDetailRekanan = new List<VWRKSDetailRekanan>();
-            if (ctx.Pengadaans.Find(PengadaanId) == null) return new List<VWRKSDetailRekanan>();
+            if (ctx.Pengadaans.Find(PengadaanId) == null) return null;
             else
             {
-                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASI) return new List<VWRKSDetailRekanan>();
+                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASI) return null;
             }
             foreach (var item in dlstHargaKlarifikasiRekanan)
             {
@@ -4283,10 +4286,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public List<VWRKSDetailRekanan> addHargaKlarifikasiLanjutanRekanan(List<VWRKSDetailRekanan> dlstHargaKlarifikasiRekanan, Guid PengadaanId, Guid UserId)
         {
             List<VWRKSDetailRekanan> newLstVWRKSDetailRekanan = new List<VWRKSDetailRekanan>();
-            if (ctx.Pengadaans.Find(PengadaanId) == null) return new List<VWRKSDetailRekanan>();
+            if (ctx.Pengadaans.Find(PengadaanId) == null) return null;
             else
             {
-                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASILANJUTAN) return new List<VWRKSDetailRekanan>();
+                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASILANJUTAN) return null;
             }
             var vendorId = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id;
             var cekLanjutan = ctx.PemenangPengadaans.Where(d => d.VendorId == vendorId && d.PengadaanId == PengadaanId).FirstOrDefault();
@@ -5358,6 +5361,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 //                from c in ps.DefaultIfEmpty()
                 VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
                 mVWVendorsHarga.nama = ctx.Vendors.Find(item.Value).Nama;
+                mVWVendorsHarga.VendorId = item.Value;
 
                 mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiRekanans
                                          join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
@@ -5424,6 +5428,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
                 VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
                 mVWVendorsHarga.nama = ctx.Vendors.Find(item.Value).Nama;
+                mVWVendorsHarga.VendorId = item.Value;
 
                 mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiLanLanjutans
                                          join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
@@ -5501,7 +5506,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 totalNilaiKirteria = totalNilaiKirteria + ((bobot * nilai) / 100);
             }
             mVWVendorsHarga.NIlaiKriteria = totalNilaiKirteria;
-            mVWVendorsHarga.VendorId = mVWVendorsHarga.VendorId;
+            mVWVendorsHarga.VendorId = xKandidatPengadaans.VendorId;
             mVWVendorsHarga.items = (from b in ctx.HargaRekanans
                                      join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
                                      join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
@@ -5554,7 +5559,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 totalNilaiKirteria2 = totalNilaiKirteria2 + ((bobot * nilai) / 100);
             }
             mVWVendorsHarga.NIlaiKriteria = totalNilaiKirteria2;
-            mVWVendorsHarga.VendorId = mVWVendorsHarga.VendorId;
+            mVWVendorsHarga.VendorId = xKandidatPengadaans.VendorId;
             mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiRekanans
                                      join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
                                      join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
@@ -5599,7 +5604,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             mVWVendorsHarga.Keterangan = "Keterangan Klarifikasi Lanjut";
 
             mVWVendorsHarga.NIlaiKriteria = totalNilaiKirteria2;
-            mVWVendorsHarga.VendorId = mVWVendorsHarga.VendorId;
+            mVWVendorsHarga.VendorId = xKandidatPengadaans.VendorId;
             mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiLanLanjutans
                                      join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
                                      join d in ctx.RKSHeaders on c.RKSHeaderId equals d.Id
@@ -5684,6 +5689,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
                 VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
                 mVWVendorsHarga.nama = ctx.Vendors.Find(xKandidatPengadaans.VendorId).Nama + " (Submit Penawaran)";
+                mVWVendorsHarga.VendorId = xKandidatPengadaans.VendorId;
 
                 mVWVendorsHarga.items = (from b in ctx.HargaRekanans
                                          join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
@@ -5724,6 +5730,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
                 mVWVendorsHarga = new VWVendorsHarga();
                 mVWVendorsHarga.nama = ctx.Vendors.Find(xKandidatPengadaans.VendorId).Nama + " (Klarifikasi Harga)";
+                mVWVendorsHarga.VendorId = xKandidatPengadaans.VendorId;
 
                 mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiRekanans
                                          join c in ctx.RKSDetails on b.RKSDetailId equals c.Id
@@ -5851,6 +5858,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
 
                 VWVendorsHarga mVWVendorsHarga = new VWVendorsHarga();
                 mVWVendorsHarga.nama = ctx.Vendors.Find(xKandidatPengadaans.VendorId).Nama + " (Klarifikasi Lanjutan)";
+                mVWVendorsHarga.VendorId = xKandidatPengadaans.VendorId;
 
                 mVWVendorsHarga.items = (from b in ctx.HargaKlarifikasiLanLanjutans
                                          join c in ctx.RKSDetails on b.RKSDetailId equals c.Id

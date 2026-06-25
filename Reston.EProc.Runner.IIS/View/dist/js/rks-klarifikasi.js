@@ -1,4 +1,4 @@
-﻿var id_pengadaan = getIdFromUrl();
+var id_pengadaan = getIdFromUrl();
 
 var table;
 
@@ -86,9 +86,12 @@ function arrayRemoveValue(array, value) {
     }
 }
 
-function gotoVendor() {
-    //alert("gog");
-    window.location.href = 'rekanan-detail.html';
+function gotoVendor(id) {
+    if (id && id != "0" && id != "undefined") {
+        window.open('rekanan-detail.html?id=' + id);
+    } else {
+        window.location.href = 'rekanan-detail.html';
+    }
 }
 
 function setShowedColModels() {
@@ -333,7 +336,7 @@ function setListHargaVendor(vendor) {
                             ' <span class="fa fa-lock unlocked"></span> ' +
                             '<input class="s-checkbox" data-idx="'+i+'" type="checkbox" title="Kunci/Lepas kunci" value="" onclick="lockUnlockVendor(this,'+i+')" /></div></div>' +
                             '<div class="box-body box-profile" style="margin-top:3px">' +
-            '<p class="profile-username title-header"><a onclick="gotoVendor(0)">' + DOMPurify.sanitize(vendor[i].nama || "") +'</a></p>' +
+            '<p class="profile-username title-header"><a style="cursor:pointer;" onclick="gotoVendor(\'' + (vendor[i].VendorId || vendor[i].id || vendor[i].Id || 0) + '\')">' + DOMPurify.sanitize(vendor[i].nama || "") +'</a></p>' +
             '<p class="text-muted text-center deskripsi">Rp. ' + accounting.formatNumber(DOMPurify.sanitize(String(vendor[i].items[0].harga || 0)), { thousand: ".", decimal: ",", precision: 2 }) + '</p>' +
             '<p class="text-muted text-center deskripsi">Bobot Nilai: ' + DOMPurify.sanitize(String(vendor[i].NIlaiKriteria == null ? 0 : vendor[i].NIlaiKriteria)) + '</p>' +
                             '</div></div></div>';

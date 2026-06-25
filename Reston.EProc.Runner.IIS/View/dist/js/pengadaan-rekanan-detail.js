@@ -1,4 +1,4 @@
-﻿// Baca ID dari hash. Jika hash bukan GUID (misal berubah karena klik accordion),
+// Baca ID dari hash. Jika hash bukan GUID (misal berubah karena klik accordion),
 // fallback ke sessionStorage agar tidak redirect ke list saat accordion diklik.
 var id_pengadaan = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
 if (!isGuid(id_pengadaan)) {
@@ -89,16 +89,20 @@ $(function () {
             this.on("addedfile", function (file) {
                 file.previewElement.addEventListener("click", function () {
                     var fileId = null;
-                    if (file.Id != undefined) {
+                    if (file.Id !== undefined) {
                         fileId = file.Id;
-                    } else {
+                    } else if (file.xhr && file.xhr.response) {
                         try {
-                            var parsed = JSON.parse(file.xhr.response);
-                            fileId = (parsed && parsed.Id !== undefined) ? parsed.Id : null;
+                            var parsedResponse = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            fileId = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
                         } catch (e) {
-                            console.error("Invalid JSON response", e);
-                            fileId = null;
+                            fileId = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
                         }
+                    }
+
+                    if (!fileId || fileId === "0" || fileId === "undefined" || fileId === "[object Object]") {
+                        alert("File belum selesai diupload atau terjadi kesalahan saat upload.");
+                        return;
                     }
                     $("#HapusFile").hide();
                     $("#konfirmasiFile").attr("attr1", "BerkasRujukanLain");
@@ -303,7 +307,7 @@ $(function () {
     // Hapus file dari modal konfirmasi
     $("#HapusFile").on("click", function () {
         var tipe = $("#konfirmasiFile").attr("attr1");
-        var FileId = parseInt($("#konfirmasiFile").attr("FileId"));
+        var FileId = $("#konfirmasiFile").attr("FileId");
         $.ajax({
             method: "POST",
             url: "Api/VendorAction/deleteDokumenPelaksanaan?Id=" + FileId
@@ -376,6 +380,8 @@ function loadData(pengadaanId) {
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             if (data.Status == 4) {
                 $("#collapseOne").addClass("in");
+            } else {
+                $("#penawaran").attr("disabled", "disabled").addClass("disabled").off("click").on("click", function (e) { e.preventDefault(); });
             }
         }
 
@@ -384,6 +390,8 @@ function loadData(pengadaanId) {
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             if (data.Status == 7) {
                 $("#collapseTwo").addClass("in");
+            } else {
+                $("#penawaran-klarifikasi").attr("disabled", "disabled").addClass("disabled").off("click").on("click", function (e) { e.preventDefault(); });
             }
         }
 
@@ -393,6 +401,9 @@ function loadData(pengadaanId) {
             $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
             if (data.Status == 6) {
                 $("#panel-klarifikasi-lanjutan").addClass("in");
+            }
+            if (data.Status != 12) {
+                $("#penawaran-klarifikasi-lanjutan").attr("disabled", "disabled").addClass("disabled").off("click").on("click", function (e) { e.preventDefault(); });
             }
         }
 
@@ -413,6 +424,7 @@ function loadData(pengadaanId) {
             $("#tab-klarifikasi-rekanan").attr("data-toggle", "collapse");
             $("#tab-penawaran-rekanan").attr("data-toggle", "collapse");
             $("#tab-klarifikasi-lanjutan-rekanan").attr("data-toggle", "collapse");
+            $("#penawaran-klarifikasi-lanjutan").attr("disabled", "disabled").addClass("disabled").off("click").on("click", function (e) { e.preventDefault(); });
         }
 
         // Disable input total penawaran (read-only)
@@ -555,6 +567,9 @@ function getDateSubmitPenawaran() {
                 $("#pengisian_harga_aktual").html(
                     "( " + mulai.format("DD MMMM YYYY HH:mm") + " s/d " + sampai.format("DD MMMM YYYY HH:mm") + " )"
                 );
+                if (moment() > sampai) {
+                    $("#penawaran").attr("disabled", "disabled").addClass("disabled").off("click").on("click", function (e) { e.preventDefault(); });
+                }
             }
         },
         error: function () { }
@@ -574,8 +589,12 @@ function getKlarifikasi() {
                 $("#klarifikasi_aktual").html(
                     "( " + mulai.format("DD MMMM YYYY HH:mm") + " s/d " + sampai.format("DD MMMM YYYY HH:mm") + " )"
                 );
+                if (moment() > sampai) {
+                    $("#penawaran-klarifikasi").attr("disabled", "disabled").addClass("disabled").off("click").on("click", function (e) { e.preventDefault(); });
+                }
             }
         },
         error: function () { }
     });
 }
+

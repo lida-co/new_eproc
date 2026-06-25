@@ -1,4 +1,4 @@
-﻿var id_pengadaan = DOMPurify.sanitize(window.location.hash);
+var id_pengadaan = DOMPurify.sanitize(window.location.hash.replace("#", ""));
 var table;
 $(function () {
     if (isGuid(id_pengadaan)) {
@@ -81,7 +81,7 @@ $(function () {
             },
                 {
                     "render": function (data, type, row) {
-                        //<input type="text" class="auto"  data-a-sign="€ " data-v-max="10000000000000000">
+                        //<input type="text" class="auto"  data-a-sign="� " data-v-max="10000000000000000">
                         if (row.jumlah > 0) {
                             var harga = "0";
 
@@ -159,7 +159,8 @@ $(function () {
         });
     });
 
-    $(".save-harga").on("click", function () {
+    $(".save-harga").on("click", function (e) {
+        e.preventDefault();
         var data = datatableToJson(table);
         var arrData = [];
         $.each(data, function (index,value) {
@@ -174,7 +175,7 @@ $(function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/addHargaKlarifikasiLanjutanRekanan?PengadaanId=" + parseInt($("#pengadaanId").val()),
+            url: "Api/PengadaanE/addHargaKlarifikasiLanjutanRekanan?PengadaanId=" + $("#pengadaanId").val(),
             dataType: "json",
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
@@ -187,7 +188,7 @@ $(function () {
                         buttons: [{
                             label: 'Kembali',
                             action: function (dialog) {
-                                window.location.replace(HOME_PAGE + "/rekanan-side-detail-pengadaan.html#" + parseInt($("#pengadaanId").val()));
+                                window.location.replace(HOME_PAGE + "/rekanan-side-detail-pengadaan.html#" + $("#pengadaanId").val());
                             }
                         },
                                 {
@@ -205,7 +206,7 @@ $(function () {
                         buttons: [{
                             label: 'Kembali',
                             action: function (dialog) {
-                                window.location.replace(HOME_PAGE + "/rekanan-side-detail-pengadaan.html#" + parseInt($("#pengadaanId").val()));
+                                window.location.replace(HOME_PAGE + "/rekanan-side-detail-pengadaan.html#" + $("#pengadaanId").val());
                             }
                         },
                                 {
@@ -225,7 +226,7 @@ $(function () {
                     buttons: [{
                         label: 'Kembali',
                         action: function (dialog) {
-                            window.location.replace(HOME_PAGE + "/rekanan-side-detail-pengadaan.html#" + parseInt($("#pengadaanId").val()));
+                            window.location.replace(HOME_PAGE + "/rekanan-side-detail-pengadaan.html#" + $("#pengadaanId").val());
                         }
                     },
                             {

@@ -1,4 +1,4 @@
-﻿
+
 $(function () {
     $(".dateJadwal").datetimepicker({
         format: "DD MMMM YYYY HH:mm",
@@ -675,8 +675,8 @@ $(function () {
     Dropzone.options.BeritaAcaraPenilaian = false;
 
     $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         $.ajax({
             method: "POST",
             url: "Api/PengadaanE/deleteDokumenPelaksanaan?Id=" + FileId
@@ -690,7 +690,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -706,7 +706,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
                         console.log(myDropzoneBeritaAcaraBukaAmplop.files);
                         if (id == FileId) {
@@ -721,7 +721,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -737,7 +737,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         
@@ -755,7 +755,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
                         
                         if (id == FileId) {
@@ -771,7 +771,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -787,7 +787,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -802,7 +802,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -816,8 +816,8 @@ $(function () {
     });
 
     $("#downloadFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
 
         downloadFileUsingForm("/api/pengadaane/OpenFile?Id=" + FileId);
     });
@@ -1002,20 +1002,20 @@ $(function () {
     });
 
     $(".lihat-penilaian").on("click", function () {
-        window.open(HOME_PAGE + "/rks-penilaian.html#" + parseInt($("#pengadaanId").val()));
+        window.open(HOME_PAGE + "/rks-penilaian.html#" + $("#pengadaanId").val());
     });
 
     $(".lihat-penilaian-buka-amplop").on("click", function () {
-        window.open(HOME_PAGE + "/rks-penilaian-buka-amplop.html#" + parseInt($("#pengadaanId").val()));
+        window.open(HOME_PAGE + "/rks-penilaian-buka-amplop.html#" + $("#pengadaanId").val());
     });
 
     $(".lihat-klarifikasi").on("click", function () {
-        window.open(HOME_PAGE + "/rks-klarifikasi.html#" + parseInt($("#pengadaanId").val()));
+        window.open(HOME_PAGE + "/rks-klarifikasi.html#" + $("#pengadaanId").val());
     });
     
     $(".list-rekanan-penilaian").on("click", ".checkbox-pilih-kandidat", function () {
         var objData = {};
-        objData.PengadaanId = parseInt($("#pengadaanId").val());
+        objData.PengadaanId = $("#pengadaanId").val();
         objData.VendorId = $(this).attr("vendorId");
         waitingDialog.showloading("Proses Harap Tunggu");
         if ($(this).is(':checked')) {
@@ -1127,7 +1127,7 @@ $(function () {
     $(".arsipkan").on("click", function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
-            url: "Api/PengadaanE/arsipkan?Id=" + parseInt($("#pengadaanId").val()),
+            url: "Api/PengadaanE/arsipkan?Id=" + $("#pengadaanId").val(),
             success: function (data) {
 				data = DOMPurify.sanitize(data);
                 waitingDialog.hideloading();
@@ -2964,3 +2964,4 @@ function hapusKandidat(Id, _this) {
         }
     });
 }
+

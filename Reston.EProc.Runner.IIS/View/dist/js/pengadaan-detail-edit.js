@@ -1,4 +1,4 @@
-﻿var id_pengadaan = DOMPurify.sanitize(window.location.hash);
+var id_pengadaan = DOMPurify.sanitize(window.location.hash);
 var app = angular.module("app", []);
 
 function getListKandidat() {

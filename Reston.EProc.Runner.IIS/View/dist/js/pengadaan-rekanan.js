@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     $("#myNav").affix({
         offset: {
             top: 100

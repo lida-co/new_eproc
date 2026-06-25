@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
-  <head >
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mandiri Tunas Finance</title>
@@ -17,9 +18,9 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
-	<link rel="stylesheet" href="plugins/select2/select2.min.css">
-	
-	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -27,43 +28,48 @@
         
     <![endif]-->
 
-	<link href="dist/site.css" rel="stylesheet" />
-	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
-	<link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
-	<link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" /> 
-	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
-	<link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
-	<link rel="stylesheet" href="dist/app.css">
-	<link rel="stylesheet" href="dropzone.css">
-	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
-	<link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
-		<style type="text/css">
-		.dz-error-mark{
-			display:none !important;
-		}
-		.dropzone{
-			min-height: 50px;
-		}
-		.dropzone .dz-message {
-			margin: 0em 0;
-			text-align: center;
-		}
-		
-		.clear-margin{
-			margin:0 !important;
-			padding-top:3px;
-			padding-left:250px;
-		}
-</style>
-  </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <link href="dist/site.css" rel="stylesheet" />
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+    <link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" />
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel="stylesheet" href="dropzone.css">
+    <link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+    <link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+    <style type="text/css">
+        .dz-error-mark {
+            display: none !important;
+        }
+
+        .dropzone {
+            min-height: 50px;
+        }
+
+        .dropzone .dz-message {
+            margin: 0em 0;
+            text-align: center;
+        }
+
+        .clear-margin {
+            margin: 0 !important;
+            padding-top: 3px;
+            padding-left: 250px;
+        }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
         <div id="header">
             <header class="main-header">
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -75,13 +81,15 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Tambah Kontrak</a></li>
+                            <li> <a id="judul-page" href="#">Tambah Kontrak</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li><a id="Simpan" title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
-                            <li><a id="Hapus" title="Hapus" href="#" class="Hapus"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                            <li><a id="Simpan" title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save "
+                                        style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a id="Hapus" title="Hapus" href="#" class="Hapus"><i class="fa fa-fw fa-trash "
+                                        style="font-size:20px;"></i>Hapus</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -140,13 +148,15 @@
                                             <div class="input-group input-group-sm">
                                                 <input id="judul" type="text" disabled class="form-control">
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn bg-navy btn-flat addPerson"><i class="fa  fa-search"></i></button>
+                                                    <button type="button" class="btn bg-navy btn-flat addPerson"><i
+                                                            class="fa  fa-search"></i></button>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label class="title">Keterangan:</label>
-                                            <textarea id="keterangan" disabled class="form-control" name="Keterangan"></textarea>
+                                            <textarea id="keterangan" disabled class="form-control"
+                                                name="Keterangan"></textarea>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label class="title">Rekanan Kontrak:</label>
@@ -182,8 +192,10 @@
                                     <p></p>
                                 </div>
                                 <div class="box-footer clearfix" style="text-align:center;">
-                                    <button class="pull-middle btn btn-primary btn-lmedia Simpan" style="display:none">Simpan <i class="fa fa-save"></i></button>
-                                    <button class="pull-middle btn btn-primary btn-lmedia hapus" style="display:none">Hapus <i class="fa fa-save"></i></button>
+                                    <button class="pull-middle btn btn-primary btn-lmedia Simpan"
+                                        style="display:none">Simpan <i class="fa fa-save"></i></button>
+                                    <button class="pull-middle btn btn-primary btn-lmedia hapus"
+                                        style="display:none">Hapus <i class="fa fa-save"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -224,16 +236,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="TitleKonfirmasi">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
                     <p id="KontenConfirmasi"></p>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-default" href="pengadaan-list.html" data-toggle="tooltip" title="Kembali Ke List Pengadaan">Kembali << </a>
-                    <button type="button" class="btn btn-default buat-baru" data-toggle="tooltip" title="Buat Pengadaan Baru" data-dismiss="modal">Buat Baru</button>
-                    <button type="button" class="btn btn-default " data-dismiss="modal" data-toggle="tooltip" title="Lanjutkan Membuat Pengadaan">Lanjutkan</button>
+                    <a class="btn btn-default" href="pengadaan-list.html" data-toggle="tooltip"
+                        title="Kembali Ke List Pengadaan">Kembali << </a>
+                            <button type="button" class="btn btn-default buat-baru" data-toggle="tooltip"
+                                title="Buat Pengadaan Baru" data-dismiss="modal">Buat Baru</button>
+                            <button type="button" class="btn btn-default " data-dismiss="modal" data-toggle="tooltip"
+                                title="Lanjutkan Membuat Pengadaan">Lanjutkan</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -243,7 +259,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
@@ -261,7 +278,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
@@ -281,7 +299,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Daftar Pengadaan</h4>
                 </div>
                 <div class="modal-body">
@@ -290,9 +309,11 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Cari..." ng-model="search" id="search" />
+                                    <input type="text" class="form-control" placeholder="Cari..." ng-model="search"
+                                        id="search" />
                                     <div class="input-group-addon">
-                                        <a href="#search"><i class="glyphicon glyphicon-search" ng-click="searchPerson()"></i></a>
+                                        <a href="#search"><i class="glyphicon glyphicon-search"
+                                                ng-click="searchPerson()"></i></a>
                                     </div>
                                 </div>
                             </h3>
@@ -312,7 +333,8 @@
                             </ul>
                         </div><!-- /.box-body -->
                         <div class="box-footer text-center">
-                            <a class="uppercase" id="pop-personil-next" ng-click="nextPerson($event,person)">Berikutnya</a>
+                            <a class="uppercase" id="pop-personil-next"
+                                ng-click="nextPerson($event,person)">Berikutnya</a>
                         </div><!-- /.box-footer -->
                     </div>
                 </div>
@@ -333,7 +355,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen
+                            webkitallowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -345,7 +368,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-footer">
@@ -361,7 +385,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">PIC Sudah Ada</h4>
                 </div>
                 <div class="modal-footer">
@@ -376,10 +401,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                     <div class="modal-body">
-                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Departemen Head Pengadaaan untuk dimintai persetujuan
+                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Departemen Head
+                        Pengadaaan untuk dimintai persetujuan
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -394,7 +421,7 @@
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="site.js"></script>
     <!-- Bootstrap 3.3.5 -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
@@ -458,11 +485,11 @@
                 "info": true,
                 "autoWidth": true,
                 "columnDefs": [
-                  { className: "rata_kanan", "targets": [2] },
-                  { "width": "2%", "targets": 0 },
-                  { "width": "75%", "targets": 1 },
-                  { "width": "20%", "targets": 2 },
-                  { "width": "3%", "targets": 3 }
+                    { className: "rata_kanan", "targets": [2] },
+                    { "width": "2%", "targets": 0 },
+                    { "width": "75%", "targets": 1 },
+                    { "width": "20%", "targets": 2 },
+                    { "width": "3%", "targets": 3 }
                 ]
             });
             $("#addVendorItem").on("click", function () {
@@ -557,41 +584,42 @@
             $scope.persons = [];
             //$http.get(LOGIN_PAGE + "admin/ListUser?start=0&limit=5&name=")
             $http.get("Api/PengadaanE/getPengadaanList?start=" + 0 + "&length=5&group=DALAMPELAKSANAAN&search=" + $("#search").val())
-               .then(function (response) {
-                   $scope.persons = response.data.data;
-               });
+                .then(function (response) {
+                    $scope.persons = response.data.data;
+                });
             $scope.getPerson = function ($event, person) {
                 loadData(person);
             }
             $scope.searchPerson = function () {
                 $http.get("Api/PengadaanE/getPengadaanList?start=" + 0 + "&length=5&group=ARSIP&search=" + $("#search").val())
-                  .then(function (response) {
-                      $scope.persons = response.data.data;
-                      if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
-                      else $("#pop-personil-next").html("Berikutnya");
-                  });
+                    .then(function (response) {
+                        $scope.persons = response.data.data;
+                        if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
+                        else $("#pop-personil-next").html("Berikutnya");
+                    });
             }
             $scope.nextPerson = function () {
                 var jum = $(".pop-personil-list").find("li").length;
                 $http.get("api/pengadaane/getUsers?start=" + jum + "&limit=5&name=" + $("#search").val())
-                  .then(function (response) {
+                    .then(function (response) {
 
-                      $.each(response.data.Users, function (index, value) {
-                          $scope.persons.push(value);
-                          jum = jum + 1;
-                      });
-                      if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
+                        $.each(response.data.Users, function (index, value) {
+                            $scope.persons.push(value);
+                            jum = jum + 1;
+                        });
+                        if (jum >= response.data.totalRecord) $("#pop-personil-next").html("");
 
-                  });
+                    });
             }
         }]);
 
         /*function vendor(items) {
-		  // console.log(items);
-		    app.controller('VendorCtrl', ['$scope', '$http', function ($scope, $http) {
+          // console.log(items);
+            app.controller('VendorCtrl', ['$scope', '$http', function ($scope, $http) {
                   $scope.vendors = items;
-		    }]);
-		}*/
+            }]);
+        }*/
     </script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,52 +22,68 @@
         .judul {
             text-align: center;
         }
+
         table {
-            width:100%;
-            border-collapse:collapse;
+            width: 100%;
+            border-collapse: collapse;
         }
-        table, th, td {
-            border:1px solid black;
-            padding:5px;
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            padding: 5px;
         }
+
         .bold {
             font-weight: 600;
         }
+
         .center {
-            text-align:center;
+            text-align: center;
         }
+
         .left {
-            text-align:left;
+            text-align: left;
         }
+
         .right {
-            text-align:right;
+            text-align: right;
         }
+
         .content-head {
             margin-top: 10px;
         }
+
         .border-none {
-            border:0px none;
+            border: 0px none;
         }
+
         .border-right {
-            border-right:1px solid black;
+            border-right: 1px solid black;
         }
+
         .content-isi {
-            width:100%;
+            width: 100%;
         }
+
         .nomor {
-            width:5%;
-            margin-left:15px;
-            float:left;
+            width: 5%;
+            margin-left: 15px;
+            float: left;
         }
+
         .isi {
-            width:90%;
-            float:left;
+            width: 90%;
+            float: left;
         }
+
         .clear {
-            clear:both;
+            clear: both;
         }
     </style>
 </head>
+
 <body>
     <div class="content">
         <div class="judul">
@@ -82,7 +99,8 @@
         </div>
         <div class="content-head">
             <div class="">
-                <label class="bold">Perihal : </label><label class="bold" style="margin-left:10px; text-decoration:underline">xxx</label>
+                <label class="bold">Perihal : </label><label class="bold"
+                    style="margin-left:10px; text-decoration:underline">xxx</label>
             </div>
         </div>
         <div class="content-head">
@@ -176,13 +194,16 @@
             <div class="nomor"><label class="bold">2.</label></div>
             <div class="isi">
                 <label class="bold">Cara dan syarat pembayaran : </label><br />
-                <label class="bold">Pembayaran dilakukan dengan transfer 100 % setelah barang dan invoice diterima dalam waktu 2 minggu ke : </label><br />
+                <label class="bold">Pembayaran dilakukan dengan transfer 100 % setelah barang dan invoice diterima dalam
+                    waktu 2 minggu ke : </label><br />
                 <label>Atas Nama : </label><label style="margin-left:10px;">{atasnama}</label><br />
                 <label>Bank : </label><label style="margin-left:48px;">{namabank}</label><br />
                 <label>Rek No : </label><label style="margin-left:33px;">{norekening}</label><br /><br />
                 <label>Setelah barang diterima dengan baik dibuktikan dengan : </label><br />
-                <label>a. Surat pembelian yang sudah ditanda tangani oleh ke dua belah pihak</label><label style="margin-left:100px;">c. Delivery Order</label><br />
-                <label>b. Tanda Terima / Berita Acara Serah Terima Barang</label><label style="margin-left:230px;">d. Berita Acara Pekerjaan</label>
+                <label>a. Surat pembelian yang sudah ditanda tangani oleh ke dua belah pihak</label><label
+                    style="margin-left:100px;">c. Delivery Order</label><br />
+                <label>b. Tanda Terima / Berita Acara Serah Terima Barang</label><label style="margin-left:230px;">d.
+                    Berita Acara Pekerjaan</label>
             </div>
         </div>
         <div class="clear"></div>
@@ -191,8 +212,8 @@
             <div class="isi">
                 <label class="bold">Alamat Pengiriman Barang : </label><br />
                 <label class="bold">{alamatpengirimanbarang}</label><br />
-                <label >UP.</label><label style="margin-left:70px;">{uppengirimanbarang}</label><br />
-                <label >Telp : </label><label style="margin-left:52px;">{telp}</label>
+                <label>UP.</label><label style="margin-left:70px;">{uppengirimanbarang}</label><br />
+                <label>Telp : </label><label style="margin-left:52px;">{telp}</label>
                 <label></label>
             </div>
         </div>
@@ -217,7 +238,8 @@
         <div class="clear"></div>
         <div class="content-head">
             <div class="">
-                <label>Demikian surat pengadaan barang ini kami berikan dengan nilai sebesar {totalnilai} untuk dapat segera dilakukan dengan sebaik-baiknya.</label>
+                <label>Demikian surat pengadaan barang ini kami berikan dengan nilai sebesar {totalnilai} untuk dapat
+                    segera dilakukan dengan sebaik-baiknya.</label>
             </div>
             <div class="clear"></div><br /><br />
             <div class="">
@@ -227,9 +249,12 @@
         <div class="clear"></div>
         <div class="content-head">
             <div style="margin-top:70px;">
-                <label>{up}</label><label style="margin-left:100px;">{up}</label><label style="margin-left:100px;">{uppengirimankwitansi}</label><label style="margin-left:500px;">{up}</label>
+                <label>{up}</label><label style="margin-left:100px;">{up}</label><label
+                    style="margin-left:100px;">{uppengirimankwitansi}</label><label
+                    style="margin-left:500px;">{up}</label>
             </div>
         </div>
     </div>
 </body>
+
 </html>

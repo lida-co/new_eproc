@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,10 +43,10 @@
             min-height: 50px;
         }
 
-            .dropzone .dz-message {
-                margin: 0em 0;
-                text-align: center;
-            }
+        .dropzone .dz-message {
+            margin: 0em 0;
+            text-align: center;
+        }
 
         .clear-margin {
             margin: 0 !important;
@@ -54,7 +55,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -63,7 +66,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -75,16 +79,22 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Tambah Pengadaan</a></li>
+                            <li> <a id="judul-page" href="#">Tambah Pengadaan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li><a id="A1" title="Simpan Ajukan" href="#" class="Setujui" style="display:none"><i class="fa fa-fw " style="font-size:20px;"></i>Setujui</a></li>
-                            <li><a id="A2" title="Simpan Ajukan" href="#" class="Tolak" style="display:none"><i class="fa fa-fw " style="font-size:20px;"></i>Tolak</a></li>
-                            <li><a id="SimpanAjukan" title="Simpan Ajukan" href="#" class="SimpanAjukan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan & Ajukan</a></li>
-                            <li><a id="Simpan" title="Simpan" href="#" class="Simpan" style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
-                            <li><a id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
+                            <li><a id="A1" title="Simpan Ajukan" href="#" class="Setujui" style="display:none"><i
+                                        class="fa fa-fw " style="font-size:20px;"></i>Setujui</a></li>
+                            <li><a id="A2" title="Simpan Ajukan" href="#" class="Tolak" style="display:none"><i
+                                        class="fa fa-fw " style="font-size:20px;"></i>Tolak</a></li>
+                            <li><a id="SimpanAjukan" title="Simpan Ajukan" href="#" class="SimpanAjukan"
+                                    style="display:none"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan
+                                    & Ajukan</a></li>
+                            <li><a id="Simpan" title="Simpan" href="#" class="Simpan" style="display:none"><i
+                                        class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i
+                                        class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -151,7 +161,8 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="title">Aturan Pengadaan:</label>
-                                            <select id="AturanPengadaan" disabled class="form-control select2" name="AturanPengadaan" style="width: 100%;">
+                                            <select id="AturanPengadaan" disabled class="form-control select2"
+                                                name="AturanPengadaan" style="width: 100%;">
                                                 <option value="Pengadaan Tertutup" selected>Pengadaan Tertutup</option>
                                                 <!-- <option>Pengadaan Penunjukan Langsung </option>-->
                                                 <option value="Pengadaan Terbuka">Pengadaan Terbuka </option>
@@ -159,14 +170,16 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="title">Aturan Berkas:</label>
-                                            <select class="form-control select2" name="AturanBerkas" disabled style="width: 100%;">
+                                            <select class="form-control select2" name="AturanBerkas" disabled
+                                                style="width: 100%;">
                                                 <option value="Berkas Tunggal" selected>Berkas Tunggal</option>
                                                 <option>Berkas Terpisah </option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="title">Aturan Penawaran:</label>
-                                            <select class="form-control select2" name="AturanPenawaran" style="width: 100%;">
+                                            <select class="form-control select2" name="AturanPenawaran"
+                                                style="width: 100%;">
                                                 <option value="Price Matching">Price Matching</option>
                                                 <option value="Kontrak Harga">Kontrak Harga</option>
                                             </select>
@@ -192,7 +205,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="title">Provinsi:</label>
-                                                <select id="listProvinsi" name="Provinsi" class="form-control select2 required" style="width: 100%;">
+                                                <select id="listProvinsi" name="Provinsi"
+                                                    class="form-control select2 required" style="width: 100%;">
                                                     <option selected disabled>--Provinsi--</option>
                                                 </select>
                                             </div>
@@ -227,26 +241,30 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="title">Mata Uang:</label>
-                                            <select class="form-control select2" name="MataUang" disabled style="width: 100%;">
+                                            <select class="form-control select2" name="MataUang" disabled
+                                                style="width: 100%;">
                                                 <option value="IDR" selected>Indonesia Rupiah</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="title">Periode Anggaran:</label>
-                                            <select class="form-control select2" name="PeriodeAnggaran" style="width: 100%;">
+                                            <select class="form-control select2" name="PeriodeAnggaran"
+                                                style="width: 100%;">
                                                 <!--<option selected disabled>TA-2017</option>-->
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="title">Jenis Pembelanjaan:</label>
-                                            <select class="form-control select2" name="JenisPembelanjaan" style="width: 100%;">
+                                            <select class="form-control select2" name="JenisPembelanjaan"
+                                                style="width: 100%;">
                                                 <option selected disabled>--Jenis Pembelanjaan--</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="title">Jenis Pekerjaan:</label>
-                                                <select class="form-control select2" name="JenisPekerjaan" style="width: 100%;">
+                                                <select class="form-control select2" name="JenisPekerjaan"
+                                                    style="width: 100%;">
                                                     <option selected disabled>--Jenis Pekerjaan--</option>
                                                 </select>
                                             </div>
@@ -276,16 +294,22 @@
                                             <div class="form-group ">
                                                 <label class="title">Nomor Nota Internal:</label>
                                                 <input type="text" name="TitleDokumenNotaInternal" class="form-control">
-                                                <input type="hidden" name="FileDokumenNotaInternal" class="dropzoneFile" attr1="" attr2="" />
-                                                <div id="DokumenNotaInternal" attr="NOTA" action="/api/PengadaanE/UploadFile?tipe=NOTA" class="dropzone"></div>
+                                                <input type="hidden" name="FileDokumenNotaInternal" class="dropzoneFile"
+                                                    attr1="" attr2="" />
+                                                <div id="DokumenNotaInternal" attr="NOTA"
+                                                    action="/api/PengadaanE/UploadFile?tipe=NOTA" class="dropzone">
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <label class="title">Dokumen Lainnya:</label>
                                             <input type="text" name="TitleDokumenLain" class="form-control">
-                                            <input type="hidden" name="FileDokumenLain" class="dropzoneFile" attr1="" attr2="" />
-                                            <div id="DokumenLain" attr="DOKUMENLAIN" action="/api/PengadaanE/UploadFile?tipe=DOKUMENLAIN" class="dropzone"></div>
+                                            <input type="hidden" name="FileDokumenLain" class="dropzoneFile" attr1=""
+                                                attr2="" />
+                                            <div id="DokumenLain" attr="DOKUMENLAIN"
+                                                action="/api/PengadaanE/UploadFile?tipe=DOKUMENLAIN" class="dropzone">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -301,13 +325,20 @@
                                                 <label class="title">Kualifikasi Rekanan:</label>
 
                                                 <div class="checkbox">
-                                                    <label><input type="checkbox" id="ukm" attrId="" class="checkbox-kualifikasi" value="Usaha Kecil Menengah">Usaha Kecil Menengah</label>
+                                                    <label><input type="checkbox" id="ukm" attrId=""
+                                                            class="checkbox-kualifikasi"
+                                                            value="Usaha Kecil Menengah">Usaha Kecil Menengah</label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input type="checkbox" id="bukan-ukm" attrId="" class="checkbox-kualifikasi" value="Bukan Usaha Kecil Menengah">Bukan Usaha Kecil Menengah</label>
+                                                    <label><input type="checkbox" id="bukan-ukm" attrId=""
+                                                            class="checkbox-kualifikasi"
+                                                            value="Bukan Usaha Kecil Menengah">Bukan Usaha Kecil
+                                                        Menengah</label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input type="checkbox" id="perorangan" attrId="" class="checkbox-kualifikasi" value="Perorangan">Perorangan</label>
+                                                    <label><input type="checkbox" id="perorangan" attrId=""
+                                                            class="checkbox-kualifikasi"
+                                                            value="Perorangan">Perorangan</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -315,14 +346,18 @@
                                         <div class="form-group col-md-6">
                                             <label class="title">Berkas Rujukan Lainnya:</label>
                                             <input type="text" name="TitleBerkasRujukanLain" class="form-control">
-                                            <input type="hidden" name="FileBerkasRujukanLain" class="dropzoneFile" attr1="" attr2="" />
-                                            <div id="BerkasRujukanLain" attr="BerkasRujukanLain" action="/api/PengadaanE/UploadFile?tipe=BerkasRujukanLain" class="dropzone"></div>
+                                            <input type="hidden" name="FileBerkasRujukanLain" class="dropzoneFile"
+                                                attr1="" attr2="" />
+                                            <div id="BerkasRujukanLain" attr="BerkasRujukanLain"
+                                                action="/api/PengadaanE/UploadFile?tipe=BerkasRujukanLain"
+                                                class="dropzone"></div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class=" panel-header-white">
-                                                <span class="title-header" id="section-pembobotan">Kriteria Pembobotan</span>
+                                                <span class="title-header" id="section-pembobotan">Kriteria
+                                                    Pembobotan</span>
                                             </div>
                                         </div>
                                     </div>
@@ -338,7 +373,8 @@
                                         <div class="col-md-12">
                                             <label>
                                                 <!--<a id="addVendorItem">Tambah</a>-->
-                                                <a id="addVendorItem" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
+                                                <a id="addVendorItem" style="margin-top:10px;margin-bottom:10px"
+                                                    class="btn btn-sm btn-social btn-bitbucket">
                                                     <i class="fa fa-plus"></i>
                                                     Tambah Kandidat
                                                 </a>
@@ -362,22 +398,31 @@
                                             <input type="hidden" class="jadwal" attr1="pendaftaran" attr2="" attr3="" />
                                             <div class="form-group col-md-4">
                                                 <label class="title">Pendaftaran:</label>
-                                                <input id="pendaftaran" nextjadwal="#pendaftaran_sampai" name="pendaftaran" attr1="dari" type="text" class="pendaftaran form-control datepicker dateJadwal">
+                                                <input id="pendaftaran" nextjadwal="#pendaftaran_sampai"
+                                                    name="pendaftaran" attr1="dari" type="text"
+                                                    class="pendaftaran form-control datepicker dateJadwal">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="title">s/d</label>
-                                                <input id="pendaftaran_sampai" disabled="disabled" nextjadwal="#aanwijzing" beforejadwal="#pendaftaran" type="text" name="pendaftaran" attr1="sampai" class="pendaftaran form-control datepicker dateJadwal">
+                                                <input id="pendaftaran_sampai" disabled="disabled"
+                                                    nextjadwal="#aanwijzing" beforejadwal="#pendaftaran" type="text"
+                                                    name="pendaftaran" attr1="sampai"
+                                                    class="pendaftaran form-control datepicker dateJadwal">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="title" style="margin-bottom: -10px;">Tahapan Pengadaan:</label>
+                                                    <label class="title" style="margin-bottom: -10px;">Tahapan
+                                                        Pengadaan:</label>
                                                     <!--<label ><input type="checkbox" id="pengadaan-langsung" attrId="" name="pengadaan-langsung">Pengadaan Langsung</label>-->
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input type="checkbox" name="pengadaan-langsung" id="pengadaan-langsung" />Pengadaan Langsung</label>
-                                                    <br><label style="color:orangered;font-size: smaller;"><b>* Apabila Dipilih, Pengadaan Akan Langsung Ke Tahap Klarifikasi & Negosiasi !</b></label>
+                                                    <label><input type="checkbox" name="pengadaan-langsung"
+                                                            id="pengadaan-langsung" />Pengadaan Langsung</label>
+                                                    <br><label style="color:orangered;font-size: smaller;"><b>* Apabila
+                                                            Dipilih, Pengadaan Akan Langsung Ke Tahap Klarifikasi &
+                                                            Negosiasi !</b></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -385,47 +430,67 @@
                                             <!--<input type="hidden" class="jadwal" attr1="Aanwijzing" attr2="" attr3="" />-->
                                             <div class="form-group col-md-4">
                                                 <label class="title">Aanwijzing:</label>
-                                                <input id="aanwijzing" name="Aanwijzing" nextjadwal="#pengisian_harga" beforejadwal="" attr1="dari" attr2="" attr3="Aanwijzing" type="text" class="Aanwijzing form-control datepicker dateJadwal">
+                                                <input id="aanwijzing" name="Aanwijzing" nextjadwal="#pengisian_harga"
+                                                    beforejadwal="" attr1="dari" attr2="" attr3="Aanwijzing" type="text"
+                                                    class="Aanwijzing form-control datepicker dateJadwal">
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <input type="hidden" class="jadwal" attr1="pengisian_harga" attr2="" attr3="" />
+                                            <input type="hidden" class="jadwal" attr1="pengisian_harga" attr2=""
+                                                attr3="" />
                                             <div class="form-group col-md-4">
                                                 <label class="title">Pengisian Harga:</label>
-                                                <input id="pengisian_harga" disabled="disabled" nextjadwal="#pengisian_harga_sampai" beforejadwal="#aanwijzing" name="pengisian_harga" attr1="dari" type="text" class="pengisian_harga form-control datepicker dateJadwal">
+                                                <input id="pengisian_harga" disabled="disabled"
+                                                    nextjadwal="#pengisian_harga_sampai" beforejadwal="#aanwijzing"
+                                                    name="pengisian_harga" attr1="dari" type="text"
+                                                    class="pengisian_harga form-control datepicker dateJadwal">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="title">s/d</label>
-                                                <input id="pengisian_harga_sampai" disabled="disabled" nextjadwal="#buka_amplop" beforejadwal="#pengisian_harga" type="text" name="pengisian_harga" attr1="sampai" class="pengisian_harga form-control datepicker dateJadwal">
+                                                <input id="pengisian_harga_sampai" disabled="disabled"
+                                                    nextjadwal="#buka_amplop" beforejadwal="#pengisian_harga"
+                                                    type="text" name="pengisian_harga" attr1="sampai"
+                                                    class="pengisian_harga form-control datepicker dateJadwal">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <input type="hidden" class="jadwal" attr1="buka_amplop" attr2="" attr3="" />
                                             <div class="form-group col-md-4">
                                                 <label class="title">Buka Amplop:</label>
-                                                <input id="buka_amplop" disabled="disabled" attr1="dari" nextjadwal="#buka_amplop_sampai" beforejadwal="#pengisian_harga_sampai" name="buka_amplop" type="text" class="buka_amplop form-control datepicker dateJadwal">
+                                                <input id="buka_amplop" disabled="disabled" attr1="dari"
+                                                    nextjadwal="#buka_amplop_sampai"
+                                                    beforejadwal="#pengisian_harga_sampai" name="buka_amplop"
+                                                    type="text" class="buka_amplop form-control datepicker dateJadwal">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="title">s/d</label>
-                                                <input id="buka_amplop_sampai" disabled="disabled" name="buka_amplop" nextjadwal="#klarifikasi" beforejadwal="#buka_amplop" attr1="sampai" type="text" class="buka_amplop form-control datepicker dateJadwal">
+                                                <input id="buka_amplop_sampai" disabled="disabled" name="buka_amplop"
+                                                    nextjadwal="#klarifikasi" beforejadwal="#buka_amplop" attr1="sampai"
+                                                    type="text" class="buka_amplop form-control datepicker dateJadwal">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <input type="hidden" class="jadwal" attr1="klarifikasi" attr2="" attr3="" />
                                             <div class="form-group col-md-4">
                                                 <label class="title">Klarifikasi & Negosiasi:</label>
-                                                <input id="klarifikasi" name="klarifikasi" disabled="disabled" nextjadwal="#klarifikasi_sampai" beforejadwal="#buka_amplop_sampai" attr1="dari" type="text" class="klarifikasi form-control datepicker dateJadwal">
+                                                <input id="klarifikasi" name="klarifikasi" disabled="disabled"
+                                                    nextjadwal="#klarifikasi_sampai" beforejadwal="#buka_amplop_sampai"
+                                                    attr1="dari" type="text"
+                                                    class="klarifikasi form-control datepicker dateJadwal">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="title">s/d</label>
-                                                <input id="klarifikasi_sampai" disabled="disabled" name="klarifikasi" nextjadwal="#penentuan_pemenang" beforejadwal="#klarifikasi" attr1="sampai" type="text" class="klarifikasi form-control datepicker dateJadwal">
+                                                <input id="klarifikasi_sampai" disabled="disabled" name="klarifikasi"
+                                                    nextjadwal="#penentuan_pemenang" beforejadwal="#klarifikasi"
+                                                    attr1="sampai" type="text"
+                                                    class="klarifikasi form-control datepicker dateJadwal">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <input type="checkbox" id="tambah-klarifikasi-lanjut" />
-                                                    <label>Klarifikasi  Lanjutan</label>
+                                                    <label>Klarifikasi Lanjutan</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -436,33 +501,46 @@
                                             </div>
                                         </div>
                                         <div class="row" id="grp_klarifikasi_lanjutan">
-                                            <input type="hidden" class="jadwal" attr1="klarifikasi_lanjutan" attr2="" attr3="" />
+                                            <input type="hidden" class="jadwal" attr1="klarifikasi_lanjutan" attr2=""
+                                                attr3="" />
                                             <div class="form-group col-md-4" id="grp_klarifikasi_lanjutan">
                                                 <label class="title">Klarifikasi & Negosiasi Lanjutan:</label>
-                                                <input id="klarifikasi_lanjutan" name="klarifikasi_lanjutan" nextjadwal="" beforejadwal="" attr1="dari" type="text" class="klarifikasi_lanjutan form-control datepicker dateJadwal">
+                                                <input id="klarifikasi_lanjutan" name="klarifikasi_lanjutan"
+                                                    nextjadwal="" beforejadwal="" attr1="dari" type="text"
+                                                    class="klarifikasi_lanjutan form-control datepicker dateJadwal">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="title">s/d</label>
-                                                <input id="klarifikasi_lanjutan_sampai" name="" nextjadwal="" beforejadwal="#klarifikasi_lanjutan" attr1="sampai" type="text" class="klarifikasi_lanjutan form-control datepicker dateJadwal">
+                                                <input id="klarifikasi_lanjutan_sampai" name="" nextjadwal=""
+                                                    beforejadwal="#klarifikasi_lanjutan" attr1="sampai" type="text"
+                                                    class="klarifikasi_lanjutan form-control datepicker dateJadwal">
                                             </div>
                                         </div>
                                         <div class="row" id="grp_penilaian">
                                             <input type="hidden" class="jadwal" attr1="penilaian" attr2="" attr3="" />
                                             <div class="form-group col-md-4">
                                                 <label class="title">Penilaian Kandidat:</label>
-                                                <input id="penilaian" attr1="dari" nextjadwal="" beforejadwal="" name="penilaian" type="text" class="penilaian form-control datepicker dateJadwal">
+                                                <input id="penilaian" attr1="dari" nextjadwal="" beforejadwal=""
+                                                    name="penilaian" type="text"
+                                                    class="penilaian form-control datepicker dateJadwal">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label class="title">s/d</label>
-                                                <input id="penilaian_sampai" name="penilaian" nextjadwal="" beforejadwal="" attr1="sampai" type="text" class="penilaian form-control datepicker dateJadwal">
+                                                <input id="penilaian_sampai" name="penilaian" nextjadwal=""
+                                                    beforejadwal="" attr1="sampai" type="text"
+                                                    class="penilaian form-control datepicker dateJadwal">
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <input type="hidden" class="jadwal" attr1="penentuan_pemenang" attr2="" attr3="" />
+                                            <input type="hidden" class="jadwal" attr1="penentuan_pemenang" attr2=""
+                                                attr3="" />
                                             <div class="col-md-4 form-group">
                                                 <label class="title">Penentuan Pemenang:</label>
-                                                <input id="penentuan_pemenang" disabled="disabled" name="penentuan_pemenang" nextjadwal="" beforejadwal="#klarifikasi_sampai" attr1="dari" type="text" class="penentuan_pemenang form-control datepicker dateJadwal">
+                                                <input id="penentuan_pemenang" disabled="disabled"
+                                                    name="penentuan_pemenang" nextjadwal=""
+                                                    beforejadwal="#klarifikasi_sampai" attr1="dari" type="text"
+                                                    class="penentuan_pemenang form-control datepicker dateJadwal">
                                             </div>
                                         </div>
                                     </div>
@@ -476,7 +554,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
-                                                    <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-pic" attr1=".listperson-pic"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah PIC Procurement
                                                     </a>
@@ -490,7 +570,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-tim" class="addPerson" attr1=".listperson-tim" >Tambah Tim</a>-->
-                                                    <a id="addPerson-tim" attr1=".listperson-tim" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-tim" attr1=".listperson-tim"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah Tim Procurement
                                                     </a>
@@ -503,7 +585,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-staff" class="addPerson" attr1=".listperson-staff" >Tambah User</a>-->
-                                                    <a id="addPerson-staff" attr1=".listperson-staff" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-staff" attr1=".listperson-staff"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah User
                                                     </a>
@@ -516,7 +600,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-controller" class="addPerson" attr1=".listperson-controller" >Tambah Controller</a>-->
-                                                    <a id="addPerson-controller" attr1=".listperson-controller" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-controller" attr1=".listperson-controller"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah Controller
                                                     </a>
@@ -529,7 +615,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-complaince" class="addPerson" attr1=".listperson-compliance" >Tambah Compliance</a>-->
-                                                    <a id="addPerson-complaince" attr1=".listperson-compliance" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-complaince" attr1=".listperson-compliance"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah Compliance
                                                     </a>
@@ -543,11 +631,16 @@
 
 
                                     <div class="box-footer clearfix" style="text-align:center;">
-                                        <button class="pull-middle btn btn-primary btn-lmedia Setujui" style="display:none">Setujui </button>
-                                        <button class="pull-middle btn btn-primary btn-lmedia Tolak" style="display:none">Tolak </button>
-                                        <button class="pull-middle btn btn-primary btn-lmedia SimpanAjukan" style="display:none">Simpan & Ajukan <i class="fa fa-save"></i></button>
-                                        <button class="pull-middle btn btn-primary btn-lmedia Simpan" style="display:none">Simpan <i class="fa fa-save"></i></button>
-                                        <button class="pull-middle btn btn-primary btn-lmedia Hapus" style="display:none">Hapus <i class="fa fa-trash"></i></button>
+                                        <button class="pull-middle btn btn-primary btn-lmedia Setujui"
+                                            style="display:none">Setujui </button>
+                                        <button class="pull-middle btn btn-primary btn-lmedia Tolak"
+                                            style="display:none">Tolak </button>
+                                        <button class="pull-middle btn btn-primary btn-lmedia SimpanAjukan"
+                                            style="display:none">Simpan & Ajukan <i class="fa fa-save"></i></button>
+                                        <button class="pull-middle btn btn-primary btn-lmedia Simpan"
+                                            style="display:none">Simpan <i class="fa fa-save"></i></button>
+                                        <button class="pull-middle btn btn-primary btn-lmedia Hapus"
+                                            style="display:none">Hapus <i class="fa fa-trash"></i></button>
 
                                     </div>
                             </form>
@@ -625,16 +718,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="TitleKonfirmasi">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
                     <p id="KontenConfirmasi"></p>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-default" href="pengadaan-list.html" data-toggle="tooltip" title="Kembali Ke List Pengadaan">Kembali</a>
-                    <button type="button" class="btn btn-default buat-baru" data-toggle="tooltip" title="Buat Pengadaan Baru" data-dismiss="modal">Buat Baru</button>
-                    <button type="button" class="btn btn-default " data-dismiss="modal" data-toggle="tooltip" title="Lanjutkan Membuat Pengadaan">Lanjutkan</button>
+                    <a class="btn btn-default" href="pengadaan-list.html" data-toggle="tooltip"
+                        title="Kembali Ke List Pengadaan">Kembali</a>
+                    <button type="button" class="btn btn-default buat-baru" data-toggle="tooltip"
+                        title="Buat Pengadaan Baru" data-dismiss="modal">Buat Baru</button>
+                    <button type="button" class="btn btn-default " data-dismiss="modal" data-toggle="tooltip"
+                        title="Lanjutkan Membuat Pengadaan">Lanjutkan</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -644,7 +741,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
@@ -662,7 +760,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
@@ -683,7 +782,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Daftar Personil</h4>
                 </div>
                 <div class="modal-body">
@@ -692,9 +792,11 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="cari personil" ng-model="search" id="search" />
+                                    <input type="text" class="form-control" placeholder="cari personil"
+                                        ng-model="search" id="search" />
                                     <div class="input-group-addon">
-                                        <a href="#search"><i class="glyphicon glyphicon-search" ng-click="searchPerson()"></i></a>
+                                        <a href="#search"><i class="glyphicon glyphicon-search"
+                                                ng-click="searchPerson()"></i></a>
                                     </div>
                                 </div>
                             </h3>
@@ -714,7 +816,8 @@
                             </ul>
                         </div><!-- /.box-body -->
                         <div class="box-footer text-center">
-                            <a class="uppercase" id="pop-personil-next" ng-click="nextPerson($event,person)">Berikutnya</a>
+                            <a class="uppercase" id="pop-personil-next"
+                                ng-click="nextPerson($event,person)">Berikutnya</a>
                         </div><!-- /.box-footer -->
                     </div>
                 </div>
@@ -735,7 +838,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen
+                            webkitallowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -747,7 +851,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-footer">
@@ -763,7 +868,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">PIC Sudah Ada</h4>
                 </div>
                 <div class="modal-footer">
@@ -778,10 +884,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                     <div class="modal-body">
-                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Controller Pengadaaan, Dept. Head Pengadaan, dan Div. Head Pengadaan untuk dimintai persetujuan
+                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Controller Pengadaaan,
+                        Dept. Head Pengadaan, dan Div. Head Pengadaan untuk dimintai persetujuan
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -796,7 +904,8 @@
         <div class="modal-dialog modal-lg" media="screen and (min-width: 900px)" style="width: 95%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Form Load COA</h4>
                     <div class="modal-body">
                         <div class="row">
@@ -805,14 +914,16 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Periode Anggaran</label>
                                         <div class="col-sm-4">
-                                            <select class="form-control select2" name="PeriodeAnggaran" disabled style="width: 100%;">
+                                            <select class="form-control select2" name="PeriodeAnggaran" disabled
+                                                style="width: 100%;">
                                                 <!--<option selected disabled>TA-2017</option>-->
                                             </select>
 
                                         </div>
                                         <label class="col-sm-2 control-label">Jenis Pembelanjaan:</label>
                                         <div class="col-sm-4">
-                                            <select class="form-control select2" name="JenisPembelanjaan" disabled style="width: 100%;">
+                                            <select class="form-control select2" name="JenisPembelanjaan" disabled
+                                                style="width: 100%;">
                                                 <!--<option selected disabled>--Jenis Pembelanjaan--</option>-->
                                             </select>
                                         </div>
@@ -820,13 +931,15 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Branch</label>
                                         <div class="col-sm-4">
-                                            <select name="Branch" class="form-control select2 " disabled style="width: 100%;">
+                                            <select name="Branch" class="form-control select2 " disabled
+                                                style="width: 100%;">
                                                 <option disabled>--Branch--</option>
                                             </select>
                                         </div>
                                         <label class="col-sm-2 control-label">Department</label>
                                         <div class="col-sm-4">
-                                            <select class="form-control select2" name="Department" disabled style="width: 100%;">
+                                            <select class="form-control select2" name="Department" disabled
+                                                style="width: 100%;">
                                                 <option disabled>--Department--</option>
                                             </select>
                                         </div>
@@ -892,8 +1005,10 @@
                                         <tbody></tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="5" style="background-color: #dddddd;text-align: center;" class="tengah text-bold">Total</td>
-                                                <td class="tengah text-bold" style="text-align: right;" id="total-input"></td>
+                                                <td colspan="5" style="background-color: #dddddd;text-align: center;"
+                                                    class="tengah text-bold">Total</td>
+                                                <td class="tengah text-bold" style="text-align: right;"
+                                                    id="total-input"></td>
                                                 <td colspan="2"></td>
                                             </tr>
                                         </tfoot>
@@ -909,7 +1024,8 @@
                 <div class="modal-footer">
                     <!-- <button type="button" class="btn btn-default load-get-rks" data-toggle="tooltip" title="Load RKS" >Load</button>
                     -->
-                    <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip" title="Keluar">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="tooltip"
+                        title="Keluar">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -919,7 +1035,7 @@
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="site.js"></script>
     <!-- Bootstrap 3.3.5 -->
-	
+
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
@@ -1198,4 +1314,5 @@
 
     </script>
 </body>
+
 </html>

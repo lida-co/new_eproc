@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,7 +32,7 @@
     <link href="chatjs/css/jquery.chatjs.css" rel="stylesheet" />
     <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
     <script type="text/javascript" src="site.js"></script>
-	
+
     <style>
         .box-c:hover {
             cursor: pointer;
@@ -48,7 +49,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -57,7 +60,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -69,7 +73,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
+                            <li> <a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -179,7 +183,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-7">
-                                        <button class="btn btn-warning pull-right" id="b-ubah" onclick="Ubah()">Ubah Informasi</button>
+                                        <button class="btn btn-warning pull-right" id="b-ubah" onclick="Ubah()">Ubah
+                                            Informasi</button>
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +212,8 @@
                     <ul class="products-list product-list-in-box">
                         <li class="item" ng-repeat="histori in history" style="padding-top:1px">
                             <div class="riwayat-info">
-                                <span class="title"><a href="purchase-requests-detail.html" ng-bind="histori.nama"></a></span>
+                                <span class="title"><a href="purchase-requests-detail.html"
+                                        ng-bind="histori.nama"></a></span>
                                 <span class="pegadaan-description" ng-bind="histori.tanggal">
                                 </span>
                                 <span class="pegadaan-item" ng-bind="histori.deskripsi">
@@ -242,7 +248,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen
+                            webkitallowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -302,7 +309,7 @@
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
@@ -517,4 +524,5 @@
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 
 </body>
+
 </html>

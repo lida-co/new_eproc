@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -1977,7 +1977,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 }
             }
             ctx.SaveChanges(UserId.ToString());
-            return mdokPengadaan;
+            return mdokPengadaan ?? dokumenPengadaan;
         }
 
         public int deleteDokumen(Guid Id)
@@ -3203,11 +3203,11 @@ namespace Reston.Pinata.Model.PengadaanRepository
         {
             JimbisEncrypt code = new JimbisEncrypt();
             List<VWRKSDetailRekanan> newLstVWRKSDetailRekanan = new List<VWRKSDetailRekanan>();
-            if (ctx.Pengadaans.Find(PengadaanId) == null) return new List<VWRKSDetailRekanan>();
+            if (ctx.Pengadaans.Find(PengadaanId) == null) return null;
             else
             {
-                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.SUBMITPENAWARAN) return new List<VWRKSDetailRekanan>();
-                if (cekStateSubmitPenawaran(PengadaanId) == 1) return new List<VWRKSDetailRekanan>();
+                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.SUBMITPENAWARAN) return null;
+                if (cekStateSubmitPenawaran(PengadaanId) == 1) return null;
             }
             foreach (var item in dlstHargaRekanan)
             {
@@ -3271,10 +3271,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public List<VWRKSDetailRekanan> addHargaKlarifikasiRekanan(List<VWRKSDetailRekanan> dlstHargaKlarifikasiRekanan, Guid PengadaanId, Guid UserId)
         {
             List<VWRKSDetailRekanan> newLstVWRKSDetailRekanan = new List<VWRKSDetailRekanan>();
-            if (ctx.Pengadaans.Find(PengadaanId) == null) return new List<VWRKSDetailRekanan>();
+            if (ctx.Pengadaans.Find(PengadaanId) == null) return null;
             else
             {
-                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASI) return new List<VWRKSDetailRekanan>();
+                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASI) return null;
             }
             foreach (var item in dlstHargaKlarifikasiRekanan)
             {
@@ -3330,10 +3330,10 @@ namespace Reston.Pinata.Model.PengadaanRepository
         public List<VWRKSDetailRekanan> addHargaKlarifikasiLanjutanRekanan(List<VWRKSDetailRekanan> dlstHargaKlarifikasiRekanan, Guid PengadaanId, Guid UserId)
         {
             List<VWRKSDetailRekanan> newLstVWRKSDetailRekanan = new List<VWRKSDetailRekanan>();
-            if (ctx.Pengadaans.Find(PengadaanId) == null) return new List<VWRKSDetailRekanan>();
+            if (ctx.Pengadaans.Find(PengadaanId) == null) return null;
             else
             {
-                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASILANJUTAN) return new List<VWRKSDetailRekanan>();
+                if (ctx.Pengadaans.Find(PengadaanId).Status != EStatusPengadaan.KLARIFIKASILANJUTAN) return null;
             }
             var vendorId = ctx.Vendors.Where(xx => xx.Owner == UserId).FirstOrDefault().Id;
             var cekLanjutan = ctx.PemenangPengadaans.Where(d => d.VendorId == vendorId && d.PengadaanId == PengadaanId).FirstOrDefault();

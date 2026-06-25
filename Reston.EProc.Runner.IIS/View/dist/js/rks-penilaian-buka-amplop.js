@@ -1,4 +1,4 @@
-﻿var id_pengadaan = getIdFromUrl();
+var id_pengadaan = getIdFromUrl();
 
 
 var table;
@@ -526,14 +526,14 @@ $(function () {
         });
 
         $("#listHargaVendor").on("click", ".pop-up-vendor-penilaian", function () {
-            var VendorId = $(this).attr("vendorId");
+            var VendorId = $(this).closest("[vendorId]").attr("vendorId");
             console.log(VendorId);
             BootstrapDialog.show({
                 title: 'Informasi',
                 buttons: [{
                     label: 'Lihat Informasi Rekanan',
                     action: function (dialog) {
-                        window.open(window.location.host + "/rekanan-detail.html?id=" + VendorId);
+                        window.open("https://" + window.location.host + "/rekanan-detail.html?id=" + VendorId);
                         dialog.close();
                     }
                 }, {
@@ -567,7 +567,69 @@ $(function () {
         $("body").on("click", "#CetakXls", function () {
             downloadFileUsingForm("/api/report/CetakRKSPenilaianAllXls?Id=" + $("#pengadaanId").val());
         });
+        
+        var myDropzoneBerkasRekananAwal = new Dropzone("#BerkasRekananAwal",
+            {
+                url: $("#BerkasRekananAwal").attr("action") + "&id=" + $("#pengadaanId").val(),
+                maxFilesize: 5,
+                acceptedFiles: "",
+                clickable: false,
+                dictDefaultMessage: "Tidak Ada Dokumen",
+                init: function () {
+                    this.on("addedfile", function (file) {
+                        file.previewElement.addEventListener("click", function () {
+                            var id = 0;
+                            if (file.Id !== undefined) {
+                                id = file.Id;
+                            } else if (file.xhr && file.xhr.response) {
+                                try {
+                                    var parsedResponse = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                                    id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+                                } catch (e) {
+                                    id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+                                }
+                            }
+                            
+                            if (!id || id === "0" || id === "undefined" || id === "[object Object]") {
+                                alert("File belum selesai diupload atau terjadi kesalahan saat upload.");
+                                return;
+                            }
+
+                            if ($("#konfirmasiFile").length > 0) {
+                                $("#konfirmasiFile").attr("attr1", "BeritaAcaraBukaAmplop");
+                                $("#konfirmasiFile").attr("FileId", id);
+                                $("#konfirmasiFile").modal("show");
+                            } else {
+                                downloadFileUsingForm("/api/pengadaane/OpenFile?Id=" + id);
+                            }
+                        });
+                    });
+                }
+            }
+        );
+        renderDokumenDropzone(myDropzoneBerkasRekananAwal, "BerkasRekanan");
+        Dropzone.options.BerkasRekananAwal = false;
     });
+
+function renderDokumenDropzone(myDropzone, tipe) {
+    $.ajax({
+        url: "Api/PengadaanE/getDokumens?Id=" + $("#pengadaanId").val() + "&tipe=" + tipe ,
+        success: function (data) {
+            for (var key in data) {
+                var file = {
+                    Id: data[key].Id, name: data[key].File, accepted: true,
+                    status: Dropzone.SUCCESS, processing: true, size: data[key].SizeFile
+                };
+                myDropzone.emit("addedfile", file);
+                myDropzone.emit("complete", file);
+                myDropzone.files.push(file);
+            }
+        },
+        error: function (errormessage) {
+
+        }
+    });
+}
 
 function hitungHargaItem() {
         var totalHarga = 0;

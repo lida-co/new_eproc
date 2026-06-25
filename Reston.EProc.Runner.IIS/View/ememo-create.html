@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,7 +35,6 @@
     <link rel="stylesheet" href="dist/app.css">
     <link rel='stylesheet' href="quill/1.3.6/quill.snow.css" />
     <style type="text/css">
-
         .ememo-maindoc-editor {
             min-height: 600px;
             height: 600px;
@@ -101,14 +101,17 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
         <div id="header">
             <header class="main-header">
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -120,18 +123,20 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">e-Memo / Create</a></li>
+                            <li> <a id="judul-page" href="#">e-Memo / Create</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
                             <li>
-                                <a id="btn-page-action-save-draft" class="btn-page-action-save-draft" title="Simpan" href="#">
+                                <a id="btn-page-action-save-draft" class="btn-page-action-save-draft" title="Simpan"
+                                    href="#">
                                     <i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan
                                 </a>
                             </li>
                             <li>
-                                <a id="btn-page-action-submit" class="page-action-save-submit" title="Simpan & Ajukan Validasi" href="#">
+                                <a id="btn-page-action-submit" class="page-action-save-submit"
+                                    title="Simpan & Ajukan Validasi" href="#">
                                     <i class="fa fa-fw fa-paper-plane " style="font-size:20px;"></i>Simpan & Ajukan
                                 </a>
                             </li>
@@ -184,7 +189,8 @@
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label">Nomor</label>
-                                    <input name="DocumentNo" id="DocumentNo" type="text" maxlength="150" class="form-control" disabled>
+                                    <input name="DocumentNo" id="DocumentNo" type="text" maxlength="150"
+                                        class="form-control" disabled>
                                 </div>
                             </div>
                             <div class="row">
@@ -197,38 +203,44 @@
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label">Nomor Ref. Internal</label>
-                                    <input name="InternalRefNo" id="InternalRefNo" type="text" maxlength="150" class="form-control">
+                                    <input name="InternalRefNo" id="InternalRefNo" type="text" maxlength="150"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label">Perihal</label>
-                                    <input name="Subject" id="Subject" type="text" maxlength="150" class="form-control " placeholder="Perihal">
+                                    <input name="Subject" id="Subject" type="text" maxlength="150" class="form-control "
+                                        placeholder="Perihal">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label">Kepada</label>
-                                    <input name="Kepada" id="Kepada" type="text" maxlength="200" class="form-control " placeholder="Kepada">
+                                    <input name="Kepada" id="Kepada" type="text" maxlength="200" class="form-control "
+                                        placeholder="Kepada">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label">Tembusan</label>
-                                    <input name="Tembusan" id="Tembusan" type="text" maxlength="200" class="form-control " placeholder="Tembusan">
+                                    <input name="Tembusan" id="Tembusan" type="text" maxlength="200"
+                                        class="form-control " placeholder="Tembusan">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label">HPSAmount</label>
-                                    <input name="HPSAmount" id="HPSAmount" type="number" class="form-control" placeholder="HPSAmount">
+                                    <input name="HPSAmount" id="HPSAmount" type="number" class="form-control"
+                                        placeholder="HPSAmount">
                                 </div>
                             </div>
 
                             <hr />
                             <div class="row">
-                                <div class="col-md-6 ememo-maindoc-container form-group validatable" data-input-mode="edit">
+                                <div class="col-md-6 ememo-maindoc-container form-group validatable"
+                                    data-input-mode="edit">
                                     <input type="hidden" name="MainDocContentType" />
                                     <div class="row">
                                         <div class="col-md-12">
@@ -243,13 +255,16 @@
                                         <div class="col-md-12">
                                             <div class="btn-group">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-default active btn-maindoc-editor">Editor</button>
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <button type="button"
+                                                        class="btn btn-default active btn-maindoc-editor">Editor</button>
+                                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                                        data-toggle="dropdown">
                                                         <span class="caret"></span>
                                                         <span class="sr-only">Editor</span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#" class="btn-maindoc-editor-template">Ambil dari template...</a></li>
+                                                        <li><a href="#" class="btn-maindoc-editor-template">Ambil dari
+                                                                template...</a></li>
                                                     </ul>
                                                 </div>
                                                 <input type="file" id="uploadDoc" accept=".docx" />
@@ -273,7 +288,8 @@
 
                                     <div class="row ememo-maindoc-filechooser">
                                         <div class="col-md-12">
-                                            <div class="file-chooser file-chooser-ememo-maindoc" data-max-items="1" data-max-size="2000000">
+                                            <div class="file-chooser file-chooser-ememo-maindoc" data-max-items="1"
+                                                data-max-size="2000000">
                                                 <input type="file" class="file-chooser-input" />
                                                 <div class="file-chooser-file-list"></div>
                                             </div>
@@ -290,8 +306,10 @@
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label title">Penawaran</label>
-                                    <div class="file-chooser file-chooser-penawaran" data-max-items="5" data-max-size="2000000">
-                                        <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                    <div class="file-chooser file-chooser-penawaran" data-max-items="5"
+                                        data-max-size="2000000">
+                                        <input type="file" class="file-chooser-input"
+                                            accept=".pdf, .jpg, .doc, .docx, .png" multiple />
                                         <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
                                     </div>
                                 </div>
@@ -300,8 +318,10 @@
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label title">Analisa Cost Benefit</label>
-                                    <div class="file-chooser file-chooser-costbenef" data-max-items="5" data-max-size="2000000">
-                                        <input type="file" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                    <div class="file-chooser file-chooser-costbenef" data-max-items="5"
+                                        data-max-size="2000000">
+                                        <input type="file" class="file-chooser-input"
+                                            accept=".pdf, .jpg, .doc, .docx, .png" multiple />
                                         <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
                                     </div>
                                 </div>
@@ -311,8 +331,10 @@
                             <div class="row">
                                 <div class="form-group col-md-6 validatable">
                                     <label class="control-label title">Lampiran Lain-lain</label>
-                                    <div class="file-chooser file-chooser-other" data-max-items="5" data-max-size="2000000">
-                                        <input type="file" id="fileInputB" class="file-chooser-input" accept=".pdf, .jpg, .doc, .docx, .png" multiple />
+                                    <div class="file-chooser file-chooser-other" data-max-items="5"
+                                        data-max-size="2000000">
+                                        <input type="file" id="fileInputB" class="file-chooser-input"
+                                            accept=".pdf, .jpg, .doc, .docx, .png" multiple />
                                         <div class="file-chooser-file-list dropz" style="text-align:center;"></div>
                                     </div>
 
@@ -325,12 +347,14 @@
                                     <label class="control-label title">Validasi</label>
                                     <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
 
-                                        <button data-input-list="input-list-validator" type="button" class="btn btn-sm btn-social btn-bitbucket  btn-user-select">
+                                        <button data-input-list="input-list-validator" type="button"
+                                            class="btn btn-sm btn-social btn-bitbucket  btn-user-select">
                                             <span class="fa fa-plus"></span> Tambah Validator
                                         </button>
                                         <br />
                                         <br />
-                                        <div class="input-list chip-list" id="input-list-validator" style="display: flex; flex-wrap: wrap;" data-max-item="5">
+                                        <div class="input-list chip-list" id="input-list-validator"
+                                            style="display: flex; flex-wrap: wrap;" data-max-item="5">
                                         </div>
                                     </div>
 
@@ -341,12 +365,14 @@
                                     <label class="control-label title">Approval</label>
                                     <div class="input-list-wrapper" style="display: flex;align-items:flex-start;">
 
-                                        <button data-input-list="input-list-approver" type="button" class="btn btn-sm btn-social btn-bitbucket btn-user-select">
+                                        <button data-input-list="input-list-approver" type="button"
+                                            class="btn btn-sm btn-social btn-bitbucket btn-user-select">
                                             <span class="fa fa-plus"></span> Tambah Approver
                                         </button>
                                         <br />
                                         <br />
-                                        <div class="input-list chip-list" id="input-list-approver" style="display: flex; flex-wrap: wrap;" data-max-item="5">
+                                        <div class="input-list chip-list" id="input-list-approver"
+                                            style="display: flex; flex-wrap: wrap;" data-max-item="5">
                                         </div>
 
                                     </div>
@@ -369,7 +395,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Daftar Personil</h4>
                 </div>
                 <div class="modal-body">
@@ -378,7 +405,8 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Cari..." id="search-personel" />
+                                    <input type="text" class="form-control" placeholder="Cari..."
+                                        id="search-personel" />
                                     <div class="input-group-addon">
                                         <a href="#search"><i class="glyphicon glyphicon-search"></i></a>
                                     </div>
@@ -395,14 +423,16 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline personel-modal-cancel-btn" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-outline personel-modal-cancel-btn"
+                        data-dismiss="modal">Batal</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
     <!-- /.personel-modal -->
     <!-- .interaction-blocker-modal -->
-    <div class="modal interaction-blocker-modal" id="interactionBlockerModal" role="dialog" aria-hidden="true" data-list-target-id="">
+    <div class="modal interaction-blocker-modal" id="interactionBlockerModal" role="dialog" aria-hidden="true"
+        data-list-target-id="">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -410,7 +440,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar" style="width: 100%"></div>
+                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar"
+                            style="width: 100%"></div>
                     </div>
                 </div>
             </div><!-- /.modal-content -->
@@ -422,7 +453,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Pilih Template...</h4>
                     <div class="template-modal-msg"></div>
                 </div>
@@ -432,7 +464,8 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Cari..." id="search-template" />
+                                    <input type="text" class="form-control" placeholder="Cari..."
+                                        id="search-template" />
                                     <div class="input-group-addon">
                                         <a href="#search-template"><i class="glyphicon glyphicon-search"></i></a>
                                     </div>
@@ -449,7 +482,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline template-modal-cancel-btn" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-outline template-modal-cancel-btn"
+                        data-dismiss="modal">Batal</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -984,7 +1018,7 @@
             });
 
             // #ememo-editor
-           
+
         });
 
         function createViewModel() {
@@ -1720,4 +1754,5 @@
     </script>
 
 </body>
+
 </html>

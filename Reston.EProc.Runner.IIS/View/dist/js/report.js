@@ -1,4 +1,4 @@
-﻿
+
 $(function () {
 
     $(".date").datetimepicker({

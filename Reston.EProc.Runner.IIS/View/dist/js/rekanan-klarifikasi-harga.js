@@ -1,4 +1,4 @@
-﻿var id_pengadaan = getIdFromUrl();
+var id_pengadaan = getIdFromUrl();
 var table;
 $(function () {
     if (isGuid(id_pengadaan)) {
@@ -116,7 +116,8 @@ $(function () {
         table.row(baris).data(rowData);
     });
 
-    $(".save-harga").on("click", function () {
+    $(".save-harga").on("click", function (e) {
+        e.preventDefault();
         var data = datatableToJson(table);
         var pengadaanId = $("#pengadaanId").val();
         waitingDialog.showloading("Proses Harap Tunggu");

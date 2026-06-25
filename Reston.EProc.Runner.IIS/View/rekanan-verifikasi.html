@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +41,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -49,7 +52,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -61,7 +65,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
+                            <li> <a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -151,7 +155,8 @@
                                                     <div class="panel box box-primary">
                                                         <div class="box-header with-border">
                                                             <h4 class="box-title">
-                                                                <a data-toggle="collapse" data-parent="#accordion1" href="#collapseOne1">
+                                                                <a data-toggle="collapse" data-parent="#accordion1"
+                                                                    href="#collapseOne1">
                                                                     Desk Checking
                                                                 </a>
                                                             </h4>
@@ -166,14 +171,19 @@
                                                                     </div>
                                                                     <div class="col-md-10">
                                                                         <div class="form-group">
-                                                                            <textarea id="desk-checking-comment" class="form-control"></textarea>
+                                                                            <textarea id="desk-checking-comment"
+                                                                                class="form-control"></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <button class="btn btn-sm btn-success" id="desk" onclick="deskCheckingSubmit()">Submit</button>
+                                                                        <button class="btn btn-sm btn-success" id="desk"
+                                                                            onclick="deskCheckingSubmit()">Submit</button>
                                                                     </div>
                                                                     <div class="col-md-12">
-                                                                        <input type="checkbox" id="desk-checking-tick" /> <span id="desk-checking-tick-msg">Semua dokumen telah diverifikasi tanpa ada masalah.</span>
+                                                                        <input type="checkbox"
+                                                                            id="desk-checking-tick" /> <span
+                                                                            id="desk-checking-tick-msg">Semua dokumen
+                                                                            telah diverifikasi tanpa ada masalah.</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -191,7 +201,8 @@
                                                     <div class="panel box box-primary">
                                                         <div class="box-header with-border">
                                                             <h4 class="box-title">
-                                                                <a data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                                                                <a data-toggle="collapse" data-parent="#accordion2"
+                                                                    href="#collapseTwo">
                                                                     By Phone
                                                                 </a>
                                                             </h4>
@@ -206,14 +217,19 @@
                                                                     </div>
                                                                     <div class="col-md-10">
                                                                         <div class="form-group">
-                                                                            <textarea id="by-phone-comment" class="form-control"></textarea>
+                                                                            <textarea id="by-phone-comment"
+                                                                                class="form-control"></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <button class="btn btn-sm btn-success" id="phone" onclick="byPhoneSubmit()">Submit</button>
+                                                                        <button class="btn btn-sm btn-success"
+                                                                            id="phone"
+                                                                            onclick="byPhoneSubmit()">Submit</button>
                                                                     </div>
                                                                     <div class="col-md-12">
-                                                                        <input type="checkbox" id="by-phone-tick" /> <span id="by-phone-tick-msg">Verifikasi by phone tidak ada masalah.</span>
+                                                                        <input type="checkbox" id="by-phone-tick" />
+                                                                        <span id="by-phone-tick-msg">Verifikasi by phone
+                                                                            tidak ada masalah.</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -231,7 +247,8 @@
                                                     <div class="panel box box-primary">
                                                         <div class="box-header with-border">
                                                             <h4 class="box-title">
-                                                                <a data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                                                                <a data-toggle="collapse" data-parent="#accordion2"
+                                                                    href="#collapseThree">
                                                                     Site Visit
                                                                 </a>
                                                             </h4>
@@ -246,14 +263,19 @@
                                                                     </div>
                                                                     <div class="col-md-10">
                                                                         <div class="form-group">
-                                                                            <textarea id="site-visit-comment" class="form-control"></textarea>
+                                                                            <textarea id="site-visit-comment"
+                                                                                class="form-control"></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-2">
-                                                                        <button class="btn btn-sm btn-success" id="visit" onclick="siteVisitSubmit()">Submit</button>
+                                                                        <button class="btn btn-sm btn-success"
+                                                                            id="visit"
+                                                                            onclick="siteVisitSubmit()">Submit</button>
                                                                     </div>
                                                                     <div class="col-md-12">
-                                                                        <input type="checkbox" id="site-visit-tick" /> <span id="site-visit-tick-msg">Site visit telah dilakukan.</span>
+                                                                        <input type="checkbox" id="site-visit-tick" />
+                                                                        <span id="site-visit-tick-msg">Site visit telah
+                                                                            dilakukan.</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -267,13 +289,16 @@
 
                                 <div class="row">
                                     <div id="v-s" class="col-md-6" style="display:none">
-                                        <h2><label class="label label-success pull-right"><span class="fa fa-check-circle-o"></span> Telah Diverifikasi</label></h2>
+                                        <h2><label class="label label-success pull-right"><span
+                                                    class="fa fa-check-circle-o"></span> Telah Diverifikasi</label></h2>
                                     </div>
                                     <div id="v-t" class="col-md-6" style="display:none">
-                                        <h2><label class="label label-danger pull-right"><span class="fa fa-times-circle-o"></span> Ditolak</label></h2>
+                                        <h2><label class="label label-danger pull-right"><span
+                                                    class="fa fa-times-circle-o"></span> Ditolak</label></h2>
                                     </div>
                                     <div class="col-md-6 nv div-verifikasi" style="display:none">
-                                        <button class="btn btn-lg btn-success pull-right" onclick="showVerifikasi()">Verifikasi</button>
+                                        <button class="btn btn-lg btn-success pull-right"
+                                            onclick="showVerifikasi()">Verifikasi</button>
                                     </div>
                                     <div class="col-md-6 nv">
                                         <button class="btn btn-lg btn-danger" onclick="showTolak()">Tolak</button>
@@ -332,13 +357,17 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        Dengan mengetuk tombol verifikasi di bawah, maka Anda telah menyatakan bahwa informasi mengenai rekanan yang bersangkutan adalah valid berdasarkan metode verifikasi yang telah dilakukan.<br />
-                        Vendor yang telah divalidasi dan dinyatakan verified akan mendapatkan akses masuk ke dalam sistem serta dapat mengikuti kegiatan pengadaan yang diselenggarakan oleh Mandiri Tunas Finance.<br />
+                        Dengan mengetuk tombol verifikasi di bawah, maka Anda telah menyatakan bahwa informasi mengenai
+                        rekanan yang bersangkutan adalah valid berdasarkan metode verifikasi yang telah dilakukan.<br />
+                        Vendor yang telah divalidasi dan dinyatakan verified akan mendapatkan akses masuk ke dalam
+                        sistem serta dapat mengikuti kegiatan pengadaan yang diselenggarakan oleh Mandiri Tunas
+                        Finance.<br />
                         <br />
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button id="konfirmasi-verifikasi" onclick="Verifikasi()" type="button" class="btn btn-success">Verifikasi</button>
+                    <button id="konfirmasi-verifikasi" onclick="Verifikasi()" type="button"
+                        class="btn btn-success">Verifikasi</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
                 </div>
             </div>
@@ -357,8 +386,10 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        Dengan mengetuk tombol Tolak di bawah, maka Anda telah menyatakan bahwa vendor yang bersangkutan dinyatakan tidak lolos verifikasi karena berbagai alasan.<br />
-                        Vendor yang tidak lolos proses verifikasi tidak bisa mengikuti kegiatan pengadaan yang dilakukan oleh Mandiri Tunas Finance.
+                        Dengan mengetuk tombol Tolak di bawah, maka Anda telah menyatakan bahwa vendor yang bersangkutan
+                        dinyatakan tidak lolos verifikasi karena berbagai alasan.<br />
+                        Vendor yang tidak lolos proses verifikasi tidak bisa mengikuti kegiatan pengadaan yang dilakukan
+                        oleh Mandiri Tunas Finance.
                         <br />
                         Alasan penolakan:
                     </p>
@@ -383,7 +414,8 @@
                     <h4 class="modal-title">Verifikasi Rekanan</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Anda akan MENYETUJUI rekanan ybs sebagai rekanan baru untuk MTF.<br /> Mohon isikan informasi terkait verifikasi rekanan di bawah ini.</p>
+                    <p>Anda akan MENYETUJUI rekanan ybs sebagai rekanan baru untuk MTF.<br /> Mohon isikan informasi
+                        terkait verifikasi rekanan di bawah ini.</p>
                     <div class="form-group">
                         <label>Metode Verifikasi</label>
                         <select class="form-control">
@@ -439,7 +471,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen
+                            webkitallowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -617,7 +650,7 @@
             $.ajax({
                 url: 'api/Registrasi/getstatusverifikasi?no=' + id,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     if (data.length < 1) return;
                     else {
                         var vPass = 0;
@@ -791,7 +824,7 @@
             $.ajax({
                 url: "/api/Registrasi/VerifyVendor?no=" + id,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     if (data) {
                         //alert(data);
                         window.location.href = HOME_PAGE + "/rekanan-detail.html?id=" + data;
@@ -808,7 +841,7 @@
             $.ajax({
                 url: "/api/Registrasi/RejectVendor?no=" + id,
                 success: function (data) {
-				data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     alert(data);
                     window.location.reload();
                 },

@@ -1,4 +1,4 @@
-﻿var id_rks = DOMPurify.sanitize(window.location.hash);
+var id_rks = DOMPurify.sanitize(window.location.hash);
 
 $(function () {
     if (isGuid(id_rks)) {

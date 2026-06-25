@@ -1,4 +1,4 @@
-﻿var id_rks = DOMPurify.sanitize(window.location.hash);
+var id_rks = DOMPurify.sanitize(window.location.hash);
 var status = "";
 var table;
 //var app = angular.module("app", []);

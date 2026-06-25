@@ -1,4 +1,4 @@
-﻿
+
 
 $(function () {
     $('#kreteriaPembobotan').on('change', ".input-bobot-pengadaan", function () {

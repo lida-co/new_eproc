@@ -603,7 +603,7 @@ $(function () {
     });
 
     $("#downloadFile").on("click", function () {
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         downloadFileUsingForm("/api/Pks/OpenFile?Id=" + FileId);
     });
 });

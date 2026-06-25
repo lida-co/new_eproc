@@ -1,4 +1,4 @@
-﻿
+
 // Setup CSRF token untuk semua AJAX POST request di halaman rekanan
 // (karena dist/site.js tidak memiliki $.ajaxSetup untuk CSRF)
 (function () {

@@ -1,4 +1,4 @@
-﻿var id_rks = window.location.hash.replace("#", "");
+var id_rks = window.location.hash.replace("#", "");
 var status;
 var table;
 $(function () {

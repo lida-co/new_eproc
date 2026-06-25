@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Redirect ke halaman tertentu dengan parameter aman + whitelist
  * @param {string} path - relative path tujuan, misal "/catalogue-detail.html"
  * @param {string} paramName - nama query param, misal "id"
@@ -64,19 +64,19 @@ function safeOpen(key, paramName, paramValue, whitelist = [], target = "_blank")
         "rekanan-rks": "/rekanan-rks.html"
     };
 
-    // ✅ Cek apakah key valid
+    // ? Cek apakah key valid
     if (!pathMap[key]) {
         console.error(`Path key not allowed: ${key}`);
         return;
     }
 
-    // ✅ Validasi paramValue (hanya huruf, angka, underscore, dash)
+    // ? Validasi paramValue (hanya huruf, angka, underscore, dash)
     if (!/^[a-zA-Z0-9_-]+$/.test(paramValue)) {
         console.error(`Invalid ${paramName}: ${paramValue}`);
         return;
     }
 
-    // ✅ Validasi whitelist value (opsional)
+    // ? Validasi whitelist value (opsional)
     if (whitelist.length > 0 && !whitelist.includes(paramValue)) {
         console.error(`Value not allowed by whitelist: ${paramValue}`);
         return;
@@ -87,7 +87,7 @@ function safeOpen(key, paramName, paramValue, whitelist = [], target = "_blank")
 
     const targetUrl = `${pathMap[key]}?${safeParam}=${safeValue}`;
 
-    // ✅ Open tab/window aman
+    // ? Open tab/window aman
     window.open(targetUrl, target);
 }
 

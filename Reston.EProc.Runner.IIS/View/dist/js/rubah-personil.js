@@ -1,4 +1,4 @@
-﻿
+
 $(function () {
     $(".addPerson").on("click", function () {
         $("#title-modal").html("Daftar Personil")

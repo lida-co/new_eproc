@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,7 +61,12 @@
         }
 
         @media screen and (max-width: 600px) {
-            #side-kanan, .control-sidebar, .control-sidebar-light, .control-sidebar-open, .control-sidebar-bg {
+
+            #side-kanan,
+            .control-sidebar,
+            .control-sidebar-light,
+            .control-sidebar-open,
+            .control-sidebar-bg {
                 visibility: hidden;
                 clear: both;
                 float: left;
@@ -69,7 +75,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -78,7 +86,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -90,7 +99,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Pengadaan</a></li>
+                            <li> <a id="judul-page" href="#">Pengadaan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu" id="isMasterUser">
@@ -104,7 +113,9 @@
                                     </div>
                                 </div>
                             </li>
-                            <li id="tambah" style="display:none"><a id="pilih-tipe-pengadaan" title="Pilih Tipe Pengadaan" href="#"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
+                            <li id="tambah" style="display:none"><a id="pilih-tipe-pengadaan"
+                                    title="Pilih Tipe Pengadaan" href="#"><i class="fa fa-plus "
+                                        style="font-size:20px;color:green"></i></a></li>
                             <li id="loader" style="display:none"> <img src="Images/ajax-loader.gif" /></li>
                         </ul>
                     </div>
@@ -165,7 +176,8 @@
                         <div id="rpelaksanaan">
                             <div class="box box-white">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf pelaksanaan cursor-pointer" id="section-1">DALAM PELAKSANAAN</h3>
+                                    <h3 class="box-title text-blue-mtf pelaksanaan cursor-pointer" id="section-1">DALAM
+                                        PELAKSANAAN</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     <ul class="products-list product-list-in-box dalam-pelaksanaa">
@@ -183,7 +195,8 @@
                         <div id="rterjadwal" start="0">
                             <div class="box box-white">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf terjadwal cursor-pointer" id="section-2">BELUM TERJADWAL</h3>
+                                    <h3 class="box-title text-blue-mtf terjadwal cursor-pointer" id="section-2">BELUM
+                                        TERJADWAL</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     <ul class="products-list product-list-in-box belum-terjadwal">
@@ -248,7 +261,8 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Cari</label>
                                                     <div class="col-sm-4">
-                                                        <input id="txtcari" type="text" class="form-control " placeholder="Judul / Nomor Pengadaan">
+                                                        <input id="txtcari" type="text" class="form-control "
+                                                            placeholder="Judul / Nomor Pengadaan">
                                                     </div>
                                                 </div>
                                             </form>
@@ -257,7 +271,9 @@
                                     <div id="btn_1" class="row ">
                                         <div class="col-md-12">
                                             <div class="submitgray button-row">
-                                                <button type="submit" name="search-btn" id="search-btn" onclick="fungsicari()" class="btn btn-primary"><i class="fa fa-search"></i> Cari</button>
+                                                <button type="submit" name="search-btn" id="search-btn"
+                                                    onclick="fungsicari()" class="btn btn-primary"><i
+                                                        class="fa fa-search"></i> Cari</button>
                                             </div>
                                         </div>
                                     </div>
@@ -335,7 +351,7 @@
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <script src='plugins/fullcalendar/moment.min.js'></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
@@ -477,4 +493,5 @@
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 
 </body>
+
 </html>

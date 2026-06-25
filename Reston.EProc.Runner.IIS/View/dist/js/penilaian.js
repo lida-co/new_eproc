@@ -1,4 +1,4 @@
-﻿var SpkId = gup("id");
+var SpkId = gup("id");
 
 $(function () {
 

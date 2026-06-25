@@ -1,4 +1,4 @@
-﻿//var rawId = gup("id", window.location.href);
+//var rawId = gup("id", window.location.href);
 var rawId = DOMPurify.sanitize(window.location.hash.replace("#", ""));
 var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
 var id_rks = encodeURIComponent(safeId);
@@ -574,7 +574,7 @@ $(function () {
 
         let id = $("#rksId").val();
 
-        $("#modal-simpan").modal("hide"); // ⬅️ tutup modal dulu
+        $("#modal-simpan").modal("hide"); // ?? tutup modal dulu
 
         setTimeout(function () {
             window.location.href = "/create-rks.html#" + id;

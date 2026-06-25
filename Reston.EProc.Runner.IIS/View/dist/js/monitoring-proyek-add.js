@@ -1,4 +1,4 @@
-﻿var table;
+var table;
 var table_pekerjaan;
 var table_pembayaran;
 var table_dokumen_pekerjaan;

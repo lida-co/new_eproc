@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +41,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -49,7 +52,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -61,7 +65,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
+                            <li> <a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -183,22 +187,58 @@
                                                         <th class="tengah">Status</th>
                                                     </tr>
                                                     <tr>
-                                                        <td><center>1</center></td>
-                                                        <td><center>TDP</center></td>
-                                                        <td><center><ul class="list-unstyled" id="TDP"></ul></center></td>
-                                                        <td><center><ul class="list-unstyled TDP" id="StatusTDP"></ul></center></td>
+                                                        <td>
+                                                            <center>1</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>TDP</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled" id="TDP"></ul>
+                                                            </center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled TDP" id="StatusTDP"></ul>
+                                                            </center>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td><center>2</center></td>
-                                                        <td><center>SIUP</center></td>
-                                                        <td><center><ul class="list-unstyled" id="SIUP"></ul></center></td>
-                                                        <td><center><ul class="list-unstyled SIUP" id="StatusSIUP"></ul></center></td>
+                                                        <td>
+                                                            <center>2</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>SIUP</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled" id="SIUP"></ul>
+                                                            </center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled SIUP" id="StatusSIUP"></ul>
+                                                            </center>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td><center>3</center></td>
-                                                        <td><center>SIUJK</center></td>
-                                                        <td><center><ul class="list-unstyled" id="SIUJK"></ul></center></td>
-                                                        <td><center><ul class="list-unstyled SIUJK" id="StatusSIUJK"></ul></center></td>
+                                                        <td>
+                                                            <center>3</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>SIUJK</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled" id="SIUJK"></ul>
+                                                            </center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled SIUJK" id="StatusSIUJK"></ul>
+                                                            </center>
+                                                        </td>
                                                     </tr>
                                                 </thead>
                                             </table>
@@ -211,7 +251,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 nv div-verifikasi" style="display:none">
-                        <button class="btn btn-lg btn-success pull-right" onclick="showVerifikasi()">Setujui ajuan Perubahan</button>
+                        <button class="btn btn-lg btn-success pull-right" onclick="showVerifikasi()">Setujui ajuan
+                            Perubahan</button>
                     </div>
                     <div class="col-md-6 nv div-verifikasi" style="display:none">
                         <button class="btn btn-lg btn-danger" onclick="showTolak()">Tolak</button>
@@ -220,13 +261,15 @@
 
                 <div class="row">
                     <div class="col-md-6 div-daftarhitam" style="display:none">
-                        <button class="btn btn-sm btn-danger pull-right" onclick="showDaftarHitam()">Daftar Hitam</button>
+                        <button class="btn btn-sm btn-danger pull-right" onclick="showDaftarHitam()">Daftar
+                            Hitam</button>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 div-daftarputih" style="display:none">
-                        <button class="btn btn-sm btn-warning pull-right" onclick="showDaftarPutih()">Keluarkan dari Daftar Hitam</button>
+                        <button class="btn btn-sm btn-warning pull-right" onclick="showDaftarPutih()">Keluarkan dari
+                            Daftar Hitam</button>
                     </div>
                 </div>
 
@@ -279,7 +322,8 @@
                 <div class="modal-body">
                     <p>
                         Anda akan MENOLAK perubahan informasi yang telah dilakukan oleh rekanan ini.<br />
-                        Selanjutnya, rekanan harus mengubah ulang informasi yang disediakan sedemikian hingga dapat disetujui.
+                        Selanjutnya, rekanan harus mengubah ulang informasi yang disediakan sedemikian hingga dapat
+                        disetujui.
                     </p>
                     <p>Tuliskan alasan penolakan/informasi yang kurang sesuai:</p>
                     <textarea class="form-control" id="pengajuan-tolak-message"></textarea>
@@ -314,7 +358,8 @@
                     <textarea class="form-control" id="daftar-hitam-message"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button id="v-tolak" onclick="sendDaftarHitam()" type="button" class="btn btn-success">LANJUTKAN</button>
+                    <button id="v-tolak" onclick="sendDaftarHitam()" type="button"
+                        class="btn btn-success">LANJUTKAN</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">BATAL</button>
                 </div>
             </div>
@@ -334,7 +379,8 @@
                 <div class="modal-body">
                     <p>
                         Anda akan mengeluarkan rekanan ini dari dalam DAFTAR HITAM.<br />
-                        Selanjutnya, rekanan akan diperhitungkan kembali dalam sistem pengadaan, dan bisa mengikuti kegiatan pengadaan.
+                        Selanjutnya, rekanan akan diperhitungkan kembali dalam sistem pengadaan, dan bisa mengikuti
+                        kegiatan pengadaan.
                         <br />
 
                     </p>
@@ -342,7 +388,8 @@
                     <textarea class="form-control" id="daftar-putih-message"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button id="v-tolak" onclick="sendDaftarPutih()" type="button" class="btn btn-success">LANJUTKAN</button>
+                    <button id="v-tolak" onclick="sendDaftarPutih()" type="button"
+                        class="btn btn-success">LANJUTKAN</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">BATAL</button>
                 </div>
             </div>
@@ -361,7 +408,8 @@
                 </div>
                 <div class="modal-body">
                     <p>Anda akan MENYETUJUI perubahan informasi yang telah dilakukan oleh rekanan ini.</p>
-                    <p>Klik tombol SETUJUI dibawah ini untuk memproses. Klik BATAL untuk membatalkan/menutup dialog ini.</p>
+                    <p>Klik tombol SETUJUI dibawah ini untuk memproses. Klik BATAL untuk membatalkan/menutup dialog ini.
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button id="v-setuju" onclick="sendSetujui()" type="button" class="btn btn-success">SETUJUI</button>
@@ -382,7 +430,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen
+                            webkitallowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -523,10 +572,10 @@
                         if (DOMPurify.sanitize(data.Akta.id) && DOMPurify.sanitize(data.Akta.id) != guid0)
                             $("#Legalitas").append('<div class="col-md-4">' +
                                 '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + DOMPurify.sanitize(DOMPurify.sanitize(data.Akta.id) + '\')">' +
-                                '<div class="box-header with-border">' +
+                                    '<div class="box-header with-border">' +
                                     ' <h3 class="box-title text-blue-mtf box-riwayat">Akta - ' + DOMPurify.sanitize(data.Akta.Nomor) + '</h3></div>' +
-                                '<div class="box-body">' +
-                                '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>'));
+                                    '<div class="box-body">' +
+                                    '<span class="glyphicon glyphicon glyphicon-file folder-vendor "></span></div></div></div>'));
                         if (DOMPurify.sanitize(data.AktaTerakhir.id) && DOMPurify.sanitize(data.AktaTerakhir.id) != guid0)
                             $("#Legalitas").append('<div class="col-md-4">' +
                                 '<div class="box box-folder-vendor vd" onclick="OpenFile(\'' + DOMPurify.sanitize(data.AktaTerakhir.id) + '\')">' +
@@ -587,7 +636,7 @@
             $.ajax({
                 url: 'api/vendor/getstatusverifikasi?id=' + id,
                 success: function (data) {
-				 //data = DOMPurify.sanitize(data);
+                    //data = DOMPurify.sanitize(data);
                     if (data.length < 1) return;
                     else {
                         for (var i in data) {
@@ -696,7 +745,7 @@
             $.ajax({
                 url: "api/Vendor/GetRiwayatVendor?id=" + id,
                 success: function (data) {
-				 //data = DOMPurify.sanitize(data);
+                    //data = DOMPurify.sanitize(data);
                     if (data) {
                         for (var i in data) {
                             var r = '<li class="item" style="padding-top:1px">' +

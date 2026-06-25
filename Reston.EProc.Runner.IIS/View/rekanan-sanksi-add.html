@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,10 +46,10 @@
             min-height: 50px;
         }
 
-            .dropzone .dz-message {
-                margin: 0em 0;
-                text-align: center;
-            }
+        .dropzone .dz-message {
+            margin: 0em 0;
+            text-align: center;
+        }
 
         form.jp-navbar-form {
             padding-top: 3px;
@@ -77,24 +78,28 @@
             width: 100%;
         }
 
-            #det td, #det th {
-                border: 1px solid #08205c;
-                padding: 8px;
-            }
+        #det td,
+        #det th {
+            border: 1px solid #08205c;
+            padding: 8px;
+        }
 
-            #det tr:nth-child(odd) {
-                background-color: #f2f2f2;
-            }
+        #det tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper" id="section-1">
         <div id="header">
             <header class="main-header">
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -106,7 +111,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Pemberian Sanksi Vendor</a></li>
+                            <li> <a id="judul-page" href="#">Pemberian Sanksi Vendor</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -171,8 +176,12 @@
                                     <div class="col-md-12">
                                         <table style="width: 100%;">
                                             <tr>
-                                                <th style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;"> .</th>
-                                                <th style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">Sanksi Vendor</th>
+                                                <th
+                                                    style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;">
+                                                    .</th>
+                                                <th
+                                                    style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">
+                                                    Sanksi Vendor</th>
                                             </tr>
                                         </table>
                                     </div>
@@ -196,7 +205,9 @@
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-3">
-                                                                    <label for="recipient-name" class="col-form-label">Vendor yang dipilih:</label>
+                                                                    <label for="recipient-name"
+                                                                        class="col-form-label">Vendor yang
+                                                                        dipilih:</label>
                                                                 </div>
                                                                 <div class="col-md-9">
                                                                     <div class="form-group vendor-nama">
@@ -207,11 +218,14 @@
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-3">
-                                                                    <label for="recipient-name" class="col-form-label">Jenis Sanksi:</label>
+                                                                    <label for="recipient-name"
+                                                                        class="col-form-label">Jenis Sanksi:</label>
                                                                 </div>
                                                                 <div class="col-md-9">
-                                                                    <select id="code-sanksi" class="form-control " style="width: 100%;">
-                                                                        <option value="SV01" selected>No Warning</option>
+                                                                    <select id="code-sanksi" class="form-control "
+                                                                        style="width: 100%;">
+                                                                        <option value="SV01" selected>No Warning
+                                                                        </option>
                                                                         <option value="SV02">Warning</option>
                                                                         <option value="SV04">Penalti</option>
                                                                         <option value="SV03">BlackList</option>
@@ -222,30 +236,39 @@
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-3">
-                                                                    <label for="recipient-name" class="col-form-label">Deskripsi:</label>
+                                                                    <label for="recipient-name"
+                                                                        class="col-form-label">Deskripsi:</label>
                                                                 </div>
                                                                 <div class="col-md-9">
-                                                                    <input type="text" class="form-control" id="deskripsi">
+                                                                    <input type="text" class="form-control"
+                                                                        id="deskripsi">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-3">
-                                                                    <label for="recipient-name" class="col-form-label">Tanggal Berlaku:</label>
+                                                                    <label for="recipient-name"
+                                                                        class="col-form-label">Tanggal Berlaku:</label>
                                                                 </div>
                                                                 <div class="col-md-9">
-                                                                    <input id="berlaku" name="" attr1="dari" attr2="" attr3="" type="text" class="form-control datepicker dateJadwal">
+                                                                    <input id="berlaku" name="" attr1="dari" attr2=""
+                                                                        attr3="" type="text"
+                                                                        class="form-control datepicker dateJadwal">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-3">
-                                                                    <label for="recipient-name" class="col-form-label">Tanggal Kadaluarsa:</label>
+                                                                    <label for="recipient-name"
+                                                                        class="col-form-label">Tanggal
+                                                                        Kadaluarsa:</label>
                                                                 </div>
                                                                 <div class="col-md-9">
-                                                                    <input id="kadaluarsa" name="" attr1="dari" attr2="" attr3="" type="text" class="form-control datepicker dateJadwal">
+                                                                    <input id="kadaluarsa" name="" attr1="dari" attr2=""
+                                                                        attr3="" type="text"
+                                                                        class="form-control datepicker dateJadwal">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -254,12 +277,13 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" id="sanksi" class="btn btn-warning">Sanksi Vendor</button>
+                                                <button type="button" id="sanksi" class="btn btn-warning">Sanksi
+                                                    Vendor</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                     
+
                             </div>
                         </div>
 
@@ -269,8 +293,12 @@
                                     <div class="col-md-12">
                                         <table style="width: 100%;">
                                             <tr>
-                                                <th style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;"> .</th>
-                                                <th style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">Riwayat Sanksi Vendor</th>
+                                                <th
+                                                    style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;">
+                                                    .</th>
+                                                <th
+                                                    style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">
+                                                    Riwayat Sanksi Vendor</th>
                                             </tr>
                                         </table>
                                     </div>
@@ -302,8 +330,12 @@
                                     <div class="col-md-12">
                                         <table style="width: 100%;">
                                             <tr>
-                                                <th style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;"> .</th>
-                                                <th style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;"> Riwayat Penilaian Vendor</th>
+                                                <th
+                                                    style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;">
+                                                    .</th>
+                                                <th
+                                                    style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">
+                                                    Riwayat Penilaian Vendor</th>
                                             </tr>
                                         </table>
                                     </div>
@@ -342,7 +374,7 @@
              immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-    
+
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -350,7 +382,7 @@
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="plugins/jQueryUItotop/easing.js"></script>
@@ -421,7 +453,7 @@
                 html = html + '<input type="text" class="form-control" id="NamaVendor" style="margin-bottom:7px;" value="' + data.NamaVendor + '" disabled>';
                 $(".vendor-nama").append(html);
                 //pengadaanid = data.pengadaanId;
-                });
+            });
 
             $("#sanksi").on("click", function () {
                 var e = document.getElementById("code-sanksi");
@@ -510,7 +542,7 @@
                 "responsive": true,
                 "destroy": true
             });
-            
+
             table_list2 = $('#table-riwayat-penilaian').DataTable({
                 "ajax": {
                     "url": 'api/NilaiVendor/ListRiwayatPenilaian?VendorId=' + gup("Id"),
@@ -561,4 +593,5 @@
 
     </script>
 </body>
+
 </html>
