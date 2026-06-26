@@ -22,8 +22,8 @@ $(function () {
     }
 
     $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         $.ajax({
             method: "POST",
             url: "Api/Spk/deleteDokumenPks?Id=" + FileId
@@ -35,7 +35,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -49,9 +49,9 @@ $(function () {
 
     $("#HapusFileNonPks").on("click", function () {
         waitingDialog.showloading("Proses Harap Tunggu");
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
+        var tipe = $("#konfirmasiFile").attr("attr1");
         var klasifikasi = $(this).parent().parent().parent().parent().attr("attr2");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         $.ajax({
             method: "POST",
             url: "Api/Spk/deleteDokumenSpkNonPks?Id=" + FileId + "&klasifikasi=" + klasifikasi
@@ -65,7 +65,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -84,7 +84,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -103,7 +103,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -122,7 +122,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -141,7 +141,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -160,7 +160,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -179,7 +179,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1152,12 +1152,12 @@ $(function () {
     });
 
     $("#downloadFile").on("click", function () {
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         downloadFileUsingForm("/api/Spk/OpenFile?Id=" + FileId);
     });
 
     $("#downloadFileNonPks").on("click", function () {
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         var klasifikasi = $(this).parent().parent().parent().parent().attr("attr2");
         downloadFileUsingForm("/api/Spk/OpenFileNonPks?Id=" + FileId + "&klasifikasi=" + klasifikasi);
     });

@@ -153,7 +153,8 @@ $(function () {
         var FileId = $(this).parent().parent().parent().parent().attr("FileId");
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/deleteDokumenPelaksanaan?Id=" + FileId
+            url: "Api/PengadaanE/
+?Id=" + FileId
         }).done(function (data) {
             if (data.Id == "1") {
                 if (tipe == "BerkasRekanan") {

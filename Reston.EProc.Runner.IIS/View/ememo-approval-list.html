@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,7 +32,9 @@
     <style>
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -40,7 +43,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -52,7 +56,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>    <a id="judul-page" href="#">E-Memo Approval</a></li>
+                            <li> <a id="judul-page" href="#">E-Memo Approval</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -100,7 +104,8 @@
                             <div class="tab-content">
                                 <div class="box box-white">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">E-Memo yang perlu disetujui</h3>
+                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">E-Memo yang perlu
+                                            disetujui</h3>
                                         <ul class="messages list-unstyled" style="margin-top:5px;">
                                         </ul>
                                     </div>
@@ -113,21 +118,25 @@
                                                 <div class="row">
                                                     <div class="form-group col-md-4">
                                                         <label for="subject">Perihal</label>
-                                                        <input type="text" name="Subject" id="subject" class="form-control" />
+                                                        <input type="text" name="Subject" id="subject"
+                                                            class="form-control" />
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="document-no">Nomor Dokumen eMemo</label>
-                                                        <input type="text" name="DocumentNo" id="document-no" class="form-control" />
+                                                        <input type="text" name="DocumentNo" id="document-no"
+                                                            class="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="form-group col-md-4">
                                                         <label for="internal-reff-no">Nomor Referensi Internal</label>
-                                                        <input type="text" name="InternalReffNo" id="internal-reff-no" class="form-control" />
+                                                        <input type="text" name="InternalReffNo" id="internal-reff-no"
+                                                            class="form-control" />
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="document-status">Status</label>
-                                                        <select name="DocumentStatus" id="document-status" class="form-control">
+                                                        <select name="DocumentStatus" id="document-status"
+                                                            class="form-control">
                                                             <option selected="selected" value="">ALL</option>
                                                             <option value="0">Draft</option>
                                                             <option value="1">Validasi</option>
@@ -141,7 +150,8 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="btn-toolbar">
-                                                            <button type="button" id="btn-apply-filter" class="btn btn-primary">Apply</button>
+                                                            <button type="button" id="btn-apply-filter"
+                                                                class="btn btn-primary">Apply</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -184,7 +194,8 @@
 
     </div><!-- ./wrapper -->
     <!-- .interaction-blocker-modal -->
-    <div class="modal interaction-blocker-modal" id="interactionBlockerModal" role="dialog" aria-hidden="true" data-list-target-id="">
+    <div class="modal interaction-blocker-modal" id="interactionBlockerModal" role="dialog" aria-hidden="true"
+        data-list-target-id="">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -192,7 +203,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar" style="width: 100%"></div>
+                        <div class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar"
+                            style="width: 100%"></div>
                     </div>
                 </div>
             </div><!-- /.modal-content -->
@@ -205,7 +217,7 @@
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="plugins/accounting/accounting.js"></script>
@@ -422,11 +434,11 @@
             const currentDate = new Date();
 
             // Get date components
-            const year =  date.getFullYear().toString().slice(-4); // Get last two digits of the year
+            const year = date.getFullYear().toString().slice(-4); // Get last two digits of the year
             const monthNameShort = date.toLocaleString('default', { month: 'short' }); // Get local month name
             const month = ('0' + (date.getMonth() + 1)).slice(-2); // Get two-digit month
             //const day = ('0' + date.getDate()).slice(-2); // Get two-digit day
-            const day =  ('0' + date.getDate()).slice(-2); // Get two-digit day
+            const day = ('0' + date.getDate()).slice(-2); // Get two-digit day
             const hour = ('0' + date.getHours()).slice(-2); // Get two-digit hours
             const minute = ('0' + date.getMinutes()).slice(-2); // Get two-digit minutes
 
@@ -440,4 +452,5 @@
 
     </script>
 </body>
+
 </html>

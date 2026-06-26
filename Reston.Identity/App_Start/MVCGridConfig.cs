@@ -119,7 +119,9 @@ namespace IdLdap
                    var rolename = options.GetFilterString("NameRole") == null ? "" : options.GetFilterString("NameRole");
                    var result = (new RoleManager(new RoleStore(new IdentityContext()))).Roles.Where(x => x.Name.Contains(rolename));
                    var total = result.Count();
-                   result = result.Skip(options.GetLimitOffset().GetValueOrDefault()).Take(options.GetLimitRowcount().GetValueOrDefault());
+                   int skip = options.GetLimitOffset().GetValueOrDefault();
+                   int take = options.GetLimitRowcount().GetValueOrDefault();
+                   result = result.OrderBy(x => x.Id).Skip(skip).Take(take);
 
                    return new QueryResult<Role>()
                    {

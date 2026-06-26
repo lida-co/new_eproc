@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,10 +35,10 @@
             min-height: 50px;
         }
 
-            .dropzone .dz-message {
-                margin: 0em 0;
-                text-align: center;
-            }
+        .dropzone .dz-message {
+            margin: 0em 0;
+            text-align: center;
+        }
 
         .clear-margin {
             margin: 0 !important;
@@ -57,7 +58,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -127,7 +129,9 @@
                     <div class="box-body form-horizontal">
                         <div class="box">
                             <div class="box-header with-border">
-                                <h3 class="box-title">List COA Budget <!--<script>document.write(new Date().getFullYear());</script>--></h3>
+                                <h3 class="box-title">List COA Budget
+                                    <!--<script>document.write(new Date().getFullYear());</script>-->
+                                </h3>
                                 <div class="box-tools pull-right">
                                 </div>
                             </div>
@@ -138,13 +142,15 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Periode Anggaran</label>
                                                 <div class="col-sm-4">
-                                                    <select class="form-control select2" name="PeriodeAnggaran" id="PeriodeAnggaran" style="width: 100%;">
+                                                    <select class="form-control select2" name="PeriodeAnggaran"
+                                                        id="PeriodeAnggaran" style="width: 100%;">
                                                         <option value="" selected>All</option>
                                                     </select>
                                                 </div>
                                                 <label class="col-sm-2 control-label">Jenis Anggaran</label>
                                                 <div class="col-sm-4">
-                                                    <select class="form-control select2" name="JenisPembelanjaan" id="JenisPembelanjaan" style="width: 100%;">
+                                                    <select class="form-control select2" name="JenisPembelanjaan"
+                                                        id="JenisPembelanjaan" style="width: 100%;">
                                                         <option value="" selected>All</option>
                                                     </select>
                                                 </div>
@@ -152,13 +158,15 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Branch</label>
                                                 <div class="col-sm-4">
-                                                    <select id="listBranch" class="form-control select2 required" style="width: 100%;">
+                                                    <select id="listBranch" class="form-control select2 required"
+                                                        style="width: 100%;">
                                                         <option value="" selected>All</option>
                                                     </select>
                                                 </div>
                                                 <label class="col-sm-2 control-label">Department</label>
                                                 <div class="col-sm-4">
-                                                    <select id="listDepartment" name="Department" class="form-control select2 required" style="width: 100%;">
+                                                    <select id="listDepartment" name="Department"
+                                                        class="form-control select2 required" style="width: 100%;">
                                                         <option value="" selected>All</option>
                                                     </select>
                                                 </div>
@@ -196,8 +204,10 @@
                                 <div class="row ">
                                     <div class="col-md-12">
                                         <div class="submitgray button-row">
-                                            <button id="cari" class="btn btn-primary " type="submit" onclick="fungsicari()">Cari</button>
-                                            <button id="upload" class="btn btn-success" onclick="NewItem()" type="submit" disabled>Upload</button>
+                                            <button id="cari" class="btn btn-primary " type="submit"
+                                                onclick="fungsicari()">Cari</button>
+                                            <button id="upload" class="btn btn-success" onclick="NewItem()"
+                                                type="submit" disabled>Upload</button>
                                             <label id="stats" style="display:none"></label>
                                         </div>
                                     </div>
@@ -270,7 +280,8 @@
         <div class="modal-dialog">
             <div class="modal-content" id="UploadModal">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Upload Data</h4>
                 </div>
                 <div class="modal-content">
@@ -279,12 +290,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="title">Periode Anggaran</label>
-                                    <select class="form-control select2" name="PeriodeAnggaran" id="PeriodeAnggaranUpload" style="width: 100%;" onchange="year()">
+                                    <select class="form-control select2" name="PeriodeAnggaran"
+                                        id="PeriodeAnggaranUpload" style="width: 100%;" onchange="year()">
                                         <option value="" selected>--Pilih Periode Anggaran--</option>
                                     </select>
                                     <!--<select name="select" class="form-control" id="chooseYear" style="width: 100%;" onchange="year()"></select>-->
                                     <label class="title">Jenis Anggaran</label>
-                                    <select class="form-control select2" name="JenisPembelanjaan" id="JenisPembelanjaanUpload" style="width: 100%;" onchange="jenis()">
+                                    <select class="form-control select2" name="JenisPembelanjaan"
+                                        id="JenisPembelanjaanUpload" style="width: 100%;" onchange="jenis()">
                                         <option selected>--Pilih Jenis Anggaran--</option>
                                     </select>
                                     <label value="" class="title">Unggah Dokumen Budget</label>
@@ -309,7 +322,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-footer">
@@ -384,7 +398,7 @@
     <script src="dist/js/menu.js"></script>
 
     <script src="dist/dataTables.select.min.js"></script>
-    
+
     <script>
 
         var waitingDialog = waitingDialog || (function ($) {
@@ -790,14 +804,14 @@
                 maxFilesize: 10,
                 acceptedFiles: ".xls,.xlsx",
                 // Kirim CSRF token via header agar tidak kena 403
-                headers: (function() {
+                headers: (function () {
                     var h = {};
                     if (typeof csrfToken !== 'undefined' && csrfToken) {
                         h['X-CSRF-TOKEN'] = csrfToken;
                     }
                     return h;
                 })(),
-                sending: function(file, xhr, formData) {
+                sending: function (file, xhr, formData) {
                     // Update CSRF token saat sending (token mungkin belum tersedia saat init)
                     if (typeof csrfToken !== 'undefined' && csrfToken) {
                         xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
@@ -912,7 +926,7 @@
             $.ajax({
                 url: "/api/ReferenceData/GetAllJenisPembelanjaan",
                 success: function (data) {
-                    
+
                     //if (data) {
                     //    for (var i in data) {
                     //        $(el).append("<option value='" + DOMPurify.sanitize(data[i].Code) + "'>" +DOMPurify.sanitize(data[i].Name) + "</option>");
@@ -941,12 +955,12 @@
             $.ajax({
                 url: "/api/ReferenceData/GetAllPeriodeAnggaran",
                 success: function (data) {
-                    
-                  //  if (data) {
+
+                    //  if (data) {
                     //    for (var i in data) {
                     //        $(el).append("<option value='" + DOMPurify.sanitize(data[i].Code) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
-                   //     }
-                   // }
+                    //     }
+                    // }
 
 
                     if (Array.isArray(data)) {
@@ -963,7 +977,7 @@
                         }
                     }
 
-               
+
                 }
             });
         }
@@ -1013,4 +1027,5 @@
     </script>
 
 </body>
+
 </html>

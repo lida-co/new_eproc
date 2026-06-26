@@ -1,4 +1,4 @@
-﻿var SpkId = gup("id");
+var SpkId = gup("id");
 
 $(function () {
     var pengadaanid = DOMPurify.sanitize(window.location.hash.replace("#", ""));
@@ -813,26 +813,17 @@ $(function () {
                 this.on("addedfile", function (file) {
                     file.previewElement.addEventListener("click", function () {
                         var id = 0;
-                        if (file.Id != undefined)
-                            id = file.Id
-                        else
-
-
-                            id = null;
-
-                        try {
-                            const parsedResponse = JSON.parse(file.xhr.response);
-
-                            // ✅ Validate expected structure
-                            if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                id = parsedResponse.Id;
-                            } else {
-                                throw new Error("Invalid JSON structure");
-                            }
-                        } catch (e) {
-                            console.error("Invalid or unsafe JSON response", e);
-                            id = null; // fallback
-                        }
+                        if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
 
                             //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
@@ -870,27 +861,17 @@ $(function () {
                 this.on("addedfile", function (file) {
                     file.previewElement.addEventListener("click", function () {
                         var id = 0;
-                        if (file.Id != undefined)
-                            id = file.Id
-                        else
-
-//                            id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-
-                        id = null;
-
-                        try {
-                            const parsedResponse = JSON.parse(file.xhr.response);
-
-                            // ✅ Validate expected structure
-                            if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                id = parsedResponse.Id;
-                            } else {
-                                throw new Error("Invalid JSON structure");
-                            }
-                        } catch (e) {
-                            console.error("Invalid or unsafe JSON response", e);
-                            id = null; // fallback
-                        }
+                        if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
 
                         //viewFile(data.Id);
@@ -999,27 +980,17 @@ $(function () {
                 this.on("addedfile", function (file) {
                     file.previewElement.addEventListener("click", function () {
                         var id = 0;
-                        if (file.Id != undefined)
-                            id = file.Id;
-                        else
-
-                            //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-
-                            id = null;
-
-                        try {
-                            const parsedResponse = JSON.parse(file.xhr.response);
-
-                            // ✅ Validate expected structure
-                            if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                id = parsedResponse.Id;
-                            } else {
-                                throw new Error("Invalid JSON structure");
-                            }
-                        } catch (e) {
-                            console.error("Invalid or unsafe JSON response", e);
-                            id = null; // fallback
-                        }
+                        if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
 
                         //viewFile(data.Id);
@@ -1054,27 +1025,17 @@ $(function () {
                 this.on("addedfile", function (file) {
                     file.previewElement.addEventListener("click", function () {
                         var id = 0;
-                        if (file.Id != undefined)
-                            id = file.Id
-                        else
-
-                            //                            id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-
-                            id = null;
-
-                        try {
-                            const parsedResponse = JSON.parse(file.xhr.response);
-
-                            // ✅ Validate expected structure
-                            if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                id = parsedResponse.Id;
-                            } else {
-                                throw new Error("Invalid JSON structure");
-                            }
-                        } catch (e) {
-                            console.error("Invalid or unsafe JSON response", e);
-                            id = null; // fallback
-                        }
+                        if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
 
                         //viewFile(data.Id);
@@ -1179,26 +1140,17 @@ $(function () {
                 this.on("addedfile", function (file) {
                     file.previewElement.addEventListener("click", function () {
                         var id = 0;
-                        if (file.Id != undefined)
-                            id = file.Id;
-                        else
-
-                            //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-                             id = null;
-
-                        try {
-                            const parsedResponse = JSON.parse(file.xhr.response);
-
-                            // ✅ Validate expected structure
-                            if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                id = parsedResponse.Id;
-                            } else {
-                                throw new Error("Invalid JSON structure");
-                            }
-                        } catch (e) {
-                            console.error("Invalid or unsafe JSON response", e);
-                            id = null; // fallback
-                        }
+                        if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
                         //viewFile(data.Id);
                         $("#HapusFile").show();
@@ -1278,25 +1230,17 @@ $(function () {
                 this.on("addedfile", function (file) {
                     file.previewElement.addEventListener("click", function () {
                         var id = 0;
-                        if (file.Id != undefined)
-                            id = file.Id;
-                        else
-                            //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-                             id = null;
-
-                        try {
-                            const parsedResponse = JSON.parse(file.xhr.response);
-
-                            // ✅ Validate expected structure
-                            if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                id = parsedResponse.Id;
-                            } else {
-                                throw new Error("Invalid JSON structure");
-                            }
-                        } catch (e) {
-                            console.error("Invalid or unsafe JSON response", e);
-                            id = null; // fallback
-                        }
+                        if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
                         //viewFile(data.Id);
                         $("#HapusFile").show();
@@ -1331,25 +1275,17 @@ $(function () {
                  this.on("addedfile", function (file) {
                      file.previewElement.addEventListener("click", function () {
                          var id = 0;
-                         if (file.Id != undefined)
-                             id = file.Id
-                         else
-                             //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-                              id = null;
-
-                         try {
-                             const parsedResponse = JSON.parse(file.xhr.response);
-
-                             // ✅ Validate expected structure
-                             if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                 id = parsedResponse.Id;
-                             } else {
-                                 throw new Error("Invalid JSON structure");
-                             }
-                         } catch (e) {
-                             console.error("Invalid or unsafe JSON response", e);
-                             id = null; // fallback
-                         }
+                         if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
                          //viewFile(data.Id);
                          $("#HapusFile").hide();
@@ -1427,25 +1363,17 @@ $(function () {
                    this.on("addedfile", function (file) {
                        file.previewElement.addEventListener("click", function () {
                            var id = 0;
-                           if (file.Id != undefined)
-                               id = file.Id;
-                           else
-                               //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-                                id = null;
-
-                           try {
-                               const parsedResponse = JSON.parse(file.xhr.response);
-
-                               // ✅ Validate expected structure
-                               if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                   id = parsedResponse.Id;
-                               } else {
-                                   throw new Error("Invalid JSON structure");
-                               }
-                           } catch (e) {
-                               console.error("Invalid or unsafe JSON response", e);
-                               id = null; // fallback
-                           }
+                           if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
                            $("#HapusFile").show();
                            $("#konfirmasiFile").attr("attr1", "BeritaAcaraPenentuanPemenang");
@@ -1485,25 +1413,17 @@ $(function () {
                      this.on("addedfile", function (file) {
                          file.previewElement.addEventListener("click", function () {
                              var id = 0;
-                             if (file.Id != undefined)
-                                 id = file.Id
-                             else
-                                 //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-                                  id = null;
-
-                             try {
-                                 const parsedResponse = JSON.parse(file.xhr.response);
-
-                                 // ✅ Validate expected structure
-                                 if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                     id = parsedResponse.Id;
-                                 } else {
-                                     throw new Error("Invalid JSON structure");
-                                 }
-                             } catch (e) {
-                                 console.error("Invalid or unsafe JSON response", e);
-                                 id = null; // fallback
-                             }
+                             if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
                              //viewFile(data.Id);
                              $("#HapusFile").hide();
@@ -1591,25 +1511,17 @@ $(function () {
                      this.on("addedfile", function (file) {
                          file.previewElement.addEventListener("click", function () {
                              var id = 0;
-                             if (file.Id != undefined)
-                                 id = file.Id;
-                             else
-                                 //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-                                  id = null;
-
-                             try {
-                                 const parsedResponse = JSON.parse(file.xhr.response);
-
-                                 // ✅ Validate expected structure
-                                 if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                     id = parsedResponse.Id;
-                                 } else {
-                                     throw new Error("Invalid JSON structure");
-                                 }
-                             } catch (e) {
-                                 console.error("Invalid or unsafe JSON response", e);
-                                 id = null; // fallback
-                             }
+                             if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
                              $("#HapusFile").show();
                              $("#konfirmasiFile").attr("attr1", "SuratPerintahKerja");
@@ -1622,8 +1534,33 @@ $(function () {
                              isSpkUploaded();
                          }
                      });
-                     this.on("error", function (file) {
-                         myDropzoneSuratPerintahKerja.removeFile(file);
+                     this.on("error", function (file, errorMessage, xhr) {
+                         var msg = "Gagal mengupload file.";
+                         if (xhr && xhr.status === 500) {
+                             msg = "Terjadi kesalahan (500). Pemenang belum disetujui, atau prasyarat lain belum terpenuhi.";
+                         } else if (xhr && xhr.responseText) {
+                             try {
+                                 var err = JSON.parse(xhr.responseText);
+                                 msg = err.Message || err.message || msg;
+                             } catch (e) {
+                                 msg = errorMessage || xhr.statusText || msg;
+                             }
+                         } else if (typeof errorMessage === "string") {
+                             msg = errorMessage;
+                         }
+
+                         BootstrapDialog.show({
+                             title: 'Upload Gagal',
+                             message: msg,
+                             type: BootstrapDialog.TYPE_DANGER,
+                             buttons: [{
+                                 label: 'Tutup',
+                                 action: function (dialog) {
+                                     myDropzoneSuratPerintahKerja.removeFile(file);
+                                     dialog.close();
+                                 }
+                             }]
+                         });
                      });
                      this.on("success", function (file, responseText) {
                          if (responseText == "00000000-0000-0000-0000-000000000000" || responseText == null) {
@@ -1664,25 +1601,17 @@ $(function () {
                   this.on("addedfile", function (file) {
                       file.previewElement.addEventListener("click", function () {
                           var id = 0;
-                          if (file.Id != undefined)
-                              id = file.Id;
-                          else
-                              //id = DOMPurify.sanitize($.parseJSON(file.xhr.response))
-                               id = null;
-
-                          try {
-                              const parsedResponse = JSON.parse(file.xhr.response);
-
-                              // ✅ Validate expected structure
-                              if (parsedResponse && typeof parsedResponse.Id !== "undefined") {
-                                  id = parsedResponse.Id;
-                              } else {
-                                  throw new Error("Invalid JSON structure");
-                              }
-                          } catch (e) {
-                              console.error("Invalid or unsafe JSON response", e);
-                              id = null; // fallback
-                          }
+                          if (file.Id != undefined) {
+    id = file.Id;
+} else if (file.xhr && file.xhr.response) {
+    try {
+        var parsedResponse = JSON.parse(DOMPurify.sanitize(file.xhr.response));
+        id = (parsedResponse && typeof parsedResponse.Id !== "undefined") ? parsedResponse.Id : parsedResponse;
+    } catch (e) {
+        console.error("Invalid or unsafe JSON response", e);
+        id = DOMPurify.sanitize(file.xhr.response).replace(/["']/g, "");
+    }
+}
 
                           $("#HapusFile").show();
                           $("#konfirmasiFile").attr("attr1", "SuratPerintahKerja");
@@ -1698,8 +1627,8 @@ $(function () {
     Dropzone.options.BerkasSuratPerintahKerja = false;
 
     $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         $.ajax({
             method: "POST",
             url: "Api/PengadaanE/deleteDokumenPelaksanaan?Id=" + FileId
@@ -1712,7 +1641,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1728,7 +1657,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
                         if (id == FileId) {
                             myDropzoneBeritaAcaraBukaAmplop.removeFile(item);
@@ -1742,7 +1671,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1759,7 +1688,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
                         
                         if (id == FileId) {
@@ -1776,7 +1705,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
                         
                         if (id == FileId) {
@@ -1793,7 +1722,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1809,7 +1738,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1824,7 +1753,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1838,8 +1767,8 @@ $(function () {
     });
 
     $("#downloadFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
 
         downloadFileUsingForm("/api/pengadaane/OpenFile?Id=" + FileId);
     });
@@ -2185,7 +2114,7 @@ $(function () {
     $(".arsipkan").on("click", function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
-            url: "Api/PengadaanE/arsipkan?Id=" + parseInt($("#pengadaanId").val()),
+            url: "Api/PengadaanE/arsipkan?Id=" + $("#pengadaanId").val(),
             success: function (data) {
                 waitingDialog.hideloading();
                 if (data.Id == 1) {
@@ -3482,7 +3411,7 @@ function getListKlarifikasiRekanan() {
                             '<div class="box box-primary">' +
                                 '<div class="box-tools pull-right vendor-check-box" data-toggle="tooltip" title="' + value.NamaVendor + '">';
 
-                // Selalu render tanpa disabled — enable/disable ditentukan setelah render
+                // Selalu render tanpa disabled ? enable/disable ditentukan setelah render
                 // berdasarkan isPIC yang sudah tersedia dari loadData
                 if (value.terpilih == 0) {
                     html = html + '<input class="s-checkbox checkbox-pilih-pemenang" vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
@@ -3512,7 +3441,7 @@ function getListKlarifikasiRekanan() {
 
                 $(".list-rekanan-klarifikasi-penilaian").append(html);
             });
-            // Disable checkbox jika bukan PIC — dilakukan setelah semua render selesai
+            // Disable checkbox jika bukan PIC ? dilakukan setelah semua render selesai
             if ($("#isPIC").val() != "1") {
                 $(".list-rekanan-klarifikasi-penilaian .checkbox-pilih-pemenang").attr("disabled", "disabled");
             }
@@ -3531,7 +3460,7 @@ function getListKlarifikasiRekananLanjutan() {
                             '<div class="box box-primary">' +
                                 '<div class="box-tools pull-right vendor-check-box" data-toggle="tooltip" title="' + value.NamaVendor + '">';
 
-                // Selalu render tanpa disabled — enable/disable ditentukan setelah render
+                // Selalu render tanpa disabled ? enable/disable ditentukan setelah render
                 if (value.terpilih == 0) {
                     html = html + '<input class="s-checkbox checkbox-pilih-pemenang" vendorId="' + value.VendorId + '" data-idx="0" type="checkbox" value="" />';
                 } else {
@@ -3558,7 +3487,7 @@ function getListKlarifikasiRekananLanjutan() {
                 }
                 $(".list-rekanan-klarifikasi-lanjutan-check").append(html);
             });
-            // Disable checkbox jika bukan PIC — dilakukan setelah semua render selesai
+            // Disable checkbox jika bukan PIC ? dilakukan setelah semua render selesai
             if ($("#isPIC").val() != "1") {
                 $(".list-rekanan-klarifikasi-lanjutan-check .checkbox-pilih-pemenang").attr("disabled", "disabled");
             }
@@ -3651,7 +3580,7 @@ function nextState(state) {
 
 function isSpkUploaded() {
     $.ajax({
-        //url: "Api/PengadaanE/isSpkUploaded?Id=" + parseInt($("#pengadaanId").val()),
+        //url: "Api/PengadaanE/isSpkUploaded?Id=" + $("#pengadaanId").val(),
         url: "Api/PengadaanE/isSpkUploaded?Id=" + $("#pengadaanId").val(),
         success: function (data) {
             if (data == 1) $("#arsipkan").show();
@@ -4104,3 +4033,5 @@ $(function () {
 //        //$("#btn-next-buka-amplop").attr("disabled", false);
 //    }
 //}
+
+

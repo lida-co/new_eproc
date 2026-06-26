@@ -27,8 +27,8 @@ $(function () {
    
 
     $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         $.ajax({
             method: "POST",
             url: "Api/Spk/deleteDokumenSpk?Id=" + FileId
@@ -292,7 +292,7 @@ $(function () {
     });
 
     $("#downloadFile").on("click", function () {
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         downloadFileUsingForm("/api/Spk/OpenFile?Id=" + FileId);
     });
 });

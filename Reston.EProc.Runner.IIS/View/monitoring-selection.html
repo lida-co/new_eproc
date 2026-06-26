@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,7 +61,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -69,7 +72,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -81,7 +85,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>    <a id="judul-page" href="#">Monitoring</a></li>
+                            <li> <a id="judul-page" href="#">Monitoring</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -101,10 +105,10 @@
                     <div class="user-panel" ng-controller="user">
                         <div class="pull-left info">
                             <p class="title" ng-bind="user.FullName"></p>
-                           <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
                         </div>
-                       <div class="pull-right image image-profile">
-                          <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
                         </div>
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -128,16 +132,20 @@
                         <div id="perlu_perhatian">
                             <div class="box box-white">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List To Do / Monitoring Selection</h3>
+                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List To Do /
+                                        Monitoring Selection</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="form-group col-md-12">
 
-                                        <div class="col-md-4" >
+                                        <div class="col-md-4">
                                             <div class="input-group">
-                                                <input type="text" name="q" id="txtcari" class="form-control" placeholder="Search...">
+                                                <input type="text" name="q" id="txtcari" class="form-control"
+                                                    placeholder="Search...">
                                                 <span class="input-group-btn">
-                                                    <button type="submit" name="search-btn" id="search-btn" onclick="fungsicari()" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                                    <button type="submit" name="search-btn" id="search-btn"
+                                                        onclick="fungsicari()" class="btn btn-flat"><i
+                                                            class="fa fa-search"></i></button>
                                                 </span>
                                             </div>
                                         </div>
@@ -149,7 +157,8 @@
                                             <ul class="nav nav-tabs">
                                                 <li class="active"><a href="#seleksi" data-toggle="tab">Seleksi</a></li>
                                                 <li><a href="#draf" data-toggle="tab">Draf</a></li>
-                                                <li><a href="#sedang_berjalan" data-toggle="tab">Sedang Berjalan</a></li>
+                                                <li><a href="#sedang_berjalan" data-toggle="tab">Sedang Berjalan</a>
+                                                </li>
                                                 <li><a href="#selesai" data-toggle="tab">Selesai</a></li>
                                             </ul>
                                             <div class="tab-content">
@@ -233,7 +242,7 @@
                                             </div>
 
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div><!-- /.box-body -->
                                 <div class="box-footer text-center">
                                     <!--<a id="A1" class="uppercase">Berikutnya
@@ -246,8 +255,8 @@
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
         <!-- <aside class="control-sidebar control-sidebar-light control-sidebar-open" id="side-kanan"> -->
-            <!-- Create the tabs -->
-            <!-- <ul class="nav nav-tabs nav-stacked">
+        <!-- Create the tabs -->
+        <!-- <ul class="nav nav-tabs nav-stacked">
                 <li><a href="#header">Atas</a></li>
                 <li><a href="#perlu-perhatian">Perlu Perhatian</a></li>
                 <li><a href="#section-1">Dalam Pelaksanaan</a></li>
@@ -256,7 +265,7 @@
 
             </ul> -->
 
-            <!-- Tab panes -->
+        <!-- Tab panes -->
 
         <!-- </aside> --><!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
@@ -303,14 +312,14 @@
         </div>
     </div>
     -->
-     
+
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="site.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
@@ -329,7 +338,7 @@
     <script>
         //Date picker
         $('#datepicker').datepicker({
-          autoclose: true
+            autoclose: true
         });
     </script>
     <!-- Tombol search -->
@@ -389,7 +398,7 @@
                     {
                         "render": function (data, type, row) {
                             return ' <a href="monitoring-proyek-add.html?id-pengadaan=' + row.Id + '" id="" class="btn btn-sm btn-primary "> Monitor </a> ' +
-                                 '<a idSpk="'+row.Id+'" class="btn btn-sm btn-danger tidak-monitor">Tidak</a> ';
+                                '<a idSpk="' + row.Id + '" class="btn btn-sm btn-danger tidak-monitor">Tidak</a> ';
                         },
                         "targets": 8,
                         "orderable": false
@@ -627,4 +636,5 @@
         }
     </script>
 </body>
+
 </html>

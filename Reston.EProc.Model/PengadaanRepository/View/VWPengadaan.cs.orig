@@ -239,14 +239,12 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public Nullable<DateTime> SPK { get; set; }
     }
 
-<<<<<<< HEAD
     public class VWPembatalanPengadaan
     {
         public Nullable<Guid> PengadaanId { get; set; }
         public string Keterangan { get; set; }
     }
    
-=======
     public class VWProgressReport{
         public string Judul{get;set;}
         public int Progress{get;set;}
@@ -257,7 +255,6 @@ namespace Reston.Pinata.Model.PengadaanRepository.View
         public string Nama { get; set; }
         public int Jumlah { get; set; }
     }
->>>>>>> fb31d873c5493ca162e17c56a5782a86d1ae38ef
     //public class VWPembobotanPengadaanVendor
     //{
     //    public Guid Id { get; set; }

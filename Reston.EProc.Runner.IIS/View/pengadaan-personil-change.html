@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,10 +46,10 @@
             min-height: 50px;
         }
 
-            .dropzone .dz-message {
-                margin: 0em 0;
-                text-align: center;
-            }
+        .dropzone .dz-message {
+            margin: 0em 0;
+            text-align: center;
+        }
 
         .clear-margin {
             margin: 0 !important;
@@ -57,7 +58,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -66,7 +69,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -78,7 +82,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page">Perubahan Personil Pengadaan</a></li>
+                            <li> <a id="judul-page">Perubahan Personil Pengadaan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -164,29 +168,39 @@
                                             <div class="form-group ">
                                                 <label class="title">Nomor Nota Internal:</label>
                                                 <input type="text" name="TitleDokumenNotaInternal" class="form-control">
-                                                <input type="hidden" name="FileDokumenNotaInternal" class="dropzoneFile" attr1="" attr2="" />
-                                                <div id="DokumenNotaInternal" attr="NOTA" action="/api/PengadaanE/UploadFile?tipe=NOTA" class="dropzone"></div>
+                                                <input type="hidden" name="FileDokumenNotaInternal" class="dropzoneFile"
+                                                    attr1="" attr2="" />
+                                                <div id="DokumenNotaInternal" attr="NOTA"
+                                                    action="/api/PengadaanE/UploadFile?tipe=NOTA" class="dropzone">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="title">Unit Kerja Pemohon:</label>
-                                            <select class="form-control select2" name="UnitKerjaPemohon" style="width: 100%;">
+                                            <select class="form-control select2" name="UnitKerjaPemohon"
+                                                style="width: 100%;">
                                                 <option selected disabled>--Pilih--</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="title">Dokumen Lainnya:</label>
                                             <input type="text" name="TitleDokumenLain" class="form-control">
-                                            <input type="hidden" name="FileDokumenLain" class="dropzoneFile" attr1="" attr2="" />
-                                            <div id="DokumenLain" attr="DOKUMENLAIN" action="/api/PengadaanE/UploadFile?tipe=DOKUMENLAIN" class="dropzone"></div>
+                                            <input type="hidden" name="FileDokumenLain" class="dropzoneFile" attr1=""
+                                                attr2="" />
+                                            <div id="DokumenLain" attr="DOKUMENLAIN"
+                                                action="/api/PengadaanE/UploadFile?tipe=DOKUMENLAIN" class="dropzone">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row" style="display:none;">
                                         <div class="form-group col-md-6">
                                             <label class="title">Berkas Rujukan Lainnya:</label>
                                             <input type="text" name="TitleBerkasRujukanLain" class="form-control">
-                                            <input type="hidden" name="FileBerkasRujukanLain" class="dropzoneFile" attr1="" attr2="" />
-                                            <div id="BerkasRujukanLain" attr="BerkasRujukanLain" action="/api/PengadaanE/UploadFile?tipe=BerkasRujukanLain" class="dropzone"></div>
+                                            <input type="hidden" name="FileBerkasRujukanLain" class="dropzoneFile"
+                                                attr1="" attr2="" />
+                                            <div id="BerkasRujukanLain" attr="BerkasRujukanLain"
+                                                action="/api/PengadaanE/UploadFile?tipe=BerkasRujukanLain"
+                                                class="dropzone"></div>
                                         </div>
                                     </div>
 
@@ -200,7 +214,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-pic" class="addPerson" attr1=".listperson-pic" >Tambah PIC</a>-->
-                                                    <a id="addPerson-pic" attr1=".listperson-pic" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-pic" attr1=".listperson-pic"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah PIC Procurement
                                                     </a>
@@ -214,7 +230,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-tim" class="addPerson" attr1=".listperson-tim" >Tambah Tim</a>-->
-                                                    <a id="addPerson-tim" attr1=".listperson-tim" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-tim" attr1=".listperson-tim"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah Tim Procurement
                                                     </a>
@@ -227,7 +245,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-staff" class="addPerson" attr1=".listperson-staff" >Tambah User</a>-->
-                                                    <a id="addPerson-staff" attr1=".listperson-staff" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-staff" attr1=".listperson-staff"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah User
                                                     </a>
@@ -240,7 +260,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-controller" class="addPerson" attr1=".listperson-controller" >Tambah Controller</a>-->
-                                                    <a id="addPerson-controller" attr1=".listperson-controller" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-controller" attr1=".listperson-controller"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah Controller
                                                     </a>
@@ -253,7 +275,9 @@
                                             <div class="col-md-12">
                                                 <label>
                                                     <!--<a id="addPerson-complaince" class="addPerson" attr1=".listperson-compliance" >Tambah Compliance</a>-->
-                                                    <a id="addPerson-complaince" attr1=".listperson-compliance" style="margin-top:10px;margin-bottom:10px" class="addPerson btn btn-sm btn-social btn-bitbucket">
+                                                    <a id="addPerson-complaince" attr1=".listperson-compliance"
+                                                        style="margin-top:10px;margin-bottom:10px"
+                                                        class="addPerson btn btn-sm btn-social btn-bitbucket">
                                                         <i class="fa fa-plus"></i>
                                                         Tambah Compliance
                                                     </a>
@@ -300,7 +324,8 @@
                     <li class="item" ng-repeat="histori in history" style="padding-top:1px">
                         <div class="riwayat-info" data-toggle="tooltip" title="{{histori.Comment}}">
                             <span class="title"><a href="#" ng-bind="histori.Nama"></a></span>
-                            <span class="pegadaan-description" ng-bind="histori.ActionDate| date:'dd/MM/yyyy h:mm:ss'"></span>
+                            <span class="pegadaan-description"
+                                ng-bind="histori.ActionDate| date:'dd/MM/yyyy h:mm:ss'"></span>
                             <span class="pegadaan-description" ng-bind="histori.Status"></span>
 
                             <span class="pegadaan-item" ng-bind="histori.Comment">
@@ -367,16 +392,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="TitleKonfirmasi">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
                     <p id="KontenConfirmasi"></p>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-default" href="pengadaan-list.html" data-toggle="tooltip" title="Kembali Ke List Pengadaan">Kembali << </a>
-                    <button type="button" class="btn btn-default buat-baru" data-toggle="tooltip" title="Buat Pengadaan Baru" data-dismiss="modal">Buat Baru</button>
-                    <button type="button" class="btn btn-default " data-dismiss="modal" data-toggle="tooltip" title="Lanjutkan Membuat Pengadaan">Lanjutkan</button>
+                    <a class="btn btn-default" href="pengadaan-list.html" data-toggle="tooltip"
+                        title="Kembali Ke List Pengadaan">Kembali << </a>
+                            <button type="button" class="btn btn-default buat-baru" data-toggle="tooltip"
+                                title="Buat Pengadaan Baru" data-dismiss="modal">Buat Baru</button>
+                            <button type="button" class="btn btn-default " data-dismiss="modal" data-toggle="tooltip"
+                                title="Lanjutkan Membuat Pengadaan">Lanjutkan</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -386,7 +415,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
@@ -404,7 +434,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-body">
@@ -425,7 +456,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Daftar Personil</h4>
                 </div>
                 <div class="modal-body">
@@ -434,7 +466,8 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="cari personil" ng-model="search" id="search" />
+                                    <input type="text" class="form-control" placeholder="cari personil"
+                                        ng-model="search" id="search" />
                                     <div class="input-group-addon">
                                         <!--<a href="#search"><i class="glyphicon glyphicon-search" ng-click="searchPerson()"></i></a>-->
                                         <a><i class="glyphicon glyphicon-search" ng-click="searchPerson()"></i></a>
@@ -457,7 +490,8 @@
                             </ul>
                         </div><!-- /.box-body -->
                         <div class="box-footer text-center">
-                            <a class="uppercase" id="pop-personil-next" ng-click="nextPerson($event,person)">Berikutnya</a>
+                            <a class="uppercase" id="pop-personil-next"
+                                ng-click="nextPerson($event,person)">Berikutnya</a>
                         </div><!-- /.box-footer -->
                     </div>
                 </div>
@@ -478,7 +512,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen
+                            webkitallowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -490,7 +525,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-footer">
@@ -506,7 +542,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">PIC Sudah Ada</h4>
                 </div>
                 <div class="modal-footer">
@@ -521,10 +558,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                     <div class="modal-body">
-                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Controller Pengadaaan, Dept. Head Pengadaan, dan Div. Head Pengadaan untuk dimintai persetujuan
+                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Controller Pengadaaan,
+                        Dept. Head Pengadaan, dan Div. Head Pengadaan untuk dimintai persetujuan
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -847,4 +886,5 @@
 
     </script>
 </body>
+
 </html>

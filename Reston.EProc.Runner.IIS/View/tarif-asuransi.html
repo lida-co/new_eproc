@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,6 +21,7 @@
     <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
 
 </head>
+
 <body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
     <div class="wrapper">
 
@@ -29,7 +31,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -41,7 +44,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Template Asuransi</a></li>
+                            <li> <a id="judul-page" href="#">Template Asuransi</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -64,17 +67,17 @@
             </header>
         </div>
         <!-- Left side column. contains the logo and sidebar -->
-       <div id="menu">
+        <div id="menu">
             <aside class="main-sidebar" ng-app="app">
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
                     <div class="user-panel" ng-controller="user">
                         <div class="pull-left info">
                             <p class="title" ng-bind="user.FullName"></p>
-                           <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
                         </div>
-                       <div class="pull-right image image-profile">
-                          <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
                         </div>
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -112,13 +115,15 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Judul</label>
                                                 <div class="col-sm-4">
-                                                    <input id="title" type="text" class="form-control " placeholder="Judul">
+                                                    <input id="title" type="text" class="form-control "
+                                                        placeholder="Judul">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Jenis</label>
                                                 <div class="col-sm-4">
-                                                    <select name="BenefitType" id="BenefitType" class="form-control"></select>
+                                                    <select name="BenefitType" id="BenefitType"
+                                                        class="form-control"></select>
                                                 </div>
                                             </div>
                                         </form>
@@ -127,8 +132,11 @@
                                 <div class="row ">
                                     <div class="col-md-12">
                                         <div class="submitgray button-row">
-                                            <button id="cari" class="btn btn-primary " type="submit"><span class="fa fa-search"></span> Cari</button>
-                                            <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit"><span class="fa fa-plus"></span> Tambah Template Asuransi</button>
+                                            <button id="cari" class="btn btn-primary " type="submit"><span
+                                                    class="fa fa-search"></span> Cari</button>
+                                            <button id="tambah" class="btn btn-success" onclick="NewItem()"
+                                                type="submit"><span class="fa fa-plus"></span> Tambah Template
+                                                Asuransi</button>
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +152,7 @@
                                                         <th class="tengah text-bold">Jenis</th>
                                                         <th class="tengah text-bold">CreatedBy</th>
                                                         <th class="tengah text-bold">CreatedTS</th>
-                                                        <th class ="tengah text-bold">Actions</th>
+                                                        <th class="tengah text-bold">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody></tbody>
@@ -198,7 +206,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="plugins/datatables/extensions/responsive/js/datatables.responsive.min.js"></script>
@@ -215,10 +223,10 @@
             $.post("/Api/Asuransi/Create", null, function (data) {
                 if (data) {
                     //data = DOMPurify.sanitize(data)
-                window.location.href = "/create-template-asuransi.html?documentId="+data;
-              }
+                    window.location.href = "/create-template-asuransi.html?documentId=" + data;
+                }
             });
-            
+
         }
 
 
@@ -250,44 +258,44 @@
 
 
         var table = $('#example1').DataTable({
-                "serverSide": true,
-                "searching": false,
-                "ajax": {
-                    "url": '/Api/MonitoringSelection/GetList',
-                    "type": 'POST',
-                    "data": function (d) {
-                        d.title = $("#title").val();
-                        d.type = $("#BenefitType").val();
-                    }
-                },
-                "columns": [
-                    { "data": "DocumentTitle" },
-                    { "data": "BenefitType" },
-                    { "data": "CreatedBy" },
-                    { "data": "CreatedTS" },
-                    { "data": null }
-                ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            //return '<a href="#" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
-                            //    '<a idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                            var html = '<a style="margin-left: 5px;" href="create-template-asuransi.html?documentId=' + data.DocumentId + '" class="btn btn-success btn-sm product-title"><span class="fa fa-edit"></span> Edit </a>';
-                            //html = html + '<a style="margin-left: 5px;" href="create-spk.html?id=' + data.Id + '" class="btn btn-danger btn-sm product-title "> Hapus </a>';
-                            html = html + '<a style="margin-left: 5px;" idTarif="' + row.Id + '" class="btn btn-danger remove-item btn-sm product-title"><span class="fa fa-trash-o"></span> Hapus</a>';
-                            return html;
-                        },
+            "serverSide": true,
+            "searching": false,
+            "ajax": {
+                "url": '/Api/MonitoringSelection/GetList',
+                "type": 'POST',
+                "data": function (d) {
+                    d.title = $("#title").val();
+                    d.type = $("#BenefitType").val();
+                }
+            },
+            "columns": [
+                { "data": "DocumentTitle" },
+                { "data": "BenefitType" },
+                { "data": "CreatedBy" },
+                { "data": "CreatedTS" },
+                { "data": null }
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        //return '<a href="#" idRks="' + row.Id + '" class="btn btn-xs btn-primary edit" title="Edit"><span class="fa fa-pencil"></span></a> ' +
+                        //    '<a idRks="' + row.Id + '" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                        var html = '<a style="margin-left: 5px;" href="create-template-asuransi.html?documentId=' + data.DocumentId + '" class="btn btn-success btn-sm product-title"><span class="fa fa-edit"></span> Edit </a>';
+                        //html = html + '<a style="margin-left: 5px;" href="create-spk.html?id=' + data.Id + '" class="btn btn-danger btn-sm product-title "> Hapus </a>';
+                        html = html + '<a style="margin-left: 5px;" idTarif="' + row.Id + '" class="btn btn-danger remove-item btn-sm product-title"><span class="fa fa-trash-o"></span> Hapus</a>';
+                        return html;
+                    },
 
-                        "targets": 4,
-                        "orderable": false
-                    }
-                ],
-                "paging": true,
-                "lengthChange": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+                    "targets": 4,
+                    "orderable": false
+                }
+            ],
+            "paging": true,
+            "lengthChange": false,
+            "ordering": false,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
         });
 
         $("#example1").on("click", ".remove-item", function () {
@@ -298,23 +306,24 @@
             //alert("uhuy");
             table.draw();
         });
-    
+
     </script>
 
 
     <script>
         $(document).ready(function () {
-                        
+
             $.getJSON("api/ReferenceData/Get", { qualifier: "QUALIFIER_INS_BENEF_TYPE" }, function (items) {
                 $("select[name=BenefitType]").append($("<option>", { value: "", text: "Pilih..." }));
                 $.each(items, function (i, item) {
                     $("select[name=BenefitType]").append($("<option>", { value: item.Code, text: item.LocalizedName }));
                 });
             })
-        
+
         });
     </script>
 
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 </body>
+
 </html>

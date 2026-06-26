@@ -1,4 +1,4 @@
-﻿var id_pengadaan = window.location.hash.replace("#", "");
+var id_pengadaan = window.location.hash.replace("#", "");
 var app = angular.module("app", []);
 
 function getListKandidat() {

@@ -1,4 +1,4 @@
-﻿var id_rks = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
+var id_rks = DOMPurify.sanitize(window.location.hash).replace(/^#/, '');
 var table_list;
 var table;
 
@@ -1459,7 +1459,7 @@ $(function () {
         if ($(this).attr("status") == 0) {
             $("#hpsmodal").modal("show");
         }
-        else window.location.replace(HOME_PAGE + "/rks.html#" + parseInt($("#pengadaanId").val()));
+        else window.location.replace(HOME_PAGE + "/rks.html#" + $("#pengadaanId").val());
     });
 
     $("#simpanhps").on("click", function () {
@@ -1635,8 +1635,8 @@ $(function () {
     Dropzone.options.BerkasRujukanLain = false;
 
     $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
        
         $.ajax({
             method: "POST",
@@ -1650,7 +1650,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
                         
                         if (id == FileId) {
@@ -1666,7 +1666,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1683,7 +1683,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1700,7 +1700,7 @@ $(function () {
     $(".Setujui").on("click", function () {
         $.ajax({
             method:"POST",
-            url: "Api/PengadaanE/persetujuan?Id=" + parseInt($("#pengadaanId").val()) ,
+            url: "Api/PengadaanE/persetujuan?Id=" + $("#pengadaanId").val() ,
             success: function (data) {
                 if (data.status == 200) {                    
                   //  $(location).attr('href', window.location.host + "/pengadaan-list.html");
@@ -1762,8 +1762,8 @@ $(function () {
     });
 
     $("#downloadFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         downloadFileUsingForm("/api/pengadaane/OpenFile?Id=" + FileId);
     });
     
@@ -2315,3 +2315,4 @@ function onJumlahDiallokasikanInputChange(input, budget, BudgetReserved, Id) {
 function onJumlahDiallokasikanInputFocus(data, budget) {
     $(data).data('val', $(data).val());
 }
+

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,7 +36,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -65,7 +67,8 @@
                                     </form>
                                 </div>-->
                             </li>
-                            <li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
+                            <li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus "
+                                        style="font-size:20px;color:green"></i></a></li>
                         </ul>
                     </div>
                 </nav>
@@ -116,14 +119,16 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Item Name</label>
                                                 <div class="col-sm-4">
-                                                    <input id="nama_item" type="text" class="form-control " placeholder="Nama Item">
+                                                    <input id="nama_item" type="text" class="form-control "
+                                                        placeholder="Nama Item">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Region</label>
                                                 <div class="col-sm-4">
-                                                    <select id="region" class="form-control select2" style="width: 100%;">
+                                                    <select id="region" class="form-control select2"
+                                                        style="width: 100%;">
                                                         <option selected="selected" value=""></option>
 
                                                     </select>
@@ -156,7 +161,8 @@
                                     <div class="col-md-12">
                                         <div class="submitgray button-row">
                                             <button id="cari" class="btn btn-primary " type="submit">Cari</button>
-                                            <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Item Baru</button>
+                                            <button id="tambah" class="btn btn-success" onclick="NewItem()"
+                                                type="submit">Tambah Item Baru</button>
                                         </div>
                                     </div>
                                 </div>
@@ -443,27 +449,27 @@
                     { "data": "null", "width": "3%", "class": "tengah" }
                 ],
                 "columnDefs": [
-                         {
-                             "render": function (data, type, row) {
-                                 return '<a href="catalog-detail.html?id=' + row.Id + '">' + data + '</a>';
-                             },
-                             "targets": 0,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 return accounting.formatNumber(row.Price, { thousand: ".", decimal: ",", precision: 2 });
-                             },
-                             "targets": 3,
-                             "orderable": false
-                         },
-                         {
-                             "render": function (data, type, row) {
-                                 return '<a href="javascript:showDeleteConfirmation(' + row.Id + ')" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
-                             },
-                             "targets": 7,
-                             "orderable": false
-                         }
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="catalog-detail.html?id=' + row.Id + '">' + data + '</a>';
+                        },
+                        "targets": 0,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return accounting.formatNumber(row.Price, { thousand: ".", decimal: ",", precision: 2 });
+                        },
+                        "targets": 3,
+                        "orderable": false
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:showDeleteConfirmation(' + row.Id + ')" class="btn btn-xs btn-danger remove-item" title="Hapus"><span class="fa fa-trash-o"></span></a>';
+                        },
+                        "targets": 7,
+                        "orderable": false
+                    }
                 ],
                 "paging": true,
                 "lengthChange": false,
@@ -484,4 +490,5 @@
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 </body>
+
 </html>

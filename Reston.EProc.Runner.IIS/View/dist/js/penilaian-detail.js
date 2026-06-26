@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     
     function gup(name, url) {
         if (!url) url = location.href;

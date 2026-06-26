@@ -1,4 +1,4 @@
-﻿var rawHash = window.location.hash.substring(1); // remove leading "#"
+var rawHash = window.location.hash.substring(1); // remove leading "#"
 var id_rks = /^[a-zA-Z0-9_-]+$/.test(rawHash) ? encodeURIComponent(rawHash) : "";
 
 

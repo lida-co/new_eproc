@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,7 +28,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -57,7 +59,8 @@
                                     </form>
                                 </div>-->
                             </li>
-                            <li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
+                            <li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus "
+                                        style="font-size:20px;color:green"></i></a></li>
                         </ul>
                     </div>
                 </nav>
@@ -71,10 +74,10 @@
                     <div class="user-panel" ng-controller="user">
                         <div class="pull-left info">
                             <p class="title" ng-bind="user.FullName"></p>
-                           <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
                         </div>
-                       <div class="pull-right image image-profile">
-                          <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
                         </div>
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -108,14 +111,16 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Item Name</label>
                                                 <div class="col-sm-4">
-                                                    <input id="nama_item" type="text" class="form-control " placeholder="Nama Item">
+                                                    <input id="nama_item" type="text" class="form-control "
+                                                        placeholder="Nama Item">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Region</label>
                                                 <div class="col-sm-4">
-                                                    <select id="region" class="form-control select2" style="width: 100%;">
+                                                    <select id="region" class="form-control select2"
+                                                        style="width: 100%;">
                                                         <option selected="selected" value=""></option>
 
                                                     </select>
@@ -124,7 +129,8 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Klasifikasi</label>
                                                 <div class="col-sm-4">
-                                                    <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                                    <select id="klasifikasi" class="form-control select2"
+                                                        style="width: 100%;">
                                                         <option selected="selected" value=""></option>
                                                         <option value="0">SIPIL</option>
                                                         <option value="1">NONSIPIL</option>
@@ -135,7 +141,8 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Kategori</label>
                                                 <div class="col-sm-4">
-                                                    <select id="kategori" class="form-control select2" style="width: 100%;">
+                                                    <select id="kategori" class="form-control select2"
+                                                        style="width: 100%;">
                                                         <option selected="selected" value=""></option>
 
                                                     </select>
@@ -149,7 +156,8 @@
                                     <div class="col-md-12">
                                         <div class="submitgray button-row">
                                             <button id="cari" class="btn btn-primary " type="submit">Cari</button>
-                                            <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Item Baru</button>
+                                            <button id="tambah" class="btn btn-success" onclick="NewItem()"
+                                                type="submit">Tambah Item Baru</button>
                                             <!--<a id="format-rks-asuransi" href="eCatalogue-Asuransi.html" class="btn btn-danger">Katalog Asuransi</a>-->
                                         </div>
                                     </div>
@@ -223,7 +231,7 @@
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="plugins/datatables/extensions/responsive/js/datatables.responsive.min.js"></script>
     <script src="plugins/jQueryUItotop/easing.js"></script>
@@ -252,11 +260,11 @@
             $.ajax({
                 url: "/api/ReferenceData/GetAllRegion",
                 success: function (data) {
-				if(data){	
-                    for (var i in data) {
-                        $("#region").append("<option value='" + DOMPurify.sanitize(data[i].Name) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                    if (data) {
+                        for (var i in data) {
+                            $("#region").append("<option value='" + DOMPurify.sanitize(data[i].Name) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
+                        }
                     }
-				}
                 },
                 complete: function (xhr, textStatus) {
                     ajaxCompleteProcess(xhr);
@@ -267,11 +275,11 @@
             $.ajax({
                 url: "/api/Produk/GetAllKategori",
                 success: function (data) {
-				if(data){				
-                    for (var i in data) {
-                        $("#kategori").append("<option value='" + DOMPurify.sanitize(data[i]) + "'>" + DOMPurify.sanitize(data[i]) + "</option>");
+                    if (data) {
+                        for (var i in data) {
+                            $("#kategori").append("<option value='" + DOMPurify.sanitize(data[i]) + "'>" + DOMPurify.sanitize(data[i]) + "</option>");
+                        }
                     }
-				}
                 },
                 complete: function (xhr, textStatus) {
                     //console.log(xhr.status);
@@ -397,4 +405,5 @@
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 </body>
+
 </html>

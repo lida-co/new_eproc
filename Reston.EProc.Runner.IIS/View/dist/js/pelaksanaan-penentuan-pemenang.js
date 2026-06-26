@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     $(".ajukan-pemenang").on("click", function () {
         BootstrapDialog.show({
             title: 'Ajukan Pemenang',

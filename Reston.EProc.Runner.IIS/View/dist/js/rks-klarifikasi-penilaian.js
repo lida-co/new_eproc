@@ -1,4 +1,4 @@
-﻿var request = getIdFromUrl();
+var request = getIdFromUrl();
 
 var table;
 
@@ -508,8 +508,8 @@ $(function () {
             }
         });
         $("#downloadFile").on("click", function () {
-            var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-            var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+            var tipe = $("#konfirmasiFile").attr("attr1");
+            var FileId = $("#konfirmasiFile").attr("FileId");
 
             downloadFileUsingForm("/api/pengadaane/OpenFile?Id=" + FileId);
         });

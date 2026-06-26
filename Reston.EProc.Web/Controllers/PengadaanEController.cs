@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -3583,7 +3583,11 @@ namespace Reston.Pinata.WebService.Controllers
             int vendorId = 0;
             try
             {
-                vendorId = Convert.ToInt32(HttpContext.Current.Request["vendorId"].ToString());
+                var vendorIdStr = HttpContext.Current.Request["vendorId"];
+                if (!string.IsNullOrEmpty(vendorIdStr))
+                {
+                    vendorId = Convert.ToInt32(vendorIdStr);
+                }
             }
             catch { }
           
@@ -3599,7 +3603,7 @@ namespace Reston.Pinata.WebService.Controllers
             if (t == TipeBerkas.SuratPerintahKerja)
             {
                 if(_repository.CekPersetujuanPemenang(id,UserId()).status!=HttpStatusCode.OK){
-                    return InternalServerError();
+                    return BadRequest("Pemenang Belum Disetujui");
                 }
 
             }
@@ -3669,7 +3673,7 @@ namespace Reston.Pinata.WebService.Controllers
                         //  int x = _repository.UpdateStatus(id, EStatusPengadaan.SUBMITPENAWARAN);
                         
                     }
-                    return Json(dokumen.Id);
+                    return Json(dokumenUpdate.Id);
                 }
                 catch (Exception ex)
                 {

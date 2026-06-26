@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,7 +48,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -56,7 +59,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -68,7 +72,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
+                            <li> <a id="judul-page" href="#">Informasi Detail Rekanan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -208,22 +212,58 @@
                                                         <th class="tengah">Status</th>
                                                     </tr>
                                                     <tr>
-                                                        <td><center>1</center></td>
-                                                        <td><center>TDP</center></td>
-                                                        <td><center><ul class="list-unstyled" id="TDP"></ul></center></td>
-                                                        <td><center><ul class="list-unstyled TDP" id="StatusTDP"></ul></center></td>
+                                                        <td>
+                                                            <center>1</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>TDP</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled" id="TDP"></ul>
+                                                            </center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled TDP" id="StatusTDP"></ul>
+                                                            </center>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td><center>2</center></td>
-                                                        <td><center>SIUP</center></td>
-                                                        <td><center><ul class="list-unstyled" id="SIUP"></ul></center></td>
-                                                        <td><center><ul class="list-unstyled SIUP" id="StatusSIUP"></ul></center></td>
+                                                        <td>
+                                                            <center>2</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>SIUP</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled" id="SIUP"></ul>
+                                                            </center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled SIUP" id="StatusSIUP"></ul>
+                                                            </center>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td><center>3</center></td>
-                                                        <td><center>SIUJK</center></td>
-                                                        <td><center><ul class="list-unstyled" id="SIUJK"></ul></center></td>
-                                                        <td><center><ul class="list-unstyled SIUJK" id="StatusSIUJK"></ul></center></td>
+                                                        <td>
+                                                            <center>3</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>SIUJK</center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled" id="SIUJK"></ul>
+                                                            </center>
+                                                        </td>
+                                                        <td>
+                                                            <center>
+                                                                <ul class="list-unstyled SIUJK" id="StatusSIUJK"></ul>
+                                                            </center>
+                                                        </td>
                                                     </tr>
                                                 </thead>
                                             </table>
@@ -232,7 +272,8 @@
 
                                     <div class="row">
                                         <div class="col-md-7">
-                                            <button class="btn btn-warning pull-right" id="b-ubah" onclick="Ubah()" style="display:none">Ubah Informasi</button>
+                                            <button class="btn btn-warning pull-right" id="b-ubah" onclick="Ubah()"
+                                                style="display:none">Ubah Informasi</button>
                                         </div>
                                     </div>
                                 </div>
@@ -286,7 +327,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen
+                            webkitallowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -322,7 +364,7 @@
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
@@ -574,7 +616,7 @@
             $.ajax({
                 url: "api/Vendor/GetRiwayatVendorDetail",
                 success: function (data) {
-				 data = DOMPurify.sanitize(data);
+                    data = DOMPurify.sanitize(data);
                     if (data) {
                         for (var i in data) {
                             var r = '<li class="item" style="padding-top:1px">' +
@@ -597,7 +639,7 @@
             $.ajax({
                 url: "Api/PengadaanE/getPengadaanForRekananList?start=" + 0 + "&length=100&group=ALL"
             }).done(function (data) {
-			data = DOMPurify.sanitize(data);
+                data = DOMPurify.sanitize(data);
                 if (data.length > 0)
                     renderList(data, "riwayat-kerja");
                 else {
@@ -693,4 +735,5 @@
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 
 </body>
+
 </html>

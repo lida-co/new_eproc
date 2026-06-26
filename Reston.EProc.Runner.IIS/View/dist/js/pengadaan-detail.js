@@ -1,4 +1,4 @@
-﻿
+
 
 // Baca ID dari hash. Jika hash bukan GUID (misal berubah karena klik accordion),
 // fallback ke sessionStorage agar tidak redirect ke list saat accordion diklik.
@@ -478,10 +478,10 @@ $(function () {
             }
         });
     });
-    //console.log("pengadaan id = " + parseInt($("#pengadaanId").val()));
+    //console.log("pengadaan id = " + $("#pengadaanId").val());
     $("#edit").on("click", function () {
 
-        //window.location.replace(HOME_PAGE + "/pengadaan-add.html#" + parseInt($("#pengadaanId").val()));
+        //window.location.replace(HOME_PAGE + "/pengadaan-add.html#" + $("#pengadaanId").val());
         //alert($("#pengadaanId").val());
         let pengadaanId = $("#pengadaanId").val();
         safeRedirect("pengadaan-add", "#", pengadaanId);

@@ -1,124 +1,340 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html ng-app="app" ng-controller="LayoutCtrl">
+
 <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <meta charset="utf-8" />
     <title>{siteName}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="apple-touch-icon" href="pages/ico/60.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="{siteUrl}/content/pages/ico/76.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="pages/ico/120.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="pages/ico/152.png">
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta content="" name="description" />
-    <meta content="" name="author" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    <!-- Custom-Styleheet-Links -->
-    <link rel="stylesheet" href="{siteUrl}/content/app/css/style.css" type="text/css" media="all">
-    <link rel="stylesheet" href="{siteUrl}/content/app/css/animate-custom.css" type="text/css" media="all">
-    <!-- //Custom-Styleheet-Links -->
-    <!--[if lte IE 9]>
-        <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
-    <![endif]-->
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #0B162C;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-icon {
+            background-color: #2563EB;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .brand-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .brand-text h1 {
+            margin: 0;
+            font-size: 14px;
+            color: #2563EB;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .brand-text h2 {
+            margin: 2px 0 0 0;
+            font-size: 18px;
+            color: #1F2937;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1F2937;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #F9FAFB;
+        }
+
+        .form-control::placeholder {
+            color: #9CA3AF;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background-color: #ffffff;
+        }
+
+        .input-wrapper .icon-right {
+            position: absolute;
+            right: 12px;
+            color: #9CA3AF;
+            cursor: pointer;
+            display: flex;
+        }
+
+        .captcha-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .captcha-box {
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            border-radius: 8px;
+            height: 44px;
+            width: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .captcha-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-refresh {
+            background: #ffffff;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #6B7280;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-refresh:hover {
+            background: #F3F4F6;
+            color: #374151;
+        }
+
+        .captcha-input {
+            flex: 1;
+        }
+
+        .captcha-input input {
+            height: 44px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: opacity 0.2s, transform 0.1s;
+            margin-top: 30px;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 24px;
+            gap: 16px;
+            font-size: 13px;
+        }
+
+        .footer-links a {
+            color: #2563EB;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links .divider {
+            width: 1px;
+            height: 14px;
+            background-color: #D1D5DB;
+        }
+
+        .alert {
+            background-color: #FEE2E2;
+            border: 1px solid #F87171;
+            color: #991B1B;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        [type="password"] {
+            /* font-family: caption; */
+        }
+    </style>
 </head>
+
 <body>
-    <!--<img class="w3layouts agileits" src="{siteUrl}/content/app/images/logo-mtf.png" style="margin-left:70px;" width="250px;" height="100px;"/>-->
-    <!--<h1 class="w3layouts agileits"></h1>-->
-    <br /><br />
-    <div class="container w3layouts agileits">
-        <div class="content-left w3layouts agileits">
-            <img src="{siteUrl}/content/app/images/Left-bg.jpg" width="100%" height="593px"><!--{siteUrl}/content/app/images/background.jpg-->
-            <!--<p>Belum punya akun? <a href="http://localhost:49559/registrasi.html" style="color:#013066">Daftar sebagai Rekanan Baru MTF.</a></p>-->
-            <!--<a class="more w3layouts agileits" href="#">LEARN MORE</a>-->
-            <br /><br />
-            <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
+    <div class="login-card">
+        <div class="brand-header" style="justify-content: center; padding-bottom: 10px; flex-direction: column;">
+            <img src="{siteUrl}/content/app/images/logo-mtf.png" alt="Mandiri Tunas Finance"
+                style="max-height: 80px; width: auto; object-fit: contain;" />
+            <h2 style="margin: 12px 0 0 0; font-size: 18px; color: #1F2937; font-weight: 600; text-align: center;">
+                e-Procurement</h2>
         </div>
 
-        <div class="content-right w3layouts agileits">
-            <section>
-                <div id="container_demo">
-                    <a class="hiddenanchor w3layouts agileits" id="tologin"></a>
-                    <a class="hiddenanchor w3layouts agileits" id="toregister"></a>
-                    <div id="wrapper">
-                        <div id="login" class="animate w3layouts agileits form">
-                            <!--
-                            <div class="gambar">
-                                <img src="{siteUrl}/content/app/images/solusi-kredit.jpg" width="180px" height="100px;" />
-                            </div>
-                            <br />
-                            -->
-                            <!--<h2 class="w3layouts agileits">Sign In</h2>-->
+        <form id="form-login" method="post" ng-submit="login.submit()" action="{{model.loginUrl}}" autocomplete="off">
+            <anti-forgery-token token="model.antiForgery"></anti-forgery-token>
 
-                            <form id="form-login" method="post" ng-submit="login.submit()" class="p-t-15" role="form" action="{{model.loginUrl}}" autocomplete="off">
-                                <anti-forgery-token token="model.antiForgery"></anti-forgery-token>
-                                <div ng-show="model.errorMessage">
-                                    <div class="alert alert-danger" role="alert">
-                                        <!--<button class="close" data-dismiss="alert"></button>-->
-                                        <strong>{{model.errorMessage}} </strong>
-                                    </div>
-                                </div>
-                                <label style="font-weight:600; font-size:20px;">Login</label><br />
-                                <input type="text" name="usernamex" placeholder="Login" ng-model="model.usernamex" required="">
-                                <input type="hidden" name="username" class="form-control" value="{{model.usernamex}}#{{model.captca}}#{{model.username}}">
-                                <br />
-                                <label style="font-weight:600; font-size:20px;">Password</label><br />
-                                <input type="password" name="password" ng-model="model.password" placeholder="Password" required="">
-                                <br />
-                                <label style="font-weight:600; font-size:20px;">Tuliskan kode pada gambar dibawah ini</label><br />
-                                <input autocomplete="off" type="text" class="captcha" placeholder="Code" ng-model="model.captca" required>
-                                <br />
-                                <img src="{siteUrl}/Home/GetCaptchaImage?k={{model.username}}" width="250px;" height="100px;" />
-                                <br />
-                                <br />
-                                <div class="send-button w3layouts agileits">
-                                    <input type="submit" value="Login" />
-                                </div>
-                                <div class="clear"></div>
-                                <br />
-                                <div>
-                                    <h4>Untuk Rekanan dan Calon Rekanan:</h4>
-                                    <ul>
-                                        <li>Klik <a href="{procUrl}registrasiv2.html">disini</a> untuk Pendaftaran Rekanan Baru</li>
-                                        <li>Klik <a href="{procUrl}lacak.html">disini</a> untuk melacak Status Pendaftaran</li>
-                                    </ul>
-                                </div>
-                                <!--
-    <p>
-        <strong><a href="{procUrl}registrasiv2.html">Belum punya akun?</a></strong> Daftar sebagai rekanan baru disni.
-    </p>
-    <p>Sudah mendaftar tetapi belum mendapat akses ke sistem?</p>
-    <p><strong><a href="{procUrl}lacak.html">lacak status pengajuan</a><strong> anda disini</p>
-    -->
-                                <!--
-    <div class="" ng-show="model.allowRememberMe">
-      <div class="checkbox ">
-          <input type="checkbox" value="1" id="checkbox1" ng-model="model.rememberMe">
-          <label for="checkbox1">Biarkan saya tetap masuk.</label>
-      </div>
-    </div>
-     -->
-                                <!--<label>Sudah mendaftar tetapi belum mendapat akses ke sistem?</label><p class="send-button w3layouts agileits"><label><a href="http://localhost:49559/registrasi.html">Lacak status pengajuan Anda di sini.</a></label></p>-->
-                                <!--<div class="clear"></div>-->
-                            </form>
-                                <!--
-                                <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40" ng-show="model.externalProviders">
-                                    <div class="clear"></div>
-                                </div>
-                                -->
-                        </div>
+            <div ng-show="model.errorMessage" class="ng-hide">
+                <div class="alert" role="alert">
+                    <strong>{{model.errorMessage}}</strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Login</label>
+                <input type="text" name="usernamex" class="form-control" placeholder="Masukkan Login ID Anda"
+                    ng-model="model.usernamex" required="">
+                <input type="hidden" name="username" value="{{model.usernamex}}#{{model.captca}}#{{model.username}}">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="pwd" name="password" class="form-control"
+                        placeholder="Masukkan password Anda" ng-model="model.password" required="">
+                    <div class="icon-right">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                            </path>
+                        </svg>
                     </div>
-            </section>
-        </div>
-        <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Kode Verifikasi</label>
+                <div class="captcha-row">
+                    <div class="captcha-box">
+                        <img id="captchaImage" src="{siteUrl}/Home/GetCaptchaImage?k={{model.username}}"
+                            alt="Captcha" />
+                    </div>
+                    <button type="button" class="btn-refresh">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="captcha-input">
+                        <input autocomplete="off" type="text" class="form-control" placeholder="Ketik kode"
+                            ng-model="model.captca" required>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                Login
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                    </path>
+                </svg>
+            </button>
+
+            <div class="footer-links">
+                <a href="{procUrl}registrasiv2.html">Daftar Rekanan Baru
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+                <span class="divider"></span>
+                <a href="{procUrl}lacak.html">Cek Status Pendaftaran
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </form>
     </div>
-    <!--<div class="footer w3layouts agileits">
-        <p> &copy; 2016 Travel Agency Sign In Form. All Rights Reserved | Template by <a href="http://w3layouts.com" target="_blank">W3layouts</a></p>
-    </div>-->
-    <!-- END PAGE CONTAINER -->
-    <!-- BEGIN VENDOR JS -->
+
     <script id='modelJson' type='application/json'>
         {model}
     </script>
@@ -126,4 +342,5 @@
     <script src="{siteUrl}/content/libs/encoder/encoder.min.js"></script>
     <script src="{siteUrl}/content/app/app.js"></script>
 </body>
+
 </html>

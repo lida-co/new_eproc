@@ -20,8 +20,8 @@ $(function () {
     //window.location.href("http://" + window.location.host + "/pks.html");
 
     $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         $.ajax({
             method: "POST",
             url: "Api/PO/deleteDokumenPO?Id=" + FileId
@@ -33,7 +33,7 @@ $(function () {
                         id = DOMPurify.sanitize(item.Id);
                     }
                     else {
-                        id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                        id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                     }
 
                     if (id == FileId) {
@@ -46,7 +46,6 @@ $(function () {
     });
 
     var myDropzonePO = new Dropzone("#DOKPO",
-<<<<<<< Updated upstream
              {
                  headers: {
                      'X-CSRF-TOKEN': csrfToken,
@@ -90,47 +89,6 @@ $(function () {
                              $("#konfirmasiFile").modal("show");
                          });
                      });
-=======
-        {
-            maxFilesize: 10,
-            acceptedFiles: ".png,.jpg,.pdf,.xls,.jpeg,.doc,.xlsx",
-            accept: function (file, done) {
-                this.options.url = $("#DOKPO").attr("action") + "?id=" + $("#Id").val();
-                done();
-            },
-            sending: function (file, xhr, formData) {
-                var token = csrfToken;
-                if (!token) {
-                    try {
-                        var req = new XMLHttpRequest();
-                        req.open('GET', '/api/security/GetCsrfToken', false);
-                        req.send(null);
-                        if (req.status === 200) {
-                            token = JSON.parse(req.responseText).csrfToken;
-                            csrfToken = token;
-                        }
-                    } catch (e) { console.warn('Gagal ambil CSRF token:', e); }
-                }
-                if (token) {
-                    xhr.setRequestHeader("X-CSRF-TOKEN", token);
-                    xhr.setRequestHeader("X-XSRF-TOKEN", token);
-                }
-            },
-            init: function () {
-                this.on("addedfile", function (file) {
-                    file.previewElement.addEventListener("click", function () {
-                        var id = 0;
-                        if (file.Id != undefined)
-                            id = file.Id;
-                        else
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
-                        $("#HapusFile").show();
-                        $("#konfirmasiFile").attr("attr1", "PKS");
-                        $("#konfirmasiFile").attr("FileId", id);
-                        $("#konfirmasiFile").modal("show");
-                    });
-                });
->>>>>>> Stashed changes
 
                 this.on("error", function (file) {
                     myDropzonePO.removeFile(file);
@@ -421,7 +379,7 @@ $(function () {
     });
 
     $("#downloadFile").on("click", function () {
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var FileId = $("#konfirmasiFile").attr("FileId");
 
         downloadFileUsingForm("/api/PO/OpenFile?Id=" + FileId);
     });

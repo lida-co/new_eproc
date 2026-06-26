@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,7 +61,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -69,7 +72,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -81,7 +85,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>    <a id="judul-page" href="#">SPK / PO</a></li>
+                            <li> <a id="judul-page" href="#">SPK / PO</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -127,180 +131,199 @@
                                 <li><a href="#po" data-toggle="tab">PO</a></li>
                             </ul>
                             <div class="tab-content">
-                            <div class="tab-pane active" id="origin-spk">
-                                <div class="box box-white">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List SPK Original</h3>
-                                    </div><!-- /.box-header -->
-                                    <div class="box-body">                                        
-                                        <div class="col-md-10" style="margin-left: 60px;">
-                                            <div >
-                                                <form class="form-horizontal label-kanan">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label">Judul</label>
-                                                        <div class="col-sm-4">
-                                                            <input id="title" type="text" class="form-control " placeholder="Judul">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label">Klasifikasi</label>
-                                                        <div class="col-sm-4">
-                                                            <select id="klasifikasi" class="form-control select2" style="width: 100%;">
-                                                                <option selected="selected" value="">ALL</option>
-                                                                <option value="Sipil">SIPIL</option>
-                                                                <option value="Non Sipil">NONSIPIL</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                     <div class="form-group">
-                                                        <div class="col-md-12">
-                                                            <div class="submitgray button-row">
-                                                                <button id="cari-pks-original" class="btn btn-primary " type="button">Cari</button>              
-                                                                  <a  class="btn btn-success" href="create-spk.html">Buat SPK Baru</a>                                                            
+                                <div class="tab-pane active" id="origin-spk">
+                                    <div class="box box-white">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf cursor-pointer repository">List SPK
+                                                Original</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="col-md-10" style="margin-left: 60px;">
+                                                <div>
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">Judul</label>
+                                                            <div class="col-sm-4">
+                                                                <input id="title" type="text" class="form-control "
+                                                                    placeholder="Judul">
                                                             </div>
                                                         </div>
-                                                     </div>
-                                                </form>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">Klasifikasi</label>
+                                                            <div class="col-sm-4">
+                                                                <select id="klasifikasi" class="form-control select2"
+                                                                    style="width: 100%;">
+                                                                    <option selected="selected" value="">ALL</option>
+                                                                    <option value="Sipil">SIPIL</option>
+                                                                    <option value="Non Sipil">NONSIPIL</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <div class="submitgray button-row">
+                                                                    <button id="cari-pks-original"
+                                                                        class="btn btn-primary "
+                                                                        type="button">Cari</button>
+                                                                    <a class="btn btn-success"
+                                                                        href="create-spk.html">Buat SPK Baru</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
-                                            <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="tengah">Nama Pekerjaan</th>
-                                                        <th class="tengah">NIlai SPK</th>
-                                                        <th class="tengah">Klasifikasi</th>
-                                                        <th class="tengah">No SPK</th>
-                                                        <th class="tengah">Pemenang</th>
-                                                        <th class="tengah">Status</th>
-                                                        <th class="tengah">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div><!-- /.box-body -->
-                                    <div class="box-footer text-center">
-                                        <!--<a id="A1" class="uppercase">Berikutnya
+                                            <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
+                                                <table class="table table-bordered table-striped table-responsive"
+                                                    id="tbl-approval" style="margin-top:20px; ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="tengah">Nama Pekerjaan</th>
+                                                            <th class="tengah">NIlai SPK</th>
+                                                            <th class="tengah">Klasifikasi</th>
+                                                            <th class="tengah">No SPK</th>
+                                                            <th class="tengah">Pemenang</th>
+                                                            <th class="tengah">Status</th>
+                                                            <th class="tengah">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                        <div class="box-footer text-center">
+                                            <!--<a id="A1" class="uppercase">Berikutnya
                                         </a>-->
-                                    </div><!-- /.box-footer -->
+                                        </div><!-- /.box-footer -->
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane" id="po">
-                                <div class="box box-white">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List PO</h3>
-                                    </div><!-- /.box-header -->
-                                    <div class="box-body">
-                                        <div class="col-md-10" style="margin-left: 60px;">
-                                            <div >
-                                                <form class="form-horizontal label-kanan">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label">No.PO</label>
-                                                        <div class="col-sm-4">
-                                                            <input id="no-po" type="text" class="form-control " placeholder="No. PO">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label">Prihal</label>
-                                                        <div class="col-sm-4">
-                                                            <input id="prihal" type="text" class="form-control " placeholder="Prihal">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-12">
-                                                            <div class="submitgray button-row">
-                                                                <button  class="btn btn-primary cari-po" type="button">Cari</button>
-                                                                <a href="create-po.html" class="btn btn-success ">Buat PO Baru</a>
+                                <div class="tab-pane" id="po">
+                                    <div class="box box-white">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf cursor-pointer repository">List PO</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="col-md-10" style="margin-left: 60px;">
+                                                <div>
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">No.PO</label>
+                                                            <div class="col-sm-4">
+                                                                <input id="no-po" type="text" class="form-control "
+                                                                    placeholder="No. PO">
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
-                                            <table class="table table-bordered table-striped table-responsive" id="tbl-po" style="margin-top:20px; ">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="kiri">Prihal</th>
-                                                        <th class="tengah">No. PO</th>
-                                                        <th class="tengah">Tanggal PO</th>
-                                                        <th class="tengah">Nama Vendor</th>
-                                                        <th class="tengah">PIC</th>
-                                                        <th class="tengah">Nilai PO</th>
-                                                        <th class="tengah">Action</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                    </div><!-- /.box-body -->
-                                    <div class="box-footer text-center">
-                                        <!--<a id="A1" class="uppercase">Berikutnya</a>-->
-                                    </div><!-- /.box-footer -->
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="spk-non-pks">
-                                <div class="box box-white">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title text-blue-mtf cursor-pointer repository">List SPK NON-PKS</h3>
-                                    </div><!-- /.box-header -->
-                                    <div class="box-body">
-                                        <div class="col-md-10" style="margin-left: 60px;">
-                                            <div >
-                                                <form class="form-horizontal label-kanan">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label">Judul</label>
-                                                        <div class="col-sm-4">
-                                                            <input id="title-non-pks" type="text" class="form-control " placeholder="Judul">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group" style="display:none">
-                                                        <label class="col-sm-2 control-label">Klasifikasi</label>
-                                                        <div class="col-sm-4">
-                                                            <select id="klasifikasi-non-pks" class="form-control select2" style="width: 100%;">
-                                                                <option selected="selected" value="">ALL</option>
-                                                                <option value="Sipil">SIPIL</option>
-                                                                <option value="Non Sipil">NONSIPIL</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-md-12">
-                                                            <div class="submitgray button-row">
-                                                                <button id="cari-spk-non-pks" class="btn btn-primary " type="button">Cari</button>
-                                                                <a class="btn btn-success" href="create-spk-non-pks.html">Buat SPK Baru</a>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">Prihal</label>
+                                                            <div class="col-sm-4">
+                                                                <input id="prihal" type="text" class="form-control "
+                                                                    placeholder="Prihal">
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </form>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <div class="submitgray button-row">
+                                                                    <button class="btn btn-primary cari-po"
+                                                                        type="button">Cari</button>
+                                                                    <a href="create-po.html"
+                                                                        class="btn btn-success ">Buat PO Baru</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
-                                            <table class="table table-bordered table-striped table-responsive" id="tbl-approval-non-pks" style="margin-top:20px; ">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="tengah">Nama SPK</th>
-                                                        <th class="tengah">NIlai SPK</th>
-                                                        <!--<th class="tengah">Klasifikasi</th>-->
-                                                        <th class="tengah">No SPK</th>
-                                                        <th class="tengah">Pemenang</th>
-                                                        <th class="tengah">Status</th>
-                                                        <th class="tengah">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                        </div>
-                                    </div><!-- /.box-body -->
-                                    <div class="box-footer text-center">
-                                        <!--<a id="A1" class="uppercase">Berikutnya
+                                            <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
+                                                <table class="table table-bordered table-striped table-responsive"
+                                                    id="tbl-po" style="margin-top:20px; ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="kiri">Prihal</th>
+                                                            <th class="tengah">No. PO</th>
+                                                            <th class="tengah">Tanggal PO</th>
+                                                            <th class="tengah">Nama Vendor</th>
+                                                            <th class="tengah">PIC</th>
+                                                            <th class="tengah">Nilai PO</th>
+                                                            <th class="tengah">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                        <div class="box-footer text-center">
+                                            <!--<a id="A1" class="uppercase">Berikutnya</a>-->
+                                        </div><!-- /.box-footer -->
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="spk-non-pks">
+                                    <div class="box box-white">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title text-blue-mtf cursor-pointer repository">List SPK
+                                                NON-PKS</h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="col-md-10" style="margin-left: 60px;">
+                                                <div>
+                                                    <form class="form-horizontal label-kanan">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">Judul</label>
+                                                            <div class="col-sm-4">
+                                                                <input id="title-non-pks" type="text"
+                                                                    class="form-control " placeholder="Judul">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" style="display:none">
+                                                            <label class="col-sm-2 control-label">Klasifikasi</label>
+                                                            <div class="col-sm-4">
+                                                                <select id="klasifikasi-non-pks"
+                                                                    class="form-control select2" style="width: 100%;">
+                                                                    <option selected="selected" value="">ALL</option>
+                                                                    <option value="Sipil">SIPIL</option>
+                                                                    <option value="Non Sipil">NONSIPIL</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <div class="submitgray button-row">
+                                                                    <button id="cari-spk-non-pks"
+                                                                        class="btn btn-primary "
+                                                                        type="button">Cari</button>
+                                                                    <a class="btn btn-success"
+                                                                        href="create-spk-non-pks.html">Buat SPK Baru</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10" style="margin-left: 60px;overflow-x:auto;">
+                                                <table class="table table-bordered table-striped table-responsive"
+                                                    id="tbl-approval-non-pks" style="margin-top:20px; ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="tengah">Nama SPK</th>
+                                                            <th class="tengah">NIlai SPK</th>
+                                                            <!--<th class="tengah">Klasifikasi</th>-->
+                                                            <th class="tengah">No SPK</th>
+                                                            <th class="tengah">Pemenang</th>
+                                                            <th class="tengah">Status</th>
+                                                            <th class="tengah">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- /.box-body -->
+                                        <div class="box-footer text-center">
+                                            <!--<a id="A1" class="uppercase">Berikutnya
                                         </a>-->
-                                    </div><!-- /.box-footer -->
+                                        </div><!-- /.box-footer -->
+                                    </div>
                                 </div>
                             </div>
-                            </div>
-                         </div>
+                        </div>
                     </div>
                 </div>
             </section><!-- /.content -->
@@ -316,10 +339,10 @@
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="plugins/accounting/accounting.js"></script>	
+    <script src="plugins/accounting/accounting.js"></script>
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <script src='plugins/fullcalendar/moment.min.js'></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
@@ -342,9 +365,9 @@
         var table;
         var tablePo;
         var user_table;
-        
+
         //$("#no-po").on("change", function () {
-            //no-po prihal
+        //no-po prihal
         $(function () {
             //alert("2");
             tablePo = $('#tbl-po').DataTable({
@@ -408,7 +431,7 @@
             });
 
         });
-        
+
         $(function () {
             table = $('#tbl-approval').DataTable({
                 "dom": '<"toolbar">frtip',
@@ -429,7 +452,7 @@
                     { "data": "NoSpk" },
                     { "data": "Vendor" },
                     { "data": "StatusSpkName" },
-                    { "data": null, "className": "rata_kanan"}
+                    { "data": null, "className": "rata_kanan" }
                 ],
                 "columnDefs": [
                     {
@@ -451,7 +474,7 @@
                                 var html = '<a IdSpk="' + row.Id + '" style="margin-left: 5px;" class="btn btn-info btn-sm product-title download-spk"> Download </a>';
                                 html = html + '<a style="margin-left: 5px;" href="create-spk.html?id=' + data.Id + '" class="btn btn-success btn-sm product-title "> Detail </a>';
                             }
-                            
+
                             return html;
                         },
 
@@ -509,18 +532,18 @@
 
             return '<table class="table table-bordered table-striped table-responsive">' +
                 '<tr>' +
-                    '<td>PIC</td>' +
-                    '<td>' + pic[0].Nama + '</td>' +
+                '<td>PIC</td>' +
+                '<td>' + pic[0].Nama + '</td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td>Rekanan Terdaftar</td>' +
-                    '<td>' + vendor + '</td>' +
+                '<td>Rekanan Terdaftar</td>' +
+                '<td>' + vendor + '</td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td>Extra info:</td>' +
-                    '<td>And any further details here (images etc)...</td>' +
+                '<td>Extra info:</td>' +
+                '<td>And any further details here (images etc)...</td>' +
                 '</tr>' +
-            '</table>';
+                '</table>';
         }
 
         $(function () {
@@ -608,8 +631,9 @@
                 }
             });
         });
-        
+
 
     </script>
 </body>
+
 </html>

@@ -1,4 +1,4 @@
-﻿var id = $("#EMemoId").val();
+var id = $("#EMemoId").val();
 var id_pengadaan = window.location.hash.replace("#", "");
 if (id == null || id == "") {
     id = id_pengadaan;

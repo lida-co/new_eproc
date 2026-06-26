@@ -1,5 +1,5 @@
 var IDSRV = '';
-var PROC = 'http://localhost:44392/';
+var PROC = window.location.origin + '/';
 
 
 var UNAUTHORIZED_CODE = '403';
@@ -54,8 +54,9 @@ async function initCsrf() {
 
 // ✅ Auto-init CSRF token saat DOM ready - berlaku untuk SEMUA halaman
 // Tidak perlu lagi memanggil initCsrf() manual di setiap HTML
-$(document).ready(function () {
-    initCsrf();
+$(document).ready(async function () {
+    await initCsrf();
+    cekLogin(0);
 });
 
 $.ajaxSetup({

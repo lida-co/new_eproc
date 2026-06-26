@@ -1004,8 +1004,8 @@ $(function () {
     var acceptedFiles = ".png,.jpg,.pdf,.xls,.xlsx,.jpeg,.doc,.docx";
     
     $("#HapusFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
        
         $.ajax({
             method: "POST",
@@ -1021,7 +1021,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
                         
                         if (id == FileId) {
@@ -1037,7 +1037,7 @@ $(function () {
                             id = item.Id;
                         }
                         else {
-                            id = $.parseJSON(DOMPurify.sanitize(item.xhr.response));
+                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
                         }
 
                         if (id == FileId) {
@@ -1071,7 +1071,7 @@ $(function () {
     $(".Setujui").on("click", function () {
         $.ajax({
             method:"POST",
-            url: "Api/EMemo/persetujuan?Id=" + parseInt($("#pengadaanId").val()) ,
+            url: "Api/EMemo/persetujuan?Id=" + $("#pengadaanId").val() ,
             success: function (data) {
 				data = DOMPurify.sanitize(data);
                 if (data.status == 200) {                    
@@ -1128,8 +1128,8 @@ $(function () {
     });
 
     $("#downloadFile").on("click", function () {
-        var tipe = $(this).parent().parent().parent().parent().attr("attr1");
-        var FileId = $(this).parent().parent().parent().parent().attr("FileId");
+        var tipe = $("#konfirmasiFile").attr("attr1");
+        var FileId = $("#konfirmasiFile").attr("FileId");
         downloadFileUsingForm("/api/EMemo/OpenFile?Id=" + FileId);
     });
     

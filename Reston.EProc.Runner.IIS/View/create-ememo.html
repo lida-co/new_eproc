@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,17 +36,18 @@
             /*border-radius: 7px;*/
         }
 
-            .form-validation-error:focus {
-                outline: none;
-                border-color: #f52424;
-                box-shadow: 0 0 5px #f52424;
-            }
+        .form-validation-error:focus {
+            outline: none;
+            border-color: #f52424;
+            box-shadow: 0 0 5px #f52424;
+        }
 
         #example1 thead tr th {
             text-align: center;
         }
 
-        #example1 tbody tr td, #example1 thead tr th {
+        #example1 tbody tr td,
+        #example1 thead tr th {
             border: 1px solid black;
         }
     </style>
@@ -60,6 +62,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 </head>
+
 <body class="hold-transition skin-blue sidebar-mini sidebar-collapse sidebar-mini fixed">
     <div class="wrapper">
 
@@ -69,7 +72,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -81,13 +85,14 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Tambah E-Memo</a></li>
+                            <li> <a id="judul-page" href="#">Tambah E-Memo</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
                             <!--<li><a href="#" id="cetak-rks" title="Cetak"><i class="fa fa-fw fa-print " style="font-size:20px;"></i>Cetak</a></li>-->
-                            <li><a href="#" id="SelaluSimpan" attr2="save" title="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a href="#" id="SelaluSimpan" attr2="save" title="Simpan"><i class="fa fa-fw fa-save "
+                                        style="font-size:20px;"></i>Simpan</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -144,43 +149,52 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Perihal</label>
                                                 <div class="col-sm-4">
-                                                    <input name="Subject" id="Subject" type="text" maxlength="150" class="form-control " placeholder="Perihal">
+                                                    <input name="Subject" id="Subject" type="text" maxlength="150"
+                                                        class="form-control " placeholder="Perihal">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Kepada</label>
                                                 <div class="col-sm-4">
-                                                    <input name="UserIdMain" id="UserIdMain" type="text" maxlength="150" class="form-control " placeholder="Perihal">
+                                                    <input name="UserIdMain" id="UserIdMain" type="text" maxlength="150"
+                                                        class="form-control " placeholder="Perihal">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Tembusan</label>
                                                 <div class="col-sm-4">
-                                                    <input name="UserIdCc" id="UserIdCc" type="text" maxlength="150" class="form-control " placeholder="Perihal">
+                                                    <input name="UserIdCc" id="UserIdCc" type="text" maxlength="150"
+                                                        class="form-control " placeholder="Perihal">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">HPS</label>
                                                 <div class="col-sm-4">
-                                                    <input name="Subject" id="HPSAmount" type="text" maxlength="150" class="form-control " placeholder="HPS">
+                                                    <input name="Subject" id="HPSAmount" type="text" maxlength="150"
+                                                        class="form-control " placeholder="HPS">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Budget</label>
                                                 <div class="col-sm-4">
-                                                    <select name="Jenis" id="BudgetType" class="form-control">Test</select>
-                                                    <input name="Satuan" type="text" maxlength="20" class="form-control">
+                                                    <select name="Jenis" id="BudgetType"
+                                                        class="form-control">Test</select>
+                                                    <input name="Satuan" type="text" maxlength="20"
+                                                        class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">No. Ref Internal</label>
                                                 <div class="col-sm-4">
-                                                    <input name="InternalRefNo" id="InternalRefNo" type="text" maxlength="150" class="form-control " placeholder="No. Ref Internal">
+                                                    <input name="InternalRefNo" id="InternalRefNo" type="text"
+                                                        maxlength="150" class="form-control "
+                                                        placeholder="No. Ref Internal">
                                                 </div>
                                             </div>
                                             <div class="nav-tabs-custom">
                                                 <ul class="nav nav-tabs">
-                                                    <li class="active"><a href="#content-quo" data-toggle="tab">Isi Quotation</a></li>
+                                                    <li class="active"><a href="#content-quo" data-toggle="tab">Isi
+                                                            Quotation</a></li>
                                                     <li><a href="#doc-quo" data-toggle="tab">Quotation Doc</a></li>
                                                 </ul>
                                                 <div class="tab-content">
@@ -212,7 +226,8 @@
                                                     <br />(*)max 5 document
                                                 </label>
                                                 <div class="col-sm-4">
-                                                    <input type="file" multiple id="analisaCostBenefit" class="form-control ">
+                                                    <input type="file" multiple id="analisaCostBenefit"
+                                                        class="form-control ">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -227,9 +242,12 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Validasi</label>
                                                 <div class="col-sm-4">
-                                                    <button type="button" class="btn btn-primary " data-toggle="modal" onclick="validasitambah();"><span class="fa fa-plus"></span> Tambah</button>
+                                                    <button type="button" class="btn btn-primary " data-toggle="modal"
+                                                        onclick="validasitambah();"><span class="fa fa-plus"></span>
+                                                        Tambah</button>
                                                     <div class="tab-content" style="overflow:visible">
-                                                        <div id="periode" class="tab-pane active" style="overflow:visible">
+                                                        <div id="periode" class="tab-pane active"
+                                                            style="overflow:visible">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <table id="example1" class="table table-bordered">
@@ -250,9 +268,12 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Approval</label>
                                                 <div class="col-sm-4">
-                                                    <button type="button" class="btn btn-primary " data-toggle="modal" onclick="approvaltambah();"><span class="fa fa-plus"></span> Tambah</button>
+                                                    <button type="button" class="btn btn-primary " data-toggle="modal"
+                                                        onclick="approvaltambah();"><span class="fa fa-plus"></span>
+                                                        Tambah</button>
                                                     <div class="tab-content" style="overflow:visible">
-                                                        <div id="periode" class="tab-pane active" style="overflow:visible">
+                                                        <div id="periode" class="tab-pane active"
+                                                            style="overflow:visible">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <table id="example2" class="table table-bordered">
@@ -346,7 +367,8 @@
 
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header" id="title_1">
@@ -375,14 +397,16 @@
                     </form>
                 </div>
                 <div id="btn_1" class="modal-footer">
-                    <button id="addbenef" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Tambah Validasi</button>
+                    <button id="addbenef" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Tambah
+                        Validasi</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header" id="title_2">
@@ -401,12 +425,14 @@
 
                         <label class="control-label">Position</label>
                         <div>
-                            <input name="PositionApproval" id="PositionApproval" type="text" maxlength="150" class="form-control " disabled>
+                            <input name="PositionApproval" id="PositionApproval" type="text" maxlength="150"
+                                class="form-control " disabled>
                         </div>
                     </form>
                 </div>
                 <div id="btn_2" class="modal-footer">
-                    <button id="addbenef" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Tambah Approval</button>
+                    <button id="addbenef" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Tambah
+                        Approval</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -423,7 +449,7 @@
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <script src="dist/js/app.min.js"></script>
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="plugins/jQueryUItotop/easing.js"></script>
@@ -894,4 +920,5 @@ function validateForm() {
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 
 </body>
+
 </html>

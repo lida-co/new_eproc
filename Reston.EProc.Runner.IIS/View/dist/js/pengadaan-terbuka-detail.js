@@ -1,4 +1,4 @@
-﻿var id_pengadaan = DOMPurify.sanitize(window.location.hash);
+var id_pengadaan = DOMPurify.sanitize(window.location.hash);
 
 $(function () {
     if (isGuid(id_pengadaan)) {
@@ -7,7 +7,7 @@ $(function () {
     }
     else {
         if (isGuid($("#pengadaanId").val())) {
-            window.location.hash = parseInt($("#pengadaanId").val());
+            window.location.hash = $("#pengadaanId").val();
             loadData($("#pengadaanId").val());
         }
         else {
@@ -395,7 +395,7 @@ $(function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method:"POST",
-            url: "Api/PengadaanE/ajukan?Id=" + parseInt($("#pengadaanId").val()),
+            url: "Api/PengadaanE/ajukan?Id=" + $("#pengadaanId").val(),
             success: function (response) {
                 window.location.replace(HOME_PAGE + "/pengadaan-list.html");
                 waitingDialog.hideloading();
@@ -466,7 +466,7 @@ $(function () {
          waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/persetujuan?Id=" + parseInt($("#pengadaanId").val()),
+            url: "Api/PengadaanE/persetujuan?Id=" + $("#pengadaanId").val(),
             success: function (data) {
                 if (data.status == 200) {
                     window.location.replace(HOME_PAGE + "/pengadaan-list.html");
@@ -754,7 +754,7 @@ $(function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/ajukan?Id=" + parseInt($("#pengadaanId").val()),
+            url: "Api/PengadaanE/ajukan?Id=" + $("#pengadaanId").val(),
             success: function (response) {
                 window.location.replace(HOME_PAGE + "/pengadaan-list.html");
                 waitingDialog.hideloading();
@@ -790,7 +790,7 @@ $(function () {
 
         waitingDialog.showloading("Proses Harap Tunggu");
         var objData = {};
-        objData.PenolakanId = parseInt($("#pengadaanId").val());
+        objData.PenolakanId = $("#pengadaanId").val();
         objData.AlasanPenolakan = $("#keterangan_penolakan").val();
 
         $.ajax({
@@ -819,7 +819,7 @@ $(function () {
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             method: "POST",
-            url: "Api/PengadaanE/persetujuan?Id=" + parseInt($("#pengadaanId").val()),
+            url: "Api/PengadaanE/persetujuan?Id=" + $("#pengadaanId").val(),
             success: function (data) {
                 if (data.status == 200) {
                     window.location.replace(HOME_PAGE + "/pengadaan-list.html");
@@ -836,7 +836,7 @@ $(function () {
 
     $("body").on("click", ".box-rekanan", function () {
         var id = parseInt($(this).attr("vendorId"));
-        var pengadaanId = parseInt($("#pengadaanId").val());
+        var pengadaanId = $("#pengadaanId").val();
         BootstrapDialog.show({
             title: 'Konfirmasi',
             buttons: [{
@@ -861,7 +861,7 @@ $(function () {
         }
         var _this = $(this);
         $.ajax({
-            url: "Api/PengadaanE/SaveReadyPersonil?Id=" + parseInt($("#pengadaanId").val()) + "&ready=" + sendCheck,
+            url: "Api/PengadaanE/SaveReadyPersonil?Id=" + $("#pengadaanId").val() + "&ready=" + sendCheck,
             method: "POST"
         }).done(function (data) {
             if ((data.Id == null || data.Id == "") && sendCheck == 1) {

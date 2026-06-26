@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,6 +21,7 @@
     <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
 
 </head>
+
 <body class="hold-transition skin-blue sidebar-collapse sidebar-mini  fixed">
     <div class="wrapper">
 
@@ -29,7 +31,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -41,7 +44,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Repository HPS</a></li>
+                            <li> <a id="judul-page" href="#">Repository HPS</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -57,24 +60,25 @@
                                     </form>
                                 </div>-->
                             </li>
-                            <li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus " style="font-size:20px;color:green"></i></a></li>
+                            <li><a title="Tambah" href="add-eCatalogue2.html"><i class="fa fa-plus "
+                                        style="font-size:20px;color:green"></i></a></li>
                         </ul>
                     </div>
                 </nav>
             </header>
         </div>
         <!-- Left side column. contains the logo and sidebar -->
-       <div id="menu">
+        <div id="menu">
             <aside class="main-sidebar" ng-app="app">
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
                     <div class="user-panel" ng-controller="user">
                         <div class="pull-left info">
                             <p class="title" ng-bind="user.FullName"></p>
-                           <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
+                            <!-- <p class="deskripsi" ng-bind="user.jabatan"></p>-->
                         </div>
-                       <div class="pull-right image image-profile">
-                          <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
+                        <div class="pull-right image image-profile">
+                            <!--   <img alt="User Image" class="img-circle" src="{{user.logo}}">-->
                         </div>
                     </div>
                     <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -112,13 +116,15 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Judul</label>
                                                 <div class="col-sm-4">
-                                                    <input id="title" type="text" class="form-control " placeholder="Judul">
+                                                    <input id="title" type="text" class="form-control "
+                                                        placeholder="Judul">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Klasifikasi</label>
                                                 <div class="col-sm-4">
-                                                    <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                                    <select id="klasifikasi" class="form-control select2"
+                                                        style="width: 100%;">
                                                         <option selected="selected" value="">ALL</option>
                                                         <option value="0">SIPIL</option>
                                                         <option value="1">NONSIPIL</option>
@@ -132,7 +138,8 @@
                                     <div class="col-md-12">
                                         <div class="submitgray button-row">
                                             <button id="cari" class="btn btn-primary " type="submit">Cari</button>
-                                            <button id="tambah" class="btn btn-success" onclick="NewItem()" type="submit">Tambah Template RKS</button>
+                                            <button id="tambah" class="btn btn-success" onclick="NewItem()"
+                                                type="submit">Tambah Template RKS</button>
                                         </div>
                                     </div>
                                 </div>
@@ -199,7 +206,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="plugins/datatables/extensions/responsive/js/datatables.responsive.min.js"></script>
@@ -230,7 +237,7 @@
 
         function Delete(idd) {
             $("#DeleteModal").modal('hide');
-          
+
             if (!idd) {
                 //v = $("#tobeDelete").val();
 
@@ -318,4 +325,5 @@
     </script>
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 </body>
+
 </html>

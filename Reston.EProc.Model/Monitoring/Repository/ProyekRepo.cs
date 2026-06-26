@@ -1,4 +1,4 @@
-﻿using Reston.Eproc.Model.Monitoring.Entities;
+using Reston.Eproc.Model.Monitoring.Entities;
 using Reston.Eproc.Model.Monitoring.Model;
 using Reston.Eproc.Model.Monitoring.Repository;
 using Reston.Pinata.Model;
@@ -381,12 +381,21 @@ namespace Reston.Eproc.Model.Monitoring.Repository
         }
 
         // Simpan Rencana Proyek
-        public ResultMessage SimpanRencanaProyekRepo(Guid SpkId, string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
+        public ResultMessage SimpanRencanaProyekRepo(Guid xPengadaanId, string xStatus, Guid UserId, DateTime? xStartDate, DateTime? xEndDate)
         {
             ResultMessage rm = new ResultMessage();
             try
             {
-                var idPengadaan = ctx.Spk.Where(d => d.Id == SpkId).FirstOrDefault().PemenangPengadaan.PengadaanId;
+                var spk = ctx.Spk.Where(d => d.PemenangPengadaan.PengadaanId == xPengadaanId).FirstOrDefault();
+                if (spk == null) 
+                {
+                    rm.status = HttpStatusCode.NotFound;
+                    rm.message = "Data SPK tidak ditemukan";
+                    return rm;
+                }
+                
+                Guid SpkId = spk.Id;
+                var idPengadaan = xPengadaanId;
 
                 var cekisPIC = ctx.PersonilPengadaans.Where(d => d.PengadaanId == idPengadaan && d.PersonilId == UserId).FirstOrDefault();
                 //var cekisPIC = ctx.PersonilPengadaans.Where(d => d.PengadaanId == idPengadaan).FirstOrDefault();

@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
-  <head >
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mandiri Tunas Finance</title>
@@ -17,9 +18,9 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
-	<link rel="stylesheet" href="plugins/select2/select2.min.css">
-	
-	<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -27,34 +28,38 @@
         
     <![endif]-->
 
-	<link href="dist/site.css" rel="stylesheet" />
-	<link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
-	<link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
-	<link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
-	<link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
-	<link rel="stylesheet" href="dist/app.css">
-	<link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
-	<link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
-		<style type="text/css">
-		.dz-error-mark{
-			display:none !important;
-		}
-		.dropzone{
-			min-height: 50px;
-		}
-		.dropzone .dz-message {
-			margin: 0em 0;
-			text-align: center;
-		}
-		
-		.clear-margin{
-			margin:0 !important;
-			padding-top:3px;
-			padding-left:250px;
-		}
-</style>
-  </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+    <link href="dist/site.css" rel="stylesheet" />
+    <link href="plugins/jQueryUItotop/ui.totop.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/JQueryValidation/validationEngine.jquery.css">
+    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel='stylesheet' href='plugins/fullcalendar/fullcalendar.min.css' />
+    <link rel='stylesheet' href="datetimepicker/bootstrap-datetimepicker.css" />
+    <style type="text/css">
+        .dz-error-mark {
+            display: none !important;
+        }
+
+        .dropzone {
+            min-height: 50px;
+        }
+
+        .dropzone .dz-message {
+            margin: 0em 0;
+            text-align: center;
+        }
+
+        .clear-margin {
+            margin: 0 !important;
+            padding-top: 3px;
+            padding-left: 250px;
+        }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -63,7 +68,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -75,13 +81,16 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Detail Rencana Pekerjaan</a></li>
+                            <li> <a id="judul-page" href="#">Detail Rencana Pekerjaan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
-                            <li><a id="SimpanJalankan" title="Simpan Jalankan" href="#" class="SimpanJalankan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan & Jalankan</a></li>
-                            <li><a onclick="TambahProyekDrafPekerjaan()" id="Simpan" title="Simpan" href="#" class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a id="SimpanJalankan" title="Simpan Jalankan" href="#" class="SimpanJalankan"><i
+                                        class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan & Jalankan</a></li>
+                            <li><a onclick="TambahProyekDrafPekerjaan()" id="Simpan" title="Simpan" href="#"
+                                    class="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a>
+                            </li>
 
                             <!--<li><a  id="Hapus" title="Hapus" href="#" class="Hapus" style="display:none"><i class="fa fa-fw fa-trash " style="font-size:20px;"></i>Hapus</a></li>-->
                         </ul>
@@ -186,11 +195,13 @@
                                         <input type="hidden" class="jadwal" attr1="pendaftaran" attr2="" attr3="" />
                                         <div class="form-group col-md-4">
                                             <label class="title">Tanggal Mulai :</label>
-                                            <input id="pendaftaran" type="text" class="form-control input-group datepicker dateJadwal">
+                                            <input id="pendaftaran" type="text"
+                                                class="form-control input-group datepicker dateJadwal">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="title">Tanggal Selesai :</label>
-                                            <input id="pendaftaran_sampai" type="text" class="form-control input-group datepicker dateJadwal">
+                                            <input id="pendaftaran_sampai" type="text"
+                                                class="form-control input-group datepicker dateJadwal">
                                         </div>
                                     </div>
                                     <div class="row" id="">
@@ -202,7 +213,9 @@
                                         <div class="col-md-12">
                                             <label>
                                                 <!--<a id="addVendorItem">Tambah</a>-->
-                                                <a onclick="popuptahapan()" id="" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
+                                                <a onclick="popuptahapan()" id=""
+                                                    style="margin-top:10px;margin-bottom:10px"
+                                                    class="btn btn-sm btn-social btn-bitbucket">
                                                     <i class="fa fa-plus"></i>
                                                     Tambah Tahapan Pekerjaan
                                                 </a>
@@ -232,7 +245,9 @@
                                         <div class="col-md-12">
                                             <label>
                                                 <!--<a id="addVendorItem">Tambah</a>-->
-                                                <a onclick="popuptahapanpembayaran()" id="" style="margin-top:10px;margin-bottom:10px" class="btn btn-sm btn-social btn-bitbucket">
+                                                <a onclick="popuptahapanpembayaran()" id=""
+                                                    style="margin-top:10px;margin-bottom:10px"
+                                                    class="btn btn-sm btn-social btn-bitbucket">
                                                     <i class="fa fa-plus"></i>
                                                     Tambah Tahapan Pembayaran
                                                 </a>
@@ -271,8 +286,10 @@
                                     </div>-->
 
                                     <div class="box-footer clearfix" style="text-align:center;">
-                                        <button class="pull-middle btn btn-primary btn-lmedia SimpanAjukan" style="display:none">Simpan & Ajukan <i class="fa fa-save"></i></button>
-                                        <button class="pull-middle btn btn-primary btn-lmedia Simpan" style="display:none">Simpan <i class="fa fa-save"></i></button>
+                                        <button class="pull-middle btn btn-primary btn-lmedia SimpanAjukan"
+                                            style="display:none">Simpan & Ajukan <i class="fa fa-save"></i></button>
+                                        <button class="pull-middle btn btn-primary btn-lmedia Simpan"
+                                            style="display:none">Simpan <i class="fa fa-save"></i></button>
                                     </div>
                             </form>
                         </div>
@@ -287,7 +304,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Tambah Dokumen Tahapan Pekerjaan</h4>
                 </div>
                 <div class="modal-body">
@@ -303,7 +321,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="simpan" class="btn btn-primary " onclick="TambahDokumenPekerjaan()">Simpan</button>
+                    <button type="button" id="simpan" class="btn btn-primary "
+                        onclick="TambahDokumenPekerjaan()">Simpan</button>
                     <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
                 </div>
                 <div class="modal-body">
@@ -331,7 +350,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Tambah Dokumen Tahapan Pembayaran</h4>
                 </div>
                 <div class="modal-body">
@@ -346,7 +366,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="simpan" class="btn btn-primary " onclick="TambahDokumenPembayaran()">Simpan</button>
+                        <button type="button" id="simpan" class="btn btn-primary "
+                            onclick="TambahDokumenPembayaran()">Simpan</button>
                         <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
                     </div>
                 </div>
@@ -375,7 +396,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Tambah Tahapan Pekerjaan</h4>
                 </div>
                 <div class="modal-body">
@@ -384,7 +406,8 @@
                             <div class="col-md-12">
                                 <div class="form-group col-md-12">
                                     <label class="title">Nama Tahapan Pekerjaan</label>
-                                    <input type="text" class="form-control" name="nama-tahapan-pekerjaan" id="nama-tahapan-pekerjaan">
+                                    <input type="text" class="form-control" name="nama-tahapan-pekerjaan"
+                                        id="nama-tahapan-pekerjaan">
                                 </div>
                             </div>
                         </div>
@@ -392,11 +415,13 @@
                             <div class="col-md-12">
                                 <div class="form-group col-md-6">
                                     <label class="title">Tanggal Pekerjaan Mulai</label>
-                                    <input id="tanggal-pekerjaan-mulai" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
+                                    <input id="tanggal-pekerjaan-mulai" type="text"
+                                        class="tanggal-tahapan form-control datepicker input-group dateJadwal">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="title">Tanggal Pekerjaan Sampai</label>
-                                    <input id="tanggal-pekerjaan-selesai" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
+                                    <input id="tanggal-pekerjaan-selesai" type="text"
+                                        class="tanggal-tahapan form-control datepicker input-group dateJadwal">
                                 </div>
                             </div>
                         </div>
@@ -411,7 +436,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="TambahTahapanPekerjaan()" id="SimpanTahapan" class="btn btn-primary ">Simpan</button>
+                    <button type="button" onclick="TambahTahapanPekerjaan()" id="SimpanTahapan"
+                        class="btn btn-primary ">Simpan</button>
                     <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -424,7 +450,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Tambah Tahapan Pembayaran</h4>
                 </div>
                 <div class="modal-body">
@@ -433,7 +460,8 @@
                             <div class="col-md-12">
                                 <div class="form-group col-md-8">
                                     <label class="title">Nama Tahapan Pembayaran</label>
-                                    <input type="text" class="form-control" name="nama-tahapan-pekerjaan" id="nama-tahapan-pembayaran">
+                                    <input type="text" class="form-control" name="nama-tahapan-pekerjaan"
+                                        id="nama-tahapan-pembayaran">
                                 </div>
                             </div>
                         </div>
@@ -441,18 +469,21 @@
                             <div class="col-md-12">
                                 <div class="form-group col-md-5">
                                     <label class="title">Tanggal Pembayaran Mulai</label>
-                                    <input id="tanggal-pembayaran-mulai" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
+                                    <input id="tanggal-pembayaran-mulai" type="text"
+                                        class="tanggal-tahapan form-control datepicker input-group dateJadwal">
                                 </div>
                                 <div class="form-group col-md-5">
                                     <label class="title">Tanggal Pembayaran Sampai</label>
-                                    <input id="tanggal-pembayaran-selesai" type="text" class="tanggal-tahapan form-control datepicker input-group dateJadwal">
+                                    <input id="tanggal-pembayaran-selesai" type="text"
+                                        class="tanggal-tahapan form-control datepicker input-group dateJadwal">
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="TambahTahapanPembayaran()" id="SimpanTahapan" class="btn btn-primary ">Simpan</button>
+                    <button type="button" onclick="TambahTahapanPembayaran()" id="SimpanTahapan"
+                        class="btn btn-primary ">Simpan</button>
                     <button type="button" class="btn btn-danger " data-dismiss="modal">Batal</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -464,7 +495,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Daftar Personil</h4>
                 </div>
                 <div class="modal-body">
@@ -473,9 +505,11 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="cari personil" ng-model="search" id="search" />
+                                    <input type="text" class="form-control" placeholder="cari personil"
+                                        ng-model="search" id="search" />
                                     <div class="input-group-addon">
-                                        <a href="#search"><i class="glyphicon glyphicon-search" ng-click="searchPerson()"></i></a>
+                                        <a href="#search"><i class="glyphicon glyphicon-search"
+                                                ng-click="searchPerson()"></i></a>
                                     </div>
                                 </div>
                             </h3>
@@ -495,7 +529,8 @@
                             </ul>
                         </div><!-- /.box-body -->
                         <div class="box-footer text-center">
-                            <a class="uppercase" id="pop-personil-next" ng-click="nextPerson($event,person)">Berikutnya</a>
+                            <a class="uppercase" id="pop-personil-next"
+                                ng-click="nextPerson($event,person)">Berikutnya</a>
                         </div><!-- /.box-footer -->
                     </div>
                 </div>
@@ -516,7 +551,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen webkitallowfullscreen></iframe>
+                        <iframe id="docViewFrame" width="100%" style="min-height: 500px" src="" allowfullscreen
+                            webkitallowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -528,7 +564,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                 </div>
                 <div class="modal-footer">
@@ -544,7 +581,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">PIC Sudah Ada</h4>
                 </div>
                 <div class="modal-footer">
@@ -559,10 +597,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Konfirmasi</h4>
                     <div class="modal-body">
-                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Departemen Head Pengadaaan untuk dimintai persetujuan
+                        Dengan menekan tombal "lanjut" dokumen pengadaan ini akan diajukan pada Departemen Head
+                        Pengadaaan untuk dimintai persetujuan
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -677,7 +717,7 @@
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
@@ -709,4 +749,5 @@
     <script src="dist/js/menu.js"></script>
     <script src="dist/js/monitoring-proyek-add.js"></script>
 </body>
+
 </html>

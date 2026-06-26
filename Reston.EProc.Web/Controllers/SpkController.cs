@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -293,6 +293,16 @@ namespace Reston.Pinata.WebService.Controllers
         {
             var data = _repository.getDokSpk(Id);
             var path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_DOKUMEN_SPK_PATH + data.File;
+            
+            if (!System.IO.File.Exists(path))
+            {
+                var pengadaanPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + FILE_DOKUMEN_PATH + data.File;
+                if (System.IO.File.Exists(pengadaanPath))
+                {
+                    path = pengadaanPath;
+                }
+            }
+
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(path, FileMode.Open);
             result.Content = new StreamContent(stream);

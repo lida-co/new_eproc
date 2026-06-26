@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,12 +46,13 @@
             text-align: center;
         }
 
-        #example1 tbody tr td, #example1 thead tr th {
+        #example1 tbody tr td,
+        #example1 thead tr th {
             border: 1px solid black;
         }
-
     </style>
 </head>
+
 <body class="hold-transition skin-blue sidebar-mini sidebar-collapse sidebar-mini fixed">
     <div class="wrapper">
 
@@ -60,7 +62,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -72,13 +75,14 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Tambah Template Asuransi</a></li>
+                            <li> <a id="judul-page" href="#">Tambah Template Asuransi</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
                             <!--<li><a href="#" id="cetak-rks" title="Cetak"><i class="fa fa-fw fa-print " style="font-size:20px;"></i>Cetak</a></li>-->
-                            <li><a href="#" id="SelaluSimpan" attr2="save" title="Simpan"><i class="fa fa-fw fa-save " style="font-size:20px;"></i>Simpan</a></li>
+                            <li><a href="#" id="SelaluSimpan" attr2="save" title="Simpan"><i class="fa fa-fw fa-save "
+                                        style="font-size:20px;"></i>Simpan</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -128,14 +132,15 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <form id="formProduk" >
+                                <form id="formProduk">
                                     <!--<form id="formProduk" action="/Api/Produk/SaveTarifAsuransi" method="post" onsubmit="return validateForm()">-->
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Judul</label>
                                                 <div class="col-sm-4">
-                                                    <input name="DocumentTitle" id="DocumentTitle" type="text" maxlength="150" class="form-control " placeholder="Nama Item">
+                                                    <input name="DocumentTitle" id="DocumentTitle" type="text"
+                                                        maxlength="150" class="form-control " placeholder="Nama Item">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -147,7 +152,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-primary " data-toggle="modal" onclick="tampilmodaltambah();"><span class="fa fa-plus"></span> Tambah</button>
+                                    <button type="button" class="btn btn-primary " data-toggle="modal"
+                                        onclick="tampilmodaltambah();"><span class="fa fa-plus"></span> Tambah</button>
                                     <div class="tab-content" style="overflow:visible">
                                         <div id="periode" class="tab-pane active" style="overflow:visible">
                                             <div class="row">
@@ -213,8 +219,8 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" value="Hapus" onclick="Delete()" class="btn btn-default" >
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup" >
+                    <input type="button" value="Hapus" onclick="Delete()" class="btn btn-default">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Tutup">
                 </div>
             </div>
         </div>
@@ -222,7 +228,8 @@
 
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header" id="title_1">
@@ -262,13 +269,16 @@
                         <div id="changeShipInputs">
                             <label class="control-label">Rate Value Type</label>
                             <div>
-                                <select name="IsRange" id="IsRange" class="form-control" onchange="java_script_:show(this.options[this.selectedIndex].value)">
+                                <select name="IsRange" id="IsRange" class="form-control"
+                                    onchange="java_script_:show(this.options[this.selectedIndex].value)">
                                     <option value="true" selected>Rate</option>
                                     <option value="false">Value</option>
                                 </select>
                                 <label class="control-label">Rate</label>
                                 <div id="raterange">
-                                    <input name="RateLowerLimit" id="RateLowerLimit" type="number" min="0" max="10000" class="form-control "> % s.d <input name="RateUpperLimit" id="RateUpperLimit" type="number" min="0" max="10000" class="form-control ">
+                                    <input name="RateLowerLimit" id="RateLowerLimit" type="number" min="0" max="10000"
+                                        class="form-control "> % s.d <input name="RateUpperLimit" id="RateUpperLimit"
+                                        type="number" min="0" max="10000" class="form-control ">
                                 </div>
                                 <div id="ratevalue" style="display:none">
                                     <input name="Rate" id="Rate" type="number" min="0" max="10000" class="form-control">
@@ -278,18 +288,20 @@
                     </form>
                 </div>
                 <div id="btn_1" class="modal-footer">
-                    <button id="addbenef" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Tambah Benefit</button>
+                    <button id="addbenef" type="submit" onclick="//AddBenefit()" class="addbenef btn btn-primary">Tambah
+                        Benefit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
                 <div id="btn_2" class="modal-footer" style="display: none;">
-                    <button id="Simpanedit" type="submit" onclick="//AddBenefit()" class="editbenef btn btn-primary">Edit Benefit</button>
+                    <button id="Simpanedit" type="submit" onclick="//AddBenefit()"
+                        class="editbenef btn btn-primary">Edit Benefit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -297,7 +309,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <script src="dist/js/app.min.js"></script>
@@ -311,7 +323,7 @@
     <!--<script src="View/bootstrap/js/bootstrap-dialog.min.js"></script>
     <script src="View/bootstrap/js/bootstrap-dialog.js"></script>-->
 
-    <script >
+    <script>
 
         var atributList = [];
 
@@ -357,7 +369,7 @@
             $("#btn_1").show();
             $("#btn_2").hide();
         }
-        
+
         function Delete(idd) {
             $("#DeleteModal").modal('hide');
             var v = 0;
@@ -368,7 +380,7 @@
             $.ajax({
                 url: "/api/MonitoringSelection/deleteEach?Id=" + v,
                 success: function (data) {
-				//data = DOMPurify.sanitize(data);
+                    //data = DOMPurify.sanitize(data);
                     table.ajax.reload();
                     alert(data.message);
                 }
@@ -404,7 +416,7 @@
                 { "data": "IsOpen" }
             ],
             "columnDefs": [
-                
+
                 {
                     "render": function (data, type, row) {
                         var html = '<a style="margin-left: 5px;" idDelete="' + row.Id + '" class="btn btn-danger remove-item btn-sm product-title"><span class="fa fa-trash-o"></span> Hapus</a>';
@@ -524,7 +536,7 @@
         });
         function EditConfirmation(ide) {
             $("#tobeEdit").val(ide);
-           // Alert(datanya = $("#tobeEdit").val());
+            // Alert(datanya = $("#tobeEdit").val());
             $("#exampleModal").modal('show');
             $("#title_1").hide();
             $("#title_2").show();
@@ -546,7 +558,7 @@
             $('#IsOpen').val();
         }
 
-        
+
         function editbenefit(ide) {
             var v = 0;
             if (!ide) {
@@ -555,7 +567,7 @@
             else v = ide
             {
                 $.getJSON("/api/Asuransi/GetEdit?Id=" + v, null, function (data) {
-				//data = DOMPurify.sanitize(data);
+                    //data = DOMPurify.sanitize(data);
                     clear();
                     console.log("doc data:", data);
                     $('#BenefitCode').val(data.BenefitCode);
@@ -608,10 +620,10 @@
                 ForSaveEdit()
             }
             else {
-                    alert("Silahkan Masukkan Angka");
-                    return false;
+                alert("Silahkan Masukkan Angka");
+                return false;
             }
-            
+
         });
 
         function ForSaveEdit() {
@@ -637,7 +649,7 @@
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
-				//data = DOMPurify.sanitize(data);
+                    //data = DOMPurify.sanitize(data);
                     alert('Berhasil Di Edit');
                     $('#exampleModal').modal('hide');
                     // $("#exampleModal").hide();
@@ -651,9 +663,9 @@
         //var inputBox2 = document.getElementById("RateUpperLimit");
 
         var invalidChars = [
-          "-",
-          "+",
-          "e",
+            "-",
+            "+",
+            "e",
         ];
 
         inputBox.addEventListener("input", function () {
@@ -685,9 +697,9 @@
         //        e.preventDefault();
         //    }
         //});
-        
+
     </script>
-                
+
     <script>
         $(document).ready(function () {
 
@@ -713,13 +725,13 @@
             $.getJSON("api/ReferenceData/Get", { qualifier: "QUALIFIER_INS_BENEF_TYPE" }, function (items) {
                 $("select[name=Jenis]").append($("<option>", { value: "", text: "Pilih..." }));
                 $.each(items, function (i, item) {
-                    $("select[name=Jenis]").append($("<option>", { value : item.Code, text : item.LocalizedName }));
+                    $("select[name=Jenis]").append($("<option>", { value: item.Code, text: item.LocalizedName }));
                 });
-                
-            }).then(function () { 
+
+            }).then(function () {
 
                 $.getJSON("/api/Asuransi/Get?documentId=" + $.getUrlVar("documentId"), null, function (data) {
-				//data = DOMPurify.sanitize(data);
+                    //data = DOMPurify.sanitize(data);
                     var doc = data;
                     $("input[name=DocumentTitle]").val(doc.DocumentTitle ? doc.DocumentTitle : "");
                     $("select[name=Jenis]").val(doc.BenefitType);
@@ -772,4 +784,5 @@
     <!-- AdminLTE App <script src="dist/js/app.min.js"></script> -->
 
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,10 +46,10 @@
             min-height: 50px;
         }
 
-            .dropzone .dz-message {
-                margin: 0em 0;
-                text-align: center;
-            }
+        .dropzone .dz-message {
+            margin: 0em 0;
+            text-align: center;
+        }
 
         form.jp-navbar-form {
             padding-top: 3px;
@@ -77,24 +78,28 @@
             width: 100%;
         }
 
-            #det td, #det th {
-                border: 1px solid #08205c;
-                padding: 8px;
-            }
+        #det td,
+        #det th {
+            border: 1px solid #08205c;
+            padding: 8px;
+        }
 
-            #det tr:nth-child(odd) {
-                background-color: #f2f2f2;
-            }
+        #det tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper" id="section-1">
         <div id="header">
             <header class="main-header">
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -106,7 +111,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>	<a id="judul-page" href="#">Pencarian Rekanan</a></li>
+                            <li> <a id="judul-page" href="#">Pencarian Rekanan</a></li>
                         </ul>
                     </div>
                     <div class="navbar-custom-menu">
@@ -171,8 +176,12 @@
                                     <div class="col-md-12">
                                         <table style="width: 100%;">
                                             <tr>
-                                                <th style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;"> .</th>
-                                                <th style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">List Rekanan</th>
+                                                <th
+                                                    style="padding-top: 12px;padding-bottom: 12px;  text-align: left; width:2em; background-color: yellow;  color: yellow;">
+                                                    .</th>
+                                                <th
+                                                    style="padding-top: 12px;padding-bottom: 12px; padding-left:10px;  text-align: left; width:90em; background-color: #08205c;  color: white;">
+                                                    List Rekanan</th>
                                             </tr>
                                         </table>
                                     </div>
@@ -185,13 +194,15 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Cari</label>
                                                     <div class="col-sm-4">
-                                                        <input id="txtcari" type="text" class="form-control " placeholder="Nama / Nomor Rekanan">
+                                                        <input id="txtcari" type="text" class="form-control "
+                                                            placeholder="Nama / Nomor Rekanan">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Tipe Rekanan</label>
                                                     <div class="col-sm-4">
-                                                        <select id="TipeVendor" class="form-control select2" style="width: 100%;">
+                                                        <select id="TipeVendor" class="form-control select2"
+                                                            style="width: 100%;">
                                                             <option selected="selected" value="">ALL</option>
                                                             <option value="1">Rekanan Lokal - Perusahaan</option>
                                                             <option value="2">Rekanan Lokal - Perorangan</option>
@@ -202,7 +213,8 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Jenis Sanksi</label>
                                                     <div class="col-sm-4">
-                                                        <select id="klasifikasi" class="form-control select2" style="width: 100%;">
+                                                        <select id="klasifikasi" class="form-control select2"
+                                                            style="width: 100%;">
                                                             <option selected="selected" value="">ALL</option>
                                                             <option value="SV01">Tidak Ada Sanksi</option>
                                                             <option value="SV02">Peringatan</option>
@@ -217,7 +229,9 @@
                                     <div id="btn_1" class="row ">
                                         <div class="col-md-12">
                                             <div class="submitgray button-row">
-                                                <button type="submit" name="search-btn" id="search-btn" onclick="fungsicari()" class="btn btn-primary"><i class="fa fa-search"></i> Cari</button>
+                                                <button type="submit" name="search-btn" id="search-btn"
+                                                    onclick="fungsicari()" class="btn btn-primary"><i
+                                                        class="fa fa-search"></i> Cari</button>
                                             </div>
                                         </div>
                                     </div>
@@ -249,7 +263,7 @@
              immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-    
+
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -257,7 +271,7 @@
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
-	<script src="dist/js/purify.js"></script>
+    <script src="dist/js/purify.js"></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="plugins/jQueryUItotop/easing.js"></script>
@@ -347,7 +361,7 @@
                         "render": function (data, type, row) {
                             //return '<a class="btn btn-sm btn-warning" id="" onclick="create(\'' + row.Id + '\')">Buat</a>';
                             return '<a href="rekanan-detail-v2.html?id=' + row.IdVendor + '" target="_blank" id="" class="btn btn-sm btn-primary "> Lihat </a>';
-                            
+
                         },
                         "targets": 4,
                         //"orderable": false
@@ -371,4 +385,5 @@
 
     </script>
 </body>
+
 </html>

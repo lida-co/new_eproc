@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,7 +61,9 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll" data-target="#myScrollspy">
+
+<body class="hold-transition skin-blue  sidebar-collapse sidebar-mini fixed" data-spy="scroll"
+    data-target="#myScrollspy">
     <div class="wrapper">
 
 
@@ -69,7 +72,8 @@
                 <!-- Logo -->
                 <a class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png" width="50px" /></span>
+                    <span class="logo-mini" style="line-height:60px;"><img src="dist/img/mtf-bg-biru.png"
+                            width="50px" /></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="dist/img/mtf-bg-biru.png" width="100px" /></span>
                 </a>
@@ -81,7 +85,7 @@
                     </a>
                     <div class="navbar-custom-menu pull-left">
                         <ul class="nav navbar-nav">
-                            <li>    <a id="judul-page" href="#">Approval</a></li>
+                            <li> <a id="judul-page" href="#">Approval</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -123,14 +127,18 @@
                         <div id="perlu_perhatian">
                             <div class="box box-white">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List To Do / Approval</h3>
+                                    <h3 class="box-title text-blue-mtf cursor-pointer repository">List To Do / Approval
+                                    </h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="form-group col-md-12">
-                                        <label class="title"><h3>Dokumen Persetujuan Pemenang yang Butuh Persetujuan </h3></label>
+                                        <label class="title">
+                                            <h3>Dokumen Persetujuan Pemenang yang Butuh Persetujuan </h3>
+                                        </label>
                                     </div>
                                     <div class="col-md-12" style="overflow-x:auto">
-                                        <table class="table table-bordered table-striped table-responsive" id="tbl-approval" style="margin-top:20px; ">
+                                        <table class="table table-bordered table-striped table-responsive"
+                                            id="tbl-approval" style="margin-top:20px; ">
                                             <thead>
                                                 <tr>
                                                     <th></th>
@@ -166,48 +174,53 @@
     </div><!-- ./wrapper -->
 
     <!-- Modal -->
-        <div class="modal" id="users_modal" role="dialog"  aria-hidden="true">
-            <input type="hidden" id="next-userid"/>
-              <input type="hidden" id="note_user"/>
-             <input type="hidden" id="pengadaanId"/>
-            
-          <div class="modal-dialog">
-	        <div class="modal-content">
-	          <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="TitleKonfirmasi">User List</h4>
-	          </div>
-	          <div class="modal-body">
-		        <table class="table table-bordered table-striped table-responsive" id="user_table" style="margin-top:20px; ">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>User</th>
-                            <th>Jabatan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-	          </div>
-	          <div class="modal-footer">
-                  <a class="btn btn-default addWorkflowStep" data-toggle="tooltip" title="Setujui & Diteruskan" >Setujui & Diteruskan </a>	
-		        <button type="button" class="btn btn-default " data-dismiss="modal" >Close</button>		
-	          </div>
-	        </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+    <div class="modal" id="users_modal" role="dialog" aria-hidden="true">
+        <input type="hidden" id="next-userid" />
+        <input type="hidden" id="note_user" />
+        <input type="hidden" id="pengadaanId" />
 
-    <!-- Modal -->
-    <div class="modal" id="modal_history_approval" role="dialog" aria-hidden="true" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="TitleKonfirmasi">User List</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-responsive" id="user_table"
+                        style="margin-top:20px; ">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>User</th>
+                                <th>Jabatan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default addWorkflowStep" data-toggle="tooltip"
+                        title="Setujui & Diteruskan">Setujui & Diteruskan </a>
+                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal" id="modal_history_approval" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="TitleKonfirmasi">Approval Histroy</h4>
                 </div>
                 <div class="modal-body table-responsive">
-                    <table class="table table-bordered table-striped " id="table-history-approval" style="margin-top:20px; ">
+                    <table class="table table-bordered table-striped " id="table-history-approval"
+                        style="margin-top:20px; ">
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -234,8 +247,8 @@
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-	<script src="dist/js/purify.js"></script>
-    <script src="plugins/accounting/accounting.js"></script>	
+    <script src="dist/js/purify.js"></script>
+    <script src="plugins/accounting/accounting.js"></script>
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <script src='plugins/fullcalendar/moment.min.js'></script>
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
@@ -285,7 +298,7 @@
                     { "data": "Pemenang" },
                     { "data": "JenisPekerjaan", "className": "tengah" },
                     { "data": "StatusPersetujuanPemenangName" },
-                     { "data": "PrevApproverPersetujuan" },
+                    { "data": "PrevApproverPersetujuan" },
                     { "data": "NextApproverPersetujuan" },
                     { "data": null },
                     { "data": null }
@@ -293,17 +306,15 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            if (data <= 0)
-                            {
-                                if(row.cekisMasukKlarifikasiLanjutan == 0){
+                            if (data <= 0) {
+                                if (row.cekisMasukKlarifikasiLanjutan == 0) {
                                     return ' <a href="rks-klarifikasi-asuransi.html#' + row.Id + '" >Lihat HPS Asuransi</a>';
                                 }
                                 if (row.cekisMasukKlarifikasiLanjutan == 1) {
                                     return ' <a href="rks-klarifikasi-lanjutan-asuransi.html#' + row.Id + '" >Lihat HPS Asuransi</a>';
                                 }
                             }
-                            else
-                            {
+                            else {
                                 return accounting.formatNumber(data, { thousand: ".", decimal: ",", precision: 2 });
                             }
                             //if (data != null)
@@ -318,7 +329,7 @@
                         "render": function (data, type, row) {
                             var html = "";
                             for (var index in row.lstPemenang) {
-                                html += row.lstPemenang[index] +"<br/>";
+                                html += row.lstPemenang[index] + "<br/>";
                             }
                             return html;
                         },
@@ -399,7 +410,7 @@
                     url: 'api/PengadaanE/persetujuanPemenangWithNote?id=' + IdPersetujuanPemanang + "&Note=" + note,
                     method: "GET",
                     success: function (data) {
-					data = DOMPurify.sanitize(data);
+                        data = DOMPurify.sanitize(data);
                         var message = data.message;
                         BootstrapDialog.show({
                             title: 'Konfirmasi',
@@ -438,7 +449,7 @@
                     url: 'api/PengadaanE/PenolakanPemenangWithWorkflow?Id=' + IdPersetujuanPemanang + "&Note=" + note,
                     method: "GET",
                     success: function (data) {
-					data = DOMPurify.sanitize(data);
+                        data = DOMPurify.sanitize(data);
                         var message = data.message;
                         BootstrapDialog.show({
                             title: 'Konfirmasi',
@@ -529,7 +540,7 @@
                     url: 'api/PengadaanE/persetujuanPemenangWithNextApprover?Id=' + pengadaanId + "&Note=" + note + "&userId=" + userid,
                     method: "GET",
                     success: function (data) {
-					data = DOMPurify.sanitize(data);
+                        data = DOMPurify.sanitize(data);
                         var message = data.message;
                         BootstrapDialog.show({
                             title: 'Konfirmasi',
@@ -561,17 +572,17 @@
 
             return '<table class="table table-bordered table-striped table-responsive">' +
                 '<tr>' +
-                    '<td>PIC</td>' +
-                    '<td>' + pic[0].Nama + '</td>' +
+                '<td>PIC</td>' +
+                '<td>' + pic[0].Nama + '</td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td>Rekanan Terdaftar</td>' +
-                    '<td>' + vendor + '</td>' +
+                '<td>Rekanan Terdaftar</td>' +
+                '<td>' + vendor + '</td>' +
                 '</tr>' +
-            '</table>';
+                '</table>';
         }
         var table_history_approval;
-       
+
         $(function () {
 
             $("body").on("click", ".history-approval", function () {
@@ -580,18 +591,18 @@
                     url: 'api/Workflow/ListHistoryPersetujuanPemenang?Id=' + id,
                     method: "POST",
                     success: function (data) {
-					data = DOMPurify.sanitize(data);
-                        var tr="";
-						if(data){
-                        for (var i in data) {
-                            tr+="<tr>";
-                            tr += "<td>" + data[i].UserName + "</td>";
-                            tr += "<td>" + (data[i].Jabatan == null ? "" : data[i].Jabatan) + "</td>";
-                            tr += "<td>" + data[i].Comment + "</td>";
-                            tr+="<td>"+moment(data[i].ActionDate).format("DD MMMM YYYY HH:mm")+"</td>";
-                            tr+="</tr>";
+                        data = DOMPurify.sanitize(data);
+                        var tr = "";
+                        if (data) {
+                            for (var i in data) {
+                                tr += "<tr>";
+                                tr += "<td>" + data[i].UserName + "</td>";
+                                tr += "<td>" + (data[i].Jabatan == null ? "" : data[i].Jabatan) + "</td>";
+                                tr += "<td>" + data[i].Comment + "</td>";
+                                tr += "<td>" + moment(data[i].ActionDate).format("DD MMMM YYYY HH:mm") + "</td>";
+                                tr += "</tr>";
+                            }
                         }
-						}
                         $("#table-history-approval-detail").html("");
                         $("#table-history-approval-detail").append(tr);
                         $("#modal_history_approval").modal("show");
@@ -604,4 +615,5 @@
     </script>
 
 </body>
+
 </html>
