@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -905,7 +905,7 @@
                                                                         <th>Penerbit/Pembuat</th>
                                                                         <th>Tanggal Terbit</th>
                                                                         <th>Tanggal Berakhir</th>
-                                                                        <th>Upload File</th>
+                                                                        <th colspan="2">Upload File</th>
                                                                     </tr>
                                                                     <!--<tr>
 
@@ -923,6 +923,57 @@
             <input name="LAPORANKEUANGAN.FileName" type="hidden">
         </td>
     </tr>-->
+                                                                    <tr>
+                                                                        <td>
+                                                                            Surat Pernyataan Perusahaan Dalam Rangka Pengadaan Barang Dan/Atau Jasa<span class="req">*</span><br />
+                                                                            <a href="api/RegistrasiVendorExt/DownloadDraft?tipe=SuratPernyataanPengadaan" target="_blank"><i class="fa fa-download"></i> Download Draft</a>
+                                                                        </td>
+                                                                        <td><input name="SuratPernyataanPengadaan.Nomor" type="text" maxlength="100" class="form-control required"></td>
+                                                                        <td><input name="SuratPernyataanPengadaan.Pembuat" type="text" maxlength="100" class="form-control required"></td>
+                                                                        <td><input name="SuratPernyataanPengadaan.TanggalTerbit" type="text" class="form-control datepicker" placeholder="Tanggal"></td>
+                                                                        <td><input name="SuratPernyataanPengadaan.TanggalBerakhir" type="text" class="form-control datepicker" placeholder="Tanggal"></td>
+                                                                        <td id="tombolSuratPernyataanPengadaan"><span class="req">*</span></td>
+                                                                        <td>
+                                                                            <div id="FileSuratPernyataanPengadaan" action="api/RegistrasiVendorExt/UploadFile?tipe=SuratPernyataanPengadaan"></div>
+                                                                            <input name="SuratPernyataanPengadaan.base64" type="hidden">
+                                                                            <input name="SuratPernyataanPengadaan.ContentType" type="hidden">
+                                                                            <input name="SuratPernyataanPengadaan.FileName" type="hidden">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Surat Pernyataan Kesanggupan Memenuhi Etika Pengadaan<span class="req">*</span><br />
+                                                                            <a href="api/RegistrasiVendorExt/DownloadDraft?tipe=SuratPernyataanEtika" target="_blank"><i class="fa fa-download"></i> Download Draft</a>
+                                                                        </td>
+                                                                        <td><input name="SuratPernyataanEtika.Nomor" type="text" maxlength="100" class="form-control required"></td>
+                                                                        <td><input name="SuratPernyataanEtika.Pembuat" type="text" maxlength="100" class="form-control required"></td>
+                                                                        <td><input name="SuratPernyataanEtika.TanggalTerbit" type="text" class="form-control datepicker" placeholder="Tanggal"></td>
+                                                                        <td><input name="SuratPernyataanEtika.TanggalBerakhir" type="text" class="form-control datepicker" placeholder="Tanggal"></td>
+                                                                        <td id="tombolSuratPernyataanEtika"><span class="req">*</span></td>
+                                                                        <td>
+                                                                            <div id="FileSuratPernyataanEtika" action="api/RegistrasiVendorExt/UploadFile?tipe=SuratPernyataanEtika"></div>
+                                                                            <input name="SuratPernyataanEtika.base64" type="hidden">
+                                                                            <input name="SuratPernyataanEtika.ContentType" type="hidden">
+                                                                            <input name="SuratPernyataanEtika.FileName" type="hidden">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Surat Pernyataan Kerahasiaan<span class="req">*</span><br />
+                                                                            <a href="api/RegistrasiVendorExt/DownloadDraft?tipe=SuratPernyataanKerahasiaan" target="_blank"><i class="fa fa-download"></i> Download Draft</a>
+                                                                        </td>
+                                                                        <td><input name="SuratPernyataanKerahasiaan.Nomor" type="text" maxlength="100" class="form-control required"></td>
+                                                                        <td><input name="SuratPernyataanKerahasiaan.Pembuat" type="text" maxlength="100" class="form-control required"></td>
+                                                                        <td><input name="SuratPernyataanKerahasiaan.TanggalTerbit" type="text" class="form-control datepicker" placeholder="Tanggal"></td>
+                                                                        <td><input name="SuratPernyataanKerahasiaan.TanggalBerakhir" type="text" class="form-control datepicker" placeholder="Tanggal"></td>
+                                                                        <td id="tombolSuratPernyataanKerahasiaan"><span class="req">*</span></td>
+                                                                        <td>
+                                                                            <div id="FileSuratPernyataanKerahasiaan" action="api/RegistrasiVendorExt/UploadFile?tipe=SuratPernyataanKerahasiaan"></div>
+                                                                            <input name="SuratPernyataanKerahasiaan.base64" type="hidden">
+                                                                            <input name="SuratPernyataanKerahasiaan.ContentType" type="hidden">
+                                                                            <input name="SuratPernyataanKerahasiaan.FileName" type="hidden">
+                                                                        </td>
+                                                                    </tr>
                                                                     <tr>
                                                                         <td>Nomor Induk berusaha (NIB)<span class="req">*</span></td>
                                                                         <td><input name="NIB.Nomor" type="text" maxlength="100" class="form-control required"><span class="req">*</span></td>
@@ -2953,6 +3004,9 @@
             generateDropZone('SIUP');
             generateDropZone('SIUJK');
             generateDropZone('NIB');
+            generateDropZone('SuratPernyataanPengadaan');
+            generateDropZone('SuratPernyataanEtika');
+            generateDropZone('SuratPernyataanKerahasiaan');
             generateDropZone('SERTIFIKAT');
             generateDropZone('TDP');
             generateDropZone('DokumenSertifikatCV');
