@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Reston.Pinata.Model.PengadaanRepository.View;
+using Reston.Pinata.Model.JimbisModel;
 
 namespace Reston.Eproc.Model.Ext
 {
@@ -236,6 +237,12 @@ namespace Reston.Eproc.Model.Ext
         public VendorDokumenExts BuktiKerjasama { get; set; }
         public VendorDokumenExts LaporanDataKeuangan { get; set; }
         public VendorDokumenExts CVTenagaAhli { get; set; }
+
+        public VendorExtPac VendorExtPac { get; set; }
+        public VendorDokumenExts PacDokumen1 { get; set; }
+        public VendorDokumenExts PacDokumen2 { get; set; }
+        public VendorDokumenExts PacDokumen3 { get; set; }
+        public VendorDokumenExts PacDokumen4 { get; set; }
     }
 
     public class VendorRegExtViewModels

@@ -353,6 +353,9 @@
                                                     aria-controls="dokumen" role="tab" data-toggle="tab">Dokumen</a>
                                             </li>
                                             <li role="presentation" class="tampil-perusahaan-lokal"><a
+                                                    href="#pac" aria-controls="pac" role="tab"
+                                                    data-toggle="tab">PAC</a></li>
+                                            <li role="presentation" class="tampil-perusahaan-lokal"><a
                                                     href="#tenagaahli" aria-controls="tenagaahli" role="tab"
                                                     data-toggle="tab">Tenaga Ahli</a></li>
                                             <li role="presentation" class="tampil-perusahaan-lokal"><a
@@ -386,6 +389,9 @@
                                             <li role="presentation" class="tampil-perorangan"><a href="#pengalaman"
                                                     aria-controls="pengalaman" role="tab"
                                                     data-toggle="tab">Pengalaman</a></li>
+                                            <li role="presentation" class="tampil-perorangan"><a href="#pac"
+                                                    aria-controls="pac" role="tab"
+                                                    data-toggle="tab">PAC</a></li>
                                             <!--prinsipal-->
                                             <li role="presentation" class="tampil-prinsipal"><a
                                                     href="#basicdataperusahaan" aria-controls="informasiperusahaan"
@@ -420,6 +426,8 @@
                                             <li role="presentation" class="tampil-prinsipal"><a href="#neracakeuangan"
                                                     aria-controls="neracakeuangan" role="tab" data-toggle="tab">Neraca
                                                     Keuangan</a></li>
+                                            <li role="presentation" class="tampil-prinsipal"><a href="#pac"
+                                                    aria-controls="pac" role="tab" data-toggle="tab">PAC</a></li>
                                         </ul>
 
                                         <div class="tab-content">
@@ -1561,6 +1569,268 @@
                                                 </div>
                                             </div>
 
+                                                                        <div role="tabpanel" class="tab-pane" id="pac">
+                                        <div class="row p2 baris-pac">
+                                            <div class="col-md-12">
+                                                <div class="box box-title">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title" id="section-1">Perlindungan Data Pribadi -
+                                                        Partnership Assesment Center (PAC) Umum</h3>
+                                                    <div class="box-tools pull-right">
+                                                    </div>
+                                                </div><!-- /.box-header -->
+                                                <div class="box-body" style="overflow-x:auto;">
+                                                    <div class="form-horizontal" style="margin-bottom: 15px;">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label"
+                                                                style="text-align: left; font-weight: bold;">Nama
+                                                                Perusahaan :</label>
+                                                            <div class="col-sm-5">
+                                                                <input disabled type="text" name="PacNamaPerusahaan"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered table-hover" style="width:100%;">
+                                                        <thead>
+                                                            <tr class="bg-primary">
+                                                                <th style="width: 5%">No</th>
+                                                                <th style="width: 30%">Kriteria</th>
+                                                                <th style="width: 10%">Status Pemenuhan</th>
+                                                                <th style="width: 15%">Penjelasan/Alasan</th>
+                                                                <th style="width: 15%">Dokumen Pendukung</th>
+                                                                <th style="width: 15%">Komitmen / Action Plan</th>
+                                                                <th style="width: 10%">Target Date Komitmen</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>Apakah telah terdapat ketentuan internal yang
+                                                                    mengatur mengenai implementasi Undang-Undang
+                                                                    Pelindungan Data Pribadi secara umum di perusahaan
+                                                                    anda?</td>
+                                                                <td>
+                                                                    <select disabled name="PacStatus1" class="form-control">
+                                                                        <option value="">-- Pilih --</option>
+                                                                        <option value="Sudah">Sudah</option>
+                                                                        <option value="Belum">Belum</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td><textarea disabled name="PacPenjelasan1" class="form-control"
+                                                                        rows="2"></textarea></td>
+                                                                <td>
+                                                                    <div id="FilePacDokumen1"
+                                                                        action="api/RegistrasiVendorExt/UploadFile?tipe=PacDokumen1">
+                                                                    </div>
+                                                                    <input disabled name="PacDokumen1.base64" type="hidden">
+                                                                    <input disabled name="PacDokumen1.ContentType" type="hidden">
+                                                                    <input disabled name="PacDokumen1.FileName" type="hidden">
+                                                                </td>
+                                                                <td><textarea disabled name="PacKomitmen1" class="form-control"
+                                                                        rows="2"></textarea></td>
+                                                                <td><input disabled name="PacTargetDate1" type="text"
+                                                                        class="form-control datepicker"
+                                                                        placeholder="Tanggal"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2</td>
+                                                                <td>Apakah perusahaan anda memiliki ketentuan internal
+                                                                    yang mengatur bahwa pemrosesan data pribadi dibatasi
+                                                                    sesuai tujuan?</td>
+                                                                <td>
+                                                                    <select disabled name="PacStatus2" class="form-control">
+                                                                        <option value="">-- Pilih --</option>
+                                                                        <option value="Sudah">Sudah</option>
+                                                                        <option value="Belum">Belum</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td><textarea disabled name="PacPenjelasan2" class="form-control"
+                                                                        rows="2"></textarea></td>
+                                                                <td>
+                                                                    <div id="FilePacDokumen2"
+                                                                        action="api/RegistrasiVendorExt/UploadFile?tipe=PacDokumen2">
+                                                                    </div>
+                                                                    <input disabled name="PacDokumen2.base64" type="hidden">
+                                                                    <input disabled name="PacDokumen2.ContentType" type="hidden">
+                                                                    <input disabled name="PacDokumen2.FileName" type="hidden">
+                                                                </td>
+                                                                <td><textarea disabled name="PacKomitmen2" class="form-control"
+                                                                        rows="2"></textarea></td>
+                                                                <td><input disabled name="PacTargetDate2" type="text"
+                                                                        class="form-control datepicker"
+                                                                        placeholder="Tanggal"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>3</td>
+                                                                <td>Apakah terdapat ketentuan internal yang mengatur
+                                                                    mengenai terdapatnya record of processing
+                                                                    activity/inventarisir aktivitas pemrosesan data
+                                                                    pribadi di perusahaan Anda?</td>
+                                                                <td>
+                                                                    <select disabled name="PacStatus3" class="form-control">
+                                                                        <option value="">-- Pilih --</option>
+                                                                        <option value="Sudah">Sudah</option>
+                                                                        <option value="Belum">Belum</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td><textarea disabled name="PacPenjelasan3" class="form-control"
+                                                                        rows="2"></textarea></td>
+                                                                <td>
+                                                                    <div id="FilePacDokumen3"
+                                                                        action="api/RegistrasiVendorExt/UploadFile?tipe=PacDokumen3">
+                                                                    </div>
+                                                                    <input disabled name="PacDokumen3.base64" type="hidden">
+                                                                    <input disabled name="PacDokumen3.ContentType" type="hidden">
+                                                                    <input disabled name="PacDokumen3.FileName" type="hidden">
+                                                                </td>
+                                                                <td><textarea disabled name="PacKomitmen3" class="form-control"
+                                                                        rows="2"></textarea></td>
+                                                                <td><input disabled name="PacTargetDate3" type="text"
+                                                                        class="form-control datepicker"
+                                                                        placeholder="Tanggal"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>4</td>
+                                                                <td>Apakah terdapat ketentuan internal dan mekanisme
+                                                                    pengamanan data pribadi dan kerahasiaan data pribadi
+                                                                    dalam perusahaan anda?</td>
+                                                                <td>
+                                                                    <select disabled name="PacStatus4" class="form-control">
+                                                                        <option value="">-- Pilih --</option>
+                                                                        <option value="Sudah">Sudah</option>
+                                                                        <option value="Belum">Belum</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td><textarea disabled name="PacPenjelasan4" class="form-control"
+                                                                        rows="2"></textarea></td>
+                                                                <td>
+                                                                    <div id="FilePacDokumen4"
+                                                                        action="api/RegistrasiVendorExt/UploadFile?tipe=PacDokumen4">
+                                                                    </div>
+                                                                    <input disabled name="PacDokumen4.base64" type="hidden">
+                                                                    <input disabled name="PacDokumen4.ContentType" type="hidden">
+                                                                    <input disabled name="PacDokumen4.FileName" type="hidden">
+                                                                </td>
+                                                                <td><textarea disabled name="PacKomitmen4" class="form-control"
+                                                                        rows="2"></textarea></td>
+                                                                <td><input disabled name="PacTargetDate4" type="text"
+                                                                        class="form-control datepicker"
+                                                                        placeholder="Tanggal"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <br />
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-5" style="width: 45%;">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr class="bg-primary">
+                                                                        <th colspan="2">Keterangan Pengisian</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%">a)</td>
+                                                                        <td><b>Kolom Kriteria</b> berisi
+                                                                            pertanyaan-pertanyaan yang harus dijawab
+                                                                            oleh calon rekanan/vendor.</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>b)</td>
+                                                                        <td><b>Kolom Status Pemenuhan</b> diisikan
+                                                                            dengan jawaban atas pertanyaan yang
+                                                                            ditanyakan pada kolom Kriteria. Apabila
+                                                                            sudah melakukan implementasi sebagaimana
+                                                                            dalam kolom Kriteria, calon rekanan/vendor
+                                                                            melingkari jawaban "Sudah". Apabila belum
+                                                                            melakukan implementasi terhadap kriteria
+                                                                            tersebut maka calon rekanan/vendor
+                                                                            melingkari jawaban "Belum".</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>c)</td>
+                                                                        <td><b>Kolom Penjelasan</b> diisikan dengan
+                                                                            penjelasan/catatan atas status pemenuhan
+                                                                            jika diperlukan, bersifat opsional apabila
+                                                                            dibutuhkan oleh Unit Kerja Pelaksana
+                                                                            PAC-PDP.</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>d)</td>
+                                                                        <td><b>Kolom Dokumen Pendukung</b> diisikan
+                                                                            dengan lampiran dokumen pendukung (hanya
+                                                                            dituliskan judul/nama dokumen)</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>e)</td>
+                                                                        <td><b>Kolom Komitmen/Action Plan</b> diisikan
+                                                                            dengan rencana atau komitmen pemenuhan PDP
+                                                                            sesuai kriteria apabila kolom Status
+                                                                            Pemenuhan adalah "Belum", bersifat opsional
+                                                                            apabila dibutuhkan oleh Unit Kerja Pelaksana
+                                                                            PAC-PDP.</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>f)</td>
+                                                                        <td><b>Kolom Target Date Komitmen</b> diisikan
+                                                                            dengan tanggal target pemenuhan jawaban pada
+                                                                            Kolom Komitmen/Action Plan.</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>g)</td>
+                                                                        <td>Dalam hal pihak ketiga melakukan pengisian
+                                                                            "Sudah" pada status pemenuhan, namun dokumen
+                                                                            pendukung yang disertakan tidak memenuhi
+                                                                            ketentuan "Dokumen Pendukung" sebagaimana
+                                                                            diatur di atas, maka kolom status pemenuhan
+                                                                            disesuaikan menjadi "Belum".</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>h)</td>
+                                                                        <td>Dalam hal terdapat multi-interpretasi
+                                                                            terhadap penafsiran validasi dokumen
+                                                                            pendukung, dapat dimintakan advis kepada
+                                                                            Pejabat atau Petugas Pelindung Data Pribadi
+                                                                            (PPDP)</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="col-md-7" style="width: 55%; padding-top: 30px;">
+                                                            <div class="pull-right"
+                                                                style="width: 400px; text-align: left;">
+                                                                <p
+                                                                    style="font-weight: bold; margin-bottom: 80px; text-align: center;">
+                                                                    Yang Bertanda tangan dibawah ini</p>
+                                                                <div class="form-group"
+                                                                    style="margin-bottom: 10px; display: flex; align-items: center;">
+                                                                    <label
+                                                                        style="font-weight: bold; width: 70px; margin-bottom: 0;">Nama</label>
+                                                                    <span
+                                                                        style="margin-right: 10px; font-weight: bold;">:</span>
+                                                                    <input disabled type="text" name="PacTtdNama"
+                                                                        class="form-control" style="flex: 1;">
+                                                                </div>
+                                                                <div class="form-group"
+                                                                    style="display: flex; align-items: center;">
+                                                                    <label
+                                                                        style="font-weight: bold; width: 70px; margin-bottom: 0;">Posisi</label>
+                                                                    <span
+                                                                        style="margin-right: 10px; font-weight: bold;">:</span>
+                                                                    <input disabled type="text" name="PacTtdPosisi"
+                                                                        class="form-control" style="flex: 1;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.box-body -->
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                             <div role="tabpanel" class="tab-pane" id="tenagaahli">
                                                 <div class="row" id="tenaga-ahli">
                                                     <div class="col-md-12">
@@ -2093,6 +2363,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+
                                 </div>
 
 
@@ -2734,6 +3006,37 @@
                                         if (data.LaporanDataKeuangan != null && data.LaporanDataKeuangan.Iddok != null) {
                                             $("#tombolLaporanDataKeuangan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.LaporanDataKeuangan.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                         }
+                                    }
+                                    
+                                    // Load PAC
+                                    if (data.VendorExtPac != null) {
+                                        document.querySelector('input[name="PacNamaPerusahaan"]').value = data.VendorExtPac.NamaPerusahaan || '';
+                                        document.querySelector('input[name="PacTtdNama"]').value = data.VendorExtPac.TtdNama || '';
+                                        document.querySelector('input[name="PacTtdPosisi"]').value = data.VendorExtPac.TtdPosisi || '';
+
+                                        var s1 = document.querySelector('select[name="PacStatus1"]'); if(s1) s1.value = data.VendorExtPac.Status1 || '';
+                                        document.querySelector('textarea[name="PacPenjelasan1"]').value = data.VendorExtPac.Penjelasan1 || '';
+                                        document.querySelector('textarea[name="PacKomitmen1"]').value = data.VendorExtPac.Komitmen1 || '';
+                                        if (data.VendorExtPac.TargetDate1) { document.querySelector('input[name="PacTargetDate1"]').value = moment(data.VendorExtPac.TargetDate1).format("DD-MM-YYYY").toString(); }
+                                        if (data.VendorExtPac.DokumenId1) { $("#tombolPacDokumen1").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId1 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
+
+                                        var s2 = document.querySelector('select[name="PacStatus2"]'); if(s2) s2.value = data.VendorExtPac.Status2 || '';
+                                        document.querySelector('textarea[name="PacPenjelasan2"]').value = data.VendorExtPac.Penjelasan2 || '';
+                                        document.querySelector('textarea[name="PacKomitmen2"]').value = data.VendorExtPac.Komitmen2 || '';
+                                        if (data.VendorExtPac.TargetDate2) { document.querySelector('input[name="PacTargetDate2"]').value = moment(data.VendorExtPac.TargetDate2).format("DD-MM-YYYY").toString(); }
+                                        if (data.VendorExtPac.DokumenId2) { $("#tombolPacDokumen2").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId2 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
+
+                                        var s3 = document.querySelector('select[name="PacStatus3"]'); if(s3) s3.value = data.VendorExtPac.Status3 || '';
+                                        document.querySelector('textarea[name="PacPenjelasan3"]').value = data.VendorExtPac.Penjelasan3 || '';
+                                        document.querySelector('textarea[name="PacKomitmen3"]').value = data.VendorExtPac.Komitmen3 || '';
+                                        if (data.VendorExtPac.TargetDate3) { document.querySelector('input[name="PacTargetDate3"]').value = moment(data.VendorExtPac.TargetDate3).format("DD-MM-YYYY").toString(); }
+                                        if (data.VendorExtPac.DokumenId3) { $("#tombolPacDokumen3").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId3 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
+
+                                        var s4 = document.querySelector('select[name="PacStatus4"]'); if(s4) s4.value = data.VendorExtPac.Status4 || '';
+                                        document.querySelector('textarea[name="PacPenjelasan4"]').value = data.VendorExtPac.Penjelasan4 || '';
+                                        document.querySelector('textarea[name="PacKomitmen4"]').value = data.VendorExtPac.Komitmen4 || '';
+                                        if (data.VendorExtPac.TargetDate4) { document.querySelector('input[name="PacTargetDate4"]').value = moment(data.VendorExtPac.TargetDate4).format("DD-MM-YYYY").toString(); }
+                                        if (data.VendorExtPac.DokumenId4) { $("#tombolPacDokumen4").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId4 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
                                     }
                                 }
                             }

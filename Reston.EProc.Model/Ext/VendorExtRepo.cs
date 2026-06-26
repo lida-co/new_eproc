@@ -1922,6 +1922,100 @@ namespace Reston.Eproc.Model.Ext
                             Waktu = DateTime.Now
                         };
                         v.RiwayatPengajuanVendor = new List<RiwayatPengajuanVendor>() { rp };
+                    Action<VendorDokumenExts, int, Action<Guid>> updatePacDoc = (doc, tipe, setId) =>
+                    {
+                        if (doc != null && !string.IsNullOrEmpty(doc.base64))
+                        {
+                            var existingDoc = ctx.DocumentExts.Where(vDoc => vDoc.VendorExtId == vExt.Id && vDoc.TipeDokumen == tipe).FirstOrDefault();
+                            if (existingDoc != null)
+                            {
+                                var existingImg = ctx.DocumentImageExts.Where(vDoc => vDoc.DocumenExtId == existingDoc.Id).FirstOrDefault();
+                                if (existingImg != null)
+                                {
+                                    existingImg.Content = Convert.FromBase64String(doc.base64);
+                                    existingImg.FileName = doc.FileName;
+                                    existingImg.ContentType = doc.ContentType;
+                                }
+                                else
+                                {
+                                    DocumentImageExt imgdoc = new DocumentImageExt()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Content = Convert.FromBase64String(doc.base64),
+                                        FileName = doc.FileName,
+                                        ContentType = doc.ContentType,
+                                        DocumenExtId = existingDoc.Id
+                                    };
+                                    ctx.DocumentImageExts.Add(imgdoc);
+                                }
+                                setId(existingDoc.Id);
+                            }
+                            else
+                            {
+                                var guiddocext = Guid.NewGuid();
+                                DocumentExt detaildoc = new DocumentExt()
+                                {
+                                    Id = guiddocext,
+                                    Nomor = doc.FileName,
+                                    VendorExtId = vExt.Id,
+                                    TipeDokumen = tipe
+                                };
+                                ctx.DocumentExts.Add(detaildoc);
+                                DocumentImageExt imgdoc = new DocumentImageExt()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Content = Convert.FromBase64String(doc.base64),
+                                    FileName = doc.FileName,
+                                    ContentType = doc.ContentType,
+                                    DocumenExtId = guiddocext
+                                };
+                                ctx.DocumentImageExts.Add(imgdoc);
+                                setId(guiddocext);
+                            }
+                        }
+                    };
+
+                    if (model.VendorExtPac == null) model.VendorExtPac = new VendorExtPac();
+                    updatePacDoc(model.PacDokumen1, (int)EDocumentType.PAC1, id => model.VendorExtPac.DokumenId1 = id);
+                    updatePacDoc(model.PacDokumen2, (int)EDocumentType.PAC2, id => model.VendorExtPac.DokumenId2 = id);
+                    updatePacDoc(model.PacDokumen3, (int)EDocumentType.PAC3, id => model.VendorExtPac.DokumenId3 = id);
+                    updatePacDoc(model.PacDokumen4, (int)EDocumentType.PAC4, id => model.VendorExtPac.DokumenId4 = id);
+                    if (model.VendorExtPac != null)
+                    {
+                        var vep = ctx.VendorExtPacs.Where(vDoc => vDoc.VendorExtId == vExt.Id).FirstOrDefault();
+                        if (vep != null)
+                        {
+                            vep.NamaPerusahaan = model.VendorExtPac.NamaPerusahaan;
+                            vep.TtdNama = model.VendorExtPac.TtdNama;
+                            vep.TtdPosisi = model.VendorExtPac.TtdPosisi;
+                            vep.Status1 = model.VendorExtPac.Status1;
+                            vep.Penjelasan1 = model.VendorExtPac.Penjelasan1;
+                            vep.Komitmen1 = model.VendorExtPac.Komitmen1;
+                            vep.TargetDate1 = model.VendorExtPac.TargetDate1;
+                            if (model.VendorExtPac.DokumenId1 != Guid.Empty && model.VendorExtPac.DokumenId1 != null) vep.DokumenId1 = model.VendorExtPac.DokumenId1;
+                            vep.Status2 = model.VendorExtPac.Status2;
+                            vep.Penjelasan2 = model.VendorExtPac.Penjelasan2;
+                            vep.Komitmen2 = model.VendorExtPac.Komitmen2;
+                            vep.TargetDate2 = model.VendorExtPac.TargetDate2;
+                            if (model.VendorExtPac.DokumenId2 != Guid.Empty && model.VendorExtPac.DokumenId2 != null) vep.DokumenId2 = model.VendorExtPac.DokumenId2;
+                            vep.Status3 = model.VendorExtPac.Status3;
+                            vep.Penjelasan3 = model.VendorExtPac.Penjelasan3;
+                            vep.Komitmen3 = model.VendorExtPac.Komitmen3;
+                            vep.TargetDate3 = model.VendorExtPac.TargetDate3;
+                            if (model.VendorExtPac.DokumenId3 != Guid.Empty && model.VendorExtPac.DokumenId3 != null) vep.DokumenId3 = model.VendorExtPac.DokumenId3;
+                            vep.Status4 = model.VendorExtPac.Status4;
+                            vep.Penjelasan4 = model.VendorExtPac.Penjelasan4;
+                            vep.Komitmen4 = model.VendorExtPac.Komitmen4;
+                            vep.TargetDate4 = model.VendorExtPac.TargetDate4;
+                            if (model.VendorExtPac.DokumenId4 != Guid.Empty && model.VendorExtPac.DokumenId4 != null) vep.DokumenId4 = model.VendorExtPac.DokumenId4;
+                        }
+                        else
+                        {
+                            model.VendorExtPac.Id = Guid.NewGuid();
+                            model.VendorExtPac.VendorExtId = vExt.Id;
+                            ctx.VendorExtPacs.Add(model.VendorExtPac);
+                        }
+                    }
                     }
                     else
                     {
@@ -2885,6 +2979,42 @@ namespace Reston.Eproc.Model.Ext
 
             Save();
 
+            Action<VendorDokumenExts, int, Action<Guid>> updatePacDoc = (doc, tipe, setId) =>
+            {
+                if (doc != null && !string.IsNullOrEmpty(doc.base64))
+                {
+                    var guiddocext = Guid.NewGuid();
+                    DocumentExt detaildoc = new DocumentExt()
+                    {
+                        Id = guiddocext,
+                        Nomor = doc.FileName,
+                        VendorExtId = guidvenregext,
+                        TipeDokumen = tipe
+                    };
+                    AddVendorDocumentExt(detaildoc);
+                    DocumentImageExt imgdoc = new DocumentImageExt()
+                    {
+                        Id = Guid.NewGuid(),
+                        Content = Convert.FromBase64String(doc.base64),
+                        FileName = doc.FileName,
+                        ContentType = doc.ContentType,
+                        DocumenExtId = guiddocext
+                    };
+                    AddVendorDocumentImageExt(imgdoc);
+                    setId(guiddocext);
+                }
+            };
+            if (model.VendorExtPac == null) model.VendorExtPac = new VendorExtPac();
+            updatePacDoc(model.PacDokumen1, (int)EDocumentType.PAC1, id => model.VendorExtPac.DokumenId1 = id);
+            updatePacDoc(model.PacDokumen2, (int)EDocumentType.PAC2, id => model.VendorExtPac.DokumenId2 = id);
+            updatePacDoc(model.PacDokumen3, (int)EDocumentType.PAC3, id => model.VendorExtPac.DokumenId3 = id);
+            updatePacDoc(model.PacDokumen4, (int)EDocumentType.PAC4, id => model.VendorExtPac.DokumenId4 = id);
+            if (model.VendorExtPac != null)
+            {
+                model.VendorExtPac.Id = Guid.NewGuid();
+                model.VendorExtPac.VendorExtId = guidvenregext;
+                ctx.VendorExtPacs.Add(model.VendorExtPac);
+            }
             return v.Id.ToString();
         }
 

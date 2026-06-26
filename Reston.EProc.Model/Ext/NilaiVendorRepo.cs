@@ -2595,6 +2595,9 @@ namespace Reston.Eproc.Model.Ext
             var zzzz = 0;
             //RegVendorExt vendorExtss = ctx.RegVendorExts.Where(x => x.RegVendorId == IdRegVendor).FirstOrDefault();
 
+            var vendorExtPac = ctx.VendorExtPacs.Where(x => x.VendorExtId == vendorExtId).FirstOrDefault();
+            vm.VendorExtPac = vendorExtPac;
+
             return vm;
         }
 

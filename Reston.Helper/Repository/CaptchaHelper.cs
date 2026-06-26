@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,6 +48,7 @@ namespace Reston.Helper
         public CaptchaViewModel Generate()
         {
             Captcha cr = new Captcha();
+            cr.Id = Guid.NewGuid();
             cr.Text = GetCaptchaString(5); //Number of char on Captcha
             cr.ExpiredDate = DateTime.Now.AddMinutes(10);
             _repository.AddCaptchaRegistration(cr);
