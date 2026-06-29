@@ -1,4 +1,4 @@
-using Model.Helper;
+﻿using Model.Helper;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using Reston.Eproc.Model.Ext;
 using Reston.EProc.Web.ViewModels;
@@ -188,6 +188,7 @@ namespace Reston.Pinata.WebService
                     {
                         Id = guidvenregext,
                         RegVendorId = regvendorId,
+                        IsTncAgreed = model.IsTncAgreed,
                         JenisVendor = model.TipeVendor.ToString(),
                         KategoriVendor = SanitizeInput(model.VendorRegExt.KategoriVendor),
                         BentukBadanUsaha = SanitizeInput(model.VendorRegExt.BentukBadanUsaha),
@@ -261,11 +262,7 @@ namespace Reston.Pinata.WebService
                 {
                     Id = Guid.NewGuid(),
                     RegVendorExtId = guidvenregext,
-                    NamaPerusahaan = SanitizeInput(model.PacNamaPerusahaan),
-                    TtdNama = SanitizeInput(model.PacTtdNama),
-                    TtdPosisi = SanitizeInput(model.PacTtdPosisi),
-
-                    Status1 = SanitizeInput(model.PacStatus1),
+Status1 = SanitizeInput(model.PacStatus1),
                     Penjelasan1 = SanitizeInput(model.PacPenjelasan1),
                     Komitmen1 = SanitizeInput(model.PacKomitmen1),
                     TargetDate1 = model.PacTargetDate1,
@@ -884,3 +881,5 @@ namespace Reston.Pinata.WebService
 
     }
 }
+
+

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -133,6 +133,7 @@ namespace Reston.Pinata.Model.JimbisModel
 
         //public int RegVendorId { get; set; }
 
+        public int IsTncAgreed { get; set; }
         public string JenisVendor { get; set; }
 
         public string KategoriVendor { get; set; }
@@ -428,6 +429,7 @@ namespace Reston.Pinata.Model.JimbisModel
 
         //public int RegVendorId { get; set; }
 
+        public int IsTncAgreed { get; set; }
         public string JenisVendor { get; set; }
 
         public string KategoriVendor { get; set; }
@@ -719,15 +721,7 @@ namespace Reston.Pinata.Model.JimbisModel
         public RegVendorExt RegVendorExt { get; set; }
         [Required]
         public Guid RegVendorExtId { get; set; }
-
-        [MaxLength(255)]
-        public string NamaPerusahaan { get; set; }
-        [MaxLength(255)]
-        public string TtdNama { get; set; }
-        [MaxLength(100)]
-        public string TtdPosisi { get; set; }
-
-        public string Status1 { get; set; }
+public string Status1 { get; set; }
         public string Penjelasan1 { get; set; }
         public string Komitmen1 { get; set; }
         public DateTime? TargetDate1 { get; set; }
@@ -759,15 +753,7 @@ namespace Reston.Pinata.Model.JimbisModel
         public Guid Id { get; set; }
 
         public Guid VendorExtId { get; set; }
-
-        [MaxLength(255)]
-        public string NamaPerusahaan { get; set; }
-        [MaxLength(255)]
-        public string TtdNama { get; set; }
-        [MaxLength(100)]
-        public string TtdPosisi { get; set; }
-
-        public string Status1 { get; set; }
+public string Status1 { get; set; }
         public string Penjelasan1 { get; set; }
         public string Komitmen1 { get; set; }
         public DateTime? TargetDate1 { get; set; }
@@ -793,3 +779,5 @@ namespace Reston.Pinata.Model.JimbisModel
     }
 
 }
+
+

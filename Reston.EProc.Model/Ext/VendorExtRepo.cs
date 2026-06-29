@@ -1985,10 +1985,7 @@ namespace Reston.Eproc.Model.Ext
                         var vep = ctx.VendorExtPacs.Where(vDoc => vDoc.VendorExtId == vExt.Id).FirstOrDefault();
                         if (vep != null)
                         {
-                            vep.NamaPerusahaan = model.VendorExtPac.NamaPerusahaan;
-                            vep.TtdNama = model.VendorExtPac.TtdNama;
-                            vep.TtdPosisi = model.VendorExtPac.TtdPosisi;
-                            vep.Status1 = model.VendorExtPac.Status1;
+vep.Status1 = model.VendorExtPac.Status1;
                             vep.Penjelasan1 = model.VendorExtPac.Penjelasan1;
                             vep.Komitmen1 = model.VendorExtPac.Komitmen1;
                             vep.TargetDate1 = model.VendorExtPac.TargetDate1;
@@ -3134,3 +3131,4 @@ namespace Reston.Eproc.Model.Ext
         }
     }
 }
+

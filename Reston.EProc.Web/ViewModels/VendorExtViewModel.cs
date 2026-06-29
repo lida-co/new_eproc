@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +24,7 @@ namespace Reston.EProc.Web.ViewModels
         public string Telepon { get; set; }
         public string StatusAkhir { get; set; }
         public string JenisRekanan { get; set; }
+        public int IsTncAgreed { get; set; }
 
         public string FirstLevelDivisionCode { get; set; }
         public string SecondLevelDivisionCode { get; set; }
@@ -277,3 +278,4 @@ namespace Reston.EProc.Web.ViewModels
         PERUSAHAAN = 1, PERORANGAN = 2, PRINCIPAL = 3, NON_REGISTER = 4
     }
 }
+

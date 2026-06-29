@@ -1,4 +1,4 @@
-using Reston.Pinata.Model.JimbisModel;
+﻿using Reston.Pinata.Model.JimbisModel;
 using System;
 using System.Collections.Generic;
 using Reston.Pinata.Model.PengadaanRepository.View;
@@ -473,6 +473,7 @@ namespace Reston.Eproc.Model.Ext
                 {
                     Id = regVendorExt.Id,
                     VendorId = vendor.Id,
+                    IsTncAgreed = regVendorExt.IsTncAgreed,
                     JenisVendor = regVendorExt.JenisVendor,
                     KategoriUsaha = regVendorExt.KategoriUsaha,
                     KategoriVendor = regVendorExt.KategoriVendor,
@@ -727,10 +728,7 @@ namespace Reston.Eproc.Model.Ext
                     {
                         Id = regVendorExtPac.Id,
                         VendorExtId = vendorExt.Id,
-                        NamaPerusahaan = regVendorExtPac.NamaPerusahaan,
-                        TtdNama = regVendorExtPac.TtdNama,
-                        TtdPosisi = regVendorExtPac.TtdPosisi,
-                        Status1 = regVendorExtPac.Status1,
+Status1 = regVendorExtPac.Status1,
                         Penjelasan1 = regVendorExtPac.Penjelasan1,
                         Komitmen1 = regVendorExtPac.Komitmen1,
                         TargetDate1 = regVendorExtPac.TargetDate1,
@@ -774,3 +772,5 @@ namespace Reston.Eproc.Model.Ext
         }
     }
 }
+
+
