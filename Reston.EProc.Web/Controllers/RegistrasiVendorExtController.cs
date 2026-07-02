@@ -1,4 +1,4 @@
-﻿using Model.Helper;
+using Model.Helper;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using Reston.Eproc.Model.Ext;
 using Reston.EProc.Web.ViewModels;

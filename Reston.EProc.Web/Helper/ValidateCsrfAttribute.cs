@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -37,6 +37,7 @@ namespace Reston.EProc.Web.Helper
                 path.Contains("/signin") ||
                 path.Contains("/login") ||
                 path.Contains("/list") ||
+                path.Contains("/addvendorext") ||
                 path.Contains("/api/header/ceklogin") ||
                 path.Contains("/api/header/cekrole") ||
                 path.Contains("/api/header/signout") ||

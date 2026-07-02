@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -218,6 +218,7 @@
                             </div>
                             <form id="formVendor" action="/Api/RegistrasiVendorExt/AddVendorExt" method="post"
                                 enctype="multipart/form-data">
+                                <input type="hidden" name="IsTncAgreed" value="1" />
                                 <input type="hidden" name="id" />
                                 <input type="hidden" name="gCaptchaResponse" />
 
@@ -3024,11 +3025,11 @@
 
 
             $("#p1-go").click(function () {
-                //var setuju = $("#tnc-setuju").prop('checked');
-                //if (!setuju) {
-                //    $("#tnc-warning").show();
-                //    return;
-                //}
+                var setuju = $("#tnc-setuju").prop('checked');
+                if (!setuju) {
+                    $("#tnc-warning").show();
+                    return;
+                }
                 $(".p1").hide();
                 $(".p2").show();
                 $(".nav-tabs").show();
