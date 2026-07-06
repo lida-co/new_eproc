@@ -2813,7 +2813,7 @@
 
                                 //Load Data Dokumen
                                 if (data.TipeVendor != '2') {
-                                    if (data.LAPORANKEUANGAN != null && data.LAPORANKEUANGAN.Nomor != null) {
+                                    if (data.LAPORANKEUANGAN != null) {
                                         document.querySelector('input[name="LaporanKeuangan.Nomor"]').value = (data.LAPORANKEUANGAN.Nomor ?? '');
                                         document.querySelector('input[name="LaporanKeuangan.Pembuat"]').value = (data.LAPORANKEUANGAN.Pembuat ?? '');
                                         document.querySelector('input[name="LaporanKeuangan.TanggalTerbit"]').value = data.LAPORANKEUANGAN.TanggalTerbit ? moment(data.LAPORANKEUANGAN.TanggalTerbit).format("DD-MM-YYYY").toString() : '';
@@ -2821,7 +2821,7 @@
                                         $("#tombolLaporanKeuangan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.LAPORANKEUANGAN.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.REKENINGKORAN != null && data.REKENINGKORAN.Nomor != null) {
+                                    if (data.REKENINGKORAN != null) {
                                         document.querySelector('input[name="RekeningKoran.Nomor"]').value = (data.REKENINGKORAN.Nomor ?? '');
                                         document.querySelector('input[name="RekeningKoran.Pembuat"]').value = (data.REKENINGKORAN.Pembuat ?? '');
                                         document.querySelector('input[name="RekeningKoran.TanggalTerbit"]').value = data.REKENINGKORAN.TanggalTerbit ? moment(data.REKENINGKORAN.TanggalTerbit).format("DD-MM-YYYY").toString() : '';
@@ -2829,7 +2829,7 @@
                                         $("#tombolRekeningKoran").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.REKENINGKORAN.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.DRT != null && data.DRT.Nomor != null) {
+                                    if (data.DRT != null) {
                                         document.querySelector('input[name="DRT.Nomor"]').value = data.DRT.Nomor;
                                         document.querySelector('input[name="DRT.Pembuat"]').value = data.DRT.Pembuat;
                                         document.querySelector('input[name="DRT.TanggalTerbit"]').value = moment(data.DRT.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2837,7 +2837,7 @@
                                         $("#tombolDRT").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.DRT.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.AKTAPENDIRIAN != null && data.AKTAPENDIRIAN.Nomor != null) {
+                                    if (data.AKTAPENDIRIAN != null) {
                                         document.querySelector('input[name="AktaPendirian.Nomor"]').value = data.AKTAPENDIRIAN.Nomor;
                                         document.querySelector('input[name="AktaPendirian.Pembuat"]').value = data.AKTAPENDIRIAN.Pembuat;
                                         document.querySelector('input[name="AktaPendirian.TanggalTerbit"]').value = moment(data.AKTAPENDIRIAN.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2845,7 +2845,7 @@
                                         $("#tombolAktaPendirian").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.AKTAPENDIRIAN.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.SKKEMENKUMHAM != null && data.SKKEMENKUMHAM.Nomor != null) {
+                                    if (data.SKKEMENKUMHAM != null) {
                                         document.querySelector('input[name="SKKemenkumham.Nomor"]').value = data.SKKEMENKUMHAM.Nomor;
                                         document.querySelector('input[name="SKKemenkumham.Pembuat"]').value = data.SKKEMENKUMHAM.Pembuat;
                                         document.querySelector('input[name="SKKemenkumham.TanggalTerbit"]').value = moment(data.SKKEMENKUMHAM.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2853,7 +2853,7 @@
                                         $("#tombolSKKemenkumham").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.SKKEMENKUMHAM.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.BERITANEGARA != null && data.BERITANEGARA.Nomor != null) {
+                                    if (data.BERITANEGARA != null) {
                                         document.querySelector('input[name="BeritaNegara.Nomor"]').value = data.BERITANEGARA.Nomor;
                                         document.querySelector('input[name="BeritaNegara.Pembuat"]').value = data.BERITANEGARA.Pembuat;
                                         document.querySelector('input[name="BeritaNegara.TanggalTerbit"]').value = moment(data.BERITANEGARA.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2861,7 +2861,7 @@
                                         $("#tombolBeritaNegara").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.BERITANEGARA.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.AKTAPERUBAHAN != null && data.AKTAPERUBAHAN.Nomor != null) {
+                                    if (data.AKTAPERUBAHAN != null) {
                                         document.querySelector('input[name="AKTAPERUBAHAN.Nomor"]').value = data.AKTAPERUBAHAN.Nomor;
                                         document.querySelector('input[name="AKTAPERUBAHAN.Pembuat"]').value = data.AKTAPERUBAHAN.Pembuat;
                                         document.querySelector('input[name="AKTAPERUBAHAN.TanggalTerbit"]').value = moment(data.AKTAPERUBAHAN.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2869,7 +2869,7 @@
                                         $("#tombolAKTAPERUBAHAN").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.AKTAPERUBAHAN.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.SIUP != null && data.SIUP.Nomor != null) {
+                                    if (data.SIUP != null) {
                                         document.querySelector('input[name="SIUP.Nomor"]').value = data.SIUP.Nomor;
                                         document.querySelector('input[name="SIUP.Pembuat"]').value = data.SIUP.Pembuat;
                                         document.querySelector('input[name="SIUP.TanggalTerbit"]').value = moment(data.SIUP.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2877,7 +2877,7 @@
                                         $("#tombolSIUP").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.SIUP.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.SIUJK != null && data.SIUJK.Nomor != null) {
+                                    if (data.SIUJK != null) {
                                         document.querySelector('input[name="SIUJK.Nomor"]').value = data.SIUJK.Nomor;
                                         document.querySelector('input[name="SIUJK.Pembuat"]').value = data.SIUJK.Pembuat;
                                         document.querySelector('input[name="SIUJK.TanggalTerbit"]').value = moment(data.SIUJK.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2885,7 +2885,7 @@
                                         $("#tombolSIUJK").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.SIUJK.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.NIB != null && data.NIB.Nomor != null) {
+                                    if (data.NIB != null) {
                                         document.querySelector('input[name="NIB.Nomor"]').value = data.NIB.Nomor;
                                         document.querySelector('input[name="NIB.Pembuat"]').value = data.NIB.Pembuat;
                                         document.querySelector('input[name="NIB.TanggalTerbit"]').value = moment(data.NIB.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2893,7 +2893,7 @@
                                         $("#tombolNIB").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.NIB.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.SERTIFIKAT != null && data.SERTIFIKAT.Nomor != null) {
+                                    if (data.SERTIFIKAT != null) {
                                         document.querySelector('input[name="SERTIFIKAT.Nomor"]').value = data.SERTIFIKAT.Nomor;
                                         document.querySelector('input[name="SERTIFIKAT.Pembuat"]').value = data.SERTIFIKAT.Pembuat;
                                         document.querySelector('input[name="SERTIFIKAT.TanggalTerbit"]').value = moment(data.SERTIFIKAT.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2901,7 +2901,7 @@
                                         $("#tombolSERTIFIKAT").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.SERTIFIKAT.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
-                                    if (data.TDP != null && data.TDP.Nomor != null) {
+                                    if (data.TDP != null) {
                                         document.querySelector('input[name="TDP.Nomor"]').value = data.TDP.Nomor;
                                         document.querySelector('input[name="TDP.Pembuat"]').value = data.TDP.Pembuat;
                                         document.querySelector('input[name="TDP.TanggalTerbit"]').value = moment(data.TDP.TanggalTerbit).format("DD-MM-YYYY").toString();
@@ -2911,7 +2911,7 @@
                                     }
 
                                     //Load Data Tenaga Ahli
-                                    if (data.VendorHumanResourceExt != null && data.VendorHumanResourceExt[0] != null) {
+                                    if (data.VendorHumanResourceExt != null && data.VendorHumanResourceExt.length > 0 && data.VendorHumanResourceExt[0] != null) {
                                         document.querySelector('input[name="VendorHumanResourceExt[0].ResourceFullName"]').value = data.VendorHumanResourceExt[0].ResourceFullName;
                                         document.querySelector('input[name="VendorHumanResourceExt[0].ResourceDateOfBirth"]').value = moment(data.VendorHumanResourceExt[0].ResourceDateOfBirth).format("DD-MM-YYYY").toString();
                                         //selectElement('Pendidikan', data.VendorHumanResourceExt[0].ResourceLastEduCode);
@@ -2920,11 +2920,11 @@
                                         //document.querySelector('input[name="VendorHumanResourceExt[0].ResourceExperienceCode"]').value = data.VendorHumanResourceExt[0].ResourceExperienceCode;
                                         document.querySelector('input[name="VendorHumanResourceExt[0].ResourceExpertise"]').value = data.VendorHumanResourceExt[0].ResourceExpertise;
                                         document.querySelector('input[name="VendorHumanResourceExt[0].ResourceExperienceYears"]').value = data.VendorHumanResourceExt[0].ResourceExperienceYears;
-                                        $("#tombolDokumenSertifikatCV").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.DokumenSertifikatCV.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
+                                        if(data.DokumenSertifikatCV != null && data.DokumenSertifikatCV.Iddok != null) $("#tombolDokumenSertifikatCV").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.DokumenSertifikatCV.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                     }
 
                                     //Load Data Peralatan
-                                    if (data.TipeVendor == '1' && data.VendorEquipmentExt[0] != null && data.VendorEquipmentExt[0].EquipmentName != null) {
+                                    if (data.TipeVendor == '1' && data.VendorEquipmentExt != null && data.VendorEquipmentExt.length > 0 && data.VendorEquipmentExt[0] != null && data.VendorEquipmentExt[0].EquipmentName != null) {
                                         document.querySelector('input[name="VendorEquipmentExt[0].EquipmentName"]').value = data.VendorEquipmentExt[0].EquipmentName;
                                         document.querySelector('input[name="VendorEquipmentExt[0].EquipmentQty"]').value = data.VendorEquipmentExt[0].EquipmentQty;
                                         document.querySelector('input[name="VendorEquipmentExt[0].EquipmentCapacity"]').value = data.VendorEquipmentExt[0].EquipmentCapacity;
@@ -2932,8 +2932,8 @@
                                         document.querySelector('input[name="VendorEquipmentExt[0].EquipmentMakeYear"]').value = data.VendorEquipmentExt[0].EquipmentMakeYear;
                                         selectElement('sub_kategori', data.VendorEquipmentExt[0].EquipmentConditionCode);
                                         document.querySelector('input[name="VendorEquipmentExt[0].EquipmentLocation"]').value = data.VendorEquipmentExt[0].EquipmentLocation;
-                                        $("#tombolBuktiKepemilikanPeralatan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.BuktiKepemilikanPeralatan.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
-                                        $("#tombolFotoPeralatan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.FotoPeralatan.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
+                                        if(data.BuktiKepemilikanPeralatan != null && data.BuktiKepemilikanPeralatan.Iddok != null) $("#tombolBuktiKepemilikanPeralatan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.BuktiKepemilikanPeralatan.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
+                                        if(data.FotoPeralatan != null && data.FotoPeralatan.Iddok != null) $("#tombolFotoPeralatan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.FotoPeralatan.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                         SetMasterData("VENDOR_EQUIPMENT_CONDITION", "VendorEquipmentExt[0].EquipmentConditionCode", data.VendorEquipmentExt[0].EquipmentConditionCode);
                                     }
 
@@ -2949,7 +2949,7 @@
                                             document.querySelector('input[name="model.VendorJobHistoryExt[0].JobContractDate"]').value = moment(data.VendorJobHistoryExt[0].JobContractDate).format("DD-MM-YYYY").toString();
                                             document.querySelector('input[name="model.VendorJobHistoryExt[0].JobContractAmount"]').value = data.VendorJobHistoryExt[0].JobContractAmount;
                                             document.querySelector('input[name="model.VendorJobHistoryExt[0].JobContractAmountCurrencyCode"]').value = data.VendorJobHistoryExt[0].JobContractAmountCurrencyCode;
-                                            $("#tombolBuktiKerjasama").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.BuktiKerjasama.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
+                                            if(data.BuktiKerjasama != null && data.BuktiKerjasama.Iddok != null) $("#tombolBuktiKerjasama").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.BuktiKerjasama.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                         }
                                     }
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.Owin.FileSystems;
+using Microsoft.Owin.FileSystems;
 using Reston.Pinata.Model;
 using Reston.Pinata.Model.JimbisModel;
 using Reston.Pinata.Model.Repository;
@@ -302,8 +302,7 @@ namespace Reston.Pinata.WebService
                 vm.VendorPerson = lvp.ToArray();
             }
 
-            //var dokumens = _repository2.GetAllDokumenByVendor(id);
-            var dokumens = v.RegDokumen.Where(x => x.Active == true);
+            var dokumens = v.RegDokumen != null ? v.RegDokumen.Where(x => x.Active == true) : new List<RegDokumen>();
             List<RegDokumen> la = dokumens.Where(x => x.TipeDokumen == EDocumentType.AKTA).ToList();
             List<RegAktaDokumenDetail> lad = new List<RegAktaDokumenDetail>();
             foreach (RegDokumen d in la)

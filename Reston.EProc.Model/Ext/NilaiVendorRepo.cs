@@ -1807,7 +1807,18 @@ namespace Reston.Eproc.Model.Ext
                 }
                 else
                 {
-                    return null;
+                    var newData = new VendorExtViewModelJaws();
+                    newData.id = IdRegVendor;
+                    newData.TipeVendor = 0;
+                    newData.Nama = rv.Nama;
+                    newData.Alamat = rv.Alamat;
+                    newData.Email = rv.Email;
+                    newData.Website = rv.Website;
+                    newData.Telepon = rv.Telepon;
+                    newData.Provinsi = String.IsNullOrEmpty(rv.Provinsi) ? "" : ctx.ReferenceDatas.Where(x => x.Code == rv.Provinsi && x.Qualifier == "DUKCAPILPROV").FirstOrDefault()?.LocalizedName ?? "";
+                    newData.VendorRegExt = new VendorRegExtViewModels();
+                    newData.VendorBankInfoExt = new VendorBankInfoExtViewModels();
+                    return newData;
                 }
             }
             catch (Exception ex)
@@ -1834,6 +1845,8 @@ namespace Reston.Eproc.Model.Ext
                 newData.Website = rv.Website;
                 newData.Telepon = rv.Telepon;
                 newData.Provinsi = rv.Provinsi;
+                newData.VendorRegExt = new VendorRegExtViewModels();
+                newData.VendorBankInfoExt = new VendorBankInfoExtViewModels();
                 return newData;
             }
 
