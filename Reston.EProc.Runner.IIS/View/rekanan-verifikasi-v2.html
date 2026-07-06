@@ -2565,7 +2565,7 @@
 
                     console.log(data);
                     //If Else Tipe Vendor
-                    if (DOMPurify.sanitize(data.TipeVendor) == '1') {
+                    if (DOMPurify.sanitize(data.TipeVendor) == '1' || DOMPurify.sanitize(data.TipeVendor) == '0' || data.TipeVendor == null) {
                         $(".tampilPerusahaans").show();
                         $(".tampilPerseorangans").show();
                         $(".tampilPrincipals").show();
@@ -2694,8 +2694,10 @@
                             $(".statuspajaknonpkp").hide();
                             $("#statuspajaknonpkp").hide();
                             document.getElementById("statuspajakpkp").checked = true;
-                            document.querySelector('input[name="PKP.Nomor"]').value = data.PKP.Nomor;
-                            $("#tombolPKP").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.PKP.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File PKP</a>');
+                            if (data.PKP != null) {
+                                document.querySelector('input[name="PKP.Nomor"]').value = data.PKP.Nomor;
+                                $("#tombolPKP").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.PKP.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File PKP</a>');
+                            }
                         };
                         if (data.VendorRegExt.IsPKP == 1) {
                             $(".statuspajakpkp").hide();
@@ -2823,7 +2825,7 @@
                     }
 
                     //Load Data Tenaga Ahli
-                    if (data.VendorHumanResourceExt[0] != undefined) {
+                    if (data.VendorHumanResourceExt != null && data.VendorHumanResourceExt[0] != undefined) {
                         document.querySelector('input[name="VendorHumanResourceExt[0].ResourceFullName"]').value = data.VendorHumanResourceExt[0].ResourceFullName;
                         document.querySelector('input[name="VendorHumanResourceExt[0].ResourceDateOfBirth"]').value = moment(data.VendorHumanResourceExt[0].ResourceDateOfBirth).format("DD-MM-YYYY").toString();
                         selectElement('Pendidikan', data.VendorHumanResourceExt[0].ResourceLastEduCode);
@@ -2836,7 +2838,7 @@
 
 
                     //Load Data Pengalaman
-                    if (data.VendorJobHistoryExt[0] != undefined) {
+                    if (data.VendorJobHistoryExt != null && data.VendorJobHistoryExt[0] != undefined) {
                         document.querySelector('input[name="model.VendorJobHistoryExt[0].JobTitle"]').value = data.VendorJobHistoryExt[0].JobTitle;
                         document.querySelector('input[name="model.VendorJobHistoryExt[0].JobLocation"]').value = data.VendorJobHistoryExt[0].JobLocation;
                         document.querySelector('input[name="model.VendorJobHistoryExt[0].JobClient"]').value = data.VendorJobHistoryExt[0].JobClient;
@@ -2951,7 +2953,7 @@
                         }
 
                         //Load Data Peralatan
-                        if (data.VendorEquipmentExt.length > 0) {
+                        if (data.VendorEquipmentExt != null && data.VendorEquipmentExt.length > 0) {
                             document.querySelector('input[name="VendorEquipmentExt[0].EquipmentName"]').value = data.VendorEquipmentExt[0].EquipmentName;
                             document.querySelector('input[name="VendorEquipmentExt[0].EquipmentQty"]').value = data.VendorEquipmentExt[0].EquipmentQty;
                             document.querySelector('input[name="VendorEquipmentExt[0].EquipmentCapacity"]').value = data.VendorEquipmentExt[0].EquipmentCapacity;

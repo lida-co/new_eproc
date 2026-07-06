@@ -2392,7 +2392,7 @@
     <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="dist/js/app.min.js"></script>
     <script src="plugins/angular/angular.min.js"></script>
-    <script type="text/javascript" src="site.js"></script>
+    <!-- Removed duplicate site.js -->
     <script type="text/javascript" src="dist/js/menu.js"></script>
     <script src='plugins/fullcalendar/moment.min.js'></script>
     <script src='plugins/fullcalendar/fullcalendar.min.js'></script>
@@ -2462,7 +2462,7 @@
                 //data = DOMPurify.sanitize(data);
                 if (data) {
                     console.log(data);
-                    if (data.TipeVendor == '1') {
+                    if (data.TipeVendor == '1' || data.TipeVendor == '0' || data.TipeVendor == null) {
                         $(".tampilPerusahaans").show();
                         $(".tampilPerseorangans").show();
                         $(".tampilPrincipals").show();
@@ -2587,8 +2587,10 @@
                             $(".statuspajaknonpkp").hide();
                             $("#statuspajaknonpkp").hide();
                             document.getElementById("statuspajakpkp").checked = true;
-                            document.querySelector('input[name="PKP.Nomor"]').value = data.PKP.Nomor;
-                            $("#tombolPKP").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.PKP.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File PKP</a>');
+                            if (data.PKP != null) {
+                                document.querySelector('input[name="PKP.Nomor"]').value = data.PKP.Nomor;
+                                $("#tombolPKP").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.PKP.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File PKP</a>');
+                            }
 
                         };
                         if (data.VendorRegExt.IsPKP.toString() == "false") {
@@ -2602,8 +2604,10 @@
                     SetMasterData("VENDOR_BASIC_BENTUK_BADAN_USAHA", "VendorRegExt.BentukBadanUsaha", data.VendorRegExt.BentukBadanUsaha);
                     SetKategoriRekanan(data.VendorRegExt.KategoriUsaha);
 
-                    document.querySelector('input[name="NPWP.Nomor"]').value = data.NPWP.Nomor;
-                    $("#tombolNPWP").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.NPWP.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File NPWP</a>');
+                    if (data.NPWP != null) {
+                        document.querySelector('input[name="NPWP.Nomor"]').value = data.NPWP.Nomor;
+                        $("#tombolNPWP").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.NPWP.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File NPWP</a>');
+                    }
 
                     if (data.TipeVendor == '2') {
                         if (data.VendorRegExt.IndivAbbrevName != undefined) document.querySelector('input[name="VendorRegExt.IndivAbbrevName"]').value = data.VendorRegExt.IndivAbbrevName;
@@ -2677,7 +2681,7 @@
                     document.querySelector('input[name="SegKualifikasiGrade"]').value = data.VendorRegExt.SegKualifikasiGrade;
 
                     //Load Data Tenaga Ahli
-                    if (data.VendorHumanResourceExt[0] != undefined) {
+                    if (data.VendorHumanResourceExt != null && data.VendorHumanResourceExt[0] != undefined) {
                         if (data.VendorHumanResourceExt[0].ResourceFullName != null) document.querySelector('input[name="VendorHumanResourceExt[0].ResourceFullName"]').value = data.VendorHumanResourceExt[0].ResourceFullName;
                         if (data.VendorHumanResourceExt[0].ResourceDateOfBirth != null) document.querySelector('input[name="VendorHumanResourceExt[0].ResourceDateOfBirth"]').value = moment(data.VendorHumanResourceExt[0].ResourceDateOfBirth).format("DD-MM-YYYY").toString();
                         selectElement('Pendidikan', data.VendorHumanResourceExt[0].ResourceLastEduCode);
@@ -2697,7 +2701,7 @@
 
 
                     //Load Data Pengalaman
-                    if (data.VendorJobHistoryExt[0] != null) {
+                    if (data.VendorJobHistoryExt != null && data.VendorJobHistoryExt[0] != null) {
                         document.querySelector('input[name="model.VendorJobHistoryExt[0].JobTitle"]').value = data.VendorJobHistoryExt[0].JobTitle;
                         document.querySelector('input[name="model.VendorJobHistoryExt[0].JobLocation"]').value = data.VendorJobHistoryExt[0].JobLocation;
                         document.querySelector('input[name="model.VendorJobHistoryExt[0].JobClient"]').value = data.VendorJobHistoryExt[0].JobClient;
