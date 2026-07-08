@@ -117,6 +117,9 @@ namespace Reston.Pinata.Model.JimbisModel
         PAC1,
         PAC2,
         PAC3,
-        PAC4
+        PAC4,
+        SuratPernyataanPengadaan,
+        SuratPernyataanEtika,
+        SuratPernyataanKerahasiaan
     }
 }

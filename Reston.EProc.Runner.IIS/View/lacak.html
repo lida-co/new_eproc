@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -165,7 +165,7 @@
 <script type="text/javascript">
     var HOME_PAGE = "https://localhost:44392/";
     function getParameterByName(name, url) {
-        if (!url) url = HOME_PAGE;
+        if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
         var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
             results = regex.exec(url);

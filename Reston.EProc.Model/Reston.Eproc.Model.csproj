@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -115,8 +115,6 @@
     <Compile Include="ENota\ENota.cs" />
     <Compile Include="EMemo\ApprovalWorkflow.cs" />
     <Compile Include="EMemo\EMemo.cs" />
-    <Compile Include="ENota\ApprovalWorkflow.cs" />
-    <Compile Include="ENota\ENota.cs" />
     <Compile Include="Ext\ITransactionSupportedRepository.cs" />
     <Compile Include="Ext\NilaiVendorRepo.cs" />
     <Compile Include="Ext\VendorExtRepo.cs" />

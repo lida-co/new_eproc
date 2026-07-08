@@ -1,4 +1,4 @@
-﻿using Reston.Pinata.Model.JimbisModel;
+using Reston.Pinata.Model.JimbisModel;
 using System;
 using System.Collections.Generic;
 using Reston.Pinata.Model.PengadaanRepository.View;
@@ -1216,7 +1216,7 @@ namespace Reston.Eproc.Model.Ext
                             FinStmtIssuer = model.VendorFinStatementExt.FinStmtIssuer,
                             FinStmtIssueDate = model.VendorFinStatementExt.FinStmtIssueDate,
                             FinStmtValidThruDate = model.VendorFinStatementExt.FinStmtValidThruDate,
-                            FinStmtDocumentId = model.VendorFinStatementExt.FinStmtDocumentId,
+                            FinStmtDocumentId = string.IsNullOrEmpty(model.VendorFinStatementExt.FinStmtDocumentId) ? (Guid?)null : Guid.Parse(model.VendorFinStatementExt.FinStmtDocumentId),
                             FinStmtYear = model.VendorFinStatementExt.FinStmtYear,
                             FinStmtCurrencyCode = model.VendorFinStatementExt.FinStmtCurrencyCode,
                             FinStmtAktivaLancar = model.VendorFinStatementExt.FinStmtAktivaLancar,
@@ -2380,7 +2380,7 @@ vep.Status1 = model.VendorExtPac.Status1;
                     FinStmtIssuer = model.VendorFinStatementExt.FinStmtIssuer,
                     FinStmtIssueDate = model.VendorFinStatementExt.FinStmtIssueDate,
                     FinStmtValidThruDate = model.VendorFinStatementExt.FinStmtValidThruDate,
-                    FinStmtDocumentId = model.VendorFinStatementExt.FinStmtDocumentId,
+                    FinStmtDocumentId = string.IsNullOrEmpty(model.VendorFinStatementExt.FinStmtDocumentId) ? (Guid?)null : Guid.Parse(model.VendorFinStatementExt.FinStmtDocumentId),
                     FinStmtYear = model.VendorFinStatementExt.FinStmtYear,
                     FinStmtCurrencyCode = model.VendorFinStatementExt.FinStmtCurrencyCode,
                     FinStmtAktivaLancar = model.VendorFinStatementExt.FinStmtAktivaLancar,

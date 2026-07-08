@@ -729,6 +729,8 @@
                             <div class="col-md-12">
                                 <div>
                                     <input type="hidden" name="id" id="id" />
+                                    <input type="hidden" name="Edit-LocalizedDesc-Segmentasi"
+                                        id="Edit-LocalizedDesc-Segmentasi" />
                                 </div>
                                 <div class="form-group">
                                     <label>Code</label>
@@ -2092,8 +2094,7 @@
                 $("input[name=Edit-Code-Segmentasi]").val(DOMPurify.sanitize(data.Code));
                 $("input[name=Edit-LocalizedName-Segmentasi]").val(DOMPurify.sanitize(data.LocalizedName));
                 $("input[name=Edit-ParentSegmentasi]").val(DOMPurify.sanitize(data.StringAttr1));
-
-
+                $("input[name=Edit-LocalizedDesc-Segmentasi]").val(DOMPurify.sanitize(data.LocalizedDesc || "-"));
             });
         }
 
@@ -2108,6 +2109,7 @@
                 Id: $("#modal-edit-segmentasi #id").val(),
                 Code: $("#modal-edit-segmentasi #Edit-Code-Segmentasi").val(),
                 LocalizedName: $("#modal-edit-segmentasi #Edit-LocalizedName-Segmentasi").val(),
+                LocalizedDesc: $("#modal-edit-segmentasi [name=Edit-LocalizedDesc-Segmentasi]").val(),
                 StringAttr1: $("#modal-edit-segmentasi [name=Edit-ParentSegmentasi]").val(),
             };
 
