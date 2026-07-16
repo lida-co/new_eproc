@@ -445,7 +445,7 @@ namespace Reston.Pinata.WebService
                 {
                     Reston.Pinata.WebService.Helper.Mailer.sendText(rv.Nama, rv.Email,
                         System.Configuration.ConfigurationManager.AppSettings["MAIL_VENDOR_VERIFICATION_TITLE"],
-                        String.Format(System.Configuration.ConfigurationManager.AppSettings["MAIL_VENDOR_VERIFICATION_BODY"].ToString(), rv.Nama, uname, rand, IdLdapConstants.IDM.Url));
+                        String.Format(System.Configuration.ConfigurationManager.AppSettings["MAIL_VENDOR_VERIFICATION_BODY"].ToString(), rv.Nama, rv.NoPengajuan, rand, IdLdapConstants.IDM.Url));
                 }
                 catch (Exception e)
                 {

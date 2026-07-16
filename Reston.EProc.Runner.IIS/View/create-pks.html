@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html ng-app="app">
 
 <head>
@@ -563,10 +563,7 @@
     <script src="dropzone.js"></script>
     <script src="dist/js/create-pks.js"></script>
     <script>
-        $(document).ready(function () {
-            initCsrf();
-        });
-
+        // initCsrf() sudah otomatis dipanggil oleh site.js saat DOM ready
         function getCsrfToken() {
             return csrfToken;
         }

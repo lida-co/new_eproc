@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace Reston.Pinata.WebService.Helper
         public static string FROM_NAME { get { return ConfigurationManager.AppSettings["FROM_NAME"]; } set { ConfigurationManager.AppSettings["FROM_NAME"] = value; } }
 
         //string mailPassword = Environment.GetEnvironmentVariable("MAIL_PASSWORD");
-        public static string FROM_PASSWORD { get { return Environment.GetEnvironmentVariable("MAIL_PASSWORD"); } set { ConfigurationManager.AppSettings["FROM_PASSWORD"] = value; } }
+        public static string FROM_PASSWORD { get { return ConfigurationManager.AppSettings["FROM_PASSWORD"]; } set { ConfigurationManager.AppSettings["FROM_PASSWORD"] = value; } }
         
         public static string MAIL_HOST { get { return ConfigurationManager.AppSettings["MAIL_HOST"]; } set { ConfigurationManager.AppSettings["MAIL_HOST"] = value; } }
         public static int MAIL_PORT { get { return int.Parse(ConfigurationManager.AppSettings["MAIL_PORT"]); } set { ConfigurationManager.AppSettings["MAIL_PORT"] = value.ToString(); } }

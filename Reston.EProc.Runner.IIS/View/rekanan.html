@@ -499,7 +499,9 @@
     <script src='plugins/fullcalendar/lang/id.js'></script>
     <script src="plugins/accounting/accounting.js"></script>
     <script>
-        var nbaru = 9;
+        var allVendorBaru = [];
+        var offsetBaru = 0;
+        var pageSizeBaru = 9;
         var nperubahan = 9;
         var nterdaftar = 6;
         var ndaftarhitam = 9;
@@ -518,10 +520,7 @@
                 return csrfToken;
             }
 
-            getVendorBaru(nbaru, '');
-            getVendorPass1(nbaru, '');
-            getVendorPass2(nbaru, '');
-            getVendorPass3(nbaru, '');
+            loadAllVendorBaru('');
             getVendorPerubahan(nperubahan, '');
             getVendorTerdaftar(nterdaftar, '');
             getVendorDaftarHitam(ndaftarhitam, '');
@@ -554,7 +553,8 @@
             });
 
             $("#next-baru,.next-baru").click(function () {
-                next();
+                offsetBaru += pageSizeBaru;
+                renderVendorBaru();
             });
 
             $("#next-terdaftar,.next-terdaftar").click(function () {
@@ -575,40 +575,70 @@
 
         });
 
-        function getVendorBaru(limit, search) {
-            $.ajax({
-                url: '/api/Registrasi/GetVendors?tipe=&status=NEW&limit=' + limit + '&search=' + search,
-                success: function (data) {
+        function buildVendorCard(item) {
+            var html = '<div class="col-md-4">' +
+                '<div class="box box-primary box-c" onclick="goToVendorRegDetail(\'' + DOMPurify.sanitize(item.NoPengajuan) + '\')"> ' +
+                '<div class="box-body box-profile">' +
+                '<p class="profile-username title-header">' + DOMPurify.sanitize(item.Nama) + '</p>';
+            if (DOMPurify.sanitize(item.Website)) {
+                html += '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(item.Website) + '</p>';
+            }
+            html += '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(item.Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(item.Email) + '</p>' +
+                '</div></div></div>';
+            return html;
+        }
 
-                    $("#listVendorBaruLoading").hide();
-                    $("#listVendorBaru").html('');
-                    if (data.length < 1) {
-                        //$("#listVendorBaru").append("<p>Kosong.</p>");
-                    }
-                    else {
-                        var s = '';
-                        if (data) {
-                            for (var i in data) {
-                                console.log(DOMPurify.sanitize(data[i].NoPengajuan))
-                                var html = '<div class="col-md-4">' +
-                                    '<div class="box box-primary box-c" onclick="goToVendorRegDetail(\'' + DOMPurify.sanitize(data[i].NoPengajuan) + '\')">' +
-                                    '<div class="box-body box-profile">' +
-                                    '<p class="profile-username title-header">' + DOMPurify.sanitize(data[i].Nama) + '</p>';
-                                //'<p class="text-muted text-center deskripsi"><span class="fa fa-building"></span>' + data[i].Provinsi + '</p>' +
-                                if (DOMPurify.sanitize(data[i].Website) != null) {
-                                    html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-globe"></span>' + DOMPurify.sanitize(data[i].Website) + '</p>';
-                                };
-                                //'<p class="text-muted text-center deskripsi"><span class="fa fa-user"></span> Sukamto</p>'/
-                                html = html + '<p class="text-muted text-center deskripsi"><span class="fa fa-phone"></span> ' + DOMPurify.sanitize(data[i].Telepon) + '<span class="fa fa-envelope"> </span> ' + DOMPurify.sanitize(data[i].Email) + '</p>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>';
-                                s += html;
-                            }
-                        }
-                        $("#listVendorBaru").append(s);
-                    }
+        function renderVendorBaru() {
+            var slice = allVendorBaru.slice(offsetBaru, offsetBaru + pageSizeBaru);
+            var s = '';
+            for (var i = 0; i < slice.length; i++) {
+                s += buildVendorCard(slice[i]);
+                // clearfix setiap 3 kartu agar baris tidak rumpang
+                if ((i + 1) % 3 === 0) {
+                    s += '<div class="clearfix"></div>';
                 }
+            }
+            $("#listVendorBaru").append(s);
+            // sembunyikan tombol jika sudah tidak ada data lagi
+            if (offsetBaru + pageSizeBaru >= allVendorBaru.length) {
+                $("#next-baru").hide();
+            } else {
+                $("#next-baru").show();
+            }
+        }
+
+        function loadAllVendorBaru(search) {
+            var statuses = ['NEW', 'PASS_1', 'PASS_2', 'PASS_3'];
+            var pending = statuses.length;
+            allVendorBaru = [];
+            offsetBaru = 0;
+            $("#listVendorBaruLoading").show();
+            $("#listVendorBaru").html('');
+            $("#listVendorPass1").html('');
+            $("#listVendorPass2").html('');
+            $("#listVendorPass3").html('');
+
+            statuses.forEach(function(status) {
+                $.ajax({
+                    url: '/api/Registrasi/GetVendors?tipe=&status=' + status + '&limit=999&search=' + search,
+                    success: function(data) {
+                        if (data && data.length > 0) {
+                            allVendorBaru = allVendorBaru.concat(data);
+                        }
+                        pending--;
+                        if (pending === 0) {
+                            $("#listVendorBaruLoading").hide();
+                            renderVendorBaru();
+                        }
+                    },
+                    error: function() {
+                        pending--;
+                        if (pending === 0) {
+                            $("#listVendorBaruLoading").hide();
+                            renderVendorBaru();
+                        }
+                    }
+                });
             });
         }
 

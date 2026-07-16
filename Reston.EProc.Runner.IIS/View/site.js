@@ -1,4 +1,4 @@
-var IDSRV = '';
+﻿var IDSRV = '';
 var PROC = window.location.origin + '/';
 
 
@@ -273,7 +273,6 @@ function LogOut() {
 
     });
 }
-//$(function () {
-//    //await initCsrf();  // Pastikan CSRF token siap
+//$(document).ready(function () {
 //    cekLogin(0);  // Setup data sesi login tanpa redirect
 //});

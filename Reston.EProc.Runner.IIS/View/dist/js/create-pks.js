@@ -1,5 +1,18 @@
+// uuid generator
+function generateUUID() {
+    var d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+        d += performance.now(); 
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
 var rawId = gup("id", window.location.href);
-var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
+var safeId = (rawId && /^[a-zA-Z0-9_-]+$/.test(rawId)) ? rawId : "";
 var PksId = encodeURIComponent(safeId);
 
 // CSRF variable declarations removed because they are already in site.js (global scope)
@@ -8,26 +21,8 @@ var PksId = encodeURIComponent(safeId);
 // const MAX_RETRIES = 3;
 // initCsrf() is also already defined in site.js
 
-$.ajaxSetup({
-    beforeSend: async function (xhr, settings) {
-        if (settings.type === 'GET') return;
-
-        // tunggu token kalau belum ada
-        let waitCount = 0;
-        while (!csrfToken && waitCount < 10) {
-            await new Promise(r => setTimeout(r, 200));
-            waitCount++;
-        }
-
-        if (!csrfToken) {
-            console.warn('CSRF token tetap belum tersedia');
-            return;
-        }
-
-        xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
-        xhr.setRequestHeader("X-XSRF-TOKEN", csrfToken);
-    }
-});
+// $.ajaxSetup CSRF sudah ditangani oleh site.js (synchronous fallback)
+// Tidak perlu override di sini karena akan menimpa setup yang benar dari site.js
 
 
 $(function () {
@@ -35,7 +30,12 @@ $(function () {
     //$("#pengadaanId").val(PengadaanId);
     //$("#VendorId").val(VendorId);
     if (PksId != "" && PksId != null) loadDetail(PksId);
-    cekisstaff();
+    // tunggu CSRF sebelum memanggil POST endpoints
+    (async function () {
+        let w = 0;
+        while (!csrfToken && w < 25) { await new Promise(r => setTimeout(r, 200)); w++; }
+        cekisstaff();
+    })();
     
     var myDropzonePKS = new Dropzone("#DraftPKS",
              {
@@ -128,7 +128,9 @@ $(function () {
              }
          );
 
-    renderDokumenDropzone(myDropzonePKS, "DraftPKS");
+    if (PksId != "") {
+        renderDokumenDropzone(myDropzonePKS, "DraftPKS");
+    }
     Dropzone.options.DraftPKS = false;
 
     var myDropzoneFinalPKS = new Dropzone("#FinalLegalPks",
@@ -219,7 +221,9 @@ $(function () {
              }
          );
 
-    renderDokumenDropzone(myDropzoneFinalPKS, "FinalLegalPks");
+    if (PksId != "") {
+        renderDokumenDropzone(myDropzoneFinalPKS, "FinalLegalPks");
+    }
     Dropzone.options.FinalLegalPks = false;
 
     var myDropzoneAssignedPks = new Dropzone("#AssignedPks",
@@ -310,7 +314,9 @@ $(function () {
              }
          );
 
-    renderDokumenDropzone(myDropzoneAssignedPks, "AssignedPks");
+    if (PksId != "") {
+        renderDokumenDropzone(myDropzoneAssignedPks, "AssignedPks");
+    }
     Dropzone.options.AssignedPks = false;
 
     
@@ -321,68 +327,75 @@ $(function () {
 $(function () {
     // $("#bingkai-upload-legal").hide();
 
-    if (!csrfToken) {
-        alert("CSRF token belum siap, refresh halaman");
-        return;
-    }
+    (async function () {
+        // tunggu CSRF token siap (max 5 detik)
+        let waitCount = 0;
+        while (!csrfToken && waitCount < 25) {
+            await new Promise(r => setTimeout(r, 200));
+            waitCount++;
+        }
 
-    var headers = {};
-    if (csrfToken) {
+        if (!csrfToken) {
+            console.warn("CSRF token belum siap setelah 5 detik, DataTable tidak diinisialisasi");
+            return;
+        }
+
+        var headers = {};
         headers['X-CSRF-Token'] = csrfToken;
         headers['X-XSRF-TOKEN'] = csrfToken;
-    }
 
-    table = $('#tbl-pengadaan').DataTable({
-        "serverSide": true,
-        "searching": false,
-        "ajax": {
-            "url": 'api/Pks/ListPengadaan',
-            "type": 'POST',
-            "headers": headers,
-            "data": function (d) {
-                d.search = $("#title").val();
-                d.klasifikasi = $("#klasifikasi option:selected").val();
-            },
-            "error": function (xhr) {
-                console.error("Gagal load data:", xhr.responseText);
-            }
-        },
-        "columns": [
-            { "data": "Judul" },
-            { "data": "HPS", "className": "rata_kanan" },
-            { "data": "JenisPekerjaan" },
-            { "data": "Vendor" },
-            { "data": null }
-        ],
-        "columnDefs": [
-            {
-                "render": function (data, type, row) {
-                    if (data != null)
-                        return accounting.formatNumber(data, { thousand: ".", decimal: ",", precision: 2 });
-                    else
-                        return "";
+        table = $('#tbl-pengadaan').DataTable({
+            "serverSide": true,
+            "searching": false,
+            "ajax": {
+                "url": 'api/Pks/ListPengadaan',
+                "type": 'POST',
+                "headers": headers,
+                "data": function (d) {
+                    d.search = $("#title").val();
+                    d.klasifikasi = $("#klasifikasi option:selected").val();
                 },
-                "targets": 1,
-                "orderable": false
+                "error": function (xhr) {
+                    console.error("Gagal load data:", xhr.responseText);
+                }
             },
-            {
-                "render": function (data, type, row) {
-                    if (!data) return "";
-                    var objData = encodeURIComponent(JSON.stringify(data));
+            "columns": [
+                { "data": "Judul" },
+                { "data": "HPS", "className": "rata_kanan" },
+                { "data": "JenisPekerjaan" },
+                { "data": "Vendor" },
+                { "data": null }
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        if (data != null)
+                            return accounting.formatNumber(data, { thousand: ".", decimal: ",", precision: 2 });
+                        else
+                            return "";
+                    },
+                    "targets": 1,
+                    "orderable": false
+                },
+                {
+                    "render": function (data, type, row) {
+                        if (!data) return "";
+                        var objData = encodeURIComponent(JSON.stringify(data));
 
-                    return "<a obj='" + objData + "' class='btn btn-success btn-sm pilih-pengadaan'>Pilih</a>";
-                },
-                "targets": 4,
-                "orderable": false
-            }
-        ],
-        "paging": true,
-        "lengthChange": false,
-        "ordering": false,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true
-    });
+                        return "<a obj='" + objData + "' class='btn btn-success btn-sm pilih-pengadaan'>Pilih</a>";
+                    },
+                    "targets": 4,
+                    "orderable": false
+                }
+            ],
+            "paging": true,
+            "lengthChange": false,
+            "ordering": false,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true
+        });
+    })();
 });
 
 $(function () {
@@ -432,8 +445,13 @@ $(function () {
         pks.TanggalSelesaiStr = moment($("#tanggal-selesai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
         pks.Title = $("#title-pks").val();
         pks.PemenangPengadaanId = $("#PemenangPengadaanId").val();
-        pks.Id = $("#pksId").val();
-        if ($("#isOwner").val() == 1 || $("#pksId").val()=="")
+        if ($("#pksId").val() != "") {
+            pks.Id = $("#pksId").val();
+        } else {
+            pks.Id = generateUUID();
+            $("#pksId").val(pks.Id);
+        }
+        if ($("#isOwner").val() == 1 || $("#pksId").val() != "")
             save(pks);
 
     });
@@ -445,8 +463,13 @@ $(function () {
         pks.TanggalSelesaiStr = moment($("#tanggal-selesai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
         pks.Title = $("#title-pks").val();
         pks.PemenangPengadaanId = $("#PemenangPengadaanId").val();
-        pks.Id = $("#pksId").val();
-        if ($("#isOwner").val() == 1 || $("#pksId").val() == "")
+        if ($("#pksId").val() != "") {
+            pks.Id = $("#pksId").val();
+        } else {
+            pks.Id = generateUUID();
+            $("#pksId").val(pks.Id);
+        }
+        if ($("#isOwner").val() == 1 || $("#pksId").val() != "")
             savesetuju(pks);
     });
 
@@ -455,7 +478,12 @@ $(function () {
         pks.Note = $("#note").val();
         pks.Title = $("#title-pks").val();
         pks.PemenangPengadaanId = $("#PemenangPengadaanId").val();
-        pks.Id = $("#pksId").val();
+        if ($("#pksId").val() != "") {
+            pks.Id = $("#pksId").val();
+        } else {
+            pks.Id = generateUUID();
+            $("#pksId").val(pks.Id);
+        }
         if ($("#StatusPks").val() == "0")
             ajukan();
     });
