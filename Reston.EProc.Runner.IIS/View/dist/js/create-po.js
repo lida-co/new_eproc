@@ -1,7 +1,7 @@
 //var Id = DOMPurify.sanitize(gup("id", window.location.href));
 
-var rawId = gup("id", window.location.href);
-var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
+var rawId = getIdFromUrl();
+var safeId = (rawId && /^[a-zA-Z0-9_-]+$/.test(rawId)) ? rawId : "";
 var Id = encodeURIComponent(safeId);
 
 var tableitem;
@@ -117,7 +117,7 @@ $(function () {
         Id = idValue;
     }
 
-    if (!/^[a-zA-Z0-9-]+$/.test(Id)) {
+    if (Id && !/^[a-zA-Z0-9-]+$/.test(Id)) {
         console.error("Invalid ID format");
         return;
     }
@@ -556,7 +556,8 @@ function save(po) {
 function jawsReload(Id) {
     //alert("ini idnya " + Id);
     loadDetail(Id);
-    window.location.href = "create-po.html?id=" + Id;
+    window.location.replace("create-po.html#" + Id);
+    window.location.reload();
 }
 
 function saveItem(item) {
@@ -714,6 +715,7 @@ function SetListVendor(vendor) {
 $(function () {
     $("[name = 'Vendor']").change(function () {
         var nv = $("[name = 'Vendor']").val();
+        if (!nv || nv === "null" || nv === "undefined" || nv === "") return;
         //alert('id vendor= ' + $("#idVendor").val());
         //alert('ID vendor= ' + nv);
 

@@ -3,7 +3,7 @@
 
 
 // Extract "id" safely
-var rawId = gup("id", window.location.href);
+var rawId = getIdFromUrl();
 
 // Only allow alphanumeric, dash, underscore
 var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
@@ -103,7 +103,7 @@ $(function () {
                          });
                      } else {
                          var jumFile = myDropzoneSPK.files.length;
-                         if ($("#pksId").val() == "") {
+                         if ($("#spkId").val() == "") {
                              BootstrapDialog.show({
                                  title: 'Konfirmasi',
                                  message: 'Simpan Dahulu Dokumen Sebelum Upload File',
@@ -430,7 +430,6 @@ function save(spk) {
         }
     }).done(function (data) {
         console.log("Response dari server:", data);
-        loadDetail(data.Id);
         var msg = data.message;
         waitingDialog.hideloading();
         BootstrapDialog.show({
@@ -440,6 +439,10 @@ function save(spk) {
                 label: 'Close',
                 action: function (dialog) {
                     dialog.close();
+                    if (data.Id && data.Id !== "") {
+                        window.location.replace("create-spk.html#" + data.Id);
+                        window.location.reload();
+                    }
                 }
             }]
         });

@@ -1,23 +1,22 @@
 
-var rawId = gup("id", window.location.href);
-var safeId = /^[a-zA-Z0-9_-]+$/.test(rawId) ? rawId : "";
+var rawId = getIdFromUrl();
+var safeId = (rawId && /^[a-zA-Z0-9_-]+$/.test(rawId)) ? rawId : "";
 var SpkId = encodeURIComponent(safeId);
 
-
-//var rawId = gup("id", window.location.href);
-//var SpkId = DOMPurify.sanitize(rawId, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
-//if (!/^[a-zA-Z0-9-]+$/.test(SpkId)) {
-//    SpkId = null; // atau handle error
-//}
 
 var myDropzoneSPK;
 $(function () {
     //$("#pengadaanId").val(PengadaanId);
     //$("#VendorId").val(VendorId);
-    if (SpkId != "" && SpkId != null) { loadDetail(SpkId); loadDetailDokNonPks(SpkId); }
-    if ($("#pksId").val() != "" && (SpkId == null || SpkId == "")) { loadDetail($("#spkId").val()); loadDetailDokNonPks($("#spkId").val()); }
-       //window.location.href("http://" + window.location.host + "/pks.html");
-    if (SpkId == "" || SpkId == null) {
+    if (SpkId !== "" && SpkId !== null && SpkId !== "null" && SpkId !== "undefined") { 
+        loadDetail(SpkId); 
+        loadDetailDokNonPks(SpkId); 
+    }
+    if ($("#pksId").val() !== "" && $("#pksId").val() !== undefined && (SpkId === null || SpkId === "" || SpkId === "null" || SpkId === "undefined")) { 
+        loadDetail($("#spkId").val()); 
+        loadDetailDokNonPks($("#spkId").val()); 
+    }
+    if (SpkId === "" || SpkId === null || SpkId === "null" || SpkId === "undefined") {
         SetListVendorWNon("");
     }
 
@@ -1242,12 +1241,14 @@ function loadDetailDokNonPks(Id) {
 
 function renderDokumenDropzone(myDropzone) {
     var rSpkId = $("#spkId").val() || (typeof SpkId !== 'undefined' ? SpkId : null);
-    if (!rSpkId) {
+    if (!rSpkId || rSpkId === "null" || rSpkId === "undefined") {
         console.warn("SPK ID tidak ditemukan");
         return;
     }
     $.ajax({
         url: "Api/Spk/getDokumens?Id=" + rSpkId,
+        method: "POST", // Pastikan method POST
+        contentType: "application/json", // 🔒 PERBAIKAN: Kirim sebagai JSON
         success: function (data) {
 			//data = DOMPurify.sanitize(data);
             for (var key in data) {
@@ -1271,7 +1272,7 @@ function renderDokumenDropzone(myDropzone) {
 
 function renderDokumenDropzoneNonPks(myDropzone, tipe) {
     var rSpkId = $("#spkId").val() || (typeof SpkId !== 'undefined' ? SpkId : null);
-    if (!rSpkId) return;
+    if (!rSpkId || rSpkId === "null" || rSpkId === "undefined") return;
 
     $.ajax({
         url: "Api/Spk/getDokumensNonPks?klasifikasi=" + tipe + "&id=" + rSpkId,
@@ -1307,8 +1308,6 @@ function save(spk) {
         method: "POST",
         data: spk ///JSON.stringify(pks)
     }).done(function (data) {
-        loadDetail(data.Id);
-        loadDetailDokNonPks(data.Id);
         var msg = data.message;
         waitingDialog.hideloading();
         BootstrapDialog.show({
@@ -1318,6 +1317,10 @@ function save(spk) {
                 label: 'Close',
                 action: function (dialog) {
                     dialog.close();
+                    if (data.Id && data.Id !== "") {
+                        window.location.replace("create-spk-non-pks.html#" + data.Id);
+                        window.location.reload();
+                    }
                 }
             }]
         });

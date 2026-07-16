@@ -2316,6 +2316,9 @@
             } else {
                 component = element.find('.datepickerbutton');
             }
+            if (component.size() === 0) {
+                component = false;
+            }
         }
 
         if (!options.inline && !input.is('input')) {

@@ -1,4 +1,4 @@
-﻿var IDSRV = '';
+var IDSRV = '';
 var PROC = window.location.origin + '/';
 
 
@@ -18,57 +18,58 @@ var DIREKSI;// = 'http://localhost:44392/dashboard.html';
 var DIRUT;// = 'http://localhost:44392/dashboard.html';
 var LEGAL;// = 'http://localhost:44392/dashboard.html';
 
-// Ensure global csrfToken getter/setter is set up once
-if (!Object.getOwnPropertyDescriptor(window, 'csrfToken')) {
-    let _csrfToken = "";
-    Object.defineProperty(window, 'csrfToken', {
-        get: function () { return _csrfToken; },
-        set: function (val) { _csrfToken = val; },
-        configurable: true,
-        enumerable: true
-    });
-}
+// Ensure global csrfToken getter/setter and promise are set up once within an IIFE
+(function () {
+    if (!Object.getOwnPropertyDescriptor(window, 'csrfToken')) {
+        let _csrfToken = "";
+        Object.defineProperty(window, 'csrfToken', {
+            get: function () { return _csrfToken; },
+            set: function (val) { _csrfToken = val; },
+            configurable: true,
+            enumerable: true
+        });
+    }
 
-// Ensure global csrfPromise and initCsrf are set up once
-window.csrfRetryCount = window.csrfRetryCount || 0;
-const MAX_RETRIES = 3;
+    window.csrfRetryCount = window.csrfRetryCount || 0;
+    const MAX_RETRIES = 3;
 
-if (!window.csrfPromise) {
-    let csrfResolver = null;
-    let csrfRejecter = null;
-    window.csrfPromise = new Promise((resolve, reject) => {
-        csrfResolver = resolve;
-        csrfRejecter = reject;
-    });
+    if (!window.csrfPromise) {
+        let csrfResolver = null;
+        let csrfRejecter = null;
+        window.csrfPromise = new Promise((resolve, reject) => {
+            csrfResolver = resolve;
+            csrfRejecter = reject;
+        });
 
-    window.initCsrf = function () {
-        fetch('/api/security/GetCsrfToken')
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-                return res.json();
-            })
-            .then(data => {
-                if (!data.csrfToken) throw new Error('CSRF token tidak ditemukan dalam response');
-                csrfToken = data.csrfToken; // updates the getter/setter
-                window.csrfRetryCount = 0;
-                csrfResolver(csrfToken);
-            })
-            .catch(e => {
-                console.error("Gagal mengambil CSRF token:", e.message);
-                window.csrfRetryCount++;
-                if (window.csrfRetryCount <= MAX_RETRIES) {
-                    setTimeout(window.initCsrf, 5000);
-                } else {
-                    console.error('Gagal mengambil CSRF token setelah 3 kali percobaan');
-                    csrfRejecter(e);
-                }
-            });
-        return window.csrfPromise;
-    };
+        window.initCsrf = function () {
+            fetch('/api/security/GetCsrfToken')
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                    return res.json();
+                })
+                .then(data => {
+                    if (!data.csrfToken) throw new Error('CSRF token tidak ditemukan dalam response');
+                    csrfToken = data.csrfToken; // updates the getter/setter
+                    window.csrfRetryCount = 0;
+                    csrfResolver(csrfToken);
+                })
+                .catch(e => {
+                    console.error("Gagal mengambil CSRF token:", e.message);
+                    window.csrfRetryCount++;
+                    if (window.csrfRetryCount <= MAX_RETRIES) {
+                        setTimeout(window.initCsrf, 5000);
+                    } else {
+                        console.error('Gagal mengambil CSRF token setelah 3 kali percobaan');
+                        csrfRejecter(e);
+                    }
+                });
+            return window.csrfPromise;
+        };
 
-    // Mulai load CSRF token segera secara asinkron
-    window.initCsrf();
-}
+        // Mulai load CSRF token segera secara asinkron
+        window.initCsrf();
+    }
+})();
 
 // Keep initCsrf alias for compatibility
 var initCsrf = window.initCsrf;
