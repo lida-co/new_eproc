@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -336,8 +336,10 @@
             SetListProvinsi();
             SetListBank();
 
-            //<<<<<<<.mine
-            if (DOMPurify.sanitize(id) != null) { loadDetail(DOMPurify.sanitize(id)); $("[name=id]").val(DOMPurify.sanitize(id)); }
+            if (id && id !== "null" && id !== "undefined" && id !== "") {
+                loadDetail(id);
+                $("[name=id]").val(id);
+            }
             //=======
             //if (id != null) { loadDetail(id); $("#submit-form-add-vendor").remove(); }
             //>>>>>>>.theirs
@@ -346,9 +348,14 @@
 
         function cekmasteruser() {
             console.log("masuk fungsi cekmasteruser");
+            var pengadaanId = $("#pengadaanId").val();
+            if (!pengadaanId || pengadaanId === "undefined" || pengadaanId === "null" || pengadaanId === "") {
+                console.warn("cekmasteruser: PengadaanId tidak valid, skip check");
+                return;
+            }
             $.ajax({
                 method: "post",
-                url: "api/pengadaane/cekmasteruser?PengadaanId=" + $("#pengadaanId").val()
+                url: "api/pengadaane/cekmasteruser?PengadaanId=" + pengadaanId
             }).done(function (data) {
                 //data = DOMPurify.sanitize(data);
                 console.log("cekmasteruser: yes");

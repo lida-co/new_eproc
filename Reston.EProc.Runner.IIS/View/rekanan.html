@@ -85,15 +85,15 @@
                     <div class="navbar-custom-menu">
                         <ul id="menu-top" class="nav navbar-nav">
                             <li>
-                                <div id="searchForm" class="pull-right" style="padding-top:10px;padding-right:5px">
-                                    <form action="" class="search-form">
-                                        <div class="form-group has-feedback">
-                                            <label for="search" class="sr-only">Search</label>
-                                            <input type="text" class="form-control" name="search" id="search">
-                                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                        </div>
-                                    </form>
-                                </div>
+                                 <div class="pull-right" style="padding-top:10px;padding-right:5px">
+                                     <form id="searchForm" action="" class="search-form">
+                                         <div class="form-group has-feedback">
+                                             <label for="search" class="sr-only">Search</label>
+                                             <input type="text" class="form-control" name="search" id="search">
+                                             <span class="glyphicon glyphicon-search form-control-feedback" style="cursor: pointer;"></span>
+                                         </div>
+                                     </form>
+                                 </div>
                             </li>
                             <li><a title="Tambah" href="registrasibystaff.html"><i class="fa fa-plus "
                                         style="font-size:20px;color:green"></i></a></li>
@@ -520,11 +520,16 @@
                 return csrfToken;
             }
 
-            loadAllVendorBaru('');
-            getVendorPerubahan(nperubahan, '');
-            getVendorTerdaftar(nterdaftar, '');
-            getVendorDaftarHitam(ndaftarhitam, '');
-            getVendorKadaluarsa(nvendorkadaluarsa, '');
+            var urlSearch = getParameterByName('search', window.location.href) || "";
+            if (urlSearch) {
+                $('#search').val(urlSearch);
+            }
+
+            loadAllVendorBaru(urlSearch);
+            getVendorPerubahan(nperubahan, urlSearch);
+            getVendorTerdaftar(nterdaftar, urlSearch);
+            getVendorDaftarHitam(ndaftarhitam, urlSearch);
+            getVendorKadaluarsa(nvendorkadaluarsa, urlSearch);
 
             $("#myNav").affix({
                 offset: {
@@ -894,12 +899,17 @@
         frm.submit(function (ev) {
             //var v = validateForm();
             var s = $('#search').val();
-            getVendorBaru(nbaru, s);
+            loadAllVendorBaru(s);
             getVendorPerubahan(nperubahan, s);
             getVendorTerdaftar(nterdaftar, s);
             getVendorDaftarHitam(ndaftarhitam, s);
             getVendorKadaluarsa(nvendorkadaluarsa, s);
-            ev.preventDefault(15, s);
+            ev.preventDefault();
+        });
+
+        // Trigger searchForm submit when clicking the magnifying glass icon
+        $(document).on("click", "#searchForm .glyphicon-search", function () {
+            $("#searchForm").submit();
         });
 
         function next() {
@@ -908,7 +918,9 @@
             //$("#daftar-hitam").hide();
             //$("#expired").hide();
             nbaru += increment;
-            getVendorBaru(nbaru, '');
+            if (typeof getVendorBaru === 'function') {
+                getVendorBaru(nbaru, '');
+            }
             getVendorPass1(nbaru, '');
             getVendorPass2(nbaru, '');
             getVendorPass3(nbaru, '');
