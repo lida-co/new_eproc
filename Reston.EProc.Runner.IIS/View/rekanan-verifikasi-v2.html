@@ -3458,7 +3458,7 @@
                 //url: "/api/RegistrasiVendorExt/VerifyVendorExt?no=" + id,
                 success: function (data) {
                     data = DOMPurify.sanitize(data);
-                    window.location.href = HOME_PAGE + "/rekanan-detail-v2.html?id=" + data;
+                    window.location.href = "/rekanan-detail-v2.html?id=" + data;
                 },
                 complete: function (xhr, textStatus) {
                     ajaxCompleteProcess(xhr);

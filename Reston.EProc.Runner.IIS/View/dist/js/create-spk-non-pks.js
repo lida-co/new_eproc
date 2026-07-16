@@ -48,9 +48,9 @@ $(function () {
 
     $("#HapusFileNonPks").on("click", function () {
         waitingDialog.showloading("Proses Harap Tunggu");
-        var tipe = $("#konfirmasiFile").attr("attr1");
+        var tipe = $("#konfirmasiFileNonPks").attr("attr1");
         var klasifikasi = $(this).parent().parent().parent().parent().attr("attr2");
-        var FileId = $("#konfirmasiFile").attr("FileId");
+        var FileId = $("#konfirmasiFileNonPks").attr("FileId");
         $.ajax({
             method: "POST",
             url: "Api/Spk/deleteDokumenSpkNonPks?Id=" + FileId + "&klasifikasi=" + klasifikasi
@@ -1156,7 +1156,7 @@ $(function () {
     });
 
     $("#downloadFileNonPks").on("click", function () {
-        var FileId = $("#konfirmasiFile").attr("FileId");
+        var FileId = $("#konfirmasiFileNonPks").attr("FileId");
         var klasifikasi = $(this).parent().parent().parent().parent().attr("attr2");
         downloadFileUsingForm("/api/Spk/OpenFileNonPks?Id=" + FileId + "&klasifikasi=" + klasifikasi);
     });
