@@ -1,4 +1,126 @@
-﻿function UnformatFloat(value) {
+// Ensure global csrfToken getter/setter is set up once
+if (!Object.getOwnPropertyDescriptor(window, 'csrfToken')) {
+    let _csrfToken = "";
+    Object.defineProperty(window, 'csrfToken', {
+        get: function () { return _csrfToken; },
+        set: function (val) { _csrfToken = val; },
+        configurable: true,
+        enumerable: true
+    });
+}
+
+// Ensure global csrfPromise and initCsrf are set up once
+window.csrfRetryCount = window.csrfRetryCount || 0;
+const MAX_RETRIES = 3;
+
+if (!window.csrfPromise) {
+    let csrfResolver = null;
+    let csrfRejecter = null;
+    window.csrfPromise = new Promise((resolve, reject) => {
+        csrfResolver = resolve;
+        csrfRejecter = reject;
+    });
+
+    window.initCsrf = function () {
+        fetch('/api/security/GetCsrfToken')
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                return res.json();
+            })
+            .then(data => {
+                if (!data.csrfToken) throw new Error('CSRF token tidak ditemukan dalam response');
+                csrfToken = data.csrfToken; // updates the getter/setter
+                window.csrfRetryCount = 0;
+                csrfResolver(csrfToken);
+            })
+            .catch(e => {
+                console.error("Gagal mengambil CSRF token:", e.message);
+                window.csrfRetryCount++;
+                if (window.csrfRetryCount <= MAX_RETRIES) {
+                    setTimeout(window.initCsrf, 5000);
+                } else {
+                    console.error('Gagal mengambil CSRF token setelah 3 kali percobaan');
+                    csrfRejecter(e);
+                }
+            });
+        return window.csrfPromise;
+    };
+
+    // Mulai load CSRF token segera secara asinkron
+    window.initCsrf();
+}
+
+// Keep initCsrf alias for compatibility
+var initCsrf = window.initCsrf;
+
+// Setup jQuery AJAX interception & setup
+if (typeof $ !== 'undefined') {
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            // Skip untuk GET, HEAD, OPTIONS
+            var method = (settings.type || settings.method || '').toUpperCase();
+            if (method === 'GET' || method === 'HEAD' || method === 'OPTIONS') return;
+
+            if (!csrfToken) {
+                try {
+                    var req = new XMLHttpRequest();
+                    req.open('GET', '/api/security/GetCsrfToken', false); // synchronous request
+                    req.send(null);
+                    if (req.status === 200) {
+                        var data = JSON.parse(req.responseText);
+                        csrfToken = data.csrfToken;
+                    }
+                } catch (e) {
+                    console.warn('Gagal sinkron CSRF token:', e);
+                }
+            }
+
+            if (csrfToken) {
+                xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+                xhr.setRequestHeader("X-XSRF-TOKEN", csrfToken);
+                xhr.setRequestHeader("RequestVerificationToken", csrfToken);
+            } else {
+                console.warn('CSRF token tetap belum tersedia');
+            }
+        }
+    });
+
+    // Override $.ajax untuk menunda request non-GET sampai csrfPromise selesai
+    if (!$.ajax._isIntercepted) {
+        const originalAjax = $.ajax;
+        $.ajax = function (options) {
+            var settings = $.extend(true, {}, $.ajaxSettings, options);
+            var method = (settings.type || settings.method || 'GET').toUpperCase();
+
+            // Skip intersept untuk GET, HEAD, OPTIONS
+            if (method === 'GET' || method === 'HEAD' || method === 'OPTIONS') {
+                return originalAjax.apply(this, arguments);
+            }
+
+            // Jika token sudah siap, langsung jalankan
+            if (csrfToken) {
+                return originalAjax.apply(this, arguments);
+            }
+
+            // Jika belum siap, tunda hingga csrfPromise selesai
+            var self = this;
+            var args = arguments;
+            var deferred = $.Deferred();
+
+            window.csrfPromise.then(function () {
+                originalAjax.apply(self, args).done(deferred.resolve).fail(deferred.reject).progress(deferred.notify);
+            }).catch(function () {
+                // Fallback: jalankan saja request-nya jika gagal setelah semua retry
+                originalAjax.apply(self, args).done(deferred.resolve).fail(deferred.reject).progress(deferred.notify);
+            });
+
+            return deferred.promise();
+        };
+        $.ajax._isIntercepted = true;
+    }
+}
+
+function UnformatFloat(value) {
     if (value != null && value!="")
         return value.toString().replace(/\./g, "");
     else value;
