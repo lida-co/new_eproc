@@ -731,9 +731,6 @@ namespace Reston.Eproc.Model.Ext
                     {
                         Id = regVendorExtPac.Id,
                         VendorExtId = vendorExt.Id,
-                        NamaPerusahaan = regVendorExtPac.NamaPerusahaan,
-                        TtdNama = regVendorExtPac.TtdNama,
-                        TtdPosisi = regVendorExtPac.TtdPosisi,
                         Status1 = regVendorExtPac.Status1,
                         Penjelasan1 = regVendorExtPac.Penjelasan1,
                         Komitmen1 = regVendorExtPac.Komitmen1,

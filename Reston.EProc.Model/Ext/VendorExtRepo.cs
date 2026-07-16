@@ -736,6 +736,38 @@ namespace Reston.Eproc.Model.Ext
                     }
                 }
 
+                var regVendorExtPac = ctx.RegVendorExtPacs.Where(x => x.RegVendorExtId == regVendorExt.Id).FirstOrDefault();
+                if (regVendorExtPac != null)
+                {
+                    VendorExtPac vep = new VendorExtPac()
+                    {
+                        Id = regVendorExtPac.Id,
+                        VendorExtId = vendorExt.Id,
+                        Status1 = regVendorExtPac.Status1,
+                        Penjelasan1 = regVendorExtPac.Penjelasan1,
+                        Komitmen1 = regVendorExtPac.Komitmen1,
+                        TargetDate1 = regVendorExtPac.TargetDate1,
+                        DokumenId1 = regVendorExtPac.DokumenId1,
+                        Status2 = regVendorExtPac.Status2,
+                        Penjelasan2 = regVendorExtPac.Penjelasan2,
+                        Komitmen2 = regVendorExtPac.Komitmen2,
+                        TargetDate2 = regVendorExtPac.TargetDate2,
+                        DokumenId2 = regVendorExtPac.DokumenId2,
+                        Status3 = regVendorExtPac.Status3,
+                        Penjelasan3 = regVendorExtPac.Penjelasan3,
+                        Komitmen3 = regVendorExtPac.Komitmen3,
+                        TargetDate3 = regVendorExtPac.TargetDate3,
+                        DokumenId3 = regVendorExtPac.DokumenId3,
+                        Status4 = regVendorExtPac.Status4,
+                        Penjelasan4 = regVendorExtPac.Penjelasan4,
+                        Komitmen4 = regVendorExtPac.Komitmen4,
+                        TargetDate4 = regVendorExtPac.TargetDate4,
+                        DokumenId4 = regVendorExtPac.DokumenId4
+                    };
+                    ctx.VendorExtPacs.Add(vep);
+                    ctx.SaveChanges();
+                }
+
             }
             catch (Exception e)
             {

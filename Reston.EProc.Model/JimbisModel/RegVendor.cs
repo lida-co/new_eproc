@@ -721,9 +721,6 @@ namespace Reston.Pinata.Model.JimbisModel
         public RegVendorExt RegVendorExt { get; set; }
         [Required]
         public Guid RegVendorExtId { get; set; }
-        public string NamaPerusahaan { get; set; }
-        public string TtdNama { get; set; }
-        public string TtdPosisi { get; set; }
         public string Status1 { get; set; }
         public string Penjelasan1 { get; set; }
         public string Komitmen1 { get; set; }
@@ -756,9 +753,6 @@ namespace Reston.Pinata.Model.JimbisModel
         public Guid Id { get; set; }
 
         public Guid VendorExtId { get; set; }
-        public string NamaPerusahaan { get; set; }
-        public string TtdNama { get; set; }
-        public string TtdPosisi { get; set; }
         public string Status1 { get; set; }
         public string Penjelasan1 { get; set; }
         public string Komitmen1 { get; set; }
