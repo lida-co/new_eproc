@@ -231,6 +231,10 @@ namespace Reston.Eproc.Model.Ext
         public VendorDokumenExts NIB { get; set; }
         public VendorDokumenExts IndivGiid { get; set; }
 
+        public VendorDokumenExts SuratPernyataanPengadaan { get; set; }
+        public VendorDokumenExts SuratPernyataanEtika { get; set; }
+        public VendorDokumenExts SuratPernyataanKerahasiaan { get; set; }
+
         public VendorDokumenExts DokumenSertifikatCV { get; set; }
         public VendorDokumenExts BuktiKepemilikanPeralatan { get; set; }
         public VendorDokumenExts FotoPeralatan { get; set; }

@@ -114,6 +114,12 @@ namespace Reston.Pinata.WebService
         [HttpPost]
         public string AddVendorExt([FromBody] VendorExtViewModel model)
         {
+            try
+            {
+                System.IO.File.AppendAllText("d:\\New folder\\htdocs\\new_eproc\\debug.log", $"AddVendorExt called. Model: {model != null}. Bank: {model?.VendorBankInfoExt != null}. Person: {model?.VendorPersonExt?.Length}. HR: {model?.VendorHumanResourceExt?.Length}. Equipment: {model?.VendorEquipmentExt?.Length}. Job: {model?.VendorJobHistoryExt?.Length}. NPWP: {model?.NPWP?.Nomor}\n");
+            }
+            catch {}
+
             var trans = _repository.BeginTransaction();
 
             try
@@ -206,12 +212,19 @@ namespace Reston.Pinata.WebService
                         DirPersonName = SanitizeInput(model.VendorRegExt.DirPersonName),
                         DirPersonPosition = SanitizeInput(model.VendorRegExt.DirPersonPosition),
                         DirPersonReligionCode = SanitizeInput(model.VendorRegExt.DirPersonReligionCode),
-                        DirPersonBirthDay = model.VendorRegExt.DirPersonBirthDay
+                        DirPersonBirthDay = model.VendorRegExt.DirPersonBirthDay,
+                        SegBidangUsahaCode = SanitizeInput(model.VendorRegExt.SegBidangUsahaCode),
+                        SegKualifikasiGrade = SanitizeInput(model.VendorRegExt.SegKualifikasiGrade)
                     };
 
                     if (model.VendorRegExt.SegKelompokUsahaCode != null && model.VendorRegExt.SegKelompokUsahaCode.Any())
                     {
                         vRegExt.SegKelompokUsahaCode = string.Join(",", model.VendorRegExt.SegKelompokUsahaCode);
+                    }
+
+                    if (model.VendorRegExt.SegSubBidangUsahaCode != null && model.VendorRegExt.SegSubBidangUsahaCode.Any())
+                    {
+                        vRegExt.SegSubBidangUsahaCode = string.Join(",", model.VendorRegExt.SegSubBidangUsahaCode);
                     }
 
                     _repository.AddVendorExt(vRegExt);
@@ -228,32 +241,275 @@ namespace Reston.Pinata.WebService
                 };
                 #endregion
 
-                #region Contoh File (NPWP)
-                if (model.NPWP != null && model.NPWP.Nomor != null)
+                #region Save Document Helper
+                Func<VendorDokumenExt, EDocumentType, Guid> saveDoc = (doc, docType) =>
                 {
-                    var guiddocext = Guid.NewGuid();
-
-                    RegDocumentExt detaildoc = new RegDocumentExt()
+                    if (doc != null && (!string.IsNullOrWhiteSpace(doc.Nomor) || !string.IsNullOrWhiteSpace(doc.base64)))
                     {
-                        Id = guiddocext,
-                        Nomor = SanitizeInput(model.NPWP.Nomor),
-                        RegVendorExtId = guidvenregext,
-                        TipeDokumen = (int)EDocumentType.NPWP
-                    };
-                    _repository.AddVendorDocumentExt(detaildoc);
+                        var guiddocext = Guid.NewGuid();
 
-                    if (model.NPWP.base64 != null)
-                    {
-                        RegDocumentImageExt npwpdoc = new RegDocumentImageExt()
+                        RegDocumentExt detaildoc = new RegDocumentExt()
                         {
-                            Id = Guid.NewGuid(),
-                            Content = safeFile(model.NPWP.base64),
-                            FileName = SanitizeInput(model.NPWP.FileName),
-                            ContentType = SanitizeInput(model.NPWP.ContentType),
-                            RegDocumenExtId = guiddocext
+                            Id = guiddocext,
+                            Nomor = !string.IsNullOrWhiteSpace(doc.Nomor) ? SanitizeInput(doc.Nomor) : docType.ToString(),
+                            RegVendorExtId = guidvenregext,
+                            TipeDokumen = (int)docType,
+                            Penerbit = SanitizeInput(doc.Pembuat),
+                            TanggalTerbit = doc.TanggalTerbit,
+                            TanggalBerakhir = doc.TanggalBerakhir,
+                            Active = true
                         };
-                        _repository.AddVendorDocumentImageExt(npwpdoc);
+                        _repository.AddVendorDocumentExt(detaildoc);
+
+                        if (!string.IsNullOrEmpty(doc.base64))
+                        {
+                            RegDocumentImageExt docImg = new RegDocumentImageExt()
+                            {
+                                Id = Guid.NewGuid(),
+                                Content = safeFile(doc.base64),
+                                FileName = SanitizeInput(doc.FileName),
+                                ContentType = SanitizeInput(doc.ContentType),
+                                RegDocumenExtId = guiddocext
+                            };
+                            _repository.AddVendorDocumentImageExt(docImg);
+                        }
+                        return guiddocext;
                     }
+                    return Guid.Empty;
+                };
+                #endregion
+
+                #region Save Documents
+                saveDoc(model.NPWP, EDocumentType.NPWP);
+                saveDoc(model.PKP, EDocumentType.PKP);
+                saveDoc(model.TDP, EDocumentType.TDP);
+                saveDoc(model.SIUP, EDocumentType.SIUP);
+                saveDoc(model.SIUJK, EDocumentType.SIUJK);
+                saveDoc(model.LaporanKeuangan, EDocumentType.LAPORANKEUANGAN);
+                saveDoc(model.RekeningKoran, EDocumentType.REKENINGKORAN);
+                saveDoc(model.DRT, EDocumentType.DRT);
+                saveDoc(model.AktaPendirian, EDocumentType.AKTAPENDIRIAN);
+                saveDoc(model.SKKemenkumham, EDocumentType.SKKEMENKUMHAM);
+                saveDoc(model.BeritaNegara, EDocumentType.BERITANEGARA);
+                saveDoc(model.AktaNegara, EDocumentType.AKTANEGARA);
+                saveDoc(model.IndivGiid, EDocumentType.KTP);
+                saveDoc(model.ProfilPerusahaan, EDocumentType.PROFILPERUSAHAAN);
+                saveDoc(model.NIB, EDocumentType.NIB);
+                saveDoc(model.Sertifikat, EDocumentType.SERTIFIKAT);
+                saveDoc(model.Domisili, EDocumentType.DOMISILI);
+                saveDoc(model.SuratPernyataanPengadaan, EDocumentType.SuratPernyataanPengadaan);
+                saveDoc(model.SuratPernyataanEtika, EDocumentType.SuratPernyataanEtika);
+                saveDoc(model.SuratPernyataanKerahasiaan, EDocumentType.SuratPernyataanKerahasiaan);
+                #endregion
+
+                #region Vendor Bank Ext
+                if (model.VendorBankInfoExt != null)
+                {
+                    RegVendorExtBankInfo bankInfoExt = new RegVendorExtBankInfo
+                    {
+                        Id = Guid.NewGuid(),
+                        RegVendorExtId = guidvenregext,
+                        BankCode = SanitizeInput(model.VendorBankInfoExt.BankCode),
+                        BankAddress = SanitizeInput(model.VendorBankInfoExt.BankAddress),
+                        BankCity = SanitizeInput(model.VendorBankInfoExt.BankCity),
+                        Branch = SanitizeInput(model.VendorBankInfoExt.Branch),
+                        AccNumber = SanitizeInput(model.VendorBankInfoExt.AccNumber),
+                        AccName = SanitizeInput(model.VendorBankInfoExt.AccName),
+                        AccCurrencyCode = SanitizeInput(model.VendorBankInfoExt.AccCurrencyCode),
+                        BankCountry = SanitizeInput(model.VendorBankInfoExt.BankCountry)
+                    };
+                    _repository.AddVendorExtBankInfo(bankInfoExt);
+                }
+                #endregion
+
+                #region Vendor Person Ext
+                if (model.VendorPersonExt != null && model.VendorPersonExt.Any())
+                {
+                    List<RegVendorExtPerson> listPersonExt = new List<RegVendorExtPerson>();
+                    foreach (var p in model.VendorPersonExt)
+                    {
+                        if (p != null && !string.IsNullOrWhiteSpace(p.Name))
+                        {
+                            listPersonExt.Add(new RegVendorExtPerson
+                            {
+                                Id = Guid.NewGuid(),
+                                RegVendorExtId = guidvenregext,
+                                Name = SanitizeInput(p.Name),
+                                Position = SanitizeInput(p.Position),
+                                ContactPhone = SanitizeInput(p.ContactPhone),
+                                ContactEmail = SanitizeInput(p.ContactEmail),
+                                ContactAddress = SanitizeInput(p.ContactAddress),
+                                ReligionCode = SanitizeInput(p.ReligionCode),
+                                GiidNo = SanitizeInput(p.GiidNo),
+                                BirthDay = p.BirthDay
+                            });
+                        }
+                    }
+                    if (listPersonExt.Any())
+                    {
+                        _repository.AddVendorExtPerson(listPersonExt);
+                    }
+                }
+                #endregion
+
+                #region Vendor Human Resource Ext
+                Guid hrDocId = saveDoc(model.DokumenSertifikatCV, EDocumentType.DokumenSertifikatCV);
+                Guid hrCVDocId = saveDoc(model.CVTenagaAhli, EDocumentType.DokumenCVTenagaAhli);
+
+                if (model.VendorHumanResourceExt != null && model.VendorHumanResourceExt.Any())
+                {
+                    List<RegVendorExtHumanResource> listHRExt = new List<RegVendorExtHumanResource>();
+                    foreach (var hr in model.VendorHumanResourceExt)
+                    {
+                        if (hr != null && !string.IsNullOrWhiteSpace(hr.ResourceFullName))
+                        {
+                            listHRExt.Add(new RegVendorExtHumanResource
+                            {
+                                Id = Guid.NewGuid(),
+                                RegVendorExtId = guidvenregext,
+                                ResourceFullName = SanitizeInput(hr.ResourceFullName),
+                                ResourceDateOfBirth = hr.ResourceDateOfBirth,
+                                ResourceExperienceCode = SanitizeInput(hr.ResourceExperienceCode),
+                                ResourceExpertise = SanitizeInput(hr.ResourceExpertise),
+                                ResourceCertificationDocId = hrDocId != Guid.Empty ? hrDocId : Guid.Empty,
+                                ResourceCVDocId = hrCVDocId != Guid.Empty ? hrCVDocId : Guid.Empty,
+                                ResourceLastEduCode = SanitizeInput(hr.ResourceLastEduCode),
+                                ResourceLastEduIssuer = SanitizeInput(hr.ResourceLastEduIssuer)
+                            });
+                        }
+                    }
+                    if (listHRExt.Any())
+                    {
+                        _repository.AddVendorExtHumanResource(listHRExt);
+                    }
+                }
+                #endregion
+
+                #region Vendor Equipment Ext
+                Guid ownershipDocId = saveDoc(model.BuktiKepemilikanPeralatan, EDocumentType.BuktiKepemilikanPeralatan);
+                Guid pictureDocId = saveDoc(model.FotoPeralatan, EDocumentType.FotoPeralatan);
+
+                if (model.VendorEquipmentExt != null && model.VendorEquipmentExt.Any())
+                {
+                    List<RegVendorExtEquipment> listEquipment = new List<RegVendorExtEquipment>();
+                    foreach (var eq in model.VendorEquipmentExt)
+                    {
+                        if (eq != null && !string.IsNullOrWhiteSpace(eq.EquipmentName))
+                        {
+                            listEquipment.Add(new RegVendorExtEquipment
+                            {
+                                Id = Guid.NewGuid(),
+                                RegVendorExtId = guidvenregext,
+                                EquipmentName = SanitizeInput(eq.EquipmentName),
+                                EquipmentQty = SanitizeInput(eq.EquipmentQty),
+                                EquipmentCapacity = SanitizeInput(eq.EquipmentCapacity),
+                                EquipmentMake = SanitizeInput(eq.EquipmentMake),
+                                EquipmentMakeYear = SanitizeInput(eq.EquipmentMakeYear),
+                                EquipmentConditionCode = SanitizeInput(eq.EquipmentConditionCode),
+                                EquipmentLocation = SanitizeInput(eq.EquipmentLocation),
+                                EquipmentOwnershipDocId = ownershipDocId != Guid.Empty ? ownershipDocId : Guid.Empty,
+                                EquipmentPicture = pictureDocId != Guid.Empty ? pictureDocId : Guid.Empty
+                            });
+                        }
+                    }
+                    if (listEquipment.Any())
+                    {
+                        _repository.AddVendorExtEquipment(listEquipment);
+                    }
+                }
+                #endregion
+
+                #region Vendor Job History Ext
+                Guid contractDocId = saveDoc(model.BuktiKerjasama, EDocumentType.BuktiKerjasama);
+
+                if (model.VendorJobHistoryExt != null && model.VendorJobHistoryExt.Any())
+                {
+                    List<RegVendorExtJobHistory> listJobHistory = new List<RegVendorExtJobHistory>();
+                    foreach (var jh in model.VendorJobHistoryExt)
+                    {
+                        if (jh != null && !string.IsNullOrWhiteSpace(jh.JobTitle))
+                        {
+                            listJobHistory.Add(new RegVendorExtJobHistory
+                            {
+                                Id = Guid.NewGuid(),
+                                RegVendorExtId = guidvenregext,
+                                JobTitle = SanitizeInput(jh.JobTitle),
+                                JobClient = SanitizeInput(jh.JobClient),
+                                JobLocation = SanitizeInput(jh.JobLocation),
+                                JobStartDate = jh.JobStartDate,
+                                JobContractNum = SanitizeInput(jh.JobContractNum),
+                                JobContractDate = jh.JobContractDate,
+                                JobContractAmount = jh.JobContractAmount,
+                                JobContractAmountCurrencyCode = SanitizeInput(jh.JobContractAmountCurrencyCode),
+                                JobContractDocId = contractDocId != Guid.Empty ? contractDocId : (Guid?)null,
+                                JobType = SanitizeInput(jh.JobType)
+                            });
+                        }
+                    }
+                    if (listJobHistory.Any())
+                    {
+                        _repository.AddVendorExtJobHistory(listJobHistory);
+                    }
+                }
+                #endregion
+
+                #region Vendor Financial Statement Ext
+                if (model.VendorFinStatementExt != null)
+                {
+                    Guid stmtDocId = Guid.Empty;
+                    if (!string.IsNullOrEmpty(model.VendorFinStatementExt.base64))
+                    {
+                        var finDoc = new VendorDokumenExt
+                        {
+                            Nomor = model.VendorFinStatementExt.FinStmtDocNumber,
+                            Pembuat = model.VendorFinStatementExt.FinStmtIssuer,
+                            TanggalTerbit = model.VendorFinStatementExt.FinStmtIssueDate,
+                            TanggalBerakhir = model.VendorFinStatementExt.FinStmtValidThruDate,
+                            base64 = model.VendorFinStatementExt.base64,
+                            FileName = model.VendorFinStatementExt.FileName,
+                            ContentType = model.VendorFinStatementExt.ContentType
+                        };
+                        stmtDocId = saveDoc(finDoc, EDocumentType.LaporanDataKeuangan);
+                    }
+
+                    string finStmtDocIdStr = SanitizeInput(model.VendorFinStatementExt.FinStmtDocumentId);
+                    Guid tempGuid;
+                    Nullable<Guid> parsedFinStmtDocId = null;
+                    if (Guid.TryParse(finStmtDocIdStr, out tempGuid))
+                    {
+                        parsedFinStmtDocId = tempGuid;
+                    }
+
+                    if (stmtDocId != Guid.Empty)
+                    {
+                        parsedFinStmtDocId = stmtDocId;
+                    }
+
+                    RegVendorExtFinStatement finStatementExt = new RegVendorExtFinStatement
+                    {
+                        Id = Guid.NewGuid(),
+                        RegVendorExtId = guidvenregext,
+                        FinStmtDocNumber = SanitizeInput(model.VendorFinStatementExt.FinStmtDocNumber),
+                        FinStmtIssuer = SanitizeInput(model.VendorFinStatementExt.FinStmtIssuer),
+                        FinStmtIssueDate = model.VendorFinStatementExt.FinStmtIssueDate,
+                        FinStmtValidThruDate = model.VendorFinStatementExt.FinStmtValidThruDate,
+                        FinStmtDocumentId = parsedFinStmtDocId,
+                        FinStmtYear = SanitizeInput(model.VendorFinStatementExt.FinStmtYear),
+                        FinStmtCurrencyCode = SanitizeInput(model.VendorFinStatementExt.FinStmtCurrencyCode),
+                        FinStmtAktivaLancar = model.VendorFinStatementExt.FinStmtAktivaLancar,
+                        FinStmtHutangLancar = model.VendorFinStatementExt.FinStmtHutangLancar,
+                        FinStmtRasioLikuiditas = model.VendorFinStatementExt.FinStmtRasioLikuiditas,
+                        FinStmtTotalHutang = model.VendorFinStatementExt.FinStmtTotalHutang,
+                        FinStmtEkuitas = model.VendorFinStatementExt.FinStmtEkuitas,
+                        FinStmtDebtToEquityRation = model.VendorFinStatementExt.FinStmtDebtToEquityRatio,
+                        FinStmtNetProfitLoss = model.VendorFinStatementExt.FinStmtNetProfitLoss,
+                        FinStmtReturnOfEquity = model.VendorFinStatementExt.FinStmtReturnOfEquity,
+                        FinStmtKas = model.VendorFinStatementExt.FinStmtKas,
+                        FinStmtTotalAktiva = model.VendorFinStatementExt.FinStmtTotalAktiva,
+                        FinStmtAuditStatusCode = SanitizeInput(model.VendorFinStatementExt.FinStmtAuditStatusCode),
+                        FinStmtDocId = stmtDocId != Guid.Empty ? stmtDocId : Guid.Empty
+                    };
+                    _repository.AddVendorExtFinStatement(finStatementExt);
                 }
                 #endregion
 
@@ -340,7 +596,23 @@ Status1 = SanitizeInput(model.PacStatus1),
             }
             catch (Exception e)
             {
-                trans.Rollback();
+                try
+                {
+                    System.IO.File.AppendAllText("d:\\New folder\\htdocs\\new_eproc\\debug.log", $"\nERROR in AddVendorExt: {e}\n");
+                }
+                catch {}
+                try
+                {
+                    trans.Rollback();
+                }
+                catch (Exception re)
+                {
+                    try
+                    {
+                        System.IO.File.AppendAllText("d:\\New folder\\htdocs\\new_eproc\\debug.log", $"\nRollback failed: {re}\n");
+                    }
+                    catch {}
+                }
                 throw;
             }
         }

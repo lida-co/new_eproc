@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -151,7 +151,8 @@
                                                 checkbox di bawah ini untuk menyetujui syarat dan ketentuan.
                                             </div>
                                             <p style="text-align:center">
-                                                <input type="checkbox" id="tnc-setuju" name="IsTncAgreed" value="1" /> Dengan ini, saya menyetujui
+                                                <input type="checkbox" id="tnc-setuju" name="IsTncAgreed" value="1" />
+                                                Dengan ini, saya menyetujui
                                                 syarat dan ketentuan di atas.
                                             </p>
                                         </div>
@@ -1610,7 +1611,7 @@
                                                     </div>
                                                 </div><!-- /.box-header -->
                                                 <div class="box-body" style="overflow-x:auto;">
-                                                    
+
                                                     <table class="table table-bordered table-hover" style="width:100%;">
                                                         <thead>
                                                             <tr class="bg-primary">
@@ -1819,7 +1820,7 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div><!-- /.box-body -->
                                             </div>
@@ -1928,15 +1929,14 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-2">Dokumen/Sertifikat</label>
                                                             <div class="col-sm-4">
-                                                                <div id="FileSertifikasiTenagaAhli"
+                                                                <div id="FileDokumenSertifikatCV"
                                                                     action="api/RegistrasiVendorExt/UploadFile?tipe=FileSertifikasiTenagaAhli">
                                                                 </div>
                                                                 <!--<input name="SIUJK.id" type="hidden">-->
-                                                                <input name="SertifikasiTenagaAhli.base64"
+                                                                <input name="DokumenSertifikatCV.base64" type="hidden">
+                                                                <input name="DokumenSertifikatCV.ContentType"
                                                                     type="hidden">
-                                                                <input name="SertifikasiTenagaAhli.ContentType"
-                                                                    type="hidden">
-                                                                <input name="SertifikasiTenagaAhli.FileName"
+                                                                <input name="DokumenSertifikatCV.FileName"
                                                                     type="hidden">
                                                             </div>
                                                         </div>
@@ -2253,15 +2253,13 @@
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Bukti
                                                                 Kerjasama </label>
                                                             <div class="col-sm-4">
-                                                                <div id="FileVendorJobHistoryExt1"
+                                                                <div id="FileBuktiKerjasama"
                                                                     action="api/RegistrasiVendorExt/UploadFile?tipe=base64">
                                                                 </div>
                                                                 <!--<input name="SIUJK.id" type="hidden">-->
-                                                                <input name="VendorJobHistoryExt1.base64" type="hidden">
-                                                                <input name="VendorJobHistoryExt1.ContentType"
-                                                                    type="hidden">
-                                                                <input name="VendorJobHistoryExt1.FileName"
-                                                                    type="hidden">
+                                                                <input name="BuktiKerjasama.base64" type="hidden">
+                                                                <input name="BuktiKerjasama.ContentType" type="hidden">
+                                                                <input name="BuktiKerjasama.FileName" type="hidden">
                                                             </div>
                                                         </div>
                                                         <!--<div class="form-group">
@@ -2983,7 +2981,7 @@
             generateDropZone('DRT');
             generateDropZone('RekeningKoran');
             //generateDropZone('LaporanKeuangan');
-            generateDropZone('VendorJobHistoryExt1');
+            generateDropZone('BuktiKerjasama');
             generateDropZone('IndivGiid');
             generateDropZone('VendorFinStatementExt');
             generateDropZone('ProfilPerusahaan');
@@ -2995,7 +2993,7 @@
             generateDropZone('SuratPernyataanPengadaan');
             generateDropZone('SuratPernyataanEtika');
             generateDropZone('SuratPernyataanKerahasiaan');
-            generateDropZone('SertifikasiTenagaAhli');
+            generateDropZone('DokumenSertifikatCV');
             generateDropZone('CVTenagaAhli');
             generateDropZone('Domisili');
             generateDropZone('VendorEquipmentExt1');
@@ -3598,8 +3596,8 @@
                     v = false;
                     cekNonITAhli = false;
                 }
-                if ($("[name='SertifikasiTenagaAhli.base64']").val() == '') {
-                    $("#FileSertifikasiTenagaAhli").addClass('form-validation-error');
+                if ($("[name='DokumenSertifikatCV.base64']").val() == '') {
+                    $("#FileDokumenSertifikatCV").addClass('form-validation-error');
                     v = false;
                     cekNonITAhli = false;
                 }
@@ -3671,8 +3669,8 @@
                     v = false;
                     cekNonIT = false;
                 }
-                if ($("[name='VendorJobHistoryExt1.base64']").val() == '') {
-                    $("#FileVendorJobHistoryExt1").addClass('form-validation-error');
+                if ($("[name='BuktiKerjasama.base64']").val() == '') {
+                    $("#FileBuktiKerjasama").addClass('form-validation-error');
                     v = false;
                     cekNonIT = false;
                 }
@@ -4440,4 +4438,3 @@
 </body>
 
 </html>
-

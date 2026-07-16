@@ -1,4 +1,4 @@
-﻿using Reston.Pinata.Model.JimbisModel;
+using Reston.Pinata.Model.JimbisModel;
 using System;
 using System.Collections.Generic;
 using Reston.Pinata.Model.PengadaanRepository.View;
@@ -419,12 +419,12 @@ namespace Reston.Eproc.Model.Ext
         
         public List<ReferenceData> GetkodeposCode(string qualifier, string provcode, string citycode, string districtcode, string subdistrictcode)
         {
-            var provcodeInt = int.Parse(provcode); //4th foreign key need to be int
+            if (string.IsNullOrWhiteSpace(subdistrictcode))
+            {
+                return new List<ReferenceData>();
+            }
             var newRefData = ctx.ReferenceDatas.Where(x => x.Qualifier.Contains(qualifier) 
-                                                    && x.StringAttr1 == subdistrictcode 
-                                                    && x.StringAttr2 == districtcode
-                                                    && x.StringAttr3 == citycode
-                                                    && x.IntAttr1 == provcodeInt).ToList();
+                                                    && x.StringAttr1 == subdistrictcode).ToList();
             return newRefData;
         }
 
@@ -708,16 +708,19 @@ namespace Reston.Eproc.Model.Ext
                         ctx.DocumentExts.Add(DE);
                         ctx.SaveChanges();
 
-                        DocumentImageExt DIE = new DocumentImageExt()
+                        if (regDocumentImageExt != null)
                         {
-                            Id = regDocumentImageExt.Id,
-                            Content = regDocumentImageExt.Content,
-                            DocumenExtId = regDocumentImageExt.RegDocumenExtId,
-                            FileName = regDocumentImageExt.FileName,
-                            ContentType = regDocumentImageExt.ContentType,
-                        };
-                        ctx.DocumentImageExts.Add(DIE);
-                        ctx.SaveChanges();
+                            DocumentImageExt DIE = new DocumentImageExt()
+                            {
+                                Id = regDocumentImageExt.Id,
+                                Content = regDocumentImageExt.Content,
+                                DocumenExtId = regDocumentImageExt.RegDocumenExtId,
+                                FileName = regDocumentImageExt.FileName,
+                                ContentType = regDocumentImageExt.ContentType,
+                            };
+                            ctx.DocumentImageExts.Add(DIE);
+                            ctx.SaveChanges();
+                        }
                     }
                 }
 
@@ -728,7 +731,10 @@ namespace Reston.Eproc.Model.Ext
                     {
                         Id = regVendorExtPac.Id,
                         VendorExtId = vendorExt.Id,
-Status1 = regVendorExtPac.Status1,
+                        NamaPerusahaan = regVendorExtPac.NamaPerusahaan,
+                        TtdNama = regVendorExtPac.TtdNama,
+                        TtdPosisi = regVendorExtPac.TtdPosisi,
+                        Status1 = regVendorExtPac.Status1,
                         Penjelasan1 = regVendorExtPac.Penjelasan1,
                         Komitmen1 = regVendorExtPac.Komitmen1,
                         TargetDate1 = regVendorExtPac.TargetDate1,

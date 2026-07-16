@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,6 +61,14 @@ namespace Reston.EProc.Web.ViewModels
         public VendorDokumenExt VendorEquipmentExt1 { get; set; }
         public VendorDokumenExt VendorEquipmentExt2 { get; set; }
         public VendorDokumenExt VendorJobHistoryExt1 { get; set; }  
+        public VendorDokumenExt DokumenSertifikatCV { get; set; }
+        public VendorDokumenExt BuktiKepemilikanPeralatan { get; set; }
+        public VendorDokumenExt FotoPeralatan { get; set; }
+        public VendorDokumenExt BuktiKerjasama { get; set; }
+
+        public VendorDokumenExt SuratPernyataanPengadaan { get; set; }
+        public VendorDokumenExt SuratPernyataanEtika { get; set; }
+        public VendorDokumenExt SuratPernyataanKerahasiaan { get; set; }
 
         // PAC Fields
         public string PacNamaPerusahaan { get; set; }

@@ -461,7 +461,7 @@ namespace Reston.Eproc.Model.Ext
                                                                PengadaanId = Id,
                                                                VendorId = VendorId,
                                                                Code = b.QuestionCode,
-                                                               LocalizedName = ctx.ReferenceDatas.Where(xx => xx.Code == b.QuestionCode).FirstOrDefault().LocalizedName,
+                                                               LocalizedName = ctx.ReferenceDatas.Where(xx => xx.Code == b.QuestionCode).Select(xx => xx.LocalizedName).FirstOrDefault() ?? b.QuestionCode,
                                                                UserId = UserIdAssessment,
                                                                Score = b.Score,
                                                                Bobot = ctx.ApprisalWorksheetDetails.Where(xx => xx.ApprisalWorksheetId == WorksheetId && xx.QuestionCode == b.QuestionCode).FirstOrDefault().Weight
@@ -1174,7 +1174,12 @@ namespace Reston.Eproc.Model.Ext
                                                                         ResourceDateOfBirth = a.ResourceDateOfBirth,
                                                                         ResourceLastEduCode = a.ResourceLastEduCode,
                                                                         ResourceExperienceCode = a.ResourceExperienceCode,
-                                                                        ResourceExpertise = a.ResourceExpertise
+                                                                        ResourceExpertise = a.ResourceExpertise,
+                                                                        ResourceCVDocId = a.ResourceCVDocId,
+                                                                        ResourceLastEduDocId = a.ResourceLastEduDocId,
+                                                                        ResourceLastEduIssuer = a.ResourceLastEduIssuer,
+                                                                        ResourceCertificationDocId = a.ResourceCertificationDocId,
+                                                                        ResourceCertificationIssuer = a.ResourceCertificationIssuer
                                                                     }).Distinct().ToList();
 
 
@@ -1188,7 +1193,9 @@ namespace Reston.Eproc.Model.Ext
                                                                     EquipmentMake = a.EquipmentMake,
                                                                     EquipmentMakeYear = a.EquipmentMakeYear,
                                                                     EquipmentConditionCode = a.EquipmentConditionCode,
-                                                                    EquipmentLocation = a.EquipmentLocation
+                                                                    EquipmentLocation = a.EquipmentLocation,
+                                                                    EquipmentOwnershipDocId = a.EquipmentOwnershipDocId,
+                                                                    EquipmentPictureDocId = a.EquipmentPicture
                                                                 }).Distinct().ToList();
 
                     List<VendorJobHistoryExtViewModels> VJHExt = (from a in ctx.RegVendorExtJobHistories
@@ -1203,38 +1210,51 @@ namespace Reston.Eproc.Model.Ext
                                                                       JobContractNum = a.JobContractNum,
                                                                       JobContractDate = a.JobContractDate,
                                                                       JobContractAmount = a.JobContractAmount,
-                                                                      JobContractAmountCurrencyCodeCode = String.IsNullOrEmpty(a.JobContractAmountCurrencyCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == a.JobContractAmountCurrencyCode).FirstOrDefault().LocalizedName,
-                                                                      JobContractAmountCurrencyCode = a.JobContractAmountCurrencyCode
+                                                                      JobContractAmountCurrencyCodeCode = String.IsNullOrEmpty(a.JobContractAmountCurrencyCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == a.JobContractAmountCurrencyCode).Select(x => x.LocalizedName).FirstOrDefault() ?? a.JobContractAmountCurrencyCode ?? "",
+                                                                      JobContractAmountCurrencyCode = a.JobContractAmountCurrencyCode,
+                                                                      JobContractDocId = a.JobContractDocId,
+                                                                      Id = a.Id,
+                                                                      RegVendorExtId = a.RegVendorExtId
                                                                   }).Distinct().ToList();
 
-                    VendorFinStatementExtViewModels VFSExt = (from a in ctx.RegVendorExtFinStatements
-                                                              where a.RegVendorExtId == vendorExt.Id
-                                                              select new VendorFinStatementExtViewModels
-                                                              {
-                                                                  FinStmtYear = a.FinStmtYear,
-                                                                  FinStmtCurrencyCode = String.IsNullOrEmpty(a.FinStmtCurrencyCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == a.FinStmtCurrencyCode).FirstOrDefault().LocalizedName,
-                                                                  FinStmtCurrencyCodeCode = a.FinStmtCurrencyCode,
-                                                                  FinStmtAktivaLancar = a.FinStmtAktivaLancar,
-                                                                  FinStmtHutangLancar = a.FinStmtHutangLancar,
-                                                                  FinStmtRasioLikuiditas = a.FinStmtRasioLikuiditas,
-                                                                  FinStmtTotalHutang = a.FinStmtTotalHutang,
-                                                                  FinStmtEkuitas = a.FinStmtEkuitas,
-                                                                  FinStmtDebtToEquityRatio = a.FinStmtDebtToEquityRation,
-                                                                  FinStmtNetProfitLoss = a.FinStmtNetProfitLoss,
-                                                                  FinStmtReturnOfEquity = a.FinStmtReturnOfEquity,
-                                                                  FinStmtKas = a.FinStmtKas,
-                                                                  FinStmtTotalAktiva = a.FinStmtTotalAktiva,
-                                                                  FinStmtAuditStatusCode = a.FinStmtAuditStatusCode
-                                                              }).FirstOrDefault();
+                    var finStmtEntity = ctx.RegVendorExtFinStatements.FirstOrDefault(x => x.RegVendorExtId == vendorExt.Id);
+                    VendorFinStatementExtViewModels VFSExt = null;
+                    if (finStmtEntity != null)
+                    {
+                        var curRef = String.IsNullOrEmpty(finStmtEntity.FinStmtCurrencyCode) ? null : ctx.ReferenceDatas.FirstOrDefault(x => x.Code == finStmtEntity.FinStmtCurrencyCode);
+                        VFSExt = new VendorFinStatementExtViewModels
+                        {
+                            FinStmtDocNumber = finStmtEntity.FinStmtDocNumber,
+                            FinStmtIssuer = finStmtEntity.FinStmtIssuer,
+                            FinStmtIssueDate = finStmtEntity.FinStmtIssueDate,
+                            FinStmtValidThruDate = finStmtEntity.FinStmtValidThruDate,
+                            FinStmtDocumentId = finStmtEntity.FinStmtDocumentId != null ? finStmtEntity.FinStmtDocumentId.Value.ToString() : null,
+                            FinStmtYear = finStmtEntity.FinStmtYear,
+                            FinStmtCurrencyCode = curRef != null ? curRef.LocalizedName : "",
+                            FinStmtCurrencyCodeCode = finStmtEntity.FinStmtCurrencyCode,
+                            FinStmtAktivaLancar = finStmtEntity.FinStmtAktivaLancar,
+                            FinStmtHutangLancar = finStmtEntity.FinStmtHutangLancar,
+                            FinStmtRasioLikuiditas = finStmtEntity.FinStmtRasioLikuiditas,
+                            FinStmtTotalHutang = finStmtEntity.FinStmtTotalHutang,
+                            FinStmtEkuitas = finStmtEntity.FinStmtEkuitas,
+                            FinStmtDebtToEquityRatio = finStmtEntity.FinStmtDebtToEquityRation,
+                            FinStmtNetProfitLoss = finStmtEntity.FinStmtNetProfitLoss,
+                            FinStmtReturnOfEquity = finStmtEntity.FinStmtReturnOfEquity,
+                            FinStmtKas = finStmtEntity.FinStmtKas,
+                            FinStmtTotalAktiva = finStmtEntity.FinStmtTotalAktiva,
+                            FinStmtAuditStatusCode = finStmtEntity.FinStmtAuditStatusCode
+                        };
+                    }
 
                     VendorExtViewModelJaws vm = new VendorExtViewModelJaws
                     {
                         id = vendorExt.RegVendorId,
-                        TipeVendor = Int16.Parse(vendorExt.JenisVendor),
-                        Provinsi = String.IsNullOrEmpty(rv.Provinsi) ? "" : ctx.ReferenceDatas.Where(x => x.Code == rv.Provinsi && x.Qualifier == "DUKCAPILPROV").FirstOrDefault().LocalizedName,
-                        FirstLevelDivisionCode = String.IsNullOrEmpty(vendorExt.FirstLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.FirstLevelDivisionCode && x.Qualifier == "DUKCAPILKOTA").FirstOrDefault().LocalizedName,
-                        SecondLevelDivisionCode = String.IsNullOrEmpty(vendorExt.SecondLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.SecondLevelDivisionCode && x.Qualifier == "DUKCAPILKECAMATAN").FirstOrDefault().LocalizedName,
-                        ThirdLevelDivisionCode = String.IsNullOrEmpty(vendorExt.ThirdLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.ThirdLevelDivisionCode && x.Qualifier == "DUKCAPILKELURAHAN").FirstOrDefault().LocalizedName,
+                        NoPengajuan = rv.NoPengajuan,
+                        TipeVendor = (int)rv.TipeVendor,
+                        Provinsi = String.IsNullOrEmpty(rv.Provinsi) ? "" : ctx.ReferenceDatas.Where(x => x.Code == rv.Provinsi && x.Qualifier == "DUKCAPILPROV").FirstOrDefault()?.LocalizedName ?? rv.Provinsi ?? "",
+                        FirstLevelDivisionCode = String.IsNullOrEmpty(vendorExt.FirstLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.FirstLevelDivisionCode && x.Qualifier == "DUKCAPILKOTA").FirstOrDefault()?.LocalizedName ?? "",
+                        SecondLevelDivisionCode = String.IsNullOrEmpty(vendorExt.SecondLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.SecondLevelDivisionCode && x.Qualifier == "DUKCAPILKECAMATAN").FirstOrDefault()?.LocalizedName ?? "",
+                        ThirdLevelDivisionCode = String.IsNullOrEmpty(vendorExt.ThirdLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.ThirdLevelDivisionCode && x.Qualifier == "DUKCAPILKELURAHAN").FirstOrDefault()?.LocalizedName ?? "",
                         Nama = rv.Nama,
                         Alamat = rv.Alamat,
                         Email = rv.Email,
@@ -1250,7 +1270,7 @@ namespace Reston.Eproc.Model.Ext
                         BentukBadanUsaha = vendorExt.BentukBadanUsaha,
                         StatusPerusahaan = vendorExt.StatusPerusahaan,
                         EstablishedDate = vendorExt.EstablishedDate == null ? DateTime.MinValue : vendorExt.EstablishedDate.Value,
-                        CountryCode = ctx.ReferenceDatas.Where(x => x.Code == vendorExt.CountryCode).FirstOrDefault().LocalizedName,
+                        CountryCode = ctx.ReferenceDatas.Where(x => x.Code == vendorExt.CountryCode).FirstOrDefault()?.LocalizedName ?? vendorExt.CountryCode ?? "",
                         PostalCode = vendorExt.PostalCode,
                         Fax = vendorExt.Fax,
                         WorkUnitCode = vendorExt.WorkUnitCode,
@@ -1259,11 +1279,11 @@ namespace Reston.Eproc.Model.Ext
                         //changes multiple
                         SegKelompokUsahaCodeSingle = vendorExt.SegKelompokUsahaCode,
 
-                        SegBidangUsahaCodes = ctx.ReferenceDatas.Where(x => x.Code == vendorExt.SegBidangUsahaCode && x.Qualifier == "SegBidangUsahaCode").FirstOrDefault().LocalizedName,
+                        SegBidangUsahaCodes = ctx.ReferenceDatas.Where(x => x.Code == vendorExt.SegBidangUsahaCode && x.Qualifier == "SegBidangUsahaCode").FirstOrDefault()?.LocalizedName ?? vendorExt.SegBidangUsahaCode ?? "",
                         //changes multiple
                         //SegSubBidangUsahaCode = ctx.ReferenceDatas.Where(x => x.Code == vendorExt.SegSubBidangUsahaCode && x.Qualifier == "SegSubBidangUsahaCode").FirstOrDefault().LocalizedName,
                         //SegSubBidangUsahaCode = vendorExt.SegSubBidangUsahaCode,
-                        SegKualifikasiGrade = ctx.ReferenceDatas.Where(x => x.Code == vendorExt.SegKualifikasiGrade && x.Qualifier == "SegKualifikasiGradeCode").FirstOrDefault().LocalizedName,
+                        SegKualifikasiGrade = ctx.ReferenceDatas.Where(x => x.Code == vendorExt.SegKualifikasiGrade && x.Qualifier == "SegKualifikasiGradeCode").FirstOrDefault()?.LocalizedName ?? vendorExt.SegKualifikasiGrade ?? "",
 
                         IndivName = vendorExt.IndivName,
                         IndivAbbrevName = vendorExt.IndivAbbrevName,
@@ -1763,6 +1783,66 @@ namespace Reston.Eproc.Model.Ext
                                                               ContentType = b.ContentType
                                                           }).Distinct().FirstOrDefault();
 
+                    VendorDokumenExts PacDokumen1docs = (from a in ctx.RegDocumentExts
+                                                         join b in ctx.RegDocumentImageExts on a.Id equals b.RegDocumenExtId
+                                                         where a.RegVendorExtId == vendorExtId && a.TipeDokumen == 31
+                                                         select new VendorDokumenExts
+                                                         {
+                                                             Iddok = b.Id,
+                                                             Nomor = a.Nomor,
+                                                             Pembuat = a.Penerbit,
+                                                             TipeDokumen = a.TipeDokumen.ToString(),
+                                                             TanggalTerbit = a.TanggalTerbit,
+                                                             TanggalBerakhir = a.TanggalBerakhir,
+                                                             FileName = b.FileName,
+                                                             ContentType = b.ContentType
+                                                         }).Distinct().FirstOrDefault();
+
+                    VendorDokumenExts PacDokumen2docs = (from a in ctx.RegDocumentExts
+                                                         join b in ctx.RegDocumentImageExts on a.Id equals b.RegDocumenExtId
+                                                         where a.RegVendorExtId == vendorExtId && a.TipeDokumen == 32
+                                                         select new VendorDokumenExts
+                                                         {
+                                                             Iddok = b.Id,
+                                                             Nomor = a.Nomor,
+                                                             Pembuat = a.Penerbit,
+                                                             TipeDokumen = a.TipeDokumen.ToString(),
+                                                             TanggalTerbit = a.TanggalTerbit,
+                                                             TanggalBerakhir = a.TanggalBerakhir,
+                                                             FileName = b.FileName,
+                                                             ContentType = b.ContentType
+                                                         }).Distinct().FirstOrDefault();
+
+                    VendorDokumenExts PacDokumen3docs = (from a in ctx.RegDocumentExts
+                                                         join b in ctx.RegDocumentImageExts on a.Id equals b.RegDocumenExtId
+                                                         where a.RegVendorExtId == vendorExtId && a.TipeDokumen == 33
+                                                         select new VendorDokumenExts
+                                                         {
+                                                             Iddok = b.Id,
+                                                             Nomor = a.Nomor,
+                                                             Pembuat = a.Penerbit,
+                                                             TipeDokumen = a.TipeDokumen.ToString(),
+                                                             TanggalTerbit = a.TanggalTerbit,
+                                                             TanggalBerakhir = a.TanggalBerakhir,
+                                                             FileName = b.FileName,
+                                                             ContentType = b.ContentType
+                                                         }).Distinct().FirstOrDefault();
+
+                    VendorDokumenExts PacDokumen4docs = (from a in ctx.RegDocumentExts
+                                                         join b in ctx.RegDocumentImageExts on a.Id equals b.RegDocumenExtId
+                                                         where a.RegVendorExtId == vendorExtId && a.TipeDokumen == 34
+                                                         select new VendorDokumenExts
+                                                         {
+                                                             Iddok = b.Id,
+                                                             Nomor = a.Nomor,
+                                                             Pembuat = a.Penerbit,
+                                                             TipeDokumen = a.TipeDokumen.ToString(),
+                                                             TanggalTerbit = a.TanggalTerbit,
+                                                             TanggalBerakhir = a.TanggalBerakhir,
+                                                             FileName = b.FileName,
+                                                             ContentType = b.ContentType
+                                                         }).Distinct().FirstOrDefault();
+
 
                     vm.VendorRegExt = VendorRegExt;
                     vm.VendorBankInfoExt = bankExt;
@@ -1792,6 +1872,55 @@ namespace Reston.Eproc.Model.Ext
                     vm.AKTAPERUBAHAN = AKTAPERUBAHANdocs;
                     vm.PROFILPERUSAHAAN = PROFILPERUSAHAANdocs;
                     vm.NIB = NIBdocs;
+                    
+                    VendorDokumenExts SuratPernyataanPengadaandocs = (from a in ctx.RegDocumentExts
+                                                                      join b in ctx.RegDocumentImageExts on a.Id equals b.RegDocumenExtId
+                                                                      where a.RegVendorExtId == vendorExtId && a.TipeDokumen == (int)EDocumentType.SuratPernyataanPengadaan
+                                                                      select new VendorDokumenExts
+                                                                      {
+                                                                          Iddok = b.Id,
+                                                                          Nomor = a.Nomor,
+                                                                          Pembuat = a.Penerbit,
+                                                                          TipeDokumen = a.TipeDokumen.ToString(),
+                                                                          TanggalTerbit = a.TanggalTerbit,
+                                                                          TanggalBerakhir = a.TanggalBerakhir,
+                                                                          FileName = b.FileName,
+                                                                          ContentType = b.ContentType
+                                                                      }).Distinct().FirstOrDefault();
+                                                                      
+                    VendorDokumenExts SuratPernyataanEtikadocs = (from a in ctx.RegDocumentExts
+                                                                  join b in ctx.RegDocumentImageExts on a.Id equals b.RegDocumenExtId
+                                                                  where a.RegVendorExtId == vendorExtId && a.TipeDokumen == (int)EDocumentType.SuratPernyataanEtika
+                                                                  select new VendorDokumenExts
+                                                                  {
+                                                                      Iddok = b.Id,
+                                                                      Nomor = a.Nomor,
+                                                                      Pembuat = a.Penerbit,
+                                                                      TipeDokumen = a.TipeDokumen.ToString(),
+                                                                      TanggalTerbit = a.TanggalTerbit,
+                                                                      TanggalBerakhir = a.TanggalBerakhir,
+                                                                      FileName = b.FileName,
+                                                                      ContentType = b.ContentType
+                                                                  }).Distinct().FirstOrDefault();
+
+                    VendorDokumenExts SuratPernyataanKerahasiaandocs = (from a in ctx.RegDocumentExts
+                                                                        join b in ctx.RegDocumentImageExts on a.Id equals b.RegDocumenExtId
+                                                                        where a.RegVendorExtId == vendorExtId && a.TipeDokumen == (int)EDocumentType.SuratPernyataanKerahasiaan
+                                                                        select new VendorDokumenExts
+                                                                        {
+                                                                            Iddok = b.Id,
+                                                                            Nomor = a.Nomor,
+                                                                            Pembuat = a.Penerbit,
+                                                                            TipeDokumen = a.TipeDokumen.ToString(),
+                                                                            TanggalTerbit = a.TanggalTerbit,
+                                                                            TanggalBerakhir = a.TanggalBerakhir,
+                                                                            FileName = b.FileName,
+                                                                            ContentType = b.ContentType
+                                                                        }).Distinct().FirstOrDefault();
+
+                    vm.SuratPernyataanPengadaan = SuratPernyataanPengadaandocs;
+                    vm.SuratPernyataanEtika = SuratPernyataanEtikadocs;
+                    vm.SuratPernyataanKerahasiaan = SuratPernyataanKerahasiaandocs;
 
                     vm.DokumenSertifikatCV = DokumenSertifikatCVdocs;
                     vm.BuktiKepemilikanPeralatan = BuktiKepemilikanPeralatandocs;
@@ -1800,8 +1929,43 @@ namespace Reston.Eproc.Model.Ext
                     vm.LaporanDataKeuangan = LaporanDataKeuangandocs;
                     vm.CVTenagaAhli = CVTenagaAhlidocs;
 
-                    //var zzzz = 0;
-                    //RegVendorExt vendorExtss = ctx.RegVendorExts.Where(x => x.RegVendorId == IdRegVendor).FirstOrDefault();
+                    vm.PacDokumen1 = PacDokumen1docs;
+                    vm.PacDokumen2 = PacDokumen2docs;
+                    vm.PacDokumen3 = PacDokumen3docs;
+                    vm.PacDokumen4 = PacDokumen4docs;
+
+                    var regPac = ctx.RegVendorExtPacs.Where(x => x.RegVendorExtId == vendorExt.Id).FirstOrDefault();
+                    if (regPac != null)
+                    {
+                        vm.VendorExtPac = new VendorExtPac
+                        {
+                            Id = regPac.Id,
+                            VendorExtId = regPac.RegVendorExtId,
+                            Status1 = regPac.Status1,
+                            Penjelasan1 = regPac.Penjelasan1,
+                            Komitmen1 = regPac.Komitmen1,
+                            TargetDate1 = regPac.TargetDate1,
+                            DokumenId1 = regPac.DokumenId1,
+
+                            Status2 = regPac.Status2,
+                            Penjelasan2 = regPac.Penjelasan2,
+                            Komitmen2 = regPac.Komitmen2,
+                            TargetDate2 = regPac.TargetDate2,
+                            DokumenId2 = regPac.DokumenId2,
+
+                            Status3 = regPac.Status3,
+                            Penjelasan3 = regPac.Penjelasan3,
+                            Komitmen3 = regPac.Komitmen3,
+                            TargetDate3 = regPac.TargetDate3,
+                            DokumenId3 = regPac.DokumenId3,
+
+                            Status4 = regPac.Status4,
+                            Penjelasan4 = regPac.Penjelasan4,
+                            Komitmen4 = regPac.Komitmen4,
+                            TargetDate4 = regPac.TargetDate4,
+                            DokumenId4 = regPac.DokumenId4
+                        };
+                    }
 
                     return vm;
                 }
@@ -1861,7 +2025,12 @@ namespace Reston.Eproc.Model.Ext
                                                                 ResourceLastEduCode = a.ResourceLastEduCode,
                                                                 ResourceExperienceCode = a.ResourceExperienceCode,
                                                                 ResourceExpertise = a.ResourceExpertise,
-                                                                ResourceExperienceYears = a.ResourceExperienceYears
+                                                                ResourceExperienceYears = a.ResourceExperienceYears,
+                                                                ResourceCVDocId = a.ResourceCVDocId,
+                                                                ResourceLastEduDocId = a.ResourceLastEduDocId,
+                                                                ResourceLastEduIssuer = a.ResourceLastEduIssuer,
+                                                                ResourceCertificationDocId = a.ResourceCertificationDocId,
+                                                                ResourceCertificationIssuer = a.ResourceCertificationIssuer
                                                             }).Distinct().ToList();
 
 
@@ -1875,7 +2044,9 @@ namespace Reston.Eproc.Model.Ext
                                                             EquipmentMake = a.EquipmentMake,
                                                             EquipmentMakeYear = a.EquipmentMakeYear,
                                                             EquipmentConditionCode = a.EquipmentConditionCode,
-                                                            EquipmentLocation = a.EquipmentLocation
+                                                            EquipmentLocation = a.EquipmentLocation,
+                                                            EquipmentOwnershipDocId = a.EquipmentOwnershipDocId,
+                                                            EquipmentPictureDocId = a.EquipmentPicture
                                                         }).Distinct().ToList();
 
             List<VendorJobHistoryExtViewModels> VJHExt = (from a in ctx.VendorExtJobHistories
@@ -1890,29 +2061,40 @@ namespace Reston.Eproc.Model.Ext
                                                               JobContractNum = a.JobContractNum,
                                                               JobContractDate = a.JobContractDate,
                                                               JobContractAmount = a.JobContractAmount,
-                                                              JobContractAmountCurrencyCode = a.JobContractAmountCurrencyCode
-                                                              //JobContractAmountCurrencyCode = String.IsNullOrEmpty(a.JobContractAmountCurrencyCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == a.JobContractAmountCurrencyCode).FirstOrDefault().LocalizedName,
+                                                              JobContractAmountCurrencyCode = a.JobContractAmountCurrencyCode,
+                                                              JobContractDocId = a.JobContractDocId,
+                                                              Id = a.Id,
+                                                              RegVendorExtId = a.VendorExtId
                                                           }).Distinct().ToList();
 
-            VendorFinStatementExtViewModels VFSExt = (from a in ctx.VendorExtFinStatements
-                                                      where a.VendorExtId == vendorExt.Id
-                                                      select new VendorFinStatementExtViewModels
-                                                      {
-                                                          FinStmtYear = a.FinStmtYear,
-                                                          FinStmtCurrencyCode = String.IsNullOrEmpty(a.FinStmtCurrencyCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == a.FinStmtCurrencyCode).FirstOrDefault().LocalizedName,
-                                                          FinStmtCurrencyCodeCode = a.FinStmtCurrencyCode,
-                                                          FinStmtAktivaLancar = a.FinStmtAktivaLancar,
-                                                          FinStmtHutangLancar = a.FinStmtHutangLancar,
-                                                          FinStmtRasioLikuiditas = a.FinStmtRasioLikuiditas,
-                                                          FinStmtTotalHutang = a.FinStmtTotalHutang,
-                                                          FinStmtEkuitas = a.FinStmtEkuitas,
-                                                          FinStmtDebtToEquityRatio = a.FinStmtDebtToEquityRation,
-                                                          FinStmtNetProfitLoss = a.FinStmtNetProfitLoss,
-                                                          FinStmtReturnOfEquity = a.FinStmtReturnOfEquity,
-                                                          FinStmtKas = a.FinStmtKas,
-                                                          FinStmtTotalAktiva = a.FinStmtTotalAktiva,
-                                                          FinStmtAuditStatusCode = a.FinStmtAuditStatusCode
-                                                      }).FirstOrDefault();
+            var finStmtEntity2 = ctx.VendorExtFinStatements.FirstOrDefault(x => x.VendorExtId == vendorExt.Id);
+            VendorFinStatementExtViewModels VFSExt = null;
+            if (finStmtEntity2 != null)
+            {
+                var curRef2 = String.IsNullOrEmpty(finStmtEntity2.FinStmtCurrencyCode) ? null : ctx.ReferenceDatas.FirstOrDefault(x => x.Code == finStmtEntity2.FinStmtCurrencyCode);
+                VFSExt = new VendorFinStatementExtViewModels
+                {
+                    FinStmtDocNumber = finStmtEntity2.FinStmtDocNumber,
+                    FinStmtIssuer = finStmtEntity2.FinStmtIssuer,
+                    FinStmtIssueDate = finStmtEntity2.FinStmtIssueDate,
+                    FinStmtValidThruDate = finStmtEntity2.FinStmtValidThruDate,
+                    FinStmtDocumentId = finStmtEntity2.FinStmtDocumentId != null ? finStmtEntity2.FinStmtDocumentId.Value.ToString() : null,
+                    FinStmtYear = finStmtEntity2.FinStmtYear,
+                    FinStmtCurrencyCode = curRef2 != null ? curRef2.LocalizedName : "",
+                    FinStmtCurrencyCodeCode = finStmtEntity2.FinStmtCurrencyCode,
+                    FinStmtAktivaLancar = finStmtEntity2.FinStmtAktivaLancar,
+                    FinStmtHutangLancar = finStmtEntity2.FinStmtHutangLancar,
+                    FinStmtRasioLikuiditas = finStmtEntity2.FinStmtRasioLikuiditas,
+                    FinStmtTotalHutang = finStmtEntity2.FinStmtTotalHutang,
+                    FinStmtEkuitas = finStmtEntity2.FinStmtEkuitas,
+                    FinStmtDebtToEquityRatio = finStmtEntity2.FinStmtDebtToEquityRation,
+                    FinStmtNetProfitLoss = finStmtEntity2.FinStmtNetProfitLoss,
+                    FinStmtReturnOfEquity = finStmtEntity2.FinStmtReturnOfEquity,
+                    FinStmtKas = finStmtEntity2.FinStmtKas,
+                    FinStmtTotalAktiva = finStmtEntity2.FinStmtTotalAktiva,
+                    FinStmtAuditStatusCode = finStmtEntity2.FinStmtAuditStatusCode
+                };
+            }
 
 
             VendorExtViewModelJaws vm = new VendorExtViewModelJaws
@@ -1920,7 +2102,7 @@ namespace Reston.Eproc.Model.Ext
                 id = idVendor,
                 //TipeVendor = Int16.Parse(vendorExt.JenisVendor == null ? "10" : vendorExt.JenisVendor),
 
-                //Provinsi = String.IsNullOrEmpty(rv.Provinsi) ? "" : ctx.ReferenceDatas.Where(x => x.Code == rv.Provinsi && x.Qualifier == "DUKCAPILPROV").FirstOrDefault().LocalizedName,
+                //Provinsi = String.IsNullOrEmpty(rv.Provinsi) ? "" : ctx.ReferenceDatas.Where(x => x.LocalizedName == rv.Provinsi && x.Qualifier == "DUKCAPILPROV").FirstOrDefault().LocalizedName,
                 //FirstLevelDivisionCode = String.IsNullOrEmpty(vendorExt.FirstLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.FirstLevelDivisionCode && x.Qualifier == "DUKCAPILKOTA").FirstOrDefault().LocalizedName,
                 //SecondLevelDivisionCode = String.IsNullOrEmpty(vendorExt.SecondLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.SecondLevelDivisionCode && x.Qualifier == "DUKCAPILKECAMATAN").FirstOrDefault().LocalizedName,
                 //ThirdLevelDivisionCode = String.IsNullOrEmpty(vendorExt.ThirdLevelDivisionCode) ? "" : ctx.ReferenceDatas.Where(x => x.Code == vendorExt.ThirdLevelDivisionCode && x.Qualifier == "DUKCAPILKELURAHAN").FirstOrDefault().LocalizedName,
@@ -2568,6 +2750,66 @@ namespace Reston.Eproc.Model.Ext
                                                       FileName = b.FileName,
                                                       ContentType = b.ContentType
                                                   }).Distinct().FirstOrDefault();
+
+            VendorDokumenExts PacDokumen1docs = (from a in ctx.DocumentExts
+                                                 join b in ctx.DocumentImageExts on a.Id equals b.DocumenExtId
+                                                 where a.VendorExtId == vendorExtId && a.TipeDokumen == 31
+                                                 select new VendorDokumenExts
+                                                 {
+                                                     Iddok = b.Id,
+                                                     Nomor = a.Nomor,
+                                                     Pembuat = a.Penerbit,
+                                                     TipeDokumen = a.TipeDokumen.ToString(),
+                                                     TanggalTerbit = a.TanggalTerbit,
+                                                     TanggalBerakhir = a.TanggalBerakhir,
+                                                     FileName = b.FileName,
+                                                     ContentType = b.ContentType
+                                                 }).Distinct().FirstOrDefault();
+
+            VendorDokumenExts PacDokumen2docs = (from a in ctx.DocumentExts
+                                                 join b in ctx.DocumentImageExts on a.Id equals b.DocumenExtId
+                                                 where a.VendorExtId == vendorExtId && a.TipeDokumen == 32
+                                                 select new VendorDokumenExts
+                                                 {
+                                                     Iddok = b.Id,
+                                                     Nomor = a.Nomor,
+                                                     Pembuat = a.Penerbit,
+                                                     TipeDokumen = a.TipeDokumen.ToString(),
+                                                     TanggalTerbit = a.TanggalTerbit,
+                                                     TanggalBerakhir = a.TanggalBerakhir,
+                                                     FileName = b.FileName,
+                                                     ContentType = b.ContentType
+                                                 }).Distinct().FirstOrDefault();
+
+            VendorDokumenExts PacDokumen3docs = (from a in ctx.DocumentExts
+                                                 join b in ctx.DocumentImageExts on a.Id equals b.DocumenExtId
+                                                 where a.VendorExtId == vendorExtId && a.TipeDokumen == 33
+                                                 select new VendorDokumenExts
+                                                 {
+                                                     Iddok = b.Id,
+                                                     Nomor = a.Nomor,
+                                                     Pembuat = a.Penerbit,
+                                                     TipeDokumen = a.TipeDokumen.ToString(),
+                                                     TanggalTerbit = a.TanggalTerbit,
+                                                     TanggalBerakhir = a.TanggalBerakhir,
+                                                     FileName = b.FileName,
+                                                     ContentType = b.ContentType
+                                                 }).Distinct().FirstOrDefault();
+
+            VendorDokumenExts PacDokumen4docs = (from a in ctx.DocumentExts
+                                                 join b in ctx.DocumentImageExts on a.Id equals b.DocumenExtId
+                                                 where a.VendorExtId == vendorExtId && a.TipeDokumen == 34
+                                                 select new VendorDokumenExts
+                                                 {
+                                                     Iddok = b.Id,
+                                                     Nomor = a.Nomor,
+                                                     Pembuat = a.Penerbit,
+                                                     TipeDokumen = a.TipeDokumen.ToString(),
+                                                     TanggalTerbit = a.TanggalTerbit,
+                                                     TanggalBerakhir = a.TanggalBerakhir,
+                                                     FileName = b.FileName,
+                                                     ContentType = b.ContentType
+                                                 }).Distinct().FirstOrDefault();
             vm.id = rv.Id;
             vm.VendorRegExt = VendorRegExt;
             vm.VendorBankInfoExt = bankExt;
@@ -2598,6 +2840,55 @@ namespace Reston.Eproc.Model.Ext
             vm.PROFILPERUSAHAAN = PROFILPERUSAHAANdocs;
             vm.NIB = NIBdocs;
 
+            VendorDokumenExts SuratPernyataanPengadaandocs = (from a in ctx.DocumentExts
+                                                              join b in ctx.DocumentImageExts on a.Id equals b.DocumenExtId
+                                                              where a.VendorExtId == vendorExtId && a.TipeDokumen == (int)EDocumentType.SuratPernyataanPengadaan
+                                                              select new VendorDokumenExts
+                                                              {
+                                                                  Iddok = b.Id,
+                                                                  Nomor = a.Nomor,
+                                                                  Pembuat = a.Penerbit,
+                                                                  TipeDokumen = a.TipeDokumen.ToString(),
+                                                                  TanggalTerbit = a.TanggalTerbit,
+                                                                  TanggalBerakhir = a.TanggalBerakhir,
+                                                                  FileName = b.FileName,
+                                                                  ContentType = b.ContentType
+                                                              }).Distinct().FirstOrDefault();
+                                                              
+            VendorDokumenExts SuratPernyataanEtikadocs = (from a in ctx.DocumentExts
+                                                          join b in ctx.DocumentImageExts on a.Id equals b.DocumenExtId
+                                                          where a.VendorExtId == vendorExtId && a.TipeDokumen == (int)EDocumentType.SuratPernyataanEtika
+                                                          select new VendorDokumenExts
+                                                          {
+                                                              Iddok = b.Id,
+                                                              Nomor = a.Nomor,
+                                                              Pembuat = a.Penerbit,
+                                                              TipeDokumen = a.TipeDokumen.ToString(),
+                                                              TanggalTerbit = a.TanggalTerbit,
+                                                              TanggalBerakhir = a.TanggalBerakhir,
+                                                              FileName = b.FileName,
+                                                              ContentType = b.ContentType
+                                                          }).Distinct().FirstOrDefault();
+
+            VendorDokumenExts SuratPernyataanKerahasiaandocs = (from a in ctx.DocumentExts
+                                                                join b in ctx.DocumentImageExts on a.Id equals b.DocumenExtId
+                                                                where a.VendorExtId == vendorExtId && a.TipeDokumen == (int)EDocumentType.SuratPernyataanKerahasiaan
+                                                                select new VendorDokumenExts
+                                                                {
+                                                                    Iddok = b.Id,
+                                                                    Nomor = a.Nomor,
+                                                                    Pembuat = a.Penerbit,
+                                                                    TipeDokumen = a.TipeDokumen.ToString(),
+                                                                    TanggalTerbit = a.TanggalTerbit,
+                                                                    TanggalBerakhir = a.TanggalBerakhir,
+                                                                    FileName = b.FileName,
+                                                                    ContentType = b.ContentType
+                                                                }).Distinct().FirstOrDefault();
+
+            vm.SuratPernyataanPengadaan = SuratPernyataanPengadaandocs;
+            vm.SuratPernyataanEtika = SuratPernyataanEtikadocs;
+            vm.SuratPernyataanKerahasiaan = SuratPernyataanKerahasiaandocs;
+
             vm.DokumenSertifikatCV = DokumenSertifikatCVdocs;
             vm.BuktiKepemilikanPeralatan = BuktiKepemilikanPeralatandocs;
             vm.FotoPeralatan = FotoPeralatandocs;
@@ -2605,7 +2896,12 @@ namespace Reston.Eproc.Model.Ext
             vm.LaporanDataKeuangan = LaporanDataKeuangandocs;
             vm.CVTenagaAhli = CVTenagaAhlidocs;
 
-            var zzzz = 0;
+            vm.PacDokumen1 = PacDokumen1docs;
+            vm.PacDokumen2 = PacDokumen2docs;
+            vm.PacDokumen3 = PacDokumen3docs;
+            vm.PacDokumen4 = PacDokumen4docs;
+
+            //var zzzz = 0;
             //RegVendorExt vendorExtss = ctx.RegVendorExts.Where(x => x.RegVendorId == IdRegVendor).FirstOrDefault();
 
             var vendorExtPac = ctx.VendorExtPacs.Where(x => x.VendorExtId == vendorExtId).FirstOrDefault();
