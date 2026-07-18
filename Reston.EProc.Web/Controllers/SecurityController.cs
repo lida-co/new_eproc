@@ -1,4 +1,4 @@
-﻿using Reston.EProc.Web.Helper;
+using Reston.EProc.Web.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace Reston.EProc.Web.Controllers
                 Path = "/"
             };
 
-            HttpContext.Current.Response.Cookies.Add(cookie);
+            HttpContext.Current.Response.Cookies.Set(cookie);
             
             return Ok(new { csrfToken = token });
         }

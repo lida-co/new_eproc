@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +18,7 @@ namespace IdLdap.Controllers
                 Expires = DateTime.Now.AddYears(-1),
                 HttpOnly = false 
             };
-            Response.Cookies.Add(csrfCookie);
+            Response.Cookies.Set(csrfCookie);
 
             return Redirect(Reston.Identity.Helper.IdLdapConstants.IDM.Url);
         }
