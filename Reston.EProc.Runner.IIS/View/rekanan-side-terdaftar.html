@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html ng-app="app">
 
 <head>
@@ -2813,6 +2813,29 @@
 
                                 //Load Data Dokumen
                                 if (data.TipeVendor != '2') {
+                                    if (data.SuratPernyataanPengadaan != null) {
+                                        document.querySelector('input[name="SuratPernyataanPengadaan.Nomor"]').value = (data.SuratPernyataanPengadaan.Nomor ?? '');
+                                        document.querySelector('input[name="SuratPernyataanPengadaan.Pembuat"]').value = (data.SuratPernyataanPengadaan.Pembuat ?? '');
+                                        document.querySelector('input[name="SuratPernyataanPengadaan.TanggalTerbit"]').value = data.SuratPernyataanPengadaan.TanggalTerbit ? moment(data.SuratPernyataanPengadaan.TanggalTerbit).format("DD-MM-YYYY").toString() : '';
+                                        document.querySelector('input[name="SuratPernyataanPengadaan.TanggalBerakhir"]').value = data.SuratPernyataanPengadaan.TanggalBerakhir ? moment(data.SuratPernyataanPengadaan.TanggalBerakhir).format("DD-MM-YYYY").toString() : '';
+                                        $("#tombolSuratPernyataanPengadaan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.SuratPernyataanPengadaan.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
+                                    }
+
+                                    if (data.SuratPernyataanEtika != null) {
+                                        document.querySelector('input[name="SuratPernyataanEtika.Nomor"]').value = (data.SuratPernyataanEtika.Nomor ?? '');
+                                        document.querySelector('input[name="SuratPernyataanEtika.Pembuat"]').value = (data.SuratPernyataanEtika.Pembuat ?? '');
+                                        document.querySelector('input[name="SuratPernyataanEtika.TanggalTerbit"]').value = data.SuratPernyataanEtika.TanggalTerbit ? moment(data.SuratPernyataanEtika.TanggalTerbit).format("DD-MM-YYYY").toString() : '';
+                                        document.querySelector('input[name="SuratPernyataanEtika.TanggalBerakhir"]').value = data.SuratPernyataanEtika.TanggalBerakhir ? moment(data.SuratPernyataanEtika.TanggalBerakhir).format("DD-MM-YYYY").toString() : '';
+                                        $("#tombolSuratPernyataanEtika").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.SuratPernyataanEtika.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
+                                    }
+
+                                    if (data.SuratPernyataanKerahasiaan != null) {
+                                        document.querySelector('input[name="SuratPernyataanKerahasiaan.Nomor"]').value = (data.SuratPernyataanKerahasiaan.Nomor ?? '');
+                                        document.querySelector('input[name="SuratPernyataanKerahasiaan.Pembuat"]').value = (data.SuratPernyataanKerahasiaan.Pembuat ?? '');
+                                        document.querySelector('input[name="SuratPernyataanKerahasiaan.TanggalTerbit"]').value = data.SuratPernyataanKerahasiaan.TanggalTerbit ? moment(data.SuratPernyataanKerahasiaan.TanggalTerbit).format("DD-MM-YYYY").toString() : '';
+                                        document.querySelector('input[name="SuratPernyataanKerahasiaan.TanggalBerakhir"]').value = data.SuratPernyataanKerahasiaan.TanggalBerakhir ? moment(data.SuratPernyataanKerahasiaan.TanggalBerakhir).format("DD-MM-YYYY").toString() : '';
+                                        $("#tombolSuratPernyataanKerahasiaan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.SuratPernyataanKerahasiaan.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
+                                    }
                                     if (data.LAPORANKEUANGAN != null) {
                                         document.querySelector('input[name="LaporanKeuangan.Nomor"]').value = (data.LAPORANKEUANGAN.Nomor ?? '');
                                         document.querySelector('input[name="LaporanKeuangan.Pembuat"]').value = (data.LAPORANKEUANGAN.Pembuat ?? '');
@@ -2975,33 +2998,29 @@
                                     
                                     // Load PAC
                                     if (data.VendorExtPac != null) {
-                                        document.querySelector('input[name="PacNamaPerusahaan"]').value = data.VendorExtPac.NamaPerusahaan || '';
-                                        document.querySelector('input[name="PacTtdNama"]').value = data.VendorExtPac.TtdNama || '';
-                                        document.querySelector('input[name="PacTtdPosisi"]').value = data.VendorExtPac.TtdPosisi || '';
-
                                         var s1 = document.querySelector('select[name="PacStatus1"]'); if(s1) s1.value = data.VendorExtPac.Status1 || '';
-                                        document.querySelector('textarea[name="PacPenjelasan1"]').value = data.VendorExtPac.Penjelasan1 || '';
-                                        document.querySelector('textarea[name="PacKomitmen1"]').value = data.VendorExtPac.Komitmen1 || '';
-                                        if (data.VendorExtPac.TargetDate1) { document.querySelector('input[name="PacTargetDate1"]').value = moment(data.VendorExtPac.TargetDate1).format("DD-MM-YYYY").toString(); }
-                                        if (data.VendorExtPac.DokumenId1) { $("#tombolPacDokumen1").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId1 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
+                                        var p1 = document.querySelector('textarea[name="PacPenjelasan1"]'); if(p1) p1.value = data.VendorExtPac.Penjelasan1 || '';
+                                        var k1 = document.querySelector('textarea[name="PacKomitmen1"]'); if(k1) k1.value = data.VendorExtPac.Komitmen1 || '';
+                                        var t1 = document.querySelector('input[name="PacTargetDate1"]'); if (t1 && data.VendorExtPac.TargetDate1) { t1.value = moment(data.VendorExtPac.TargetDate1).format("DD-MM-YYYY").toString(); }
+                                        if (data.VendorExtPac.DokumenId1) { $("#FilePacDokumen1").after('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId1 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
 
                                         var s2 = document.querySelector('select[name="PacStatus2"]'); if(s2) s2.value = data.VendorExtPac.Status2 || '';
-                                        document.querySelector('textarea[name="PacPenjelasan2"]').value = data.VendorExtPac.Penjelasan2 || '';
-                                        document.querySelector('textarea[name="PacKomitmen2"]').value = data.VendorExtPac.Komitmen2 || '';
-                                        if (data.VendorExtPac.TargetDate2) { document.querySelector('input[name="PacTargetDate2"]').value = moment(data.VendorExtPac.TargetDate2).format("DD-MM-YYYY").toString(); }
-                                        if (data.VendorExtPac.DokumenId2) { $("#tombolPacDokumen2").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId2 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
+                                        var p2 = document.querySelector('textarea[name="PacPenjelasan2"]'); if(p2) p2.value = data.VendorExtPac.Penjelasan2 || '';
+                                        var k2 = document.querySelector('textarea[name="PacKomitmen2"]'); if(k2) k2.value = data.VendorExtPac.Komitmen2 || '';
+                                        var t2 = document.querySelector('input[name="PacTargetDate2"]'); if (t2 && data.VendorExtPac.TargetDate2) { t2.value = moment(data.VendorExtPac.TargetDate2).format("DD-MM-YYYY").toString(); }
+                                        if (data.VendorExtPac.DokumenId2) { $("#FilePacDokumen2").after('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId2 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
 
                                         var s3 = document.querySelector('select[name="PacStatus3"]'); if(s3) s3.value = data.VendorExtPac.Status3 || '';
-                                        document.querySelector('textarea[name="PacPenjelasan3"]').value = data.VendorExtPac.Penjelasan3 || '';
-                                        document.querySelector('textarea[name="PacKomitmen3"]').value = data.VendorExtPac.Komitmen3 || '';
-                                        if (data.VendorExtPac.TargetDate3) { document.querySelector('input[name="PacTargetDate3"]').value = moment(data.VendorExtPac.TargetDate3).format("DD-MM-YYYY").toString(); }
-                                        if (data.VendorExtPac.DokumenId3) { $("#tombolPacDokumen3").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId3 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
+                                        var p3 = document.querySelector('textarea[name="PacPenjelasan3"]'); if(p3) p3.value = data.VendorExtPac.Penjelasan3 || '';
+                                        var k3 = document.querySelector('textarea[name="PacKomitmen3"]'); if(k3) k3.value = data.VendorExtPac.Komitmen3 || '';
+                                        var t3 = document.querySelector('input[name="PacTargetDate3"]'); if (t3 && data.VendorExtPac.TargetDate3) { t3.value = moment(data.VendorExtPac.TargetDate3).format("DD-MM-YYYY").toString(); }
+                                        if (data.VendorExtPac.DokumenId3) { $("#FilePacDokumen3").after('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId3 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
 
                                         var s4 = document.querySelector('select[name="PacStatus4"]'); if(s4) s4.value = data.VendorExtPac.Status4 || '';
-                                        document.querySelector('textarea[name="PacPenjelasan4"]').value = data.VendorExtPac.Penjelasan4 || '';
-                                        document.querySelector('textarea[name="PacKomitmen4"]').value = data.VendorExtPac.Komitmen4 || '';
-                                        if (data.VendorExtPac.TargetDate4) { document.querySelector('input[name="PacTargetDate4"]').value = moment(data.VendorExtPac.TargetDate4).format("DD-MM-YYYY").toString(); }
-                                        if (data.VendorExtPac.DokumenId4) { $("#tombolPacDokumen4").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId4 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
+                                        var p4 = document.querySelector('textarea[name="PacPenjelasan4"]'); if(p4) p4.value = data.VendorExtPac.Penjelasan4 || '';
+                                        var k4 = document.querySelector('textarea[name="PacKomitmen4"]'); if(k4) k4.value = data.VendorExtPac.Komitmen4 || '';
+                                        var t4 = document.querySelector('input[name="PacTargetDate4"]'); if (t4 && data.VendorExtPac.TargetDate4) { t4.value = moment(data.VendorExtPac.TargetDate4).format("DD-MM-YYYY").toString(); }
+                                        if (data.VendorExtPac.DokumenId4) { $("#FilePacDokumen4").after('<a href="Api/NilaiVendor/getfile?Iddok=' + data.VendorExtPac.DokumenId4 + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>'); }
                                     }
                                 }
                             }
