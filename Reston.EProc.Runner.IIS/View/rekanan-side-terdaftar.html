@@ -2995,6 +2995,19 @@
                                             $("#tombolLaporanDataKeuangan").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.LaporanDataKeuangan.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
                                         }
                                     }
+
+                                    // Load Tenaga Ahli
+                                    if (data.VendorHumanResourceExt != null && data.VendorHumanResourceExt.length > 0) {
+                                        var hr = data.VendorHumanResourceExt[0];
+                                        var hrName = document.querySelector('input[name="VendorHumanResourceExt[0].ResourceFullName"]'); if (hrName) hrName.value = hr.ResourceFullName || '';
+                                        var hrDob = document.querySelector('input[name="VendorHumanResourceExt[0].ResourceDateOfBirth"]'); if (hrDob && hr.ResourceDateOfBirth) hrDob.value = moment(hr.ResourceDateOfBirth).format("DD-MM-YYYY").toString();
+                                        var hrEdu = document.querySelector('select[name="VendorHumanResourceExt[0].ResourceLastEduCode"]'); if (hrEdu) { $(hrEdu).empty().append("<option value='"+(hr.ResourceLastEduCode||'')+"' selected>"+(hr.ResourceLastEduCode||'')+"</option>").trigger('change'); }
+                                        var hrExp = document.querySelector('input[name="VendorHumanResourceExt[0].ResourceExperienceYears"]'); if (hrExp) hrExp.value = hr.ResourceExperienceYears || '';
+                                        var hrExpst = document.querySelector('input[name="VendorHumanResourceExt[0].ResourceExpertise"]'); if (hrExpst) hrExpst.value = hr.ResourceExpertise || '';
+                                    }
+                                    if (data.CVTenagaAhli != null && data.CVTenagaAhli.Iddok != null) {
+                                        $("#tombolDokumenSertifikatCV").empty().append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.CVTenagaAhli.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File</a>');
+                                    }
                                     
                                     // Load PAC
                                     if (data.VendorExtPac != null) {
@@ -3283,16 +3296,17 @@
                 url: "/api/RegistrasiVendorExt/GetListSegKlmpkUsahaCode?q=" + data,
                 success: function (data) {
                     for (var i in data) {
-                        if (listcode != null && listcode.includes(",")) {
+                        if (listcode != null) {
                             var j = listcode.split(",");
                             for (let k = 0; k < j.length; k++) {
                                 if (data[i].Code == j[k]) {
                                     //alert(j[k].toString());
-                                    $("#SegKelompokUsahaCode").append("<option value='" + data[i].Code + "'>" + data[i].Name + "</option>");
+                                    $("#SegKelompokUsahaCode").append("<option value='" + data[i].Code + "' selected>" + data[i].Name + "</option>");
                                 }
                             }
                         }
                     }
+                    $("#SegKelompokUsahaCode").trigger("change");
                 }
             });
         }
