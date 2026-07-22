@@ -386,7 +386,16 @@ namespace Reston.Eproc.Model.Monitoring.Repository
             ResultMessage rm = new ResultMessage();
             try
             {
-                var spk = ctx.Spk.Where(d => d.PemenangPengadaan.PengadaanId == xPengadaanId).FirstOrDefault();
+                var spk = ctx.Spk.Where(d => d.Id == xPengadaanId).FirstOrDefault();
+                if (spk == null)
+                {
+                    var rencana = ctx.RencanaProyeks.Where(d => d.Id == xPengadaanId).FirstOrDefault();
+                    if (rencana != null)
+                    {
+                        spk = ctx.Spk.Where(d => d.Id == rencana.SpkId).FirstOrDefault();
+                    }
+                }
+                
                 if (spk == null) 
                 {
                     rm.status = HttpStatusCode.NotFound;
@@ -395,12 +404,12 @@ namespace Reston.Eproc.Model.Monitoring.Repository
                 }
                 
                 Guid SpkId = spk.Id;
-                var idPengadaan = xPengadaanId;
+                var idPengadaan = spk.PemenangPengadaan.PengadaanId;
 
                 var cekisPIC = ctx.PersonilPengadaans.Where(d => d.PengadaanId == idPengadaan && d.PersonilId == UserId).FirstOrDefault();
                 //var cekisPIC = ctx.PersonilPengadaans.Where(d => d.PengadaanId == idPengadaan).FirstOrDefault();
 
-                if (cekisPIC.tipe == "pic")
+                if (cekisPIC != null && cekisPIC.tipe == "pic")
                 {
                     var odata = ctx.RencanaProyeks.Where(d => d.Id == SpkId || d.SpkId == SpkId).FirstOrDefault();
 
@@ -544,8 +553,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                     nViewListTahapanPekerjaan.Id = item.Id;
                     nViewListTahapanPekerjaan.NamaTahapan = item.NamaTahapan;
-                    nViewListTahapanPekerjaan.TanggalMulai = item.TanggalMulai.Value;
-                    nViewListTahapanPekerjaan.TanggalSelesai = item.TanggalSelesai.Value;
+                    nViewListTahapanPekerjaan.TanggalMulai = item.TanggalMulai;
+                    nViewListTahapanPekerjaan.TanggalSelesai = item.TanggalSelesai;
                     nViewListTahapanPekerjaan.BobotPekerjaan = item.BobotPekerjaan;
                     nViewListTahapanPekerjaan.JenisTahapan = item.JenisTahapan;
                     vListTahapanPekerjaan.Add(nViewListTahapanPekerjaan);
@@ -571,8 +580,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                     nViewListTahapanPekerjaan.Id = item.Id;
                     nViewListTahapanPekerjaan.NamaTahapan = item.NamaTahapan;
-                    nViewListTahapanPekerjaan.TanggalMulai = item.TanggalMulai.Value;
-                    nViewListTahapanPekerjaan.TanggalSelesai = item.TanggalSelesai.Value;
+                    nViewListTahapanPekerjaan.TanggalMulai = item.TanggalMulai;
+                    nViewListTahapanPekerjaan.TanggalSelesai = item.TanggalSelesai;
                     nViewListTahapanPekerjaan.JenisTahapan = item.JenisTahapan;
                     nViewListTahapanPekerjaan.BobotPekerjaan = item.BobotPekerjaan;
                     vListTahapanPekerjaan.Add(nViewListTahapanPekerjaan);
@@ -606,8 +615,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                     nViewListTahapanPembayaran.Id = item.Id;
                     nViewListTahapanPembayaran.NamaTahapan = item.NamaTahapan;
-                    nViewListTahapanPembayaran.TanggalMulai = item.TanggalMulai.Value;
-                    nViewListTahapanPembayaran.TanggalSelesai = item.TanggalSelesai.Value;
+                    nViewListTahapanPembayaran.TanggalMulai = item.TanggalMulai;
+                    nViewListTahapanPembayaran.TanggalSelesai = item.TanggalSelesai;
                     nViewListTahapanPembayaran.JenisTahapan = item.JenisTahapan;
                     vListTahapanPembayaran.Add(nViewListTahapanPembayaran);
                 }
@@ -630,8 +639,8 @@ namespace Reston.Eproc.Model.Monitoring.Repository
 
                     nViewListTahapanPembayaran.Id = item.Id;
                     nViewListTahapanPembayaran.NamaTahapan = item.NamaTahapan;
-                    nViewListTahapanPembayaran.TanggalMulai = item.TanggalMulai.Value;
-                    nViewListTahapanPembayaran.TanggalSelesai = item.TanggalSelesai.Value;
+                    nViewListTahapanPembayaran.TanggalMulai = item.TanggalMulai;
+                    nViewListTahapanPembayaran.TanggalSelesai = item.TanggalSelesai;
                     nViewListTahapanPembayaran.JenisTahapan = item.JenisTahapan;
                     vListTahapanPembayaran.Add(nViewListTahapanPembayaran);
                 }
