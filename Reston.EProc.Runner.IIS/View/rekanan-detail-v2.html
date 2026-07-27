@@ -2606,14 +2606,16 @@
 
                     //Load Data Bank Untuk Header;
                     //console.log('1' + data.VendorBankInfoExt.BankCode);
-                    if (data.VendorBankInfoExt.BankCode)
-                        $("#BankInfo").append('<li title="Nama Bank"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.BankCode + '</li>');
-                    if (data.VendorBankInfoExt.Branch)
-                        $("#BankInfo").append('<li title="Cabang"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.Branch + '</li>');
-                    if (data.VendorBankInfoExt.AccNumber)
-                        $("#BankInfo").append('<li title="Nomor Rekening"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.AccNumber + '</li>');
-                    if (data.VendorBankInfoExt.AccName)
-                        $("#BankInfo").append('<li title="Nama pada rekening"> <span class="fa fa-user"> </span> ' + data.VendorBankInfoExt.AccName + '</li>');
+                    if (data.VendorBankInfoExt) {
+                        if (data.VendorBankInfoExt.BankCode)
+                            $("#BankInfo").append('<li title="Nama Bank"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.BankCode + '</li>');
+                        if (data.VendorBankInfoExt.Branch)
+                            $("#BankInfo").append('<li title="Cabang"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.Branch + '</li>');
+                        if (data.VendorBankInfoExt.AccNumber)
+                            $("#BankInfo").append('<li title="Nomor Rekening"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.AccNumber + '</li>');
+                        if (data.VendorBankInfoExt.AccName)
+                            $("#BankInfo").append('<li title="Nama pada rekening"> <span class="fa fa-user"> </span> ' + data.VendorBankInfoExt.AccName + '</li>');
+                    }
 
                     //Load data Identitas
                     document.querySelector('input[name="Nama"]').value = data.Nama;
@@ -2705,14 +2707,16 @@
                     SetMasterData("VENDOR_PERSON_RELIGION", "VendorRegExt.DirPersonReligionCode");
 
                     //Load Data Bank form;
-                    document.querySelector('input[name="VendorBankInfoExt.Branch"]').value = data.VendorBankInfoExt.Branch;
-                    document.querySelector('input[name="VendorBankInfoExt.BankCode"]').value = data.VendorBankInfoExt.BankCode;
-                    document.querySelector('input[name="VendorBankInfoExt.BankAddress"]').value = data.VendorBankInfoExt.BankAddress;
-                    document.querySelector('input[name="VendorBankInfoExt.BankCity"]').value = data.VendorBankInfoExt.BankCity;
-                    document.querySelector('input[name="VendorBankInfoExt.AccNumber"]').value = data.VendorBankInfoExt.AccNumber;
-                    document.querySelector('input[name="VendorBankInfoExt.AccName"]').value = data.VendorBankInfoExt.AccName;
-                    document.querySelector('input[name="VendorBankInfoExt.AccCurrencyCode"]').value = data.VendorBankInfoExt.AccCurrencyCode;
-                    document.querySelector('input[name="VendorBankInfoExt.BankCountry"]').value = data.VendorBankInfoExt.BankCountry;
+                    if (data.VendorBankInfoExt) {
+                        var bBranch = document.querySelector('input[name="VendorBankInfoExt.Branch"]'); if (bBranch) bBranch.value = data.VendorBankInfoExt.Branch || '';
+                        var bCode = document.querySelector('input[name="VendorBankInfoExt.BankCode"]'); if (bCode) bCode.value = data.VendorBankInfoExt.BankCode || '';
+                        var bAddr = document.querySelector('input[name="VendorBankInfoExt.BankAddress"]'); if (bAddr) bAddr.value = data.VendorBankInfoExt.BankAddress || '';
+                        var bCity = document.querySelector('input[name="VendorBankInfoExt.BankCity"]'); if (bCity) bCity.value = data.VendorBankInfoExt.BankCity || '';
+                        var bAccNum = document.querySelector('input[name="VendorBankInfoExt.AccNumber"]'); if (bAccNum) bAccNum.value = data.VendorBankInfoExt.AccNumber || '';
+                        var bAccName = document.querySelector('input[name="VendorBankInfoExt.AccName"]'); if (bAccName) bAccName.value = data.VendorBankInfoExt.AccName || '';
+                        var bAccCur = document.querySelector('input[name="VendorBankInfoExt.AccCurrencyCode"]'); if (bAccCur) bAccCur.value = data.VendorBankInfoExt.AccCurrencyCode || '';
+                        var bBankC = document.querySelector('input[name="VendorBankInfoExt.BankCountry"]'); if (bBankC) bBankC.value = data.VendorBankInfoExt.BankCountry || '';
+                    }
 
                     //Load Data segmentasi form;
                     document.querySelector('input[name="SegBidangUsahaCode"]').value = data.VendorRegExt.SegBidangUsahaCodes;

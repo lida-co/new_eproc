@@ -214,7 +214,22 @@ namespace Reston.Pinata.WebService
                         DirPersonReligionCode = SanitizeInput(model.VendorRegExt.DirPersonReligionCode),
                         DirPersonBirthDay = model.VendorRegExt.DirPersonBirthDay,
                         SegBidangUsahaCode = SanitizeInput(model.VendorRegExt.SegBidangUsahaCode),
-                        SegKualifikasiGrade = SanitizeInput(model.VendorRegExt.SegKualifikasiGrade)
+                        SegKualifikasiGrade = SanitizeInput(model.VendorRegExt.SegKualifikasiGrade),
+                        IndivName = SanitizeInput(model.VendorRegExt.IndivName),
+                        IndivAbbrevName = SanitizeInput(model.VendorRegExt.IndivAbbrevName),
+                        IndivGiidNo = SanitizeInput(model.VendorRegExt.IndivGiidNo),
+                        IndivGiidValidUntil = model.VendorRegExt.IndivGiidValidUntil,
+                        IndivAddress = SanitizeInput(model.VendorRegExt.IndivAddress),
+                        IndivCountryCode = SanitizeInput(model.VendorRegExt.IndivCountryCode),
+                        IndivFirstLevelDivisionCode = SanitizeInput(model.VendorRegExt.IndivFirstLevelDivisionCode),
+                        IndivSecondLevelDivisionCode = SanitizeInput(model.VendorRegExt.IndivSecondLevelDivisionCode),
+                        IndivThirdLevelDivisionCode = SanitizeInput(model.VendorRegExt.IndivThirdLevelDivisionCode),
+                        IndivPostalCode = SanitizeInput(model.VendorRegExt.IndivPostalCode),
+                        IndivContactPersonName = SanitizeInput(model.VendorRegExt.IndivContactPersonName),
+                        IndivContactPhoneNum = SanitizeInput(model.VendorRegExt.IndivContactPhoneNum),
+                        IndivContactEmail = SanitizeInput(model.VendorRegExt.IndivContactEmail),
+                        PrinRepOfficeAddress = SanitizeInput(model.VendorRegExt.PrinRepOfficeAddress),
+                        PrinRepOfficeContactPhoneNum = SanitizeInput(model.VendorRegExt.PrinRepOfficeContactPhoneNum)
                     };
 
                     if (model.VendorRegExt.SegKelompokUsahaCode != null && model.VendorRegExt.SegKelompokUsahaCode.Any())

@@ -2728,6 +2728,7 @@
                         $(".label-principal-npwp").hide();
                         $(".label-perusahaan-npwp").hide();
                         $(".label-profilperusahaan").hide();
+                        $(".label-domisili").hide();
                     }
 
                     else if (DOMPurify.sanitize(data.TipeVendor) == '3') {
@@ -2763,15 +2764,17 @@
                     }
 
                     //Load Data Bank Untuk Header;
-                    console.log('1' + data.VendorBankInfoExt.BankCode);
-                    if (data.VendorBankInfoExt.BankCode)
-                        $("#BankInfo").append('<li title="Nama Bank"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.BankCode + '</li>');
-                    if (data.VendorBankInfoExt.Branch)
-                        $("#BankInfo").append('<li title="Cabang"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.Branch + '</li>');
-                    if (data.VendorBankInfoExt.AccNumber)
-                        $("#BankInfo").append('<li title="Nomor Rekening"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.AccNumber + '</li>');
-                    if (data.VendorBankInfoExt.AccName)
-                        $("#BankInfo").append('<li title="Nama pada rekening"> <span class="fa fa-user"> </span> ' + data.VendorBankInfoExt.AccName + '</li>');
+                    if (data.VendorBankInfoExt) {
+                        console.log('1' + data.VendorBankInfoExt.BankCode);
+                        if (data.VendorBankInfoExt.BankCode)
+                            $("#BankInfo").append('<li title="Nama Bank"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.BankCode + '</li>');
+                        if (data.VendorBankInfoExt.Branch)
+                            $("#BankInfo").append('<li title="Cabang"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.Branch + '</li>');
+                        if (data.VendorBankInfoExt.AccNumber)
+                            $("#BankInfo").append('<li title="Nomor Rekening"> <span class="fa fa-bank"> </span> ' + data.VendorBankInfoExt.AccNumber + '</li>');
+                        if (data.VendorBankInfoExt.AccName)
+                            $("#BankInfo").append('<li title="Nama pada rekening"> <span class="fa fa-user"> </span> ' + data.VendorBankInfoExt.AccName + '</li>');
+                    }
 
                     //Load data Identitas
                     document.querySelector('input[name="Nama"]').value = data.Nama;
@@ -2814,21 +2817,23 @@
                             $("#tombolKTP").append('<a href="Api/NilaiVendor/getfile?Iddok=' + data.KTP.Iddok + '" target="_blank"><i class="fa fa-fw  fa-download"></i> Lihat File KTP</a>');
                         }
                         var strp = "<li>";
-                        strp += ' <span class="fa fa-user" title="Nama"> </span> ' + data.VendorRegExt.IndivContactPersonName;
-                        strp += ' <span class="fa fa-phone"  title="Telepon"> </span> ' + data.VendorRegExt.IndivContactPhoneNum;
-                        strp += ' <span class="fa fa-envelope"  title="Email"> </span> ' + data.VendorRegExt.IndivContactEmail;
+                        if (data.VendorRegExt.IndivContactPersonName) {
+                            strp += ' <span class="fa fa-user" title="Nama"> </span> ' + data.VendorRegExt.IndivContactPersonName;
+                        }
+                        if (data.VendorRegExt.IndivContactPhoneNum) {
+                            strp += ' <span class="fa fa-phone"  title="Telepon"> </span> ' + data.VendorRegExt.IndivContactPhoneNum;
+                        }
+                        if (data.VendorRegExt.IndivContactEmail) {
+                            strp += ' <span class="fa fa-envelope"  title="Email"> </span> ' + data.VendorRegExt.IndivContactEmail;
+                        }
+                        if (strp === "<li>") {
+                            strp += ' <span class="text-muted">Data Key Persons tidak tersedia</span>';
+                        }
                         strp += '</li>';
                         $("#listkontakperson").append(strp);
-
-                        //personArray.push({ Nama: data.VendorPerson[vp].Nama, Jabatan: data.VendorPerson[vp].Jabatan, Telepon: data.VendorPerson[vp].Telepon, Email: data.VendorPerson[vp].Email });
-                        var strpb = "<li>";
-                        strpb += data.VendorRegExt.IndivContactPersonName ? ' <span class="fa fa-user" title="Nama"> </span> ' + data.VendorRegExt.IndivContactPersonName : "";
-                        //strp += data.VendorPerson[vp].Jabatan ? ' <span class="fa fa-chevron-up"  title="Jabatan"> </span> ' + data.VendorPerson[vp].Jabatan : "";
-                        //strp += data.VendorPerson[vp].Telepon ? ' <span class="fa fa-phone"  title="Telepon"> </span> ' + data.VendorPerson[vp].Telepon : "";
-                        strpb += '</li>';
-                        $("#KeyPersons").append(strpb);
-
+                        
                     }
+                    var vendorPerson = data.VendorPersonExt;
 
                     //Load data Alamat Perusahaan
                     document.querySelector('input[name="VendorRegExt.CountryCode"]').value = data.VendorRegExt.CountryCode;
@@ -2867,14 +2872,16 @@
 
 
                     //Load Data Bank form;
-                    document.querySelector('input[name="VendorBankInfoExt.Branch"]').value = data.VendorBankInfoExt.Branch;
-                    document.querySelector('input[name="VendorBankInfoExt.BankCode"]').value = data.VendorBankInfoExt.BankCode;
-                    document.querySelector('input[name="VendorBankInfoExt.BankAddress"]').value = data.VendorBankInfoExt.BankAddress;
-                    document.querySelector('input[name="VendorBankInfoExt.BankCity"]').value = data.VendorBankInfoExt.BankCity;
-                    document.querySelector('input[name="VendorBankInfoExt.AccNumber"]').value = data.VendorBankInfoExt.AccNumber;
-                    document.querySelector('input[name="VendorBankInfoExt.AccName"]').value = data.VendorBankInfoExt.AccName;
-                    document.querySelector('input[name="VendorBankInfoExt.AccCurrencyCode"]').value = data.VendorBankInfoExt.AccCurrencyCode;
-                    document.querySelector('input[name="VendorBankInfoExt.BankCountry"]').value = data.VendorBankInfoExt.BankCountry;
+                    if (data.VendorBankInfoExt) {
+                        var bBranch = document.querySelector('input[name="VendorBankInfoExt.Branch"]'); if (bBranch) bBranch.value = data.VendorBankInfoExt.Branch || '';
+                        var bCode = document.querySelector('input[name="VendorBankInfoExt.BankCode"]'); if (bCode) bCode.value = data.VendorBankInfoExt.BankCode || '';
+                        var bAddr = document.querySelector('input[name="VendorBankInfoExt.BankAddress"]'); if (bAddr) bAddr.value = data.VendorBankInfoExt.BankAddress || '';
+                        var bCity = document.querySelector('input[name="VendorBankInfoExt.BankCity"]'); if (bCity) bCity.value = data.VendorBankInfoExt.BankCity || '';
+                        var bAccNum = document.querySelector('input[name="VendorBankInfoExt.AccNumber"]'); if (bAccNum) bAccNum.value = data.VendorBankInfoExt.AccNumber || '';
+                        var bAccName = document.querySelector('input[name="VendorBankInfoExt.AccName"]'); if (bAccName) bAccName.value = data.VendorBankInfoExt.AccName || '';
+                        var bAccCur = document.querySelector('input[name="VendorBankInfoExt.AccCurrencyCode"]'); if (bAccCur) bAccCur.value = data.VendorBankInfoExt.AccCurrencyCode || '';
+                        var bBankC = document.querySelector('input[name="VendorBankInfoExt.BankCountry"]'); if (bBankC) bBankC.value = data.VendorBankInfoExt.BankCountry || '';
+                    }
 
                     //Load Data segmentasi form;
                     document.querySelector('input[name="SegBidangUsahaCode"]').value = data.VendorRegExt.SegBidangUsahaCodes;
@@ -3121,11 +3128,9 @@
                             $("#listkontakperson").append(strp);
                         }
                     }
-                    else {
-                        $(".tab-content input[type='text'], .tab-content textarea").val("-");
-                        $(".tab-content input[type='number']").val(0);
-                        $("#tombolProfil, #tombolNPWP, #tombolPKP, #tombolDomisili, #tombolDokumenSertifikatCV, #tombolDokumenCVTenagaAhli, #tombolBuktiKerjasama, #tombolRekeningKoran, #tombolDRT, #tombolAktaPendirian, #tombolSKKemenkumham, #tombolBeritaNegara, #tombolAKTAPERUBAHAN, #tombolSIUP, #tombolSIUJK, #tombolNIB, #tombolSERTIFIKAT, #tombolTDP, #tombolBuktiKepemilikanPeralatan, #tombolFotoPeralatan, #tombolLaporanDataKeuangan").html("<span class='text-muted'>File tidak tersedia</span>");
-                    }
+                        else {
+                            $("#tombolProfil, #tombolPKP, #tombolDomisili, #tombolRekeningKoran, #tombolDRT, #tombolAktaPendirian, #tombolSKKemenkumham, #tombolBeritaNegara, #tombolAKTAPERUBAHAN, #tombolSIUP, #tombolSIUJK, #tombolNIB, #tombolSERTIFIKAT, #tombolTDP, #tombolBuktiKepemilikanPeralatan, #tombolFotoPeralatan, #tombolLaporanDataKeuangan").html("<span class='text-muted'>File tidak tersedia</span>");
+                        }
 
                 }
             });
@@ -3153,6 +3158,15 @@
                                 strp += DOMPurify.sanitize(data.VendorPerson[vp].Nama) ? ' <span class="fa fa-user" title="Nama"> </span> ' + DOMPurify.sanitize(data.VendorPerson[vp].Nama) : "";
                                 strp += data.VendorPerson[vp].Jabatan ? ' <span class="fa fa-chevron-up"  title="Jabatan"> </span> ' + DOMPurify.sanitize(data.VendorPerson[vp].Jabatan) : "";
                                 strp += data.VendorPerson[vp].Telepon ? ' <span class="fa fa-phone"  title="Telepon"> </span> ' + DOMPurify.sanitize(data.VendorPerson[vp].Telepon) : "";
+                                strp += '</li>';
+                                $("#KeyPersons").append(strp);
+                            }
+                        } else {
+                            if (data.VendorRegExt && data.VendorRegExt.IndivContactPersonName) {
+                                var strp = "<li>";
+                                strp += data.VendorRegExt.IndivContactPersonName ? ' <span class="fa fa-user" title="Nama"> </span> ' + DOMPurify.sanitize(data.VendorRegExt.IndivContactPersonName) : "";
+                                strp += data.VendorRegExt.IndivContactPhoneNum ? ' <span class="fa fa-phone"  title="Telepon"> </span> ' + DOMPurify.sanitize(data.VendorRegExt.IndivContactPhoneNum) : "";
+                                strp += data.VendorRegExt.IndivContactEmail ? ' <span class="fa fa-envelope"  title="Email"> </span> ' + DOMPurify.sanitize(data.VendorRegExt.IndivContactEmail) : "";
                                 strp += '</li>';
                                 $("#KeyPersons").append(strp);
                             }

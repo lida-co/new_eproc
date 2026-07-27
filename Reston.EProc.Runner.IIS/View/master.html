@@ -1862,7 +1862,11 @@
                 success: function (data) {
                     //aaData = DOMPurify.sanitize(aaData);
                     console.log(typeof data)
-                    if (typeof data !== "object") return alert("Invalid response format");
+                    if (typeof data !== "object") {
+                        console.error("Invalid response format: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna
+                        return;
+                    }
 
                     for (var i in data) {
                         $(".ParentSegmentasi").append("<option value='" + DOMPurify.sanitize(data[i].Code) + "'>" + DOMPurify.sanitize(data[i].Name) + "</option>");
@@ -1974,7 +1978,12 @@
                     table.ajax.reload();
 
                     // tampilkan response dengan aman
-                    alert(data.message || data);
+                    if (typeof data === "object" && data.message) {
+                        alert(data.message);
+                    } else {
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
+                    }
                 },
                 complete: function (xhr) {
                     ajaxCompleteProcess(xhr);
@@ -2019,7 +2028,12 @@
                     table.ajax.reload();
 
                     // tampilkan response dengan aman
-                    alert(data.message || data);
+                    if (typeof data === "object" && data.message) {
+                        alert(data.message);
+                    } else {
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
+                    }
                 },
                 complete: function (xhr) {
                     ajaxCompleteProcess(xhr);
@@ -2648,7 +2662,12 @@
                     table.ajax.reload();
 
                     // tampilkan aman
-                    alert(data.message || data);
+                    if (typeof data === "object" && data.message) {
+                        alert(data.message);
+                    } else {
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
+                    }
                 },
                 complete: function (xhr) {
                     ajaxCompleteProcess(xhr);
@@ -2680,10 +2699,11 @@
                 success: function (data) {
 
                     // kalau response object
-                    if (typeof data === "object") {
+                    if (typeof data === "object" && data.message) {
                         alert(data.message);
                     } else {
-                        alert(DOMPurify.sanitize(data));
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
                     }
 
                     $("#modal-delete-kategori").modal('hide');
@@ -3064,7 +3084,12 @@
                     table_list_branch.ajax.reload();
 
                     // tampilkan response dengan aman
-                    alert(data.message || data);
+                    if (typeof data === "object" && data.message) {
+                        alert(data.message);
+                    } else {
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
+                    }
                 },
                 complete: function (xhr) {
                     ajaxCompleteProcess(xhr);
@@ -3163,10 +3188,11 @@
                 success: function (data) {
 
                     // handle response object / string
-                    if (typeof data === "object") {
+                    if (typeof data === "object" && data.message) {
                         alert(data.message);
                     } else {
-                        alert(DOMPurify.sanitize(data));
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
                     }
 
                     $("#modal-delete-branch").modal('hide');
@@ -3244,7 +3270,12 @@
                     data = DOMPurify.sanitize(data);
                     $("#modal-create-branchdept").modal('hide');
                     table_coba_branch.ajax.reload();
-                    alert(data);
+                    if (typeof data === "object" && data.message) {
+                        alert(data.message);
+                    } else {
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
+                    }
                 },
                 complete: function () {
                     table_coba_branch.ajax.reload();
@@ -3336,10 +3367,11 @@
                 data: JSON.stringify({ id: id }),
                 success: function (data) {
 
-                    if (typeof data === "object") {
+                    if (typeof data === "object" && data.message) {
                         alert(data.message);
                     } else {
-                        alert(DOMPurify.sanitize(data));
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
                     }
 
                     $("#modal-delete-branchdept").modal('hide');
@@ -3471,7 +3503,12 @@
                     table_list.ajax.reload();
 
                     // tampilkan response dengan aman
-                    alert(data.message || data);
+                    if (typeof data === "object" && data.message) {
+                        alert(data.message);
+                    } else {
+                        console.error("API Response Error: ", data);
+                        // Alert dihilangkan agar tidak mengganggu layar pengguna (Silent Error)
+                    }
                 },
                 complete: function (xhr) {
                     ajaxCompleteProcess(xhr);
@@ -3567,10 +3604,11 @@
                 success: function (data) {
 
                     // kalau response object
-                    if (typeof data === "object") {
+                    if (typeof data === "object" && data.message) {
                         alert(data.message);
                     } else {
-                        alert(DOMPurify.sanitize(data));
+                        console.error("API Response Error: ", data);
+                        alert("Terjadi kesalahan sistem dari sisi server. Mohon hubungi Administrator.");
                     }
 
                     $("#modal-delete-department").modal('hide');
