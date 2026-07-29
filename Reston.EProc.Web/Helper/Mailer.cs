@@ -33,6 +33,22 @@ namespace Reston.Pinata.WebService.Helper
 
         public static bool sendText(string ToName, string ToEmail, string FromName, string FromEmail, string Subject, string Content)
         {
+            if (ConfigurationManager.AppSettings["BypassSmtp"] == "true")
+            {
+                try
+                {
+                    var appBAse = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    var path = appBAse + @"\log\email.txt";
+                    System.IO.File.AppendAllText(path, Environment.NewLine + DateTime.Now.ToString() + " [BYPASS] " + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Email Pengirim " + FromEmail + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Email Penerima " + ToEmail + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Subject " + Subject + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Sukses Terkirim (Bypass)" + Environment.NewLine);
+                }
+                catch { }
+                return true;
+            }
+
             MailAddress from = new MailAddress(FromEmail, FromName);
             MailAddress to = new MailAddress(ToEmail, ToName);
 
@@ -90,6 +106,23 @@ namespace Reston.Pinata.WebService.Helper
 
         public static bool sendText2(string ToName, string ToEmail, string BccEmail, string FromName, string FromEmail, string Subject, string Content)
         {
+            if (ConfigurationManager.AppSettings["BypassSmtp"] == "true")
+            {
+                try
+                {
+                    var appBAse = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    var path = appBAse + @"\log\email.txt";
+                    System.IO.File.AppendAllText(path, Environment.NewLine + DateTime.Now.ToString() + " [BYPASS] " + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Email Pengirim " + FromEmail + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Email Penerima " + ToEmail + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Bcc " + BccEmail + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Subject " + Subject + Environment.NewLine);
+                    System.IO.File.AppendAllText(path, "Sukses Terkirim (Bypass)" + Environment.NewLine);
+                }
+                catch { }
+                return true;
+            }
+
             var semuapersonel = new List<string>(BccEmail.Split(",".ToCharArray()));
 
             MailAddress from = new MailAddress(FromEmail, FromName);

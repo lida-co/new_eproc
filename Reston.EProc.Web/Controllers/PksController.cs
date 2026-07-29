@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -141,6 +141,10 @@ namespace Reston.Pinata.WebService.Controllers
             try
             {
                 var oPks = _repository.detail(Id, UserId());
+                if (oPks == null)
+                {
+                    return Json(new VWPks());
+                }
                 DateTime uhuy = oPks.TanggalSelesai.GetValueOrDefault(DateTime.Now);
                 long n = long.Parse(DateTime.Now.ToString("yyyyMMdd"));
                 long i = long.Parse(uhuy.ToString("yyyyMMdd"));
