@@ -515,7 +515,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group label-statuspajak pkpfield">
-                                                                <label class="col-sm-2 control-label">Nomor PKP</label>
+                                                                <label class="col-sm-2 control-label">Nomor PKP <span class="req">*</span></label>
                                                                 <div class="col-sm-10">
                                                                     <input name="PKP.Nomor" type="text" maxlength="1000"
                                                                         class="form-control required pkpfield">
@@ -523,7 +523,7 @@
                                                             </div>
                                                             <div class="form-group label-statuspajak pkpfield">
                                                                 <label class="col-sm-2 control-label">Dokumen
-                                                                    PKP</label>
+                                                                    PKP <span class="req">*</span></label>
                                                                 <div class="col-sm-4">
                                                                     <div id="FilePKP"
                                                                         action="api/RegistrasiVendorExt/UploadFile?tipe=NPWP">
@@ -1862,10 +1862,9 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label
-                                                                class="col-sm-2 control-label label-tenagaahli">Nama</label>
+                                                                class="col-sm-2 control-label label-tenagaahli">Nama <span class="req">*</span></label>
                                                             <label
-                                                                class="col-sm-2 control-label label-perorangantenagaahli">Nama
-                                                            </label>
+                                                                class="col-sm-2 control-label label-perorangantenagaahli">Nama <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorHumanResourceExt[0].ResourceFullName"
                                                                     type="text" maxlength="100"
@@ -1875,10 +1874,10 @@
                                                         <div class="form-group">
                                                             <label
                                                                 class="col-sm-2 control-label label-tenagaahli">Tanggal
-                                                                Lahir</label>
+                                                                Lahir <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-perorangantenagaahli">Tanggal
-                                                                Lahir </label>
+                                                                Lahir <span class="req">*</span></label>
                                                             <div class="col-sm-2">
                                                                 <input
                                                                     name="VendorHumanResourceExt[0].ResourceDateOfBirth"
@@ -1888,9 +1887,9 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label
-                                                                class="col-sm-2 control-label label-tenagaahli">Pendidikan</label>
+                                                                class="col-sm-2 control-label label-tenagaahli">Pendidikan <span class="req">*</span></label>
                                                             <label
-                                                                class="col-sm-2 control-label label-perorangantenagaahli">Pendidikan</label>
+                                                                class="col-sm-2 control-label label-perorangantenagaahli">Pendidikan <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <select id="Pendidikan"
                                                                     name="VendorHumanResourceExt[0].ResourceLastEduCode"
@@ -1908,10 +1907,9 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label
-                                                                class="col-sm-2 control-label label-tenagaahli">Pengalaman(Tahun)</label>
+                                                                class="col-sm-2 control-label label-tenagaahli">Pengalaman(Tahun) <span class="req">*</span></label>
                                                             <label
-                                                                class="col-sm-2 control-label label-perorangantenagaahli">Pengalaman(Tahun)
-                                                            </label>
+                                                                class="col-sm-2 control-label label-perorangantenagaahli">Pengalaman(Tahun) <span class="req">*</span></label>
                                                             <div class="col-sm-2">
                                                                 <input
                                                                     name="VendorHumanResourceExt[0].ResourceExperienceCode"
@@ -1921,10 +1919,9 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label
-                                                                class="col-sm-2 control-label label-tenagaahli">Profesi/Keahlian</label>
+                                                                class="col-sm-2 control-label label-tenagaahli">Profesi/Keahlian <span class="req">*</span></label>
                                                             <label
-                                                                class="col-sm-2 control-label label-perorangantenagaahli">Profesi/Keahlian
-                                                            </label>
+                                                                class="col-sm-2 control-label label-perorangantenagaahli">Profesi/Keahlian <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input
                                                                     name="VendorHumanResourceExt[0].ResourceExpertise"
@@ -1933,7 +1930,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2">Dokumen/Sertifikat</label>
+                                                            <label class="col-sm-2 control-label">Dokumen/Sertifikat <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <div id="FileDokumenSertifikatCV"
                                                                     action="api/RegistrasiVendorExt/UploadFile?tipe=FileSertifikasiTenagaAhli">
@@ -1947,7 +1944,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2">CV </label>
+                                                            <label class="col-sm-2 control-label">CV <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <div id="FileCVTenagaAhli"
                                                                     action="api/RegistrasiVendorExt/UploadFile?tipe=FileCVTenagaAhli">
@@ -1994,7 +1991,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group form-peralatan">
-                                                            <label class="col-sm-2 control-label">Jenis </label>
+                                                            <label class="col-sm-2 control-label">Jenis <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorEquipmentExt[0].EquipmentName"
                                                                     type="text" maxlength="100"
@@ -2002,7 +1999,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group form-peralatan">
-                                                            <label class="col-sm-2 control-label">Jumlah</label>
+                                                            <label class="col-sm-2 control-label">Jumlah <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorEquipmentExt[0].EquipmentQty"
                                                                     type="text" maxlength="100"
@@ -2010,7 +2007,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group form-peralatan">
-                                                            <label class="col-sm-2 control-label">Kapasitas</label>
+                                                            <label class="col-sm-2 control-label">Kapasitas <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorEquipmentExt[0].EquipmentCapacity"
                                                                     type="text" maxlength="100"
@@ -2018,7 +2015,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group form-peralatan">
-                                                            <label class="col-sm-2 control-label">Merk/Tipes</label>
+                                                            <label class="col-sm-2 control-label">Merk/Tipes <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorEquipmentExt[0].EquipmentMake"
                                                                     type="text" maxlength="100"
@@ -2027,7 +2024,7 @@
                                                         </div>
                                                         <div class="form-group form-peralatan">
                                                             <label class="col-sm-2 control-label">Tahun
-                                                                Pembuatan</label>
+                                                                Pembuatan <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <input name="VendorEquipmentExt[0].EquipmentMakeYear"
                                                                     type="number" maxlength="4"
@@ -2035,7 +2032,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group form-peralatan">
-                                                            <label class="col-sm-2 control-label">Kondisi</label>
+                                                            <label class="col-sm-2 control-label">Kondisi <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <select id="sub_kategori"
                                                                     name="VendorEquipmentExt[0].EquipmentConditionCode"
@@ -2048,7 +2045,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group form-peralatan">
-                                                            <label class="col-sm-2 control-label">Lokasi</label>
+                                                            <label class="col-sm-2 control-label">Lokasi <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorEquipmentExt[0].EquipmentLocation"
                                                                     type="text" maxlength="100"
@@ -2057,7 +2054,7 @@
                                                         </div>
                                                         <div class="form-group form-peralatan">
                                                             <label class="col-sm-2 control-label">Dokumen Bukti
-                                                                Kepemilikan/Foto Dokumentasi</label>
+                                                                Kepemilikan/Foto Dokumentasi <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <div id="FileVendorEquipmentExt1"
                                                                     action="api/RegistrasiVendorExt/UploadFile?tipe=FileVendorEquipmentExt1">
@@ -2071,8 +2068,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group form-peralatan">
-                                                            <label class="col-sm-2 control-label">Foto atau Gambar
-                                                            </label>
+                                                            <label class="col-sm-2 control-label">Foto atau Gambar <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <div id="FileVendorEquipmentExt2"
                                                                     action="api/RegistrasiVendorExt/UploadFile?tipe=FileVendorEquipmentExt2">
@@ -2136,10 +2132,10 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label label-pengalaman">Nama
-                                                                Pekerjaan</label>
+                                                                Pekerjaan <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Nama
-                                                                Pekerjaan </label>
+                                                                Pekerjaan <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorJobHistoryExt[0].JobTitle"
                                                                     type="text" maxlength="200"
@@ -2149,10 +2145,10 @@
                                                         <div class="form-group">
                                                             <label
                                                                 class="col-sm-2 control-label label-pengalaman">Lokasi
-                                                                Pekerjaan</label>
+                                                                Pekerjaan <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Lokasi
-                                                                Pekerjaan</label>
+                                                                Pekerjaan <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorJobHistoryExt[0].JobLocation"
                                                                     type="text" maxlength="100"
@@ -2161,10 +2157,10 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label label-pengalaman">Nama
-                                                                Mitra/Client</label>
+                                                                Mitra/Client <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Nama
-                                                                Mitra/Client</label>
+                                                                Mitra/Client <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorJobHistoryExt[0].JobClient"
                                                                     type="text" maxlength="100"
@@ -2173,10 +2169,10 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label label-pengalaman">Jenis
-                                                                Pekerjaan</label>
+                                                                Pekerjaan <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Jenis
-                                                                Pekerjaan</label>
+                                                                Pekerjaan <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorJobHistoryExt[0].JobType" type="text"
                                                                     maxlength="1000" class="form-control required">
@@ -2194,10 +2190,10 @@
                                                         </div>-->
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label label-pengalaman">Mulai
-                                                                Kerjasama</label>
+                                                                Kerjasama <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Mulai
-                                                                Kerjasama </label>
+                                                                Kerjasama <span class="req">*</span></label>
                                                             <div class="col-sm-2">
                                                                 <input name="VendorJobHistoryExt[0].JobStartDate"
                                                                     type="text" class="form-control datepicker"
@@ -2206,10 +2202,10 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label label-pengalaman">No.
-                                                                Kontrak</label>
+                                                                Kontrak <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">No.
-                                                                Kontrak</label>
+                                                                Kontrak <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorJobHistoryExt[0].JobContractNum"
                                                                     type="text" maxlength="1000"
@@ -2219,10 +2215,10 @@
                                                         <div class="form-group">
                                                             <label
                                                                 class="col-sm-2 control-label label-pengalaman">Tanggal
-                                                                Kontrak</label>
+                                                                Kontrak <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Tanggal
-                                                                Kontrak </label>
+                                                                Kontrak <span class="req">*</span></label>
                                                             <div class="col-sm-2">
                                                                 <input name="VendorJobHistoryExt[0].JobContractDate"
                                                                     type="text" class="form-control datepicker"
@@ -2231,10 +2227,10 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label label-pengalaman">Nilai
-                                                                Kontrak</label>
+                                                                Kontrak <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Nilai
-                                                                Kontrak </label>
+                                                                Kontrak <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorJobHistoryExt[0].JobContractAmount"
                                                                     type="number" min="0" step="0.001" placeholder="0.0"
@@ -2242,7 +2238,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Mata Uang </label>
+                                                            <label class="col-sm-2 control-label">Mata Uang <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <select id="sub_kategori"
                                                                     name="VendorJobHistoryExt[0].JobContractAmountCurrencyCode"
@@ -2254,10 +2250,10 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label label-pengalaman">Bukti
-                                                                Kerjasama </label>
+                                                                Kerjasama <span class="req">*</span></label>
                                                             <label
                                                                 class="col-sm-2 control-label label-peroranganpengalaman">Bukti
-                                                                Kerjasama </label>
+                                                                Kerjasama <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <div id="FileBuktiKerjasama"
                                                                     action="api/RegistrasiVendorExt/UploadFile?tipe=base64">
@@ -2308,7 +2304,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Tahun </label>
+                                                            <label class="col-sm-2 control-label">Tahun <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorFinStatementExt.FinStmtYear"
                                                                     type="number" maxlength="4"
@@ -2316,7 +2312,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Mata Uang</label>
+                                                            <label class="col-sm-2 control-label">Mata Uang <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <select id="sub_kategori_neracakeuangan"
                                                                     name="VendorFinStatementExt.FinStmtCurrencyCode"
@@ -2328,7 +2324,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label">Aktiva Lancar
-                                                                (AL)</label>
+                                                                (AL) <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorFinStatementExt.FinStmtAktivaLancar"
                                                                     type="number" placeholder="0.0" step="0.001" min="0"
@@ -2337,7 +2333,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label">Hutang Lancar
-                                                                (HL)</label>
+                                                                (HL) <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorFinStatementExt.FinStmtHutangLancar"
                                                                     type="number" placeholder="0.0" step="0.001" min="0"
@@ -2346,7 +2342,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label">Rasio Likuiditas
-                                                                (CR)</label>
+                                                                (CR) <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input
                                                                     name="VendorFinStatementExt.FinStmtRasioLikuiditas"
@@ -2356,7 +2352,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label">Total Hutang
-                                                                (TH)</label>
+                                                                (TH) <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorFinStatementExt.FinStmtTotalHutang"
                                                                     type="number" placeholder="0.0" step="0.001" min="0"
@@ -2364,7 +2360,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Ekuitas (E)</label>
+                                                            <label class="col-sm-2 control-label">Ekuitas (E) <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorFinStatementExt.FinStmtEkuitas"
                                                                     type="number" placeholder="0.0" step="0.001" min="0"
@@ -2373,7 +2369,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label">Rasio Hutang
-                                                                (DER)</label>
+                                                                (DER) <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input
                                                                     name="VendorFinStatementExt.FinStmtDebtToEquityRatio"
@@ -2383,7 +2379,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-2 control-label">Rugi/Laba Bersih
-                                                                (RL)</label>
+                                                                (RL) <span class="req">*</span></label>
                                                             <div class="col-sm-10">
                                                                 <input name="VendorFinStatementExt.FinStmtNetProfitLoss"
                                                                     type="number" placeholder="0.0" step="0.001" min="0"
@@ -2391,7 +2387,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Return Of Equity (ROE)
+                                                            <label class="col-sm-2 control-label">Return Of Equity (ROE) <span class="req">*</span>
                                                             </label>
                                                             <div class="col-sm-4">
                                                                 <input
@@ -2401,7 +2397,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Kas (K) </label>
+                                                            <label class="col-sm-2 control-label">Kas (K) <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <input name="VendorFinStatementExt.FinStmtKas"
                                                                     type="number" placeholder="0.0" step="0.001" min="0"
@@ -2409,7 +2405,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Total Aktiva </label>
+                                                            <label class="col-sm-2 control-label">Total Aktiva <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <input name="VendorFinStatementExt.FinStmtTotalAktiva"
                                                                     type="number" placeholder="0.0" step="0.001" min="0"
@@ -2417,7 +2413,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Status </label>
+                                                            <label class="col-sm-2 control-label">Status <span class="req">*</span></label>
                                                             <div class="col-sm-4">
                                                                 <select id="sub_kategori"
                                                                     name="VendorFinStatementExt.FinStmtAuditStatusCode"
@@ -2429,7 +2425,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label">Laporan Keuangan
+                                                            <label class="col-sm-2 control-label">Laporan Keuangan <span class="req">*</span>
                                                             </label>
                                                             <div class="col-sm-4">
                                                                 <div id="FileVendorFinStatementExt"
