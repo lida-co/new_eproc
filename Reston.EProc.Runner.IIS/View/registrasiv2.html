@@ -432,7 +432,8 @@
                                                                 <div class="col-sm-10">
                                                                     <input name="IndivGiid.Nomor" type="text"
                                                                         maxlength="20" class="form-control required">
-                                                                    <input name="VendorRegExt.IndivGiidNo" type="hidden">
+                                                                    <input name="VendorRegExt.IndivGiidNo"
+                                                                        type="hidden">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group label-perorangan">
@@ -454,7 +455,8 @@
                                                                     <input name="IndivGiid.TanggalBerakhir" type="text"
                                                                         class="form-control datepicker"
                                                                         placeholder="Tanggal">
-                                                                    <input name="VendorRegExt.IndivGiidValidUntil" type="hidden">
+                                                                    <input name="VendorRegExt.IndivGiidValidUntil"
+                                                                        type="hidden">
                                                                 </div>
                                                             </div>
 
@@ -4322,6 +4324,51 @@
                 //        v = false;
                 //    }
                 //}
+            }
+
+            // Validasi upload file Surat Pernyataan
+            if ($("[name='SuratPernyataanPengadaan.base64']").length > 0 && $("[name='SuratPernyataanPengadaan.base64']").val() == '') {
+                $("#FileSuratPernyataanPengadaan").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanEtika.base64']").length > 0 && $("[name='SuratPernyataanEtika.base64']").val() == '') {
+                $("#FileSuratPernyataanEtika").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanKerahasiaan.base64']").length > 0 && $("[name='SuratPernyataanKerahasiaan.base64']").val() == '') {
+                $("#FileSuratPernyataanKerahasiaan").addClass('form-validation-error');
+                v = false;
+            }
+
+            // Validasi PAC
+            for (var i = 1; i <= 4; i++) {
+                var pacStatus = $("[name='PacStatus" + i + "']").val();
+                if (!pacStatus || pacStatus == '') {
+                    $("[name='PacStatus" + i + "']").addClass('form-validation-error');
+                    v = false;
+                } else if (pacStatus == 'Sudah') {
+                    if ($("[name='PacPenjelasan" + i + "']").val() == '') {
+                        $("[name='PacPenjelasan" + i + "']").addClass('form-validation-error');
+                        v = false;
+                    }
+                    if ($("[name='PacDokumen" + i + ".base64']").length > 0 && $("[name='PacDokumen" + i + ".base64']").val() == '') {
+                        $("#FilePacDokumen" + i).addClass('form-validation-error');
+                        v = false;
+                    }
+                } else if (pacStatus == 'Belum') {
+                    if ($("[name='PacPenjelasan" + i + "']").val() == '') {
+                        $("[name='PacPenjelasan" + i + "']").addClass('form-validation-error');
+                        v = false;
+                    }
+                    if ($("[name='PacKomitmen" + i + "']").val() == '') {
+                        $("[name='PacKomitmen" + i + "']").addClass('form-validation-error');
+                        v = false;
+                    }
+                    if ($("[name='PacTargetDate" + i + "']").val() == '') {
+                        $("[name='PacTargetDate" + i + "']").addClass('form-validation-error');
+                        v = false;
+                    }
+                }
             }
 
             if (v && cekNonIT && cekSegmentasi && alat && cekNonITAhli) {

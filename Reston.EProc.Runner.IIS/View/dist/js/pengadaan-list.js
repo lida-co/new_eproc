@@ -121,9 +121,6 @@ $(function () {
         location.href = 'purchase-requests-add.html';
     });
     $(".perhatian").on("click", function () {
-        $("#rpelaksanaan").hide();
-        $("#rterjadwal").hide();
-        $("#rarsip").hide();
         var start = $(this).attr("start");
         var count = $(".list-arsip").children().length;
         var nextStrart = count;
@@ -137,9 +134,6 @@ $(function () {
         $("#terjadwal").html("Berikutnya");
     });
     $(".pelaksanaan").on("click", function () {
-        $("#perlu_perhatian").hide();
-        $("#rterjadwal").hide();
-        $("#rarsip").hide();
         var start = $(this).attr("start");
         var count = $(".dalam-pelaksanaa").children().length;
         var nextStrart = count;
@@ -153,9 +147,6 @@ $(function () {
         $("#terjadwal").html("Berikutnya");
     });
     $(".terjadwal").on("click", function () {
-        $("#rpelaksanaan").hide();
-        $("#perlu_perhatian").hide();
-        $("#rarsip").hide();
         var start = $(this).attr("start");
         var count = $(".belum-terjadwal").children().length;
         var nextStrart = count;
@@ -169,9 +160,6 @@ $(function () {
         $("#arsip").html("Berikutnya");
     });
     $(".arsip").on("click", function () {
-        $("#perlu_perhatian").hide();
-        $("#rpelaksanaan").hide();
-        $("#rterjadwal").hide();
         var start = $(this).attr("start");
         var count = $(".list-arsip").children().length;
         var nextStrart = count;

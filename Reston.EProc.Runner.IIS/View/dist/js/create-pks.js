@@ -434,6 +434,9 @@ $(function () {
         $("#pksId").val("");
         $(".ajukan").hide();
         $(".Hapus").hide();
+        
+        // Membuka kunci field input agar bisa diisi secara manual
+        $(".input-pks").attr("disabled", false);
 
         waitingDialog.hideloading();
     });
@@ -1058,7 +1061,8 @@ $(function () {
         $.ajax({
             url: "Api/Pks/Save",
             method: "POST",
-            data: pks,
+            contentType: "application/json",
+            data: JSON.stringify(pks),
             headers: headers,
             error: function (xhr) {
                 waitingDialog.hideloading();
@@ -1081,11 +1085,15 @@ $(function () {
 
                 // 🔹 3. Setujui
                 $.ajax({
-                    url: "Api/Pks/Setujui?Id=" + encodeURIComponent(IdPks) +
-                        "&Note=" + encodeURIComponent(Note) +
-                        "&NoPks=" + encodeURIComponent(NoPks),
+                    url: "Api/Pks/Setujui",
                     method: "POST",
+                    contentType: "application/json",
                     headers: headers,
+                    data: JSON.stringify({
+                        Id: IdPks,
+                        Note: Note,
+                        NoPks: NoPks
+                    }),
                     error: function (xhr) {
                         waitingDialog.hideloading();
                         alert("Gagal setujui PKS");
@@ -1095,6 +1103,7 @@ $(function () {
 
                     table.draw();
                     $("#KonfirmasiSetujui").modal("hide");
+                    $("#KonfirmasiDone").modal("hide"); // Also hide the Done modal
 
                     var msg = data && data.message ? data.message : "Berhasil";
 
