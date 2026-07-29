@@ -1238,9 +1238,9 @@
                                                     <table class="table table-bordered table-hover" style="width:100%;">
                                                         <tr class="label-dokumen">
                                                             <th>Jenis Dokumen</th>
-                                                            <th>No. Dokumen</th>
-                                                            <th>Penerbit/Pembuat</th>
-                                                            <th>Tanggal Terbit</th>
+                                                            <th>No. Dokumen<span class="req">*</span></th>
+                                                            <th>Penerbit/Pembuat<span class="req">*</span></th>
+                                                            <th>Tanggal Terbit<span class="req">*</span></th>
                                                             <th>Tanggal Berakhir</th>
                                                             <th>Upload File</th>
                                                         </tr>
@@ -1621,11 +1621,16 @@
                                                             <tr class="bg-primary">
                                                                 <th style="width: 5%">No</th>
                                                                 <th style="width: 30%">Kriteria</th>
-                                                                <th style="width: 10%">Status Pemenuhan</th>
-                                                                <th style="width: 15%">Penjelasan/Alasan</th>
-                                                                <th style="width: 15%">Dokumen Pendukung</th>
-                                                                <th style="width: 15%">Komitmen / Action Plan</th>
-                                                                <th style="width: 10%">Target Date Komitmen</th>
+                                                                <th style="width: 10%">Status Pemenuhan<span
+                                                                        class="req">*</span></th>
+                                                                <th style="width: 15%">Penjelasan/Alasan<span
+                                                                        class="req">*</span></th>
+                                                                <th style="width: 15%">Dokumen Pendukung<span
+                                                                        class="req">*</span></th>
+                                                                <th style="width: 15%">Komitmen / Action Plan<span
+                                                                        class="req">*</span></th>
+                                                                <th style="width: 10%">Target Date Komitmen<span
+                                                                        class="req">*</span></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -4331,12 +4336,50 @@
                 $("#FileSuratPernyataanPengadaan").addClass('form-validation-error');
                 v = false;
             }
+            if ($("[name='SuratPernyataanPengadaan.Nomor']").length > 0 && $("[name='SuratPernyataanPengadaan.Nomor']").val() == '') {
+                $("[name='SuratPernyataanPengadaan.Nomor']").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanPengadaan.Pembuat']").length > 0 && $("[name='SuratPernyataanPengadaan.Pembuat']").val() == '') {
+                $("[name='SuratPernyataanPengadaan.Pembuat']").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanPengadaan.TanggalTerbit']").length > 0 && $("[name='SuratPernyataanPengadaan.TanggalTerbit']").val() == '') {
+                $("[name='SuratPernyataanPengadaan.TanggalTerbit']").addClass('form-validation-error');
+                v = false;
+            }
+
             if ($("[name='SuratPernyataanEtika.base64']").length > 0 && $("[name='SuratPernyataanEtika.base64']").val() == '') {
                 $("#FileSuratPernyataanEtika").addClass('form-validation-error');
                 v = false;
             }
+            if ($("[name='SuratPernyataanEtika.Nomor']").length > 0 && $("[name='SuratPernyataanEtika.Nomor']").val() == '') {
+                $("[name='SuratPernyataanEtika.Nomor']").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanEtika.Pembuat']").length > 0 && $("[name='SuratPernyataanEtika.Pembuat']").val() == '') {
+                $("[name='SuratPernyataanEtika.Pembuat']").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanEtika.TanggalTerbit']").length > 0 && $("[name='SuratPernyataanEtika.TanggalTerbit']").val() == '') {
+                $("[name='SuratPernyataanEtika.TanggalTerbit']").addClass('form-validation-error');
+                v = false;
+            }
+
             if ($("[name='SuratPernyataanKerahasiaan.base64']").length > 0 && $("[name='SuratPernyataanKerahasiaan.base64']").val() == '') {
                 $("#FileSuratPernyataanKerahasiaan").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanKerahasiaan.Nomor']").length > 0 && $("[name='SuratPernyataanKerahasiaan.Nomor']").val() == '') {
+                $("[name='SuratPernyataanKerahasiaan.Nomor']").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanKerahasiaan.Pembuat']").length > 0 && $("[name='SuratPernyataanKerahasiaan.Pembuat']").val() == '') {
+                $("[name='SuratPernyataanKerahasiaan.Pembuat']").addClass('form-validation-error');
+                v = false;
+            }
+            if ($("[name='SuratPernyataanKerahasiaan.TanggalTerbit']").length > 0 && $("[name='SuratPernyataanKerahasiaan.TanggalTerbit']").val() == '') {
+                $("[name='SuratPernyataanKerahasiaan.TanggalTerbit']").addClass('form-validation-error');
                 v = false;
             }
 
