@@ -776,7 +776,7 @@ namespace Reston.Eproc.Model.Ext
 
             if (!string.IsNullOrEmpty(search))
             {
-                tp.data = tp.data.Where(d => d.NamaVendor.Contains(search) || d.NomorVendor.Contains(search)).ToList();
+                tp.data = tp.data.Where(d => (d.NamaVendor?.Contains(search) ?? false) || (d.NomorVendor?.Contains(search) ?? false)).ToList();
             }
 
             if (!string.IsNullOrEmpty(status))
@@ -941,7 +941,7 @@ namespace Reston.Eproc.Model.Ext
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    dtTableAdd.data = dtTableAdd.data.Where(d => d.NamaVendor.Contains(search) || d.NomorVendor.Contains(search)).ToList();
+                    dtTableAdd.data = dtTableAdd.data.Where(d => (d.NamaVendor?.Contains(search) ?? false) || (d.NomorVendor?.Contains(search) ?? false)).ToList();
                 }
             }
 
@@ -971,7 +971,7 @@ namespace Reston.Eproc.Model.Ext
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    dtTable.data = dtTable.data.Where(d => d.NamaVendor.Contains(search) || d.NomorVendor.Contains(search)).ToList();
+                    dtTable.data = dtTable.data.Where(d => (d.NamaVendor?.Contains(search) ?? false) || (d.NomorVendor?.Contains(search) ?? false)).ToList();
                 }
             }
 
