@@ -160,10 +160,34 @@ namespace Reston.EProc.Web.Modules.EMemo.Services
                 // Filter by Status
                 if (!string.IsNullOrEmpty(filter.StatusCode))
                 {
-                    // right now only draft filter is working
                     if (filter.StatusCode.Equals("0"))
                     {
                         query = query.Where(e => e.IsDraft == 1);
+                    }
+                    else if (filter.StatusCode.Equals("1"))
+                    {
+                        // Validasi
+                        query = query.Where(e => e.IsDraft != 1 && db.ApprovalWorkflows.Any(wfh => wfh.EMemoId == e.Id && (wfh.WorkflowState == ApprovalWorkflowState.BEGIN || wfh.WorkflowState == ApprovalWorkflowState.VALIDATORS_PARTIALLY_APPROVE)));
+                    }
+                    else if (filter.StatusCode.Equals("2"))
+                    {
+                        // Validasi Ditolak
+                        query = query.Where(e => e.IsDraft != 1 && db.ApprovalWorkflows.Any(wfh => wfh.EMemoId == e.Id && (wfh.WorkflowState == ApprovalWorkflowState.REJECTED || wfh.WorkflowState == ApprovalWorkflowState.REVISION)));
+                    }
+                    else if (filter.StatusCode.Equals("3"))
+                    {
+                        // Approval Request
+                        query = query.Where(e => e.IsDraft != 1 && db.ApprovalWorkflows.Any(wfh => wfh.EMemoId == e.Id && (wfh.WorkflowState == ApprovalWorkflowState.VALIDATORS_FULLY_APPROVE || wfh.WorkflowState == ApprovalWorkflowState.APPROVERS_PARTIALLY_APPROVE)));
+                    }
+                    else if (filter.StatusCode.Equals("4"))
+                    {
+                        // Approval Reject
+                        query = query.Where(e => e.IsDraft != 1 && db.ApprovalWorkflows.Any(wfh => wfh.EMemoId == e.Id && (wfh.WorkflowState == ApprovalWorkflowState.REJECTED || wfh.WorkflowState == ApprovalWorkflowState.REVISION)));
+                    }
+                    else if (filter.StatusCode.Equals("5"))
+                    {
+                        // Approved
+                        query = query.Where(e => e.IsDraft != 1 && db.ApprovalWorkflows.Any(wfh => wfh.EMemoId == e.Id && (wfh.WorkflowState == ApprovalWorkflowState.APPROVERS_FULLY_APPROVE || wfh.WorkflowState == ApprovalWorkflowState.FINAL_APPROVERS_FULLY_APPROVE)));
                     }
                     else
                     {
