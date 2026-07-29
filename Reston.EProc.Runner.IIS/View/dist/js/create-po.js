@@ -296,7 +296,7 @@ $(function () {
             url: "Api/PO/delete?Id=" + $("#Id").val(),
             method: "POST",
         }).done(function (data) {
-            window.location.replace("http://" + window.location.host + "/PO.html");
+            window.location.replace(window.location.protocol + "//" + window.location.host + "/PO.html");
             waitingDialog.hideloading();
         });
 

@@ -441,7 +441,8 @@ $(function () {
         waitingDialog.hideloading();
     });
 
-    $(".Simpan").on("click", function () {
+    $(".Simpan").on("click", function (e) {
+        e.preventDefault();
         var pks = {};
         pks.Note = $("#note").val();
         pks.TanggalMulaiStr = moment($("#tanggal-mulai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
@@ -459,7 +460,8 @@ $(function () {
 
     });
 
-    $(".Simpan-Setuju").on("click", function () {
+    $(".Simpan-Setuju").on("click", function (e) {
+        e.preventDefault();
         var pks = {};
         pks.Note = $("#note").val();
         pks.TanggalMulaiStr = moment($("#tanggal-mulai").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY");
@@ -476,7 +478,8 @@ $(function () {
             savesetuju(pks);
     });
 
-    $(".ajukan").on("click", function () {
+    $(".ajukan").on("click", function (e) {
+        e.preventDefault();
         var pks = {};
         pks.Note = $("#note").val();
         pks.Title = $("#title-pks").val();
@@ -519,7 +522,7 @@ $(function () {
             method: "POST",
         }).done(function (data) {
             loadDetail($("#pksId").val());
-            window.location.replace("http://" + window.location.host + "/pks.html");
+            window.location.replace(window.location.protocol + "//" + window.location.host + "/pks.html");
             waitingDialog.hideloading();
 
         });
@@ -796,8 +799,16 @@ function save(pks) {
         headers: headers,
         data: JSON.stringify(pks), 
         success: function (data) {
+            var newId = data.data?.Id || data.Id;
+            if (newId) {
+                try {
+                    history.replaceState(null, '', 'create-pks.html?id=' + newId);
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
 
-            loadDetail(data.data?.Id || data.Id);
+            loadDetail(newId);
 
             waitingDialog.hideloading();
 
@@ -864,6 +875,11 @@ function savesetuju(pks) {
     }).done(function (data) {
 
         if (data && data.Id) {
+            try {
+                history.replaceState(null, '', 'create-pks.html?id=' + data.Id);
+            } catch (e) {
+                console.warn(e);
+            }
             loadDetail(data.Id);
         }
 
@@ -891,6 +907,11 @@ function ajukan() {
         method: "POST",
     }).done(function (data) {
         if (data.Id != "") {
+            try {
+                history.replaceState(null, '', 'create-pks.html?id=' + data.Id);
+            } catch (e) {
+                console.warn(e);
+            }
             $(".ajukan").remove();
             $(".Hapus").remove();
             $(".Simpan-Setuju").remove();
@@ -1120,6 +1141,11 @@ $(function () {
                         }]
                     });
 
+                    try {
+                        history.replaceState(null, '', 'create-pks.html?id=' + IdPks);
+                    } catch (e) {
+                        console.warn(e);
+                    }
                     loadDetail(IdPks);
                     $(".Hapus").remove();
                     $(".done").remove();

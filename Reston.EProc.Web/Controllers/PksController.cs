@@ -424,8 +424,13 @@ namespace Reston.Pinata.WebService.Controllers
                 fileName += newGuid.ToString() + "." + extension;
                 // var uploadPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase; //new PhysicalFileSystem(@"..\Reston.Pinata\WebService\Upload\Vendor\Dokumen\");
 
-                try
+                 try
                 {
+                    var fullDirectoryPath = Path.GetDirectoryName(uploadPath.ToString() + filePathSave);
+                    if (!Directory.Exists(fullDirectoryPath))
+                    {
+                        Directory.CreateDirectory(fullDirectoryPath);
+                    }
                     FileStream fs = new FileStream(uploadPath.ToString() + filePathSave, FileMode.CreateNew);
                     await fs.WriteAsync(buffer, 0, buffer.Length);
 

@@ -1131,7 +1131,7 @@ $(function () {
             url: "Api/Spk/delete?Id=" + $("#spkId").val(),
             method: "POST",
         }).done(function (data) {
-            window.location.replace("http://" + window.location.host + "/spk.html");
+            window.location.replace(window.location.protocol + "//" + window.location.host + "/spk.html");
             waitingDialog.hideloading();
 
         });
