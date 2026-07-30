@@ -84,8 +84,10 @@
         }
 
         .dropzone .dz-preview .dz-remove {
-            display: block !important;
-            margin: 10px auto 0 auto !important;
+            position: absolute !important;
+            top: 5px !important;
+            right: 5px !important;
+            z-index: 1000 !important;
             background-color: #d85b5b !important;
             color: white !important;
             border-radius: 3px !important;
@@ -102,6 +104,18 @@
             background-color: #f52424 !important;
             text-decoration: none !important;
             color: white !important;
+        }
+
+        /* Styling tambahan agar error lebih terlihat (box jadi merah) */
+        .dropzone .dz-preview.dz-error .dz-image {
+            border: 2px solid #be2626 !important;
+            background-color: #fde8e8 !important;
+        }
+
+        /* Munculkan pesan error (tooltip) secara permanen saat ada error, bukan hanya saat di-hover */
+        .dropzone .dz-preview.dz-error .dz-error-message {
+            opacity: 1 !important;
+            pointer-events: auto !important;
         }
     </style>
 </head>
