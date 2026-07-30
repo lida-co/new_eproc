@@ -82,6 +82,33 @@
         td {
             border: 1px solid black;
         }
+
+        .dropzone .dz-preview .dz-remove {
+            position: absolute !important;
+            bottom: 10px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 1000 !important;
+            background-color: #d85b5b !important;
+            color: white !important;
+            border-radius: 3px !important;
+            padding: 2px 8px !important;
+            text-align: center !important;
+            font-size: 12px !important;
+            text-decoration: none !important;
+            opacity: 0.9 !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+            cursor: pointer !important;
+            width: auto !important;
+            height: auto !important;
+        }
+
+        .dropzone .dz-preview .dz-remove:hover {
+            opacity: 1 !important;
+            background-color: #f52424 !important;
+            text-decoration: none !important;
+            color: white !important;
+        }
     </style>
 </head>
 
@@ -3104,7 +3131,6 @@
                 maxFiles: 1,
                 acceptedFiles: ".png, .jpg, .pdf, .xls, .jpeg, .doc, .xlsx, .docx",
                 addRemoveLinks: true,
-                dictRemoveFile: "✖",
                 accept: function (file, done) {
                     done();
                 },
@@ -3128,7 +3154,7 @@
             $('#File' + el).addClass('dropzone');
             var tmp = new Dropzone('#File' + el, {
                 maxFilesize: dzOption.maxFilesize, maxFiles: dzOption.maxFiles, acceptedFiles: dzOption.acceptedFiles,
-                accept: dzOption.accept, init: dzOption.init, addRemoveLinks: dzOption.addRemoveLinks, dictRemoveFile: dzOption.dictRemoveFile, success: function (file, response) { $("[name='" + el + ".base64']").val(response.base64); $("[name='" + el + ".ContentType']").val(response.ContentType); $("[name='" + el + ".FileName']").val(response.FileName); }
+                accept: dzOption.accept, init: dzOption.init, addRemoveLinks: dzOption.addRemoveLinks, success: function (file, response) { $("[name='" + el + ".base64']").val(response.base64); $("[name='" + el + ".ContentType']").val(response.ContentType); $("[name='" + el + ".FileName']").val(response.FileName); }
             });
             console.log(tmp)
             return tmp;
