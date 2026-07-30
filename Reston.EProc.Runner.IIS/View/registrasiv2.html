@@ -87,7 +87,7 @@
             position: absolute !important;
             top: 5px !important;
             right: 5px !important;
-            z-index: 1000 !important;
+            z-index: 10 !important;
             background-color: #d85b5b !important;
             color: white !important;
             border-radius: 3px !important;
@@ -116,6 +116,12 @@
         .dropzone .dz-preview.dz-error .dz-error-message {
             opacity: 1 !important;
             pointer-events: auto !important;
+        }
+
+        /* Memastikan kalender datepicker selalu berada di lapisan teratas (tidak tertutup elemen lain) */
+        .datepicker,
+        .datepicker-dropdown {
+            z-index: 9999 !important;
         }
     </style>
 </head>
