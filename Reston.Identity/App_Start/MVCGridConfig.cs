@@ -43,7 +43,7 @@ namespace IdLdap
                                         ContextType.Domain,
                                         IdLdapConstants.LdapConfiguration.Host,
                                         IdLdapConstants.LdapConfiguration.ContextNaming,
-                                        ContextOptions.SimpleBind,
+                                        IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
                                         IdLdapConstants.LdapConfiguration.Username,
                                         IdLdapConstants.LdapConfiguration.Password);
                 _log.Debug("Using PrincipalContext configuration: ContextType={ContextType}, ContextOptions={ContextOptions}",
@@ -57,7 +57,7 @@ namespace IdLdap
                                         ContextType.ApplicationDirectory,
                                         IdLdapConstants.LdapConfiguration.Host,
                                         IdLdapConstants.LdapConfiguration.ContextNaming,
-                                        ContextOptions.SimpleBind,
+                                        IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
                                         IdLdapConstants.LdapConfiguration.Username,
                                         IdLdapConstants.LdapConfiguration.Password);
                 _log.Debug("Using PrincipalContext configuration: ContextType={ContextType}, ContextOptions={ContextOptions}",
@@ -172,7 +172,7 @@ namespace IdLdap
                         cols.Add("Edit").WithHtmlEncoding(false)
                             .WithSorting(false)
                             .WithHeaderText("Action")
-                            .WithValueExpression((p, c) => '"' + (!string.IsNullOrWhiteSpace(p.UserPrincipalName) ? p.UserPrincipalName : p.SamAccountName) + '"')
+                            .WithValueExpression((p, c) => '"' + (!string.IsNullOrWhiteSpace(p.SamAccountName) ? p.SamAccountName : (!string.IsNullOrWhiteSpace(p.UserPrincipalName) ? p.UserPrincipalName : p.Name)) + '"')
                             .WithCellCssClassExpression(p => p.IsLinked.GetValueOrDefault() ? "hiddentd" : "")
                             .WithValueTemplate("<button onclick='LinkedAccount({Value});' class='btn btn-primary' role='button'>Link</button>");
 
@@ -203,10 +203,18 @@ namespace IdLdap
                                 DisplayName = x.DisplayName
                             }).ToList();
 
-                            List<string> guidSearch = items.Select(x => x.Guid).ToList();
-                            var usersIdentity = (new UserManager(new UserStore(new IdentityContext()))).Users.Where(x => guidSearch.Contains(x.Id)).Select(x => x.Id).ToList();
-                            //items.Where(c => usersIdentity.Contains(c.Guid)).ToList().ForEach(x =>  { x.IsLinked = true; } );
-                            items.Update(x => x.IsLinked = usersIdentity.Contains(x.Guid) ? true : false);
+                            List<string> guidSearch = items.Where(x => !string.IsNullOrEmpty(x.Guid)).Select(x => x.Guid).ToList();
+                            List<string> usernameSearch = items.Select(x => !string.IsNullOrWhiteSpace(x.SamAccountName) ? x.SamAccountName : (!string.IsNullOrWhiteSpace(x.UserPrincipalName) ? x.UserPrincipalName : x.Name)).Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+                            
+                            var userManager = new UserManager(new UserStore(new IdentityContext()));
+                            var usersById = userManager.Users.Where(x => guidSearch.Contains(x.Id)).Select(x => x.Id).ToList();
+                            var usersByName = userManager.Users.Where(x => usernameSearch.Contains(x.UserName)).Select(x => x.UserName).ToList();
+
+                            items.ForEach(x => 
+                            {
+                                var resolvedUsername = !string.IsNullOrWhiteSpace(x.SamAccountName) ? x.SamAccountName : (!string.IsNullOrWhiteSpace(x.UserPrincipalName) ? x.UserPrincipalName : x.Name);
+                                x.IsLinked = usersById.Contains(x.Guid) || usersByName.Contains(resolvedUsername) ? true : false;
+                            });
 
                             return new QueryResult<UserLdap>()
                             {

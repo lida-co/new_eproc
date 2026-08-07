@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
@@ -110,7 +110,7 @@ namespace IdLdap
                                         ContextType.Domain,
                                         IdLdapConstants.LdapConfiguration.Host,
                                         IdLdapConstants.LdapConfiguration.ContextNaming,
-                                        ContextOptions.SimpleBind,
+                                        IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
                                         IdLdapConstants.LdapConfiguration.Username,
                                         IdLdapConstants.LdapConfiguration.Password)
                     ));
@@ -131,7 +131,7 @@ namespace IdLdap
                                          ContextType.ApplicationDirectory,
                                          IdLdapConstants.LdapConfiguration.Host,
                                          IdLdapConstants.LdapConfiguration.ContextNaming,
-                                         ContextOptions.SimpleBind,
+                                         IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
                                          IdLdapConstants.LdapConfiguration.Username,
                                          IdLdapConstants.LdapConfiguration.Password)
                     ));

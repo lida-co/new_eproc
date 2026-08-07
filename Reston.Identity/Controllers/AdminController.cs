@@ -1,4 +1,4 @@
-﻿using IdLdap.Configuration;
+using IdLdap.Configuration;
 using Reston.Identity.Helper;
 using IdLdap.Models;
 using Reston.Identity.Repository.Identity;
@@ -58,7 +58,7 @@ namespace IdLdap.Controllers
                     ContextType.Domain,
                     IdLdapConstants.LdapConfiguration.Host,
                     IdLdapConstants.LdapConfiguration.ContextNaming,
-                    ContextOptions.SimpleBind,
+                    IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
                     IdLdapConstants.LdapConfiguration.Username,
                     IdLdapConstants.LdapConfiguration.Password));
             }
@@ -68,7 +68,7 @@ namespace IdLdap.Controllers
                     ContextType.ApplicationDirectory,
                     IdLdapConstants.LdapConfiguration.Host,
                     IdLdapConstants.LdapConfiguration.ContextNaming,
-                    ContextOptions.SimpleBind,
+                    IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
                     IdLdapConstants.LdapConfiguration.Username,
                     IdLdapConstants.LdapConfiguration.Password));
             }
@@ -110,6 +110,16 @@ namespace IdLdap.Controllers
             }
             if (userLdap == null)
             {
+                // Ekstra Fallback: Gunakan pencarian multi-property yang sudah mendukung uid/Name di LdapRepository
+                var searchResult = _LdapRepository.GetUsersByUsername(username, 0, 5);
+                userLdap = searchResult?.Users?.FirstOrDefault(u => 
+                    string.Equals(u.SamAccountName, username, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(u.UserPrincipalName, username, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(u.Name, username, StringComparison.OrdinalIgnoreCase)
+                ) ?? searchResult?.Users?.FirstOrDefault();
+            }
+            if (userLdap == null)
+            {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return Json(new { message = "User LDAP tidak ditemukan. Pastikan username/UPN sesuai dengan data directory." }, JsonRequestBehavior.AllowGet);
             }
@@ -136,6 +146,63 @@ namespace IdLdap.Controllers
 
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(new { message = "Sukses linked account ldap. ", linkedUsername = resolvedUsername }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public JsonResult TestLdapConnection()
+        {
+            try
+            {
+                var contextType = IdLdapConstants.LdapConfiguration.ContextType;
+                var host = IdLdapConstants.LdapConfiguration.Host;
+                var container = IdLdapConstants.LdapConfiguration.ContextNaming;
+                var ssl = IdLdapConstants.LdapConfiguration.UsingSSL;
+                var username = IdLdapConstants.LdapConfiguration.Username;
+                var password = IdLdapConstants.LdapConfiguration.Password;
+
+                // 1. Raw Connection Test (Biar error tidak tertelan oleh Repository)
+                string rawTestInfo = "";
+                try
+                {
+                    var ldapPath = "LDAP://" + host + "/" + container;
+                    var authType = ssl ? System.DirectoryServices.AuthenticationTypes.SecureSocketsLayer : System.DirectoryServices.AuthenticationTypes.None;
+                    using (var root = new System.DirectoryServices.DirectoryEntry(ldapPath, username, password, authType))
+                    {
+                        var nativeObj = root.NativeObject; // This forces the network connection
+                        rawTestInfo = "Berhasil mengontak Active Directory dan memvalidasi credentials.";
+                    }
+                }
+                catch (Exception rawEx)
+                {
+                    return Json(new 
+                    { 
+                        success = false, 
+                        message = $"Gagal koneksi atau autentikasi ke AD: {rawEx.Message}",
+                        errorDetail = rawEx.ToString()
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                // 2. Fetch Users Test
+                var resultList = _LdapRepository.GetUsersByUsername("", 0, 10);
+                
+                return Json(new 
+                { 
+                    success = true, 
+                    message = $"Koneksi LDAP Berhasil! (Context: {contextType}, Host: {host}, SSL: {ssl}, Container: {container}). Ditemukan {resultList.Length} user. " + rawTestInfo,
+                    totalUsers = resultList.Length,
+                    sampleData = resultList.Users.Select(u => u.SamAccountName ?? u.UserPrincipalName ?? u.Name).ToList()
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new 
+                { 
+                    success = false, 
+                    message = $"Gagal fetch data LDAP: {ex.Message}",
+                    errorDetail = ex.ToString()
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         private static bool IsMember(UserPrincipal user, string GroupName)

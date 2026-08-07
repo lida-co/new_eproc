@@ -1,4 +1,4 @@
-﻿using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.Default;
 using Reston.Identity.Helper;
@@ -293,7 +293,22 @@ namespace IdLdap.Configuration
                 if (userLdap != null)
                 {
                     _log.Debug("LDAP user found via fallback identity lookup for '{UserName}'.", username);
+                    return userLdap;
                 }
+
+                // Ekstra Fallback: Gunakan pencarian multi-property yang sudah mendukung uid/Name di LdapRepository
+                var searchResult = _LdapRepository.GetUsersByUsername(username, 0, 5);
+                userLdap = searchResult?.Users?.FirstOrDefault(u => 
+                    string.Equals(u.SamAccountName, username, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(u.UserPrincipalName, username, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(u.Name, username, StringComparison.OrdinalIgnoreCase)
+                ) ?? searchResult?.Users?.FirstOrDefault();
+
+                if (userLdap != null)
+                {
+                    _log.Debug("LDAP user found via multi-property search fallback for '{UserName}'.", username);
+                }
+
                 return userLdap;
             }
             catch (Exception ex)
@@ -306,6 +321,22 @@ namespace IdLdap.Configuration
         private bool ValidateLdapCredentialsWithFallback(string inputUsername, string storedUsername, string password)
         {
             var usernamesToTry = new List<string>();
+
+            // Coba cari user di LDAP untuk mendapatkan DistinguishedName (dibutuhkan OpenLDAP)
+            var userLdap = FindUserFromLdapWithFallback(inputUsername);
+            if (userLdap == null && !string.Equals(inputUsername, storedUsername, StringComparison.OrdinalIgnoreCase))
+            {
+                userLdap = FindUserFromLdapWithFallback(storedUsername);
+            }
+
+            if (userLdap != null)
+            {
+                if (!string.IsNullOrWhiteSpace(userLdap.DistinguishedName))
+                    usernamesToTry.Add(userLdap.DistinguishedName);
+                if (!string.IsNullOrWhiteSpace(userLdap.UserPrincipalName))
+                    usernamesToTry.Add(userLdap.UserPrincipalName);
+            }
+
             if (!string.IsNullOrWhiteSpace(storedUsername)) usernamesToTry.Add(storedUsername);
             if (!string.IsNullOrWhiteSpace(inputUsername)) usernamesToTry.Add(inputUsername);
 
@@ -502,6 +533,22 @@ namespace IdLdap.Configuration
                 new Claim(Constants.ClaimTypes.Subject, userIdentity.Id.ToString()),
                 new Claim(Constants.ClaimTypes.PreferredUserName, preferredUserName),
             };
+
+            var email = userLdap?.EmailAddress ?? userIdentity.Email;
+            if (!string.IsNullOrWhiteSpace(email))
+                claims.Add(new Claim(Constants.ClaimTypes.Email, email));
+            
+            var name = userLdap?.DisplayName ?? userLdap?.Name ?? userIdentity.DisplayName ?? userIdentity.UserName;
+            if (!string.IsNullOrWhiteSpace(name))
+                claims.Add(new Claim(Constants.ClaimTypes.Name, name));
+                
+            var givenName = userLdap?.GivenName;
+            if (!string.IsNullOrWhiteSpace(givenName))
+                claims.Add(new Claim(Constants.ClaimTypes.GivenName, givenName));
+                
+            var familyName = userLdap?.Surname;
+            if (!string.IsNullOrWhiteSpace(familyName))
+                claims.Add(new Claim(Constants.ClaimTypes.FamilyName, familyName));
 
             // Gunakan userIdentity.Id untuk lookup ke database (bukan userLdap.Guid)
             if (_UserManager.SupportsUserClaim)

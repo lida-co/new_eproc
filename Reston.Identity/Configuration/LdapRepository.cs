@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
@@ -85,10 +85,12 @@ namespace IdLdap.Configuration
             var message = "";
             try
             {
-                authenticated = _AuthLdapConnect.ValidateCredentials(username, password, ContextOptions.SimpleBind);
+                var options = IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind;
+                authenticated = _AuthLdapConnect.ValidateCredentials(username, password, options);
                 if (!authenticated)
                 {
-                    authenticated = _AuthLdapConnect.ValidateCredentials(username, password, ContextOptions.Negotiate);
+                    var negotiateOptions = IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.Negotiate | ContextOptions.SecureSocketLayer) : ContextOptions.Negotiate;
+                    authenticated = _AuthLdapConnect.ValidateCredentials(username, password, negotiateOptions);
 
                     if (!authenticated)
 
@@ -158,6 +160,25 @@ namespace IdLdap.Configuration
             };
         }
 
+        private void ApplyPaging(PrincipalSearcher searcher, int pageSize = 500, int sizeLimit = 0)
+        {
+            try
+            {
+                if (searcher.GetUnderlyingSearcher() is DirectorySearcher ds)
+                {
+                    ds.PageSize = pageSize;
+                    if (sizeLimit > 0)
+                    {
+                        ds.SizeLimit = sizeLimit;
+                    }
+                }
+            }
+            catch
+            {
+                // Ignored
+            }
+        }
+
         private IEnumerable<UserPrincipal> FindAllUsers()
         {
             try
@@ -165,6 +186,7 @@ namespace IdLdap.Configuration
                 using (var userSearch = new UserPrincipal(_AuthLdapConnect))
                 using (var searcher = new PrincipalSearcher(userSearch))
                 {
+                    ApplyPaging(searcher);
                     return searcher.FindAll().Select(principal => principal as UserPrincipal).Where(x => x != null).ToList();
                 }
             }
@@ -197,6 +219,7 @@ namespace IdLdap.Configuration
 
                 using (var searcher = new PrincipalSearcher(userSearch))
                 {
+                    ApplyPaging(searcher);
                     return searcher.FindAll().Select(principal => principal as UserPrincipal).Where(x => x != null).ToList();
                 }
             }
@@ -224,8 +247,8 @@ namespace IdLdap.Configuration
 
                 var escapedTerm = EscapeLdapSearchFilter(searchterm);
                 var filter = string.IsNullOrWhiteSpace(escapedTerm)
-                    ? "(&(objectClass=user))"
-                    : string.Format("(&(objectClass=user)(|(sAMAccountName=*{0}*)(userPrincipalName=*{0}*)(cn=*{0}*)(displayName=*{0}*)))", escapedTerm);
+                    ? "(|(objectClass=user)(objectClass=person)(objectClass=inetOrgPerson))"
+                    : string.Format("(&(|(objectClass=user)(objectClass=person)(objectClass=inetOrgPerson))(|(sAMAccountName=*{0}*)(userPrincipalName=*{0}*)(cn=*{0}*)(displayName=*{0}*)(uid=*{0}*)))", escapedTerm);
 
                 var users = new List<UserPrincipal>();
                 var ldapPath = "LDAP://" + host + "/" + container;
@@ -249,10 +272,17 @@ namespace IdLdap.Configuration
                             : null;
                         if (string.IsNullOrWhiteSpace(dn)) continue;
 
-                        var principal = UserPrincipal.FindByIdentity(_AuthLdapConnect, IdentityType.DistinguishedName, dn);
-                        if (principal != null)
+                        try 
                         {
-                            users.Add(principal);
+                            var principal = UserPrincipal.FindByIdentity(_AuthLdapConnect, IdentityType.DistinguishedName, dn);
+                            if (principal != null)
+                            {
+                                users.Add(principal);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.Warn(ex, "UserPrincipal.FindByIdentity fallback failed for DN: {DN}", dn);
                         }
                     }
                 }
@@ -289,6 +319,7 @@ namespace IdLdap.Configuration
 
             using (searcher)
             {
+                ApplyPaging(searcher);
                 PrincipalSearchResult<Principal> results =
                     searcher.FindAll();
 

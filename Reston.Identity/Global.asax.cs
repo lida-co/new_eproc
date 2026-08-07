@@ -1,4 +1,4 @@
-﻿using Reston.Identity.Helper;
+using Reston.Identity.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,6 +18,9 @@ namespace IdLdap
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Bypass SSL certificate validation (berguna jika LDAPS menggunakan self-signed certificate)
+            System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
             if (IdLdapConstants.Id.RunSeeder)
             {
