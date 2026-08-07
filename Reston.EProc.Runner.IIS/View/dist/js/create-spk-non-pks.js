@@ -1108,7 +1108,6 @@ $(function () {
     });
 
     $(".Simpan").on("click", function () {
-        alert($("#tanggal-spk").val());
         var spk = {};
         spk.Id = $("#spkId").val();
         spk.Judul = $("#judul").val();
