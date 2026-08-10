@@ -87,7 +87,7 @@
             position: absolute !important;
             top: 5px !important;
             right: 5px !important;
-            z-index: 10 !important;
+            z-index: 999 !important;
             background-color: #d85b5b !important;
             color: white !important;
             border-radius: 3px !important;
@@ -1866,7 +1866,17 @@
 
 
                                     <div role="tabpanel" class="tab-pane" id="tenagaahli">
-                                        <p class="label-showprincipal">Isian tidak diperlukan</p>
+                                        <div class="callout callout-info label-showprincipal" style="margin: 15px 0;">
+                                            <h4><i class="icon fa fa-info-circle"></i> Informasi</h4>
+                                            <p>Isian pada form <b>Tenaga Ahli</b> tidak diperlukan untuk jenis vendor
+                                                ini.</p>
+                                        </div>
+                                        <div class="callout callout-info label-nonit-ahli"
+                                            style="display:none; margin: 15px 0;">
+                                            <h4><i class="icon fa fa-info-circle"></i> Informasi</h4>
+                                            <p>Isian pada form <b>Tenaga Ahli</b> tidak diperlukan untuk Segmentasi
+                                                Bidang Usaha <b>Non-IT</b>.</p>
+                                        </div>
                                         <div class="row baris-tenaga-ahli">
                                             <div class="box box-title">
                                                 <div class="box-header with-border">
@@ -2005,7 +2015,12 @@
                                     </div>
 
                                     <div role="tabpanel" class="tab-pane" id="peralatan">
-                                        <p class="label-nondokumen label-konstruksi">Isian tidak di perlukan</p>
+                                        <div class="callout callout-info label-nondokumen label-konstruksi"
+                                            style="margin: 15px 0;">
+                                            <h4><i class="icon fa fa-info-circle"></i> Informasi</h4>
+                                            <p>Isian pada form <b>Peralatan</b> tidak diperlukan untuk jenis vendor atau
+                                                segmentasi ini.</p>
+                                        </div>
                                         <div class="row p2 baris-peralatan">
                                             <div class="box box-title">
                                                 <div class="box-header with-border form-peralatan">
@@ -2150,7 +2165,11 @@
                                     </div>
 
                                     <div role="tabpanel" class="tab-pane" id="pengalaman">
-                                        <p class="label-showprincipal">Isian tidak diperlukan</p>
+                                        <div class="callout callout-info label-showprincipal" style="margin: 15px 0;">
+                                            <h4><i class="icon fa fa-info-circle"></i> Informasi</h4>
+                                            <p>Isian pada form <b>Pengalaman</b> tidak diperlukan untuk jenis vendor
+                                                ini.</p>
+                                        </div>
                                         <div class="row p2 baris-pengalaman">
                                             <div class="box box-title">
                                                 <div class="box-header with-border">
@@ -2323,8 +2342,15 @@
                                     </div>
 
                                     <div role="tabpanel" class="tab-pane" id="neracakeuangan">
-                                        <!--<p class="label-nondokumen label-showprincipal">Isian tidak diperlukan</p>-->
-                                        <p class="label-nondokumen ">Isian tidak diperlukan</p>
+                                        <!--<div class="callout callout-info label-nondokumen label-showprincipal" style="margin: 15px 0;">
+                                            <h4><i class="icon fa fa-info-circle"></i> Informasi</h4>
+                                            <p>Isian pada form <b>Neraca Keuangan</b> tidak diperlukan.</p>
+                                        </div>-->
+                                        <div class="callout callout-info label-nondokumen" style="margin: 15px 0;">
+                                            <h4><i class="icon fa fa-info-circle"></i> Informasi</h4>
+                                            <p>Isian pada form <b>Neraca Keuangan</b> tidak diperlukan untuk jenis
+                                                vendor ini.</p>
+                                        </div>
                                         <div class="row p2 baris-neracakeuangan">
                                             <div class="box box-title">
                                                 <div class="box-header with-border">
@@ -2816,6 +2842,14 @@
                         $(".label-konstruksi").show();
                     }
                 }
+
+                if ($("#SegBidangUsahaCode").val() == "20") {
+                    $(".baris-tenaga-ahli").hide();
+                    $(".label-nonit-ahli").show();
+                } else {
+                    $(".label-nonit-ahli").hide();
+                }
+
                 $("#captcha-validation-error").hide();
                 $("#alert-validation-error").hide();
                 $('.form-validation-error').removeClass('form-validation-error');
@@ -2929,6 +2963,13 @@
                     $(".label-konstruksi").show();
                 }
 
+                if (q == "20") {
+                    $(".baris-tenaga-ahli").hide();
+                    $(".label-nonit-ahli").show();
+                } else {
+                    $(".baris-tenaga-ahli").show();
+                    $(".label-nonit-ahli").hide();
+                }
             });
 
             //$("#SegKelompokUsahaCode").change(function () {

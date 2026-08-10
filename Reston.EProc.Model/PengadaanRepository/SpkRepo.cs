@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -411,6 +411,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             try
             {
                 DokumenSpk doku = ctx.DokumenSpk.Find(Id);
+                if (doku == null) return 0;
                 int isMine = doku.CreateBy == UserId ? 1 : 0;
                 if (doku.Spk.StatusSpk != StatusSpk.Draft) return 0;
                 if (isMine == 1)
@@ -808,6 +809,7 @@ namespace Reston.Pinata.Model.PengadaanRepository
             try
             {
                 DokumenSpkNonPks doku = ctx.DokumenSpkNonPks.Find(Id);
+                if (doku == null) return 0;
                 int isMine = doku.CreateBy == UserId ? 1 : 0;
                 if (doku.Spk.StatusSpk != StatusSpk.Draft) return 0;
                 if (isMine == 1)
