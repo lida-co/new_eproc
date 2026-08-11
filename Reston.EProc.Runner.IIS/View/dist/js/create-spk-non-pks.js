@@ -8,6 +8,24 @@ var myDropzoneSPK;
 $(function () {
     //$("#pengadaanId").val(PengadaanId);
     //$("#VendorId").val(VendorId);
+    
+    // Format Rupiah for Nilai SPK field
+    $("#nilai-spk").on('input', function() {
+        var value = this.value.replace(/[^,\d]/g, '');
+        var split = value.split(',');
+        var sisa = split[0].length % 3;
+        var rupiah = split[0].substr(0, sisa);
+        var ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            var separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        this.value = rupiah; // We don't add "Rp " inside the input to make it cleaner, just thousand separators
+    });
+
     if (SpkId !== "" && SpkId !== null && SpkId !== "null" && SpkId !== "undefined") { 
         loadDetail(SpkId); 
         loadDetailDokNonPks(SpkId); 
@@ -33,8 +51,8 @@ $(function () {
                         if (item.Id != undefined) {
                             id = item.Id;
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
                         }
 
                         if (id == FileId) {
@@ -55,6 +73,23 @@ $(function () {
             method: "POST",
             url: "Api/Spk/deleteDokumenSpkNonPks?Id=" + FileId + "&klasifikasi=" + klasifikasi
         }).done(function (data) {
+            waitingDialog.hideloading();
+            
+            if (data.Id != "1") {
+                BootstrapDialog.show({
+                    title: 'Gagal',
+                    message: data.message ? data.message : 'Gagal menghapus dokumen. Silakan coba lagi.',
+                    buttons: [{
+                        label: 'Tutup',
+                        action: function(dialog) {
+                            dialog.close();
+                            $("#konfirmasiFileNonPks").modal("hide");
+                        }
+                    }]
+                });
+                return;
+            }
+
             if (klasifikasi == "Aanwijzing") {
                 if (data.Id == "1") {
                     $.each(myDropzoneAnwijzing.files, function (index, item) {
@@ -63,8 +98,8 @@ $(function () {
                         if (item.Id != undefined) {
                             id = item.Id;
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
                         }
 
                         if (id == FileId) {
@@ -82,12 +117,31 @@ $(function () {
                         if (item.Id != undefined) {
                             id = item.Id;
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
                         }
 
                         if (id == FileId) {
                             myDropzoneMemo.removeFile(item);
+                        }
+                    });
+                    $("#konfirmasiFileNonPks").modal("hide");
+                }
+            }
+            else if (klasifikasi == "SubmitPenawaran") {
+                if (data.Id == "1") {
+                    $.each(myDropzoneSubmitPenawaran.files, function (index, item) {
+                        var id = 0;
+
+                        if (item.Id != undefined) {
+                            id = item.Id;
+                        }
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
+                        }
+
+                        if (id == FileId) {
+                            myDropzoneSubmitPenawaran.removeFile(item);
                         }
                     });
                     $("#konfirmasiFileNonPks").modal("hide");
@@ -101,8 +155,8 @@ $(function () {
                         if (item.Id != undefined) {
                             id = item.Id;
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
                         }
 
                         if (id == FileId) {
@@ -120,8 +174,8 @@ $(function () {
                         if (item.Id != undefined) {
                             id = item.Id;
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
                         }
 
                         if (id == FileId) {
@@ -139,8 +193,8 @@ $(function () {
                         if (item.Id != undefined) {
                             id = item.Id;
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
                         }
 
                         if (id == FileId) {
@@ -158,8 +212,8 @@ $(function () {
                         if (item.Id != undefined) {
                             id = item.Id;
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
                         }
 
                         if (id == FileId) {
@@ -177,8 +231,8 @@ $(function () {
                         if (item.Id != undefined) {
                             id = item.Id;
                         }
-                        else {
-                            id = $.parseJSON(DOMPurify.sanitize(file.xhr.response));
+                        else if (item.xhr && item.xhr.response) {
+                            id = DOMPurify.sanitize(item.xhr.response).replace(/["\s]/g, '');
                         }
 
                         if (id == FileId) {
@@ -1112,8 +1166,8 @@ $(function () {
         spk.Id = $("#spkId").val();
         spk.Judul = $("#judul").val();
         spk.VendorIdNonPKS = $("[name = 'Vendor']").val();
-        if ($("#tanggal-spk").val() != "" || $("#tanggal-spk").val() != "Invalid date") spk.TanggalSPKStr = moment($("#tanggal-spk").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-        spk.NilaiSPK = $("#nilai-spk").val();
+        if ($("#tanggal-spk").val() != "" || $("#tanggal-spk").val() != "Invalid date") spk.TanggalSPKStr = moment($("#tanggal-spk").val(), ["D MMMM YYYY"], "id").format("DD/MM/YYYY 00:00");
+        spk.NilaiSPK = $("#nilai-spk").val().replace(/[^\d]/g, '');
         //spk.VendorNonReg = $("#VendorNonReg").val();
         console.log(spk);
         //if ($("#isOwner").val() == 1 || $("#spkId").val() == "")
@@ -1180,14 +1234,43 @@ function loadDetail(Id) {
         $("[name=status][value=" + data.StatusSpk + "]").prop('checked', true);
         $("#PemenangPengadaanId").val(data.PemenangPengadaanId);
         $("#StatusSpk").val(data.StatusSpk);//$("[name=status]:checked").val()
-        $("#tanggal-spk").val(moment(data.TanggalSPK).format("DD MMMM YYYY HH:mm"));
-        $("#nilai-spk").val(data.NilaiSPK);
+        $("#tanggal-spk").val(moment(data.TanggalSPK).format("DD MMMM YYYY"));
+        function formatRupiah(angka) {
+            if (!angka) return '';
+            var number_string = angka.toString().replace(/[^,\d]/g, ''),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+            if (ribuan) {
+                var separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            return rupiah;
+        }
+        $("#nilai-spk").val(formatRupiah(data.NilaiSPK));
         $("#Status").text(data.StatusSpkName);
         
         if ($("#isOwner").val() == 0 || data.StatusSpk == 1 || data.StatusSpk == 2) {
             $(".Simpan").remove();
             $(".Hapus").remove();
             $(" .input-spk").attr("disabled", true);
+            
+            // Disable other main inputs that lack the .input-spk class
+            $("#judul").attr("disabled", true);
+            $("[name=Vendor]").prop("disabled", true);
+            $("#VendorNonReg").attr("disabled", true);
+            $("#VendorNPWPNonReg").attr("disabled", true);
+            
+            // Disable all Dropzones and hide their message areas
+            if (Dropzone.instances && Dropzone.instances.length > 0) {
+                Dropzone.instances.forEach(function(dz) {
+                    dz.disable();
+                });
+            }
+            $(".dz-default.dz-message").hide();
+            $(".dropzone").css("pointer-events", "none");
+
             if ($("#isOwner").val() == 1) {
                 $("[name=status][value=1]").attr("disabled", false);
                 $("[name=status][value=2]").attr("disabled", false);
@@ -1221,20 +1304,20 @@ function loadDetailDokNonPks(Id) {
         url: "Api/spk/detaildoknonpks?Id=" + Id
     }).done(function (data) {
         $("#no-aanwijzing").val(data.NoAanwijzing);
-        $("#tanggal-aanwijzing").val(moment(data.TglAanwijzing).format("DD MMMM YYYY HH:mm")).attr("disabled", true);
+        $("#tanggal-aanwijzing").val(moment(data.TglAanwijzing).format("DD MMMM YYYY")).attr("disabled", true);
         $("#no-memo").val(data.NoMemo);
         $("#no-submit").val(data.NoSubPen);
-        $("#tanggal-submit").val(moment(data.TglSubPen).format("DD MMMM YYYY HH:mm")).attr("disabled", true);
+        $("#tanggal-submit").val(moment(data.TglSubPen).format("DD MMMM YYYY")).attr("disabled", true);
         $("#no-klarifikasi").val(data.NoKlarfNeg);
-        $("#tanggal-klarifikasi").val(moment(data.TglKlarfNeg).format("DD MMMM YYYY HH:mm")).attr("disabled", true);
+        $("#tanggal-klarifikasi").val(moment(data.TglKlarfNeg).format("DD MMMM YYYY")).attr("disabled", true);
         $("#no-klarifikasianjutan").val(data.NoKlarfNegLan);
-        $("#tanggal-klarifikasianjutan").val(moment(data.TglKlarfNegLan).format("DD MMMM YYYY HH:mm")).attr("disabled", true);
+        $("#tanggal-klarifikasianjutan").val(moment(data.TglKlarfNegLan).format("DD MMMM YYYY")).attr("disabled", true);
         $("#no-penilaian").val(data.NoPenilai);
-        $("#tanggal-penilaian").val(moment(data.TglPenilai).format("DD MMMM YYYY HH:mm")).attr("disabled", true);
+        $("#tanggal-penilaian").val(moment(data.TglPenilai).format("DD MMMM YYYY")).attr("disabled", true);
         $("#no-usulanpemenang").val(data.NoUsPen);
-        $("#tanggal-usulanpemenang").val(moment(data.TglUsPen).format("DD MMMM YYYY HH:mm")).attr("disabled", true);
+        $("#tanggal-usulanpemenang").val(moment(data.TglUsPen).format("DD MMMM YYYY")).attr("disabled", true);
         $("#no-dokumenlain").val(data.NoDokLain);
-        $("#tanggal-dokumenlain").val(moment(data.TglDokLain).format("DD MMMM YYYY HH:mm")).attr("disabled", true);
+        $("#tanggal-dokumenlain").val(moment(data.TglDokLain).format("DD MMMM YYYY")).attr("disabled", true);
     });
 }
 
@@ -1329,7 +1412,7 @@ function save(spk) {
 
 $("#template-spk").on("click", function () {
     //var tanggal = moment($("#tanggal-spk").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
-    downloadFileUsingForm("Api/Report/BerkasSPK2?Judul=" + $("#judul").val() + "&Tanggal_SPK=" + $("#tanggal-spk").val() + "&Vendor= " + $(".namaVendor").val() + "&Nilai_SPK=" + $("#nilai-spk").val());
+    downloadFileUsingForm("Api/Report/BerkasSPK2?Judul=" + $("#judul").val() + "&Tanggal_SPK=" + $("#tanggal-spk").val() + "&Vendor= " + $(".namaVendor").val() + "&Nilai_SPK=" + $("#nilai-spk").val().replace(/[^\d]/g, ''));
     //alert("bgafugsafgsg")
 });
 
@@ -1443,7 +1526,11 @@ $(function () {
 
     $("#adddokattribut").on("click", function () {
         //alert('idnya ' + $("#IdforAttribut").val() + ' klasifikasi ' + $("#KlasifikasiforAttribut").val());
-        var TanggalDokStr = moment($("#tanggal-dokumen").val(), ["D MMMM YYYY HH:mm"], "id").format("DD/MM/YYYY HH:mm");
+        var tanggalDokValue = $("#tanggal-dokumen").val();
+        var TanggalDokStr = "";
+        if (tanggalDokValue != "" && tanggalDokValue != "Invalid date") {
+            TanggalDokStr = moment(tanggalDokValue, ["D MMMM YYYY"], "id").format("DD/MM/YYYY 00:00");
+        }
         waitingDialog.showloading("Proses Harap Tunggu");
         $.ajax({
             url: "Api/Spk/SimpanAtributDokumenNonPks?Id=" + $("#IdforAttribut").val() + "&klasifikasi=" + $("#KlasifikasiforAttribut").val() + "&NoDok=" + $("#nomor-dokumen").val() + "&TglDokString=" + TanggalDokStr,

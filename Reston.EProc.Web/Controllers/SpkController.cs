@@ -900,10 +900,16 @@ namespace Reston.Pinata.WebService.Controllers
                 }
                 else
                 {
+                    string msg = "Gagal menghapus dokumen.";
+                    if (result == 0) msg = "Dokumen tidak ditemukan di database atau sudah terhapus.";
+                    else if (result == -1) msg = "Anda tidak memiliki hak akses untuk menghapus dokumen ini.";
+                    else if (result == -2) msg = "Dokumen tidak dapat dihapus karena status SPK bukan Draft.";
+                    else if (result == -3) msg = "Terjadi kesalahan pada database server saat menghapus dokumen.";
+
                     return new ResultMessage()
                     {
                         status = HttpStatusCode.NotImplemented,
-                        message = "error",
+                        message = msg,
                         Id = "0"
                     };
                 }

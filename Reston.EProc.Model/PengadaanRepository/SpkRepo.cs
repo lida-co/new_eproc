@@ -811,16 +811,16 @@ namespace Reston.Pinata.Model.PengadaanRepository
                 DokumenSpkNonPks doku = ctx.DokumenSpkNonPks.Find(Id);
                 if (doku == null) return 0;
                 int isMine = doku.CreateBy == UserId ? 1 : 0;
-                if (doku.Spk.StatusSpk != StatusSpk.Draft) return 0;
+                if (doku.Spk != null && doku.Spk.StatusSpk != StatusSpk.Draft) return -2;
                 if (isMine == 1)
                 {
                     ctx.DokumenSpkNonPks.Remove(doku);
                     ctx.SaveChanges(UserId.ToString());
                     return 1;
                 }
-                return 0;
+                return -1;
             }
-            catch { return 0; }
+            catch (Exception ex) { return -3; }
         }
 
         public ResultMessage saveAtributDokumenNonPks(Guid id, string klasifikasi, string NoDok, DateTime? TglDok)

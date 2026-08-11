@@ -1,4 +1,4 @@
-﻿using Microsoft.Owin.FileSystems;
+using Microsoft.Owin.FileSystems;
 using Model.Helper;
 using Reston.Pinata.Model;
 using Reston.Pinata.Model.Asuransi;
@@ -89,7 +89,24 @@ namespace Reston.Pinata.WebService
                                                     LastUpdate = a.RiwayatHarga.LastOrDefault() != null ? a.RiwayatHarga.LastOrDefault().Tanggal.ToLocalTime().ToShortDateString() : "",
                                                     Source = a.RiwayatHarga.LastOrDefault() != null ? a.RiwayatHarga.LastOrDefault().Sumber : "",
                                                     Satuan = a.Satuan
-                                                }).Skip(start).Take(length).ToList();
+                                                }).ToList();
+
+            var sortColumn = System.Web.HttpContext.Current.Request.QueryString["order[0][column]"];
+            var sortColumnDir = System.Web.HttpContext.Current.Request.QueryString["order[0][dir]"];
+            
+            if (!string.IsNullOrEmpty(sortColumn) && !string.IsNullOrEmpty(sortColumnDir))
+            {
+                if (sortColumn == "0") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Nama).ToList() : lsm.OrderByDescending(c => c.Nama).ToList();
+                else if (sortColumn == "1") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Region).ToList() : lsm.OrderByDescending(c => c.Region).ToList();
+                else if (sortColumn == "2") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Klasifikasi).ToList() : lsm.OrderByDescending(c => c.Klasifikasi).ToList();
+                else if (sortColumn == "3") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Price).ToList() : lsm.OrderByDescending(c => c.Price).ToList();
+                else if (sortColumn == "4") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Satuan).ToList() : lsm.OrderByDescending(c => c.Satuan).ToList();
+                else if (sortColumn == "5") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.LastUpdate).ToList() : lsm.OrderByDescending(c => c.LastUpdate).ToList();
+                else if (sortColumn == "6") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Source).ToList() : lsm.OrderByDescending(c => c.Source).ToList();
+            }
+
+            lsm = lsm.Skip(start).Take(length).ToList();
+
             return Json(new { aaData = lsm, recordsTotal = total, recordsFiltered = lp.Count });
         }
 

@@ -157,7 +157,7 @@ $(function () {
             },
             {
                 "render": function (data, type, row) {
-                    return accounting.formatNumber(row.Harga, { thousand: ".", decimal: ",", precision: 2 });
+                    return accounting.formatMoney(row.Harga, "Rp ", 2, ".", ",");
                 },
 
                 "targets": 4,
@@ -165,7 +165,7 @@ $(function () {
             },
             {
                 "render": function (data, type, row) {
-                    return accounting.formatNumber(row.Harga * row.Banyak, { thousand: ".", decimal: ",", precision: 2 });
+                    return accounting.formatMoney(row.Harga * row.Banyak, "Rp ", 2, ".", ",");
                 },
 
                 "targets": 5,
@@ -308,15 +308,45 @@ $(function () {
         useCurrent: true,
     });
 
-    $("#banyak").on("change", function () {
-        if (parseFloat($("#banyak").val()) > 0 && parseFloat($("#harga").val()) > 0) {
-            $("#jumlah").val(parseFloat($("#banyak").val()) * parseFloat($("#harga").val()));
+    function formatRibuan(angka) {
+        if (!angka) return '';
+        var number_string = angka.toString().replace(/[^,\d]/g, ''),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+        if (ribuan) {
+            var separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return rupiah ? 'Rp ' + rupiah : '';
+    }
+
+    $("#banyak").on("input change", function () {
+        this.value = this.value.replace(/[^0-9.,]/g, '');
+        var b = parseFloat($("#banyak").val()) || 0;
+        var h = parseFloat($("#harga").val().replace(/[^\d]/g, '')) || 0;
+        if (b > 0 && h > 0) {
+            $("#jumlah").val(formatRibuan(b * h));
+        } else {
+            $("#jumlah").val("");
         }
     });
-    $("#harga").on("change", function () {
-        if (parseFloat($("#banyak").val()) > 0 && parseFloat($("#harga").val()) > 0) {
-            $("#jumlah").val(parseFloat($("#banyak").val()) * parseFloat($("#harga").val()));
+    
+    $("#harga").on("input change", function () {
+        this.value = formatRibuan(this.value);
+        var b = parseFloat($("#banyak").val()) || 0;
+        var h = parseFloat($("#harga").val().replace(/[^\d]/g, '')) || 0;
+        if (b > 0 && h > 0) {
+            $("#jumlah").val(formatRibuan(b * h));
+        } else {
+            $("#jumlah").val("");
         }
+    });
+
+    $("#discount").on("input", function () {
+        this.value = this.value.replace(/[^0-9.,]/g, '');
     });
 });
 
@@ -341,7 +371,7 @@ $(function () {
         data.Kode = $("#kode").val();
         data.Banyak = $("#banyak").val();
         data.Satuan = $("#satuan").val();
-        data.Harga = $("#harga").val();
+        data.Harga = $("#harga").val().replace(/[^\d]/g, '');
         data.Keterangan = $("#keterangan").val();
         data.Pph = pph;
         saveItem(data);
@@ -364,8 +394,8 @@ $(function () {
         $("#kode").val(DOMPurify.sanitize(data.Kode));
         $("#banyak").val(DOMPurify.sanitize(data.Banyak));
         $("#satuan").val(DOMPurify.sanitize(data.Satuan));
-        $("#harga").val(DOMPurify.sanitize(data.Harga));
-        $("#jumlah").val(DOMPurify.sanitize(data.Banyak) * DOMPurify.sanitize(data.Harga));
+        $("#harga").val(formatRibuan(DOMPurify.sanitize(data.Harga)));
+        $("#jumlah").val(formatRibuan(DOMPurify.sanitize(data.Banyak) * DOMPurify.sanitize(data.Harga)));
         $("#keterangan").val(DOMPurify.sanitize(data.Keterangan));
         $("#item-modal").modal("show");
     });
@@ -446,7 +476,7 @@ function loadDetail(Id) {
         $("#tanggal-invoice").val(moment(data.TanggalInvoice).format("DD MMMM YYYY"));
         $("#tanggal-kirim-finance").val(moment(data.TanggalFinance).format("DD MMMM YYYY"));
         $("#nilai-po-hidden").val(data.NilaiPO);
-        $("#nilai-po").val(accounting.formatNumber(data.NilaiPO, { thousand: ".", decimal: ",", precision: 2 }));
+        $("#nilai-po").val(accounting.formatMoney(data.NilaiPO, "Rp ", 2, ".", ","));
         $("#up").val(data.UP);
         $("#periode-dari").val(moment(data.PeriodeDari).format("DD MMMM YYYY"));
         $("#periode-sampai").val(moment(data.PeriodeSampai).format("DD MMMM YYYY"));
