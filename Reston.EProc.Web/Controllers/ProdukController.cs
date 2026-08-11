@@ -101,7 +101,7 @@ namespace Reston.Pinata.WebService
                 else if (sortColumn == "2") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Klasifikasi).ToList() : lsm.OrderByDescending(c => c.Klasifikasi).ToList();
                 else if (sortColumn == "3") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Price).ToList() : lsm.OrderByDescending(c => c.Price).ToList();
                 else if (sortColumn == "4") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Satuan).ToList() : lsm.OrderByDescending(c => c.Satuan).ToList();
-                else if (sortColumn == "5") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.LastUpdate).ToList() : lsm.OrderByDescending(c => c.LastUpdate).ToList();
+                else if (sortColumn == "5") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => string.IsNullOrEmpty(c.LastUpdate) ? DateTime.MinValue : DateTime.Parse(c.LastUpdate)).ToList() : lsm.OrderByDescending(c => string.IsNullOrEmpty(c.LastUpdate) ? DateTime.MinValue : DateTime.Parse(c.LastUpdate)).ToList();
                 else if (sortColumn == "6") lsm = sortColumnDir == "asc" ? lsm.OrderBy(c => c.Source).ToList() : lsm.OrderByDescending(c => c.Source).ToList();
             }
 
