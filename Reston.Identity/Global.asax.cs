@@ -20,7 +20,7 @@ namespace IdLdap
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // Bypass SSL certificate validation (berguna jika LDAPS menggunakan self-signed certificate)
-            System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+            //System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
             if (IdLdapConstants.Id.RunSeeder)
             {

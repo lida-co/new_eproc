@@ -58,7 +58,7 @@ namespace IdLdap.Controllers
                     ContextType.Domain,
                     IdLdapConstants.LdapConfiguration.Host,
                     IdLdapConstants.LdapConfiguration.ContextNaming,
-                    IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
+                    IdLdapConstants.LdapConfiguration.UsingSSL ? ContextOptions.SecureSocketLayer : ContextOptions.Negotiate,
                     IdLdapConstants.LdapConfiguration.Username,
                     IdLdapConstants.LdapConfiguration.Password));
             }
@@ -68,7 +68,7 @@ namespace IdLdap.Controllers
                     ContextType.ApplicationDirectory,
                     IdLdapConstants.LdapConfiguration.Host,
                     IdLdapConstants.LdapConfiguration.ContextNaming,
-                    IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
+                    IdLdapConstants.LdapConfiguration.UsingSSL ? ContextOptions.SecureSocketLayer : ContextOptions.Negotiate,
                     IdLdapConstants.LdapConfiguration.Username,
                     IdLdapConstants.LdapConfiguration.Password));
             }

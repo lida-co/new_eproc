@@ -43,7 +43,7 @@ namespace IdLdap
                                         ContextType.Domain,
                                         IdLdapConstants.LdapConfiguration.Host,
                                         IdLdapConstants.LdapConfiguration.ContextNaming,
-                                        IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
+                                        IdLdapConstants.LdapConfiguration.UsingSSL ? ContextOptions.SecureSocketLayer : ContextOptions.Negotiate,
                                         IdLdapConstants.LdapConfiguration.Username,
                                         IdLdapConstants.LdapConfiguration.Password);
                 _log.Debug("Using PrincipalContext configuration: ContextType={ContextType}, ContextOptions={ContextOptions}",
@@ -57,7 +57,7 @@ namespace IdLdap
                                         ContextType.ApplicationDirectory,
                                         IdLdapConstants.LdapConfiguration.Host,
                                         IdLdapConstants.LdapConfiguration.ContextNaming,
-                                        IdLdapConstants.LdapConfiguration.UsingSSL ? (ContextOptions.SimpleBind | ContextOptions.SecureSocketLayer) : ContextOptions.SimpleBind,
+                                        IdLdapConstants.LdapConfiguration.UsingSSL ? ContextOptions.SecureSocketLayer : ContextOptions.Negotiate,
                                         IdLdapConstants.LdapConfiguration.Username,
                                         IdLdapConstants.LdapConfiguration.Password);
                 _log.Debug("Using PrincipalContext configuration: ContextType={ContextType}, ContextOptions={ContextOptions}",
@@ -187,21 +187,38 @@ namespace IdLdap
                             var options = context.QueryOptions;
                             List<UserLdap> items;
 
-                            var username = options.GetFilterString("UserPrincipalName") == null ? "" : options.GetFilterString("UserPrincipalName");
+                            var rawFilter = options.GetFilterString("UserPrincipalName");
+                            var username = string.IsNullOrWhiteSpace(rawFilter) ? "*" : "*" + rawFilter.Trim('*') + "*";
                             var result = _LdapRepository.GetUsersByUsername(username, options.PageIndex.GetValueOrDefault(), options.ItemsPerPage.GetValueOrDefault());
-                            items = result.Users.Select(x => new UserLdap
+                            
+                            var itemsList = new List<UserLdap>();
+                            foreach (var x in result.Users)
                             {
-                                Name = x.Name,
-                                Guid = x.Guid.ToString(),
-                                Mail = x.EmailAddress,
-                                SamAccountName = x.SamAccountName,
-                                UserPrincipalName = x.UserPrincipalName,
-                                GivenName = x.GivenName,
-                                Surname = x.Surname,
-                                IsAccountLockedOut = x.IsAccountLockedOut(),
-                                IsLinked = false,
-                                DisplayName = x.DisplayName
-                            }).ToList();
+                                try
+                                {
+                                    if (x != null)
+                                    {
+                                        itemsList.Add(new UserLdap
+                                        {
+                                            Name = x.Name,
+                                            Guid = x.Guid.HasValue ? x.Guid.Value.ToString() : "",
+                                            Mail = x.EmailAddress,
+                                            SamAccountName = x.SamAccountName,
+                                            UserPrincipalName = x.UserPrincipalName,
+                                            GivenName = x.GivenName,
+                                            Surname = x.Surname,
+                                            IsAccountLockedOut = SafeIsAccountLockedOut(x),
+                                            IsLinked = false,
+                                            DisplayName = x.DisplayName
+                                        });
+                                    }
+                                }
+                                catch (Exception itemEx)
+                                {
+                                    _log.Warn(itemEx, "Failed mapping UserPrincipal properties for a user. Skipping.");
+                                }
+                            }
+                            items = itemsList;
 
                             List<string> guidSearch = items.Where(x => !string.IsNullOrEmpty(x.Guid)).Select(x => x.Guid).ToList();
                             List<string> usernameSearch = items.Select(x => !string.IsNullOrWhiteSpace(x.SamAccountName) ? x.SamAccountName : (!string.IsNullOrWhiteSpace(x.UserPrincipalName) ? x.UserPrincipalName : x.Name)).Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
@@ -374,6 +391,16 @@ namespace IdLdap
             }
         }
 
-
+        private static bool SafeIsAccountLockedOut(UserPrincipal user)
+        {
+            try
+            {
+                return user.IsAccountLockedOut();
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

@@ -108,55 +108,72 @@ namespace IdLdap.Configuration
 
         public IdLdap.Models.GridUserItem GetUsersByUsername(string searchterm, int page = 0, int limit = int.MaxValue)
         {
-            var normalizedTerm = (searchterm ?? string.Empty).Trim();
-            var wildcardChars = new[] { '*', '%' };
-            normalizedTerm = normalizedTerm.Trim(wildcardChars).Trim();
+            var pageIndex = page < 0 ? 0 : page;
+            var rowLimit = limit <= 0 ? int.MaxValue : limit;
+            var skipCount = pageIndex * rowLimit;
 
-            var users = new List<UserPrincipal>();
-            if (string.IsNullOrWhiteSpace(normalizedTerm))
+            UserPrincipal userSearch = new UserPrincipal(_AuthLdapConnect);
+            if (_AuthLdapConnect.ContextType == ContextType.Machine)
             {
-                // Saat filter kosong, kembalikan seluruh user agar halaman Link LDAP tidak terlihat kosong.
-                users.AddRange(FindAllUsers());
+                userSearch.SamAccountName = searchterm;
             }
             else
             {
-                users.AddRange(FindUsersByIdentity(IdentityType.UserPrincipalName, normalizedTerm));
-                users.AddRange(FindUsersByIdentity(IdentityType.SamAccountName, normalizedTerm));
-                users.AddRange(FindUsersByIdentity(IdentityType.Name, normalizedTerm));
-
-                // Beberapa directory provider hanya match saat wildcard di-set eksplisit.
-                var wildcardTerm = "*" + normalizedTerm + "*";
-                users.AddRange(FindUsersByIdentity(IdentityType.UserPrincipalName, wildcardTerm));
-                users.AddRange(FindUsersByIdentity(IdentityType.SamAccountName, wildcardTerm));
-                users.AddRange(FindUsersByIdentity(IdentityType.Name, wildcardTerm));
+                userSearch.UserPrincipalName = searchterm;
             }
 
-            var dedupedUsers = users
-                .Where(x => x != null)
-                .GroupBy(x => x.Guid.HasValue ? x.Guid.Value.ToString() : (x.DistinguishedName ?? x.Sid?.ToString() ?? x.Name ?? string.Empty), StringComparer.OrdinalIgnoreCase)
-                .Select(x => x.First())
-                .ToList();
+            int total = 0;
+            var users = new List<UserPrincipal>();
 
-            if (!dedupedUsers.Any())
+            try
             {
-                _log.Warn("GetUsersByUsername - UserPrincipal query returned 0 result. Fallback to DirectorySearcher. SearchTerm: {SearchTerm}", normalizedTerm);
-                var fallbackUsers = SearchUsersWithDirectorySearcher(normalizedTerm);
-                dedupedUsers = fallbackUsers
-                    .Where(x => x != null)
-                    .GroupBy(x => x.Guid.HasValue ? x.Guid.Value.ToString() : (x.DistinguishedName ?? x.Sid?.ToString() ?? x.Name ?? string.Empty), StringComparer.OrdinalIgnoreCase)
-                    .Select(x => x.First())
-                    .ToList();
-                _log.Info("GetUsersByUsername - DirectorySearcher fallback found {UserCount} users.", dedupedUsers.Count);
-            }
+                using (PrincipalSearcher pSearcher = new PrincipalSearcher(userSearch))
+                {
+                    if (pSearcher.GetUnderlyingSearcher() is DirectorySearcher ds)
+                    {
+                        ds.PageSize = 500;
+                        ds.SizeLimit = 2000;
+                    }
 
-            var total = dedupedUsers.Count;
-            var pageIndex = page < 0 ? 0 : page;
-            var rowLimit = limit <= 0 ? int.MaxValue : limit;
+                    var results = pSearcher.FindAll();
+                    int currentIndex = 0;
+
+                    foreach (var result in results)
+                    {
+                        try
+                        {
+                            currentIndex++;
+                            if (currentIndex > 2000)
+                            {
+                                break; // Cap total at 2000
+                            }
+
+                            if (currentIndex > skipCount && users.Count < rowLimit)
+                            {
+                                var user = result as UserPrincipal;
+                                if (user != null)
+                                {
+                                    users.Add(user);
+                                }
+                            }
+                        }
+                        catch (Exception iterEx)
+                        {
+                            _log.Warn(iterEx, "GetUsersByUsername - Error iterating PrincipalSearchResult at index {Index}", currentIndex);
+                        }
+                    }
+                    total = currentIndex > 2000 ? 2000 : currentIndex;
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "GetUsersByUsername - PrincipalSearcher failed.");
+            }
 
             return new IdLdap.Models.GridUserItem()
             {
                 Length = total,
-                Users = dedupedUsers.Skip(pageIndex * rowLimit).Take(rowLimit)
+                Users = users
             };
         }
 
